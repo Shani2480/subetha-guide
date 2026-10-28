@@ -1,10 +1,11 @@
 import QtQuick
 
-// A Guide pill: rounded card with a 2px outline and, on the movie pages, a
-// flat 2px offset shadow. It slides in from the left (x -30 -> 0, scale
-// 0.9 -> 1, 260 ms OutBack, staggered 45 ms per cascadeIndex) when it is
-// created or entranceSerial changes, and its border pulses badge -> alert
-// while `critical`. Content goes inside, padded; the pill sizes to it.
+// A Guide pill: the theme's pill shape (ThemeShapeContainer), outlined and
+// shadowed as the theme has it: a capsule with a flat 2px offset shadow on
+// the movie pages, sharp with a phosphor glow on the terminal. It slides in
+// from the left (x -30 -> 0, scale 0.9 -> 1, 260 ms OutBack, staggered 45 ms
+// per cascadeIndex) when it is created or entranceSerial changes, and its
+// border pulses badge -> alert while `critical`. Content goes inside, padded; the pill sizes to it.
 Item {
     id: pill
 
@@ -25,7 +26,9 @@ Item {
     // Warning text: mustard is unreadable on cream, so light stays red.
     readonly property color alertInk: theme.dark ? borderColor : theme.alert
 
-    implicitHeight: inner.childrenRect.height + verticalPadding * 2 + 2
+    // a capsule's round ends take a little more room at the sides
+    readonly property real sidePadding: horizontalPadding + (shell.shape === "stadium" ? Math.round(shell.radius * 0.25) : 0)
+    implicitHeight: inner.childrenRect.height + verticalPadding * 2 + Math.abs(theme.shadowY)
     // A pill that switches size (small <-> large) grows or shrinks over 200 ms
     // instead of jumping, its content clipped to the moving outline.
     property bool animateHeight: false
@@ -64,26 +67,22 @@ Item {
         NumberAnimation { to: 0; duration: 550; easing.type: Easing.InOutSine }
     }
 
-    Rectangle {   // flat offset shadow (light)
-        visible: pill.theme.flatShadow
-        x: 2; y: 2
-        width: face.width; height: face.height
-        radius: face.radius
-        color: pill.theme.ink
+    ThemeShapeContainer {
+        id: shell
+        anchors.fill: parent
+        theme: pill.theme
+        role: "pill"
+        fillColor: pill.theme.card
+        strokeColor: pill.borderColor
+        strokeWidth: pill.critical ? Math.max(2, pill.theme.borderWidth) : pill.theme.borderWidth
+        cornerRadius: pill.radius
+        bracketSize: 7
+        bracketInset: 3
     }
-    Rectangle {
-        id: face
-        anchors { fill: parent; rightMargin: 2; bottomMargin: 2 }
-        radius: pill.radius
-        color: pill.theme.card
-        border.width: 2
-        border.color: pill.borderColor
-    }
-    Item {
+    Item {   // placed, not anchored: the face is not a sibling
         id: inner
-        anchors {
-            left: face.left; right: face.right; top: face.top
-            leftMargin: pill.horizontalPadding; rightMargin: pill.horizontalPadding; topMargin: pill.verticalPadding
-        }
+        x: shell.face.x + pill.sidePadding
+        y: shell.face.y + pill.verticalPadding
+        width: shell.face.width - pill.sidePadding * 2
     }
 }

@@ -5,38 +5,53 @@ import QtQuick
 // corner reticles. Grid, scanlines and reticles are left off while `plain`
 // (by default the theme's minimal flag; a compact section sets it for its own
 // card). Content goes inside, padded; the frame sizes to it.
+//
+// The outline, border, corner marks and shadow are the theme's card geometry
+// (a ThemeShapeContainer); a skin also sets the hover fill. Its frame style
+// replaces the grid with its own ornament: a "handheld" chassis
+// (HandheldChassis.qml), or a "bezel" with, on the frames that ask with
+// `chassis`, BezelDecor.qml.
 Item {
     id: frame
 
     property QtObject theme
     property real padding: 14
     property bool plain: theme.minimal
+    property bool chassis: false
     default property alias content: inner.data
 
-    implicitHeight: inner.childrenRect.height + padding * 2 + 2
+    readonly property string style: theme.frame ? theme.frame.style : ""
+    readonly property bool handheld: chassis && style === "handheld"
+    readonly property bool bezel: chassis && style === "bezel"
+    implicitHeight: inner.childrenRect.height + padding * 2 + Math.abs(theme.shadowY)
+                  + (handheld ? body.stripHeight : bezel ? decor.footerHeight : 0)
 
-    Rectangle {   // flat offset shadow (light)
-        visible: frame.theme.flatShadow
-        x: 2; y: 2
-        width: surface.width; height: surface.height
-        radius: surface.radius
-        color: frame.theme.ink
+    HoverHandler { id: hover; enabled: frame.theme.skinned }
+    property color fill: hover.hovered ? theme.cardHover : theme.bg
+    Behavior on fill { ColorAnimation { duration: 120 } }
+    ThemeShapeContainer {
+        id: shell
+        anchors.fill: parent
+        theme: frame.theme
+        role: "card"
+        fillColor: frame.fill
+        // the Guide's targeting reticles, or a bezel skin's brackets
+        cornerBrackets: !frame.plain && (frame.theme.cornerBrackets || borderStyle === "tech-brackets")
+        bracketSize: frame.theme.frame ? 11 : 9
+        bracketInset: frame.theme.frame ? 5 : 9
     }
-
-    Rectangle {
+    Item {
         id: surface
-        anchors { fill: parent; rightMargin: 2; bottomMargin: 2 }
-        radius: frame.theme.outerRadius
-        color: frame.theme.bg
-        border.width: 2
-        border.color: frame.theme.dark ? frame.theme.tint(0.55) : frame.theme.ink
+        x: shell.face.x; y: shell.face.y
+        width: shell.face.width; height: shell.face.height
 
         // Tiled textures uploaded once, not painted: a 24px coordinate grid and
-        // a 1px raster line every 2px. Inset past the rounded corners so the
-        // textures never poke out of them.
+        // a 1px raster line every 2px. Inset past the rounded or cut corners so
+        // the textures never poke out of them.
+        readonly property real textureInset: Math.max(2, shell.radius * 0.3, shell.cut)
         Image {
-            visible: !frame.plain
-            anchors { fill: parent; margins: Math.max(2, surface.radius * 0.3) }
+            visible: !frame.plain && !frame.theme.frame
+            anchors { fill: parent; margins: surface.textureInset }
             source: Qt.resolvedUrl(frame.theme.dark ? "grid-dark.svg" : "grid-light.svg")
             sourceSize: Qt.size(24, 24)
             fillMode: Image.Tile
@@ -45,37 +60,26 @@ Item {
         }
         Image {
             visible: frame.theme.dark && !frame.plain
-            anchors { fill: parent; margins: Math.max(2, surface.radius * 0.3) }
+            anchors { fill: parent; margins: surface.textureInset }
             source: Qt.resolvedUrl("scanlines.svg")
             sourceSize: Qt.size(4, 2)
             fillMode: Image.Tile
             smooth: false
-            opacity: 0.15
+            opacity: frame.theme.scanlineOpacity
         }
+    }
 
-        // L-shaped targeting reticles in the four corners.
-        Repeater {
-            model: frame.plain ? 0 : 4
-            Item {
-                required property int index
-                readonly property bool atRight: index % 2 === 1
-                readonly property bool atBottom: index >= 2
-                readonly property real inset: 9
-                width: 9; height: 9
-                x: atRight ? surface.width - width - inset : inset
-                y: atBottom ? surface.height - height - inset : inset
-                Rectangle {   // horizontal arm
-                    width: parent.width; height: 1.5
-                    y: parent.atBottom ? parent.height - height : 0
-                    color: frame.theme.dark ? frame.theme.amber : frame.theme.ink
-                }
-                Rectangle {   // vertical arm
-                    width: 1.5; height: parent.height
-                    x: parent.atRight ? parent.width - width : 0
-                    color: frame.theme.dark ? frame.theme.amber : frame.theme.ink
-                }
-            }
-        }
+    HandheldChassis {
+        id: body
+        visible: frame.handheld
+        anchors.fill: surface
+        theme: frame.theme
+    }
+    BezelDecor {
+        id: decor
+        visible: frame.bezel
+        anchors.fill: surface
+        theme: frame.theme
     }
 
     Item {

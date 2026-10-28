@@ -42,14 +42,24 @@ ColumnLayout {
     function slot(kind) { return Math.max(0, order.indexOf(kind)) }
     readonly property bool graphs: showGraphs && !minimal
     function temps(h) { return h.map(c => Math.max(0, Math.min(1, (c - 20) / 80))) }   // 20-100 °C
+    // A skin's own commentary, judged on the Guide's thresholds; night is the
+    // quiet hours (22:00-06:00) of a nominal machine. "" falls back to the Guide's.
+    readonly property string skinQuip: {
+        var q = theme.quips || {}
+        if (!t || Object.keys(q).length === 0) return ""
+        var load = Math.max(t.cpuUsage, t.gpuUsage), hour = new Date().getHours()
+        var key = t.hottest > Sys.MELTDOWN ? "critical" : load > 85 || t.hottest > Sys.HOT ? "highLoad"
+                : load >= 40 ? "moderate" : hour >= 22 || hour < 6 ? "night" : "nominal"
+        return q[key] || ""
+    }
 
     spacing: minimal ? 8 : 10
 
     Text {
         visible: !panel.minimal && !panel.bare
         Layout.fillWidth: true
-        text: panel.t.commentary
-        color: panel.theme.accent
+        text: panel.skinQuip || panel.t.commentary
+        color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap
     }

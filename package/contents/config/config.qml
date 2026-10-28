@@ -8,6 +8,16 @@ ConfigModel {
         source: "configTheme.qml"
     }
     ConfigCategory {
+        name: i18n("Theme Store")
+        icon: "get-hot-new-stuff"
+        source: "configSkinStore.qml"
+    }
+    ConfigCategory {
+        name: i18n("Clock & Chronometry")
+        icon: "preferences-system-time"
+        source: "configClock.qml"
+    }
+    ConfigCategory {
         name: i18n("Weather & Location")
         icon: "weather-clouds"
         source: "configWeather.qml"

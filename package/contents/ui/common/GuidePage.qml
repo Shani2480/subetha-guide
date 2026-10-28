@@ -20,6 +20,7 @@ SnapFrame {
         width: parent.width
         theme: page.theme
         padding: page.minimal ? 10 : 14
+        chassis: !page.minimal
         ColumnLayout {
             id: column
             width: parent.width

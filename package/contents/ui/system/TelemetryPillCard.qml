@@ -56,8 +56,10 @@ SlidingPillContainer {
     verticalPadding: minimal ? 7 : 10
     horizontalPadding: minimal ? 12 : 14
 
-    readonly property color rxColor: theme.cool
-    readonly property color txColor: theme.dark ? theme.amber : theme.coral
+    readonly property color rxColor: theme.netDown
+    readonly property color txColor: theme.netUp
+    // a skin's sparkline colours, or the load colour as the Guide has it
+    readonly property bool skinGraph: theme.sparkline.a > 0
     function loadColor(p) { return p >= 85 ? theme.low : p >= 50 ? theme.mid : theme.high }
 
     readonly property var glyphs: ({
@@ -65,8 +67,8 @@ SlidingPillContainer {
         ram: "M2 7 H22 V15 H2 Z M5 9.5 H8 V12.5 H5 Z M10.5 9.5 H13.5 V12.5 H10.5 Z M16 9.5 H19 V12.5 H16 Z M4 15 V17.5 M7 15 V17.5 M10 15 V17.5 M14 15 V17.5 M17 15 V17.5 M20 15 V17.5",
         gpu: "M2 4 V19 M2 6 H21 V16 H2 M5 16 V18.5 H14 V16 M7 11 A3 3 0 1 0 13 11 A3 3 0 1 0 7 11 Z M16 9 H18.5 M16 11 H18.5 M16 13 H18.5",
         net: "M12 14 V21 M8.5 21 H15.5 M11 13 A1 1 0 1 0 13 13 A1 1 0 1 0 11 13 Z M9 10.5 A4 4 0 0 1 15 10.5 M6.5 8 A7.5 7.5 0 0 1 17.5 8 M4 5.5 A11 11 0 0 1 20 5.5",
-        down: "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
-        up: "M12 20 V5 M6.5 10.5 L12 5 L17.5 10.5"
+        down: theme.chevrons ? "M6 9 L12 15 L18 9" : "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
+        up: theme.chevrons ? "M6 15 L12 9 L18 15" : "M12 20 V5 M6.5 10.5 L12 5 L17.5 10.5"
     })
 
     ColumnLayout {
@@ -175,15 +177,14 @@ SlidingPillContainer {
                 }
             }
             // cpu / gpu: temperature badge
-            Rectangle {
+            Badge {
                 visible: card.tempText !== ""
                 Layout.alignment: Qt.AlignVCenter
                 implicitWidth: tempLabel.implicitWidth + 12
                 implicitHeight: tempLabel.implicitHeight + 6
-                radius: card.theme.dark ? 0 : height / 2
-                color: card.hot ? card.alertInk : "transparent"
-                border.width: card.theme.dark ? 1 : 1.5
-                border.color: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.6 : 1)
+                fillColor: card.hot ? card.alertInk : "transparent"
+                strokeWidth: card.theme.dark ? 1 : 1.5
+                strokeColor: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.6 : 1)
                 Text {
                     id: tempLabel
                     anchors.centerIn: parent
@@ -206,13 +207,13 @@ SlidingPillContainer {
                 spacing: 1
                 Text {
                     Layout.alignment: Qt.AlignRight
-                    text: i18n("RX: %1", card.rxText)
+                    text: card.theme.labels.rx ? card.theme.labels.rx + "  " + card.rxText : i18n("RX: %1", card.rxText)
                     color: card.rxColor
                     font { family: card.theme.mono; pixelSize: 12; bold: true }
                 }
                 Text {
                     Layout.alignment: Qt.AlignRight
-                    text: i18n("TX: %1", card.txText)
+                    text: card.theme.labels.tx ? card.theme.labels.tx + "  " + card.txText : i18n("TX: %1", card.txText)
                     color: card.txColor
                     font { family: card.theme.mono; pixelSize: 12; bold: true }
                 }
@@ -241,7 +242,15 @@ SlidingPillContainer {
             SparklineGraph {
                 anchors.fill: parent
                 historyData: card.graphData
-                strokeColor: card.loadColor(card.percent)
+                strokeColor: card.skinGraph ? card.theme.sparkline : card.loadColor(card.percent)
+                fillColor: card.skinGraph && card.theme.sparklineFill.a > 0 ? card.theme.sparklineFill
+                         : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
+                lineWidth: card.skinGraph ? card.theme.sparklineWidth : 1.5
+                stepped: card.theme.sparklineStepped
+                dangerColor: card.theme.sparklineDanger
+                dangerAbove: card.theme.sparklineDangerAbove
+                hotColor: card.theme.sparklineHot
+                hotAbove: card.theme.sparklineHotAbove
             }
             SparklineGraph {
                 anchors.fill: parent
@@ -314,6 +323,7 @@ SlidingPillContainer {
                 height: parent.height / 2 - 1
                 historyData: card.rxHistory.map(v => v / parent.peak)
                 strokeColor: card.rxColor
+                stepped: card.theme.sparklineStepped
             }
             Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
@@ -325,6 +335,7 @@ SlidingPillContainer {
                 height: parent.height / 2 - 1
                 historyData: card.txHistory.map(v => v / parent.peak)
                 strokeColor: card.txColor
+                stepped: card.theme.sparklineStepped
                 inverted: true
             }
         }
@@ -346,17 +357,17 @@ SlidingPillContainer {
             Address {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
-                label: i18n("LAN IP")
+                label: card.theme.labels.lan || i18n("LAN IP")
                 value: card.lanText || i18nc("@info network state", "OFFLINE")
-                tag: card.lanIface.toUpperCase()
+                tag: card.theme.labels.lanTag || card.lanIface.toUpperCase()
                 copyable: card.lanText !== ""
             }
             Address {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
-                label: i18n("WAN IP")
+                label: card.theme.labels.wan || i18n("WAN IP")
                 value: card.wanText
-                tag: "SEC-ZZ9"
+                tag: card.theme.labels.wanTag || "SEC-ZZ9"
                 copyable: /^[0-9a-fA-F:.]+$/.test(card.wanText)
             }
         }
@@ -383,13 +394,13 @@ SlidingPillContainer {
             elide: Text.ElideRight
             opacity: copied.running ? 0 : 1
         }
-        Rectangle {   // [COPIED]
+        Badge {   // [COPIED]
             visible: copied.running
             anchors.verticalCenter: parent.verticalCenter
-            implicitWidth: copiedText.implicitWidth + 10
-            implicitHeight: copiedText.implicitHeight + 2
-            radius: card.theme.dark ? 0 : height / 2
-            color: card.theme.ink
+            width: copiedText.implicitWidth + 10
+            height: copiedText.implicitHeight + 2
+            fillColor: card.theme.ink
+            strokeWidth: 0
             Text {
                 id: copiedText
                 anchors.centerIn: parent
@@ -409,26 +420,58 @@ SlidingPillContainer {
         }
     }
 
-    // Segmented gauge; fill colour follows the load (good / busy / hot).
-    component Gauge: Row {
+    // A small label in the theme's pill shape: no corner marks or shadow at this size.
+    component Badge: ThemeShapeContainer {
+        theme: card.theme
+        role: "pill"
+        cornerBrackets: false
+        shadowType: "none"
+    }
+
+    // A gauge in the theme's gaugeShape: blocks, or one continuous bar;
+    // the fill colour follows the load (good / busy / hot).
+    component Gauge: Item {
         id: gauge
         property int segments: 20
         property real segmentHeight: 8
         property real value: 0
-        readonly property int filled: Math.round(Math.max(0, Math.min(100, value)) / 100 * segments)
+        readonly property real fraction: Math.max(0, Math.min(100, value)) / 100
+        readonly property int filled: Math.round(fraction * segments)
         readonly property color fill: card.loadColor(value)
-        spacing: 2
-        Repeater {
-            model: gauge.segments
-            Rectangle {
-                required property int index
-                readonly property bool on: index < gauge.filled
-                width: (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments
-                height: gauge.segmentHeight
-                radius: card.theme.dark ? 0 : Math.min(2, height / 2)
-                color: on ? gauge.fill : "transparent"
-                border.width: 1
-                border.color: on ? gauge.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
+        readonly property real spacing: 2
+        implicitHeight: segmentHeight
+        Row {
+            visible: !card.theme.gaugeSlot
+            spacing: gauge.spacing
+            Repeater {
+                model: gauge.segments
+                Rectangle {
+                    required property int index
+                    readonly property bool on: index < gauge.filled
+                    width: (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments
+                    height: gauge.segmentHeight
+                    radius: Math.min(card.theme.gaugeBlockRadius, height / 2)
+                    color: on ? gauge.fill : "transparent"
+                    border.width: 1
+                    border.color: on ? gauge.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
+                }
+            }
+        }
+        ThemeShapeContainer {   // continuous: track
+            visible: card.theme.gaugeSlot
+            width: gauge.width; height: gauge.segmentHeight
+            theme: card.theme
+            role: "gauge"
+            fillColor: card.theme.gaugeTrack.a > 0 ? card.theme.gaugeTrack : card.theme.tint(0.12)
+            strokeWidth: 0
+            ThemeShapeContainer {   // ...and fill
+                visible: gauge.fraction > 0
+                width: Math.max(height, parent.width * gauge.fraction); height: parent.height
+                theme: card.theme
+                role: "gauge"
+                fillColor: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeUsage : gauge.fill
+                strokeColor: card.theme.gaugeEdge
+                strokeWidth: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeEdgeWidth : 0
             }
         }
     }

@@ -8,6 +8,10 @@
         <entry name="themeMode" type="String">
             <default>auto</default>
         </entry>
+        <!-- id of an installed community skin (Theme Store tab), "" for the built-in palette -->
+        <entry name="activeSkin" type="String">
+            <default></default>
+        </entry>
         <!-- legacy global mode, superseded by the per-section densities below;
              "minimal" is migrated to all-compact once on load, then reset -->
         <entry name="displayMode" type="String">
@@ -26,8 +30,12 @@
         <entry name="batteryDensity" type="String">
             <default>compact</default>
         </entry>
+        <!-- "compact" (36px pill) or "full" (the large chronometer); the config page calls it Large -->
+        <entry name="clockDensity" type="String">
+            <default>compact</default>
+        </entry>
         <!-- ==== panel item ==== -->
-        <!-- weather cpuTemp gpuTemp cpuLoad ramUsage netSpeed battery multiPill -->
+        <!-- weather clock cpuTemp gpuTemp cpuLoad ramUsage netSpeed battery multiPill -->
         <entry name="panelDisplaySensor" type="String">
             <default>weather</default>
         </entry>
@@ -46,6 +54,32 @@
         <!-- order is fixed (weather, system, disk, battery); this only switches sections on and off -->
         <entry name="enabledSections" type="StringList">
             <default>weather,system,disk,battery</default>
+        </entry>
+        <!-- the clock sits above the others, under the header; on by default
+             for existing setups too, so it is a flag of its own rather than a
+             fifth entry in enabledSections -->
+        <entry name="showClockSection" type="Bool">
+            <default>true</default>
+        </entry>
+    </group>
+
+    <!-- ==== Clock & chronometry ==== -->
+    <group name="Clock">
+        <entry name="timeFormat24h" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showSeconds" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showDate" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showTzOffset" type="Bool">
+            <default>true</default>
+        </entry>
+        <!-- the GALACTIC EPOCH badge: the Guide's stardate and Greenwich sidereal time -->
+        <entry name="showGalacticSiderealTime" type="Bool">
+            <default>false</default>
         </entry>
     </group>
 

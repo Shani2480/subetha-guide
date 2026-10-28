@@ -26,6 +26,10 @@ Rectangle {
     property string locationName: ""
     property string iconStyle: "wireframe"
     property string themeStyle: "movieLight"   // movieLight (2005 film Guide) / terminalDark (1981 CRT) / improbability (neon wireframe)
+    // The Guide's SubEthaTheme while a community skin is active, else null: its
+    // colours, font, radius and line weight then replace the three Guide themes,
+    // and its roamers (if any) stand in for Arthur and Marvin.
+    property QtObject skin: null
     property bool active: false
     property bool pinned: false
     property bool forecastCollapsed: false
@@ -34,6 +38,12 @@ Rectangle {
     property bool ambientAnimations: true   // subtle weather animation behind the hero text
     property bool showCharacter: true       // Arthur and Marvin on the hourly strip (needs ambientAnimations)
     property bool showBadge: true           // the Guide shows one badge in its own header instead
+    // false: the owner draws the card behind the view (the Guide's
+    // ThemeShapeContainer, in the skin's shape), so the view keeps no fill or
+    // border of its own; textureInset then keeps the grid and raster clear of
+    // the owner's corners.
+    property bool backdrop: true
+    property real textureInset: radius * 0.3
     property bool glow: true                // phosphor bloom on labels and the badge (GPU layers; previews can turn it off)
     // The Weather Underground sets come in a black and a white edition: the
     // light theme shows the black one, the dark themes the white one.
@@ -241,20 +251,20 @@ Rectangle {
     // improbability: neon magenta and cyan wireframe on deep violet.
     readonly property bool light: themeStyle === "movieLight"
     readonly property bool neon: themeStyle === "improbability"
-    readonly property color bg:       light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
-    readonly property color surface:  light ? "#EDE8DC" : neon ? "#14091F" : "#071008"
-    readonly property color text:     light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
-    readonly property color outline:  text
-    readonly property color accent:   light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"   // sun, highs, badge, selection
-    readonly property color mustard:  light ? "#FFBE1A" : neon ? "#FFE65C" : "#FFB000"   // solar arcs, Arthur's towel
-    readonly property color cool:     light ? "#26A69A" : neon ? "#00E5FF" : "#00E5FF"   // rain, feels-like
-    readonly property color navy:     light ? "#2C3E50" : neon ? "#7A3CFF" : "#00FF66"   // Marvin accents
-    readonly property color danger:   light ? "#E53935" : neon ? "#FF2BD6" : "#FF3333"
+    readonly property color bg:       skin ? skin.bg : light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
+    readonly property color surface:  skin ? skin.card : light ? "#EDE8DC" : neon ? "#14091F" : "#071008"
+    readonly property color text:     skin ? skin.ink : light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
+    readonly property color outline:  skin ? skin.border : text
+    readonly property color accent:   skin ? skin.accent : light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"   // sun, highs, badge, selection
+    readonly property color mustard:  skin ? skin.mustard : light ? "#FFBE1A" : neon ? "#FFE65C" : "#FFB000"   // solar arcs, Arthur's towel
+    readonly property color cool:     skin ? skin.cool : light ? "#26A69A" : neon ? "#00E5FF" : "#00E5FF"   // rain, feels-like
+    readonly property color navy:     skin ? skin.ink : light ? "#2C3E50" : neon ? "#7A3CFF" : "#00FF66"   // Marvin accents
+    readonly property color danger:   skin ? skin.alert : light ? "#E53935" : neon ? "#FF2BD6" : "#FF3333"
     readonly property color onAccent: light ? "#FFFFFF" : bg                              // text on an accent-filled pill
-    readonly property string fontFamily: light ? Qt.application.font.family : "monospace"
+    readonly property string fontFamily: skin ? skin.sans : light ? Qt.application.font.family : "monospace"
     readonly property real pill: light ? 20 : 0            // hourly strip, day cards, solar cards
-    readonly property real cardRadius: light ? 16 : 0      // hero card and tiles
-    readonly property real lineW: light ? 2 : 1.5          // outlines
+    readonly property real cardRadius: skin ? skin.outerRadius : light ? 16 : 0      // hero card and tiles
+    readonly property real lineW: skin ? skin.borderWidth : light ? 2 : 1.5          // outlines
     readonly property real thinW: light ? 2 : 1
     readonly property bool scanlines: !light
     readonly property bool flatShadow: light               // 2px 2px offset solid shadow, no blur
@@ -350,9 +360,9 @@ Rectangle {
     Layout.minimumHeight: desktopMode ? miniMinHeight : implicitHeight
 
     radius: 16   // the suite's outer-frame token (SubEthaTheme.outerRadius)
-    color: !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
+    color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
-    border.width: lineW
+    border.width: backdrop ? lineW : 0
     border.color: wire
 
     // Blueprint grid: 24px squares in the theme's line colour, a tiled SVG
@@ -547,7 +557,7 @@ Rectangle {
         }
     }
 
-    BlueprintGrid { anchors.fill: parent; anchors.margins: view.radius * 0.3; z: 0; alpha: 0.035 }
+    BlueprintGrid { anchors.fill: parent; anchors.margins: view.textureInset; z: 0; alpha: 0.035 }
 
     Rectangle {   // the hero card's flat shadow (a sibling: the hero clips its own children)
         visible: view.flatShadow && hero.visible && view.flipAngle < 90
@@ -652,6 +662,31 @@ Rectangle {
     // card's bottom border. The position follows the strip as it collapses,
     // so switching tiers never makes the pair jump. It starts in the gap
     // between the temperature text and the solar cards.
+    // A skin's sprite walkers take the same track and ground line.
+    readonly property bool skinRoamers: !!skin && skin.roamers.length > 0
+    SpriteRoamers {
+        z: 10
+        visible: view.skinRoamers && view.showCharacter && view.ambientAnimations
+        roamers: view.skin ? view.skin.roamers : []
+        groundStyle: view.skin ? view.skin.ground : null
+        hovered: heroMouse.containsMouse
+        // a load spike, or the pointer, sets off the line's havoc; storms and spikes redden its ground
+        havoc: heroMouse.containsMouse || (!!view.skin && view.skin.mood === "stressed")
+        alert: (!!view.skin && view.skin.mood === "stressed") || view.heroCondition === "thunder"
+               || (!!view.weather && view.weather.current.wind >= 40)
+        noteColor: view.text
+        readonly property real heroX: column.x + hero.x
+        readonly property real heroY: column.y + hero.y
+        readonly property real edgeY: heroY + hero.height - 1 - ground
+        readonly property real stripY: heroY + hero.hpad + hourlyWell.y - ground
+        opacity: view.desktopMode && hero.visible && view.flipAngle < 90 ? (view.isMiniMode ? 0.5 : 1) : 0
+        y: edgeY + (stripY - edgeY) * view.hourlyVisibility
+        minTrackX: heroX + 16
+        maxTrackX: Math.max(heroX + 20, heroX + hero.width - width - 16)
+        homeX: heroX + (hero.width - width) / 2
+        running: view.active && visible && opacity > 0
+    }
+
     WeatherCharacter {
         id: figure
         z: 10
@@ -666,7 +701,7 @@ Rectangle {
         readonly property real heroY: column.y + hero.y
         readonly property real edgeY: heroY + hero.height - 1 - ground                               // feet on the hero's bottom border
         readonly property real stripY: heroY + hero.hpad + hourlyWell.y - ground    // feet on the strip's top edge
-        visible: view.showCharacter && view.ambientAnimations
+        visible: view.showCharacter && view.ambientAnimations && !view.skinRoamers
         // only the desktop card shows the pair, and only its front side
         opacity: view.desktopMode && hero.visible && view.flipAngle < 90 ? restOpacity : 0
         y: edgeY + (stripY - edgeY) * view.hourlyVisibility
@@ -806,6 +841,7 @@ Rectangle {
                 z: 0
                 cornerRadius: hero.radius
                 palette: ({ outline: view.outline, accent: view.accent, cool: view.cool, danger: view.danger, light: view.light })
+                hazards: view.skin ? view.skin.hazards : []
                 running: view.ambientAnimations && view.active && hero.visible && !view.flipped
                 condition: view.heroCondition
                 isNight: view.selToday && view.weather ? !view.weather.current.isDay : false
@@ -1319,7 +1355,7 @@ Rectangle {
 
     Scanlines {   // CRT raster over everything, both sides of the card
         anchors.fill: parent
-        anchors.margins: view.radius * 0.3   // clear of the rounded corners
+        anchors.margins: view.textureInset   // clear of the rounded or cut corners
         z: 30
     }
 }

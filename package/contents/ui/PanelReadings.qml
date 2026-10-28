@@ -28,6 +28,8 @@ Item {
     property QtObject weatherFeed
     property QtObject systemFeed
     property QtObject batteryFeed
+    property QtObject timeEngine
+    property bool clockSeconds: true
 
     readonly property var glyphs: ({
         cpuLoad: "M7 7 H17 V17 H7 Z M9.5 9.5 H14.5 V14.5 H9.5 Z M9 7 V4 M12 7 V4 M15 7 V4 M9 17 V20 M12 17 V20 M15 17 V20 M7 9 H4 M7 12 H4 M7 15 H4 M17 9 H20 M17 12 H20 M17 15 H20",
@@ -35,20 +37,22 @@ Item {
         gpuTemp: "M2 4 V19 M2 6 H21 V16 H2 M5 16 V18.5 H14 V16 M7 11 A3 3 0 1 0 13 11 A3 3 0 1 0 7 11 Z M16 9 H18.5 M16 11 H18.5 M16 13 H18.5",
         ramUsage: "M2 7 H22 V15 H2 Z M5 9.5 H8 V12.5 H5 Z M10.5 9.5 H13.5 V12.5 H10.5 Z M16 9.5 H19 V12.5 H16 Z M4 15 V17.5 M7 15 V17.5 M10 15 V17.5 M14 15 V17.5 M17 15 V17.5 M20 15 V17.5",
         netSpeed: "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
-        battery: "M3 7 H19 V17 H3 Z M19 10 H21.5 V14 H19 M6 10 V14 M9 10 V14 M12 10 V14"
+        battery: "M3 7 H19 V17 H3 Z M19 10 H21.5 V14 H19 M6 10 V14 M9 10 V14 M12 10 V14",
+        clock: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14"
     })
     readonly property var labels: ({ weather: i18nc("panel label", "WX"), cpuLoad: i18nc("panel label", "CPU"),
                                      cpuTemp: i18nc("panel label", "CPU"), gpuTemp: i18nc("panel label", "GPU"),
                                      ramUsage: i18nc("panel label", "RAM"), netSpeed: i18nc("panel label", "NET"),
-                                     battery: i18nc("panel label", "BAT") })
+                                     battery: i18nc("panel label", "BAT"), clock: i18nc("panel label", "TIME") })
 
     function sectionOf(key) {
-        return key === "weather" ? "weather" : key === "battery" ? "battery" : "system"
+        return key === "weather" || key === "battery" || key === "clock" ? key : "system"
     }
     function available(key) {
         if (key === "weather") return !!weatherFeed && weatherFeed.hasData
         if (key === "gpuTemp") return !!systemFeed && systemFeed.hasGpu
         if (key === "battery") return !!batteryFeed && !!batteryFeed.panelDevice
+        if (key === "clock") return !!timeEngine
         return !!systemFeed
     }
     // 12.4 MB/s -> "12.4M": the panel has no room for units.
@@ -63,6 +67,11 @@ Item {
         var s = systemFeed, r = { key: key, label: labels[key] || "", glyph: glyphs[key] || "", fraction: -1, level: "ok" }
         if (key === "weather") {
             r.text = weatherFeed ? weatherFeed.tempText : "--°"
+        } else if (key === "clock") {
+            var t = timeEngine
+            r.text = t ? t.hours + ":" + t.minutes + (clockSeconds ? ":" + t.seconds : "") + (t.meridiem ? " " + t.meridiem : "") : "--:--"
+            // A vertical panel has room for the hours and minutes only.
+            return Object.assign(r, { shortText: t ? t.hours + ":" + t.minutes : "--:--" })
         } else if (key === "cpuLoad") {
             r.text = Math.round(s.cpuUsage) + "%"; r.fraction = s.cpuUsage / 100
         } else if (key === "cpuTemp") {
@@ -89,7 +98,7 @@ Item {
         return r
     }
 
-    readonly property var allKeys: ["weather", "cpuLoad", "cpuTemp", "gpuTemp", "ramUsage", "netSpeed", "battery"]
+    readonly property var allKeys: ["clock", "weather", "cpuLoad", "cpuTemp", "gpuTemp", "ramUsage", "netSpeed", "battery"]
     // Readings of the switched-on sections, in a fixed order.
     readonly property var enabledKeys: (allKeys || []).filter(k => (sections || []).indexOf(sectionOf(k)) >= 0)
     readonly property bool cycling: cycleSeconds > 0 && sensor !== "multiPill"

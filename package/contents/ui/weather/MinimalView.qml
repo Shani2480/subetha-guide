@@ -15,18 +15,20 @@ Rectangle {
     property string locationName: ""
     property string iconStyle: "wireframe"
     property string themeStyle: "movieLight"
+    property QtObject skin: null            // as FullView.skin
     property bool desktopMode: false
     property bool translucent: true
     property bool live: false               // on screen; the icon animates only then
+    property bool backdrop: true            // as FullView.backdrop
 
     // Same palette as FullView's three Guide themes.
     readonly property bool light: themeStyle === "movieLight"
     readonly property bool neon: themeStyle === "improbability"
-    readonly property color bg:      light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
-    readonly property color ink:     light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
-    readonly property color accent:  light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"
-    readonly property color cool:    light ? "#26A69A" : "#00E5FF"
-    readonly property string fontFamily: light ? Qt.application.font.family : "monospace"
+    readonly property color bg:      skin ? skin.bg : light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
+    readonly property color ink:     skin ? skin.ink : light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
+    readonly property color accent:  skin ? skin.accent : light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"
+    readonly property color cool:    skin ? skin.cool : light ? "#26A69A" : "#00E5FF"
+    readonly property string fontFamily: skin ? skin.sans : light ? Qt.application.font.family : "monospace"
     function tint(a) { return Qt.rgba(ink.r, ink.g, ink.b, a) }
     readonly property string cardIconStyle: light
         ? (iconStyle === "white" ? "black" : iconStyle === "solid-white" ? "solid-black" : iconStyle)
@@ -45,9 +47,9 @@ Rectangle {
     Layout.minimumHeight: implicitHeight
 
     radius: 16   // SubEthaTheme.outerRadius
-    color: !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
+    color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
-    border.width: light ? 2 : 1.5
+    border.width: backdrop ? (light ? 2 : 1.5) : 0
     border.color: light ? ink : tint(0.5)
 
     RowLayout {

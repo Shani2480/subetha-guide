@@ -9,10 +9,11 @@ import "weather"
 import "system"
 import "disk"
 import "battery"
+import "clock"
 import "common"
 import "common/i18n.js" as I18n
 
-// The Sub-Etha Guide: weather, compute, storage and power in one card. Each
+// The Sub-Etha Guide: time, weather, compute, storage and power in one card. Each
 // module's feed runs only while its section is switched on (and, for the
 // live ones, while the card is on screen and the session unlocked); the
 // views get everything as properties.
@@ -40,7 +41,8 @@ PlasmoidItem {
     readonly property bool shown: expanded || onDesktop || previewing
     property bool previewing: false       // the panel item's hover card is open
     readonly property var cfg: Plasmoid.configuration
-    readonly property var sections: cfg.enabledSections
+    // The clock has a switch of its own (showClockSection) and always leads.
+    readonly property var sections: (cfg.showClockSection ? ["clock"] : []).concat(cfg.enabledSections)
     function has(key) { return sections.indexOf(key) >= 0 }
     // Each section is "full" or "compact" on its own (cfg.<key>Density).
     function compact(key) { return !!cfg && cfg[key + "Density"] === "compact" }
@@ -72,9 +74,16 @@ PlasmoidItem {
         weatherFeed: weatherData
         systemFeed: systemData
         batteryFeed: powerData
+        timeEngine: clock
+        clockSeconds: root.cfg.showSeconds
     }
 
     // ---- feeds ----
+    TimeEngine {
+        id: clock
+        running: (root.has("clock") && root.live) || root.panelNeeds("clock")
+        use24h: root.cfg.timeFormat24h
+    }
     WeatherFeed {
         id: weatherData
         running: root.has("weather") || root.panelNeeds("weather")
@@ -122,18 +131,19 @@ PlasmoidItem {
     }
 
     // ---- process & service diagnostics ----
-    // Opens the fullest monitor on hand, in this order: a themed companion
-    // shipped as contents/tools/subetha-monitor.py, KDE's System Monitor,
-    // KSysGuard. With none installed, Discover opens on System Monitor's page.
-    // Launched detached (setsid -f), so the shell returns at once and the app
-    // outlives the widget.
-    readonly property string companionPath: decodeURIComponent(String(Qt.resolvedUrl("../tools/subetha-monitor.py")).replace(/^file:\/\//, ""))
-    readonly property string launchCommand:
-        "c='" + companionPath.replace(/'/g, "'\\''") + "';"
-        + " if [ -f \"$c\" ] && command -v python3 >/dev/null; then setsid -f python3 \"$c\" >/dev/null 2>&1; echo companion;"
-        + " elif command -v plasma-systemmonitor >/dev/null; then setsid -f plasma-systemmonitor >/dev/null 2>&1; echo plasma-systemmonitor;"
-        + " elif command -v ksysguard >/dev/null; then setsid -f ksysguard >/dev/null 2>&1; echo ksysguard;"
-        + " else echo none; fi"
+    // Opens the fullest monitor on hand, in this order: the Sub-Etha System
+    // Monitor (a separate project, installed as subetha-monitor), KDE's
+    // System Monitor, KSysGuard. With none installed, Discover opens on System
+    // Monitor's page. The Sub-Etha monitor opens on `tab`, or, already open,
+    // switches to it. Launched detached (setsid -f), so the shell returns at
+    // once and the app outlives the widget.
+    function launchCommand(tab) {
+        return "m=$(command -v subetha-monitor || echo \"$HOME/.local/bin/subetha-monitor\");"
+            + " if [ -x \"$m\" ]; then setsid -f \"$m\" --tab=" + tab + " >/dev/null 2>&1; echo subetha-monitor;"
+            + " elif command -v plasma-systemmonitor >/dev/null; then setsid -f plasma-systemmonitor >/dev/null 2>&1; echo plasma-systemmonitor;"
+            + " elif command -v ksysguard >/dev/null; then setsid -f ksysguard >/dev/null 2>&1; echo ksysguard;"
+            + " else echo none; fi"
+    }
     P5Support.DataSource {
         id: launcher
         engine: "executable"
@@ -142,18 +152,21 @@ PlasmoidItem {
             if (String(data["stdout"]).trim() === "none") Qt.openUrlExternally("appstream://org.kde.plasma-systemmonitor")
         }
     }
-    function openDiagnostics() {
-        if (launcher.connectedSources.indexOf(launchCommand) < 0) launcher.connectSource(launchCommand)
+    // tab: overview | processes | services | network | disks
+    function openDiagnostics(tab) {
+        var command = launchCommand(tab || "processes")
+        if (launcher.connectedSources.indexOf(command) < 0) launcher.connectSource(command)
     }
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
             text: i18n("Open Sub-Etha Process Diagnostics")
             icon.name: "utilities-system-monitor"
-            onTriggered: root.openDiagnostics()
+            onTriggered: root.openDiagnostics("overview")
         }
     ]
 
     // ---- theme ----
+    SkinEngine { id: skinEngine; activeSkin: root.cfg.activeSkin }
     SubEthaTheme {
         id: guide
         mode: root.cfg.themeMode
@@ -161,6 +174,11 @@ PlasmoidItem {
         longitude: root.cfg.longitude
         systemDark: { var c = Kirigami.Theme.backgroundColor; return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.5 }
         minimal: root.allCompact
+        skin: skinEngine.style
+        mood: root.anyCritical || systemData.cpuUsage > 85 ? "stressed" : "idle"
+        live: root.live
+        meterA: Math.max(systemData.cpuUsage, systemData.gpuUsage) / 100
+        meterB: Math.max(0, Math.min(1, (systemData.hottest - Sys.TEMP_MIN) / (Sys.TEMP_MAX - Sys.TEMP_MIN)))
     }
     onExpandedChanged: if (root.expanded) guide.refresh()
 
@@ -221,6 +239,7 @@ PlasmoidItem {
                     required property string modelData
                     width: parent.width
                     sourceComponent: modelData === "weather" ? weatherPreview
+                                   : modelData === "clock" ? clockPreview
                                    : modelData === "battery" ? batteryPreview : systemPreview
                     property string key: modelData
                 }
@@ -238,6 +257,19 @@ PlasmoidItem {
             live: root.previewing
             gap: 0
             toggleVisible: false
+        }
+    }
+    Component {
+        id: clockPreview
+        ClockPanel {
+            width: parent ? parent.width : 356
+            theme: guide
+            engine: clock
+            showSeconds: root.cfg.showSeconds
+            showDate: root.cfg.showDate
+            showTzOffset: root.cfg.showTzOffset
+            showGalactic: root.cfg.showGalacticSiderealTime
+            live: root.previewing
         }
     }
     Component {
@@ -283,6 +315,7 @@ PlasmoidItem {
                    ? root.cfg.locationName.trim().toUpperCase() : i18n("HOST %1", root.hostName.toUpperCase()))
         live: root.live && visible && Window.window !== null && Window.window.visible
         config: root.cfg
+        timeEngine: clock
         weatherFeed: weatherData
         systemFeed: systemData
         systemSensors: root.systemSensors
@@ -296,6 +329,6 @@ PlasmoidItem {
         onDensityChosen: (key, density) => root.cfg[key + "Density"] = density
         onSensorSizeChosen: (key, size) => root.cfg[key + "SensorSize"] = size
         onConfigureRequested: Plasmoid.internalAction("configure").trigger()
-        onDiagnosticsRequested: root.openDiagnostics()
+        onDiagnosticsRequested: root.openDiagnostics("processes")
     }
 }

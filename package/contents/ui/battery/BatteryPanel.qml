@@ -26,7 +26,7 @@ ColumnLayout {
         visible: !panel.minimal
         Layout.fillWidth: true
         text: panel.feed ? panel.feed.commentary : ""
-        color: panel.theme.accent
+        color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap
     }

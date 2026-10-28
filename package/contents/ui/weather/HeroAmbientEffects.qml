@@ -31,7 +31,8 @@ import QtQuick
 //            traces whose speed follows the wind.
 //   rain and thunder also carry an easter egg: every 60 s (first after ~20 s)
 //            a tiny wireframe sperm whale and a bowl of petunias drift down in
-//            the far background, behind the rain.
+//            the far background, behind the rain. A skin's `hazards` (one or
+//            two images) tumble down in their place, every 35 s.
 Item {
     id: fx
 
@@ -40,6 +41,7 @@ Item {
     property real windSpeed: 0            // km/h
     property bool running: true
     property real cornerRadius: 10
+    property var hazards: []              // image URLs that replace the whale and the petunias
 
     // 0..1 strength of the wind, saturating at 50 km/h. Drives the rain tilt,
     // the trace speed and the sideways drift of everything that falls. Wind
@@ -93,6 +95,29 @@ Item {
         renderTarget: Canvas.FramebufferObject
         renderStrategy: Canvas.Threaded
         onPaint: fx.draw(getContext("2d"))
+    }
+
+    // A skin's hazards on the whale's path: the first tumbling forward, the
+    // second (smaller) spinning the other way a little behind it. They follow
+    // the animation clock `t`, so they stop with it.
+    Repeater {
+        model: fx.hazards.length && (fx.condition === "rain" || fx.condition === "thunder") ? fx.hazards.slice(0, 2) : []
+        Image {
+            required property string modelData
+            required property int index
+            // reads the clock first: `whale` changes in place and notifies nothing
+            readonly property real p: { var t = fx.t; return fx.whale.active ? (t - fx.whale.t0) / 7 : -1 }
+            visible: p >= 0 && p <= 1
+            source: modelData
+            width: index ? 24 : 36; height: width
+            sourceSize: Qt.size(width * 2, height * 2)
+            fillMode: Image.PreserveAspectFit
+            asynchronous: true
+            x: fx.whale.x0 * fx.width + p * fx.windFactor * 50 + index * 34 - width / 2
+            y: -height + p * (fx.height + height * 2) - index * 16
+            rotation: (fx.t - fx.whale.t0) * (index ? -150 : 95)
+            opacity: fx.palette.light ? 0.75 : 0.85
+        }
     }
 
     Timer {
@@ -217,7 +242,7 @@ Item {
 
     function tickWhale() {
         var k = whale
-        if (!k.active && t >= k.next) { k.active = true; k.t0 = t; k.x0 = rnd(0.2, 0.7); k.next = t + 60 }
+        if (!k.active && t >= k.next) { k.active = true; k.t0 = t; k.x0 = rnd(0.2, 0.7); k.next = t + (hazards.length ? 35 : 60) }
         if (k.active && t - k.t0 > 7) k.active = false
     }
 
@@ -516,7 +541,7 @@ Item {
 
     function drawWhale(ctx, w, h) {
         var k = whale
-        if (!k.active) return
+        if (!k.active || hazards.length) return
         var p = (t - k.t0) / 7
         var x = k.x0 * w + p * windFactor * 50 + 3 * Math.sin(t * 0.8)
         var y = -14 + p * (h + 28)
