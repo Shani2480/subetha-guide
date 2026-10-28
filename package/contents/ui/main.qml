@@ -122,18 +122,19 @@ PlasmoidItem {
     }
 
     // ---- process & service diagnostics ----
-    // Opens the fullest monitor on hand, in this order: a themed companion
-    // shipped as contents/tools/subetha-monitor.py, KDE's System Monitor,
-    // KSysGuard. With none installed, Discover opens on System Monitor's page.
-    // Launched detached (setsid -f), so the shell returns at once and the app
-    // outlives the widget.
-    readonly property string companionPath: decodeURIComponent(String(Qt.resolvedUrl("../tools/subetha-monitor.py")).replace(/^file:\/\//, ""))
-    readonly property string launchCommand:
-        "c='" + companionPath.replace(/'/g, "'\\''") + "';"
-        + " if [ -f \"$c\" ] && command -v python3 >/dev/null; then setsid -f python3 \"$c\" >/dev/null 2>&1; echo companion;"
-        + " elif command -v plasma-systemmonitor >/dev/null; then setsid -f plasma-systemmonitor >/dev/null 2>&1; echo plasma-systemmonitor;"
-        + " elif command -v ksysguard >/dev/null; then setsid -f ksysguard >/dev/null 2>&1; echo ksysguard;"
-        + " else echo none; fi"
+    // Opens the fullest monitor on hand, in this order: the Sub-Etha System
+    // Monitor (a separate project, installed as subetha-monitor), KDE's
+    // System Monitor, KSysGuard. With none installed, Discover opens on System
+    // Monitor's page. The Sub-Etha monitor opens on `tab`, or, already open,
+    // switches to it. Launched detached (setsid -f), so the shell returns at
+    // once and the app outlives the widget.
+    function launchCommand(tab) {
+        return "m=$(command -v subetha-monitor || echo \"$HOME/.local/bin/subetha-monitor\");"
+            + " if [ -x \"$m\" ]; then setsid -f \"$m\" --tab=" + tab + " >/dev/null 2>&1; echo subetha-monitor;"
+            + " elif command -v plasma-systemmonitor >/dev/null; then setsid -f plasma-systemmonitor >/dev/null 2>&1; echo plasma-systemmonitor;"
+            + " elif command -v ksysguard >/dev/null; then setsid -f ksysguard >/dev/null 2>&1; echo ksysguard;"
+            + " else echo none; fi"
+    }
     P5Support.DataSource {
         id: launcher
         engine: "executable"
@@ -142,14 +143,16 @@ PlasmoidItem {
             if (String(data["stdout"]).trim() === "none") Qt.openUrlExternally("appstream://org.kde.plasma-systemmonitor")
         }
     }
-    function openDiagnostics() {
-        if (launcher.connectedSources.indexOf(launchCommand) < 0) launcher.connectSource(launchCommand)
+    // tab: overview | processes | services | network | disks
+    function openDiagnostics(tab) {
+        var command = launchCommand(tab || "processes")
+        if (launcher.connectedSources.indexOf(command) < 0) launcher.connectSource(command)
     }
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
             text: i18n("Open Sub-Etha Process Diagnostics")
             icon.name: "utilities-system-monitor"
-            onTriggered: root.openDiagnostics()
+            onTriggered: root.openDiagnostics("overview")
         }
     ]
 
@@ -296,6 +299,6 @@ PlasmoidItem {
         onDensityChosen: (key, density) => root.cfg[key + "Density"] = density
         onSensorSizeChosen: (key, size) => root.cfg[key + "SensorSize"] = size
         onConfigureRequested: Plasmoid.internalAction("configure").trigger()
-        onDiagnosticsRequested: root.openDiagnostics()
+        onDiagnosticsRequested: root.openDiagnostics("processes")
     }
 }

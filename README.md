@@ -123,6 +123,16 @@ msginit -i translate/template.pot -o translate/<lang>.po -l <lang>
 Then add **The Sub-Etha Guide (H2G2)** from the Widget Explorer (System
 Information).
 
+## System Monitor app
+
+The [Sub-Etha System Monitor](../subetha-monitor), a separate project, is
+a standalone companion window in the same two themes: live telemetry, a
+process table with SIGTERM / SIGKILL, systemd unit control, network and
+storage tabs, and fans that spin at their real RPM. Once it is installed
+(its `install.sh` puts `subetha-monitor` on the app menu and in
+`~/.local/bin`), the widget's diagnostics button opens it on the Processes
+tab; without it, the button falls back to KDE's System Monitor.
+
 ## Layout
 
 ```text
