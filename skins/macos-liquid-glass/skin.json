@@ -2,10 +2,102 @@
   "id": "macos-liquid-glass",
   "name": "macOS Liquid Glass",
   "author": "Shani",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Liquid Glass: translucent rounded panes with a 1px specular rim, soft deep elevation, capsule pills and gauges, in graphite dark and frosted light.",
+  "fontFamily": "-apple-system, SF Pro Text, sans-serif",
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": true,
+    "enableGrid": false
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 18,
+    "borderStyle": "solid",
+    "borderWidth": 1.0,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "soft",
+    "shadowOffset": [
+      0,
+      8
+    ],
+    "shadowBlur": 24
+  },
+  "variants": {
+    "dark": {
+      "background": "#0D1117",
+      "cardBackground": "rgba(255, 255, 255, 0.07)",
+      "cardBackgroundHover": "rgba(255, 255, 255, 0.12)",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "rgba(255, 255, 255, 0.65)",
+      "accent": "#2997FF",
+      "accentSecondary": "#30D158",
+      "accentTertiary": "#2997FF",
+      "accentGood": "#0A84FF",
+      "border": "rgba(255, 255, 255, 0.16)",
+      "shadowColor": "rgba(0, 0, 0, 0.45)",
+      "gaugeTrack": "rgba(255, 255, 255, 0.08)",
+      "gaugeUsage": "#0A84FF",
+      "gaugeTemp": "rgba(255, 69, 58, 0.40)",
+      "sparkline": "#2997FF",
+      "sparklineFill": "rgba(41, 151, 255, 0.12)",
+      "netDown": "#2997FF",
+      "netUp": "#30D158",
+      "commentary": "#2997FF",
+      "badgeBackground": "rgba(41, 151, 255, 0.20)",
+      "badgeText": "#64D2FF",
+      "ground": {
+        "color": "#2997FF",
+        "alertColor": "#FF453A"
+      }
+    },
+    "light": {
+      "background": "#E8ECEF",
+      "cardBackground": "rgba(255, 255, 255, 0.55)",
+      "cardBackgroundHover": "rgba(255, 255, 255, 0.75)",
+      "textPrimary": "#1D1D1F",
+      "textSecondary": "rgba(0, 0, 0, 0.60)",
+      "accent": "#0071E3",
+      "accentSecondary": "#34C759",
+      "accentTertiary": "#0071E3",
+      "accentGood": "#0071E3",
+      "border": "rgba(255, 255, 255, 0.70)",
+      "shadowColor": "rgba(0, 0, 0, 0.10)",
+      "gaugeTrack": "rgba(0, 0, 0, 0.06)",
+      "gaugeUsage": "#0071E3",
+      "gaugeTemp": "rgba(255, 59, 48, 0.35)",
+      "sparkline": "#0071E3",
+      "sparklineFill": "rgba(0, 113, 227, 0.12)",
+      "netDown": "#0071E3",
+      "netUp": "#34C759",
+      "commentary": "#0071E3",
+      "badgeBackground": "rgba(0, 113, 227, 0.12)",
+      "badgeText": "#0071E3",
+      "ground": {
+        "color": "#0071E3",
+        "alertColor": "#FF3B30"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "DARWIN M-SERIES",
+    "weatherSkyHazard": "assets/glass_cloud.svg",
+    "roamerPrimary": "assets/finder_smile.svg",
+    "roamerSecondary": "assets/siri_orb.svg",
+    "quips": {
+      "nominal": "UNIFIED MEMORY AND NEURAL ENGINES OPTIMAL.",
+      "moderate": "A FEW APPS ARE USING SIGNIFICANT ENERGY.",
+      "highLoad": "EFFICIENCY CORES HANDING OFF TO PERFORMANCE CORES.",
+      "critical": "THERMAL CEILING REACHED. SPEEDSTEP ENGAGED.",
+      "night": "NIGHT SHIFT ON. WARMER COLOURS UNTIL SUNRISE."
+    }
+  },
   "isDark": false,
-  "fontFamily": "Noto Sans",
   "colors": {
     "background": "#E8ECEF",
     "cardBackground": "rgba(255, 255, 255, 0.55)",
@@ -29,107 +121,6 @@
     "borderWidth": 1.0,
     "borderRadius": 18
   },
-  "geometry": {
-    "cardShape": "rounded",
-    "pillShape": "stadium",
-    "gaugeShape": "stadium",
-    "cornerRadius": 18,
-    "borderStyle": "solid",
-    "borderWidth": 1.0,
-    "hasCornerBrackets": false,
-    "hasDropShadow": true,
-    "shadowType": "soft",
-    "shadowOffset": [
-      0,
-      8
-    ],
-    "shadowBlur": 24
-  },
-  "variants": {
-    "light": {
-      "colors": {
-        "background": "#E8ECEF",
-        "cardBackground": "rgba(255, 255, 255, 0.55)",
-        "cardBackgroundHover": "rgba(255, 255, 255, 0.75)",
-        "textPrimary": "#1D1D1F",
-        "textSecondary": "rgba(0, 0, 0, 0.60)",
-        "accent": "#0071E3",
-        "accentSecondary": "#34C759",
-        "accentTertiary": "#0071E3",
-        "accentGood": "#0071E3",
-        "border": "rgba(255, 255, 255, 0.70)",
-        "shadowColor": "rgba(0, 0, 0, 0.10)",
-        "gaugeTrack": "rgba(0, 0, 0, 0.06)",
-        "gaugeFillUsage": "#0071E3",
-        "gaugeFillTemp": "rgba(255, 59, 48, 0.35)",
-        "sparkline": "#0071E3",
-        "sparklineFill": "rgba(0, 113, 227, 0.12)",
-        "netDown": "#0071E3",
-        "netUp": "#34C759",
-        "commentary": "#0071E3"
-      },
-      "badgeColor": "rgba(0, 113, 227, 0.12)",
-      "badgeTextColor": "#0071E3",
-      "ground": {
-        "color": "#0071E3",
-        "alertColor": "#FF3B30"
-      }
-    },
-    "dark": {
-      "colors": {
-        "background": "#0D1117",
-        "cardBackground": "rgba(255, 255, 255, 0.07)",
-        "cardBackgroundHover": "rgba(255, 255, 255, 0.12)",
-        "textPrimary": "#FFFFFF",
-        "textSecondary": "rgba(255, 255, 255, 0.65)",
-        "accent": "#2997FF",
-        "accentSecondary": "#30D158",
-        "accentTertiary": "#2997FF",
-        "accentGood": "#0A84FF",
-        "border": "rgba(255, 255, 255, 0.16)",
-        "shadowColor": "rgba(0, 0, 0, 0.45)",
-        "gaugeTrack": "rgba(255, 255, 255, 0.08)",
-        "gaugeFillUsage": "#0A84FF",
-        "gaugeFillTemp": "rgba(255, 69, 58, 0.40)",
-        "sparkline": "#2997FF",
-        "sparklineFill": "rgba(41, 151, 255, 0.12)",
-        "netDown": "#2997FF",
-        "netUp": "#30D158",
-        "commentary": "#2997FF"
-      },
-      "badgeColor": "rgba(41, 151, 255, 0.20)",
-      "badgeTextColor": "#64D2FF",
-      "ground": {
-        "color": "#2997FF",
-        "alertColor": "#FF453A"
-      }
-    }
-  },
-  "badgeText": "DARWIN // TAHOE-26",
-  "commentaryTemplates": {
-    "nominal": "UNIFIED MEMORY AND NEURAL ENGINES OPTIMAL.",
-    "moderate": "A FEW APPS ARE USING SIGNIFICANT ENERGY.",
-    "highLoad": "EFFICIENCY CORES HANDING OFF TO PERFORMANCE CORES.",
-    "critical": "THERMAL CEILING REACHED. SPEEDSTEP ENGAGED.",
-    "night": "NIGHT SHIFT ON. WARMER COLOURS UNTIL SUNRISE."
-  },
-  "clockQuips": {
-    "nominal": "TIME IN SYNC WITH THE NETWORK.",
-    "stress": "SPINNING BEACH BALL IMMINENT."
-  },
-  "aiQuip": "NEURAL ENGINE BUSY ON-DEVICE.",
-  "labels": {
-    "rx": "RECEIVED",
-    "tx": "SENT"
-  },
-  "narrativeAssets": {
-    "fallingSkyHazard": "assets/glass_cloud.svg"
-  },
-  "ground": {
-    "color": "#0071E3",
-    "alertColor": "#FF3B30",
-    "width": 1.5
-  },
   "roamers": [
     {
       "name": "Smile",
@@ -152,5 +143,20 @@
       "stride": 5,
       "bob": true
     }
-  ]
+  ],
+  "labels": {
+    "rx": "RECEIVED",
+    "tx": "SENT"
+  },
+  "ground": {
+    "color": "#0071E3",
+    "alertColor": "#FF3B30",
+    "width": 1.5
+  },
+  "clockQuips": {
+    "nominal": "TIME IN SYNC WITH THE NETWORK.",
+    "stress": "SPINNING BEACH BALL IMMINENT."
+  },
+  "aiQuip": "NEURAL ENGINE BUSY ON-DEVICE.",
+  "badgeText": "DARWIN M-SERIES"
 }

@@ -2,10 +2,115 @@
   "id": "adventure-time",
   "name": "Adventure Time (BMO Terminal)",
   "author": "Shani",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
+  "fontFamily": "Ubuntu, sans-serif",
+  "fonts": [
+    "assets/fonts/Ubuntu-Regular.ttf",
+    "assets/fonts/Ubuntu-Bold.ttf"
+  ],
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": false,
+    "enableGrid": false
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 18,
+    "borderStyle": "solid",
+    "borderWidth": 2.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "flat-2d",
+    "shadowOffset": [
+      3,
+      3
+    ],
+    "shadowBlur": 0
+  },
+  "variants": {
+    "dark": {
+      "background": "#234B49",
+      "cardBackground": "#1A3A38",
+      "cardBackgroundHover": "#2A5856",
+      "textPrimary": "#72F2D9",
+      "textSecondary": "#5FB8A8",
+      "accent": "#FFD13B",
+      "accentSecondary": "#FF6FB5",
+      "accentTertiary": "#72F2D9",
+      "accentGood": "#72F2D9",
+      "border": "#0F2423",
+      "shadowColor": "#0F2423",
+      "gaugeTrack": "rgba(114, 242, 217, 0.14)",
+      "gaugeUsage": "#FFD13B",
+      "gaugeTemp": "rgba(255, 111, 181, 0.5)",
+      "sparkline": "#72F2D9",
+      "sparklineFill": "rgba(114, 242, 217, 0.15)",
+      "netDown": "#72F2D9",
+      "netUp": "#FFD13B",
+      "commentary": "#FFD13B",
+      "frame": {
+        "dpad": "#FFD13B",
+        "buttons": [
+          "#72F2D9",
+          "#FF6FB5",
+          "#FFD13B"
+        ]
+      },
+      "badgeBackground": "#FF3B4A",
+      "badgeText": "#FFE14D"
+    },
+    "light": {
+      "background": "#CBEBF6",
+      "cardBackground": "#A3E487",
+      "cardBackgroundHover": "#93D877",
+      "textPrimary": "#182B32",
+      "textSecondary": "#2F5560",
+      "accent": "#FFD13B",
+      "accentSecondary": "#FF6FB5",
+      "accentTertiary": "#2F8FE0",
+      "accentGood": "#3DBA54",
+      "border": "#182B32",
+      "shadowColor": "#182B32",
+      "gaugeTrack": "rgba(24, 43, 50, 0.15)",
+      "gaugeUsage": "#FFD13B",
+      "gaugeTemp": "rgba(255, 111, 181, 0.45)",
+      "sparkline": "#2F8FE0",
+      "sparklineFill": "rgba(47, 143, 224, 0.25)",
+      "netDown": "#2F8FE0",
+      "netUp": "#FF6FB5",
+      "commentary": "#1F6FB8",
+      "frame": {
+        "dpad": "#FFD13B",
+        "buttons": [
+          "#2F8FE0",
+          "#FF6FB5",
+          "#3DBA54"
+        ]
+      },
+      "badgeBackground": "#FF3B4A",
+      "badgeText": "#FFE14D"
+    }
+  },
+  "narrative": {
+    "badgeLabel": "ALGEBRAIC!",
+    "weatherSkyHazard": "assets/ice_king_fall.svg",
+    "weatherSkyHazardSecondary": "assets/gunter_umbrella.svg",
+    "roamerPrimary": "assets/finn_walk_01.svg",
+    "roamerSecondary": "assets/jake_walk_01.svg",
+    "quips": {
+      "nominal": "MATHEMATICAL! ALL CORE SYSTEMS RUNNING ALGEBRAIC.",
+      "moderate": "WHOA! BMO IS DOING SOME HEAVY CALCULATIONS RIGHT NOW!",
+      "highLoad": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED. COOL DOWN BUDDY!",
+      "critical": "WHAT TIME IS IT? TOTAL MELTDOWN CRISIS TIME!",
+      "night": "WHO WANTS TO PLAY VIDEO GAMES? OH WAIT, EVERYONE IS ASLEEP."
+    }
+  },
   "isDark": false,
-  "fontFamily": "Ubuntu",
   "colors": {
     "background": "#8BD4C4",
     "cardBackground": "#6ABEA7",
@@ -20,7 +125,10 @@
     "borderWidth": 2.5,
     "borderRadius": 18,
     "shadowColor": "#183038",
-    "shadowOffset": [3, 3],
+    "shadowOffset": [
+      3,
+      3
+    ],
     "gaugeTrack": "rgba(24, 48, 56, 0.15)",
     "gaugeFillUsage": "#FFD13B",
     "gaugeFillTemp": "rgba(255, 87, 104, 0.35)",
@@ -29,116 +137,33 @@
     "netDown": "#3FA9F5",
     "netUp": "#FFD13B"
   },
-  "geometry": {
-    "cardShape": "rounded",
-    "pillShape": "stadium",
-    "gaugeShape": "stadium",
-    "cornerRadius": 18,
-    "borderStyle": "solid",
-    "borderWidth": 2.5,
-    "hasCornerBrackets": false,
-    "hasDropShadow": true,
-    "shadowType": "flat-2d",
-    "shadowOffset": [3, 3],
-    "shadowBlur": 0
-  },
-  "variants": {
-    "light": {
-      "colors": {
-        "background": "#CBEBF6",
-        "cardBackground": "#A3E487",
-        "cardBackgroundHover": "#93D877",
-        "textPrimary": "#182B32",
-        "textSecondary": "#2F5560",
-        "accent": "#FFD13B",
-        "accentSecondary": "#FF6FB5",
-        "accentTertiary": "#2F8FE0",
-        "accentGood": "#3DBA54",
-        "border": "#182B32",
-        "shadowColor": "#182B32",
-        "gaugeTrack": "rgba(24, 43, 50, 0.15)",
-        "gaugeFillUsage": "#FFD13B",
-        "gaugeFillTemp": "rgba(255, 111, 181, 0.45)",
-        "sparkline": "#2F8FE0",
-        "sparklineFill": "rgba(47, 143, 224, 0.25)",
-        "netDown": "#2F8FE0",
-        "netUp": "#FF6FB5",
-        "commentary": "#1F6FB8"
-      },
-      "frame": {
-        "dpad": "#FFD13B",
-        "buttons": ["#2F8FE0", "#FF6FB5", "#3DBA54"]
-      }
-    },
-    "dark": {
-      "colors": {
-        "background": "#234B49",
-        "cardBackground": "#1A3A38",
-        "cardBackgroundHover": "#2A5856",
-        "textPrimary": "#72F2D9",
-        "textSecondary": "#5FB8A8",
-        "accent": "#FFD13B",
-        "accentSecondary": "#FF6FB5",
-        "accentTertiary": "#72F2D9",
-        "accentGood": "#72F2D9",
-        "border": "#0F2423",
-        "shadowColor": "#0F2423",
-        "gaugeTrack": "rgba(114, 242, 217, 0.14)",
-        "gaugeFillUsage": "#FFD13B",
-        "gaugeFillTemp": "rgba(255, 111, 181, 0.5)",
-        "sparkline": "#72F2D9",
-        "sparklineFill": "rgba(114, 242, 217, 0.15)",
-        "netDown": "#72F2D9",
-        "netUp": "#FFD13B",
-        "commentary": "#FFD13B"
-      },
-      "frame": {
-        "dpad": "#FFD13B",
-        "buttons": ["#72F2D9", "#FF6FB5", "#FFD13B"]
-      }
-    }
-  },
-  "aiQuip": "BMO BRAIN PROCESSING ALGEBRAIC THOUGHTS!",
-  "clockQuips": {
-    "nominal": "WHAT TIME IS IT? SYSTEM INTEGRITY TIME!",
-    "stress": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED!"
-  },
-  "narrativeAssets": {
-    "fallingSkyHazard": "assets/ice_king_fall.svg",
-    "hazardSecondary": "assets/gunter_umbrella.svg"
-  },
-  "badgeText": "ALGEBRAIC!",
-  "badgeColor": "#FF3B4A",
-  "badgeTextColor": "#FFE14D",
-  "commentaryTemplates": {
-    "nominal": "MATHEMATICAL! ALL CORE SYSTEMS RUNNING ALGEBRAIC.",
-    "moderate": "WHOA! BMO IS DOING SOME HEAVY CALCULATIONS RIGHT NOW!",
-    "highLoad": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED. COOL DOWN BUDDY!",
-    "critical": "WHAT TIME IS IT? TOTAL MELTDOWN CRISIS TIME!",
-    "night": "WHO WANTS TO PLAY VIDEO GAMES? OH WAIT, EVERYONE IS ASLEEP."
-  },
   "frame": {
     "style": "handheld",
     "dpad": "#FFD13B",
-    "buttons": ["#3FA9F5", "#FF5768", "#4CD964"],
+    "buttons": [
+      "#3FA9F5",
+      "#FF5768",
+      "#4CD964"
+    ],
     "vents": 3
-  },
-  "faces": {
-    "idle": "assets/bmo_face_idle.svg",
-    "happy": "assets/bmo_face_happy.svg",
-    "stressed": "assets/bmo_face_stressed.svg"
   },
   "roamers": [
     {
       "name": "Finn",
-      "frames": ["assets/finn_walk_01.svg", "assets/finn_walk_02.svg"],
+      "frames": [
+        "assets/finn_walk_01.svg",
+        "assets/finn_walk_02.svg"
+      ],
       "width": 22,
       "height": 33,
       "stride": 7
     },
     {
       "name": "Jake",
-      "frames": ["assets/jake_walk_01.svg", "assets/jake_walk_02.svg"],
+      "frames": [
+        "assets/jake_walk_01.svg",
+        "assets/jake_walk_02.svg"
+      ],
       "width": 31,
       "height": 22,
       "follow": 6,
@@ -148,5 +173,18 @@
       "notes": true,
       "waves": true
     }
-  ]
+  ],
+  "faces": {
+    "idle": "assets/bmo_face_idle.svg",
+    "happy": "assets/bmo_face_happy.svg",
+    "stressed": "assets/bmo_face_stressed.svg"
+  },
+  "clockQuips": {
+    "nominal": "WHAT TIME IS IT? SYSTEM INTEGRITY TIME!",
+    "stress": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED!"
+  },
+  "aiQuip": "BMO BRAIN PROCESSING ALGEBRAIC THOUGHTS!",
+  "badgeColor": "#FF3B4A",
+  "badgeTextColor": "#FFE14D",
+  "badgeText": "ALGEBRAIC!"
 }
