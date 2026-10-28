@@ -831,7 +831,7 @@ Rectangle {
                     Scale { origin.x: heroContent.width / 2; origin.y: heroContent.height / 2; xScale: view.heroPop; yScale: view.heroPop }
                 ]
 
-                // top row: "Dongen · Today · Wed 21 Oct" (location only on the desktop)
+                // top row: "London · Today · Wed 21 Oct" (location only on the desktop)
                 Item {
                     id: heroTitleSlot
                     visible: view.searching

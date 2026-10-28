@@ -52,13 +52,13 @@
     <!-- ==== Weather ==== -->
     <group name="Weather">
         <entry name="latitude" type="Double">
-            <default>51.6256</default>
+            <default>51.5072</default>
         </entry>
         <entry name="longitude" type="Double">
-            <default>4.9389</default>
+            <default>-0.1276</default>
         </entry>
         <entry name="locationName" type="String">
-            <default>Dongen</default>
+            <default>London</default>
         </entry>
         <entry name="showWeatherCharacter" type="Bool">
             <default>true</default>
