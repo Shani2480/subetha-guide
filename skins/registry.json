@@ -5,41 +5,41 @@
       "id": "adventure-time",
       "name": "Adventure Time (BMO Terminal)",
       "author": "Shani",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/adventure-time/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/adventure-time.tar.gz",
-      "sha256": "0ba306f18679af44dc0eede7a28b1341caf52307b1ea90627538aaef91835d05"
+      "sha256": "43c99671860a1f545cc31f29baea7edf4d412f794ca1cb3b4a4d3b21ff437ad8"
     },
     {
       "id": "cyberpunk-2077",
       "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
       "author": "Shani",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/cyberpunk-2077/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/cyberpunk-2077.tar.gz",
-      "sha256": "33d7f8e595b8888972e86489352b3302bd758caa0c44c2ecd889e8a0e3d51df5"
+      "sha256": "8a30b698da656f25cf1a76e92cef43df5c822ca0b1ad922b4f726c98bec7c91f"
     },
     {
       "id": "dexters-lab",
       "name": "Dexter's Laboratory (Secret Mainframe)",
       "author": "Shani",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab.tar.gz",
-      "sha256": "4c59f0fb2bccd3f2817c8c7c5fcc41af6ae033fc365c7cd1f0406f345912d7ff"
+      "sha256": "3f8aca0f7351ac4c279d15733cc568d80e1370c19db41e82ca9d7d3fe33f6542"
     },
     {
       "id": "mirrors-edge",
       "name": "Mirror's Edge (Runner Vision)",
       "author": "Shani",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/mirrors-edge/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/mirrors-edge.tar.gz",
-      "sha256": "262eb8460d4dacf9a8828467d46f4d5359c77f7866ee6fa0183758abf1cac121"
+      "sha256": "93122d164e850b066a658e3d89e11ae16b14d4a9d583ce0bf33e6ece1d4c8886"
     }
   ]
 }
