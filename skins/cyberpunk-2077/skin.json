@@ -2,7 +2,7 @@
   "id": "cyberpunk-2077",
   "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
   "author": "Shani",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
   "isDark": true,
   "fontFamily": "monospace",
@@ -114,6 +114,7 @@
       }
     }
   },
+  "aiQuip": "NEURAL DAEMON BURNING CYBERWARE RAM. WATCH THE ICE.",
   "clockQuips": {
     "nominal": "CYBERWARE LINK NOMINAL. ZERO ICE INTRUSIONS.",
     "stress": "NEURAL THERMAL RUNAWAY! FLATLINE RISK IMMINENT, CHOOM!"

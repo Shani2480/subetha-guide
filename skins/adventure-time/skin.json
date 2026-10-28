@@ -2,7 +2,7 @@
   "id": "adventure-time",
   "name": "Adventure Time (BMO Terminal)",
   "author": "Shani",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
   "isDark": false,
   "fontFamily": "Ubuntu",
@@ -98,6 +98,7 @@
       }
     }
   },
+  "aiQuip": "BMO BRAIN PROCESSING ALGEBRAIC THOUGHTS!",
   "clockQuips": {
     "nominal": "WHAT TIME IS IT? SYSTEM INTEGRITY TIME!",
     "stress": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED!"
