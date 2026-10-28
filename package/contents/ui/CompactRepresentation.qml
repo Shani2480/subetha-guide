@@ -154,13 +154,25 @@ MouseArea {
             Text {
                 // Without an icon a label says what the figure is.
                 text: compact.vertical ? cellGrid.r.shortText
-                    : (compact.showIcon || cellGrid.r.key === "weather" ? "" : cellGrid.r.label + " ") + cellGrid.r.text
+                    : (compact.showIcon || cellGrid.r.key === "weather" || cellGrid.r.key === "clock" ? "" : cellGrid.r.label + " ") + cellGrid.r.text
                 color: cellGrid.r.level === "alert" ? compact.alert : compact.ink
                 font { family: "monospace"; pixelSize: compact.fontPx; bold: true }
                 width: compact.vertical ? Math.min(implicitWidth, compact.width - 4) : implicitWidth
                 fontSizeMode: compact.vertical ? Text.HorizontalFit : Text.FixedSize
                 minimumPixelSize: 7
                 horizontalAlignment: Text.AlignHCenter
+                // The clock reads as a retro digital pill: the figure in a thin outline.
+                readonly property bool pill: cellGrid.r.key === "clock" && !compact.vertical
+                leftPadding: pill ? 4 : 0
+                rightPadding: pill ? 4 : 0
+                Rectangle {
+                    visible: parent.pill
+                    anchors { fill: parent; topMargin: -1; bottomMargin: -1 }
+                    radius: 3
+                    color: "transparent"
+                    border { width: 1; color: compact.ink }
+                    opacity: 0.6
+                }
             }
             DualMetricBar {   // cpu / gpu: load over temperature on one track
                 visible: cellGrid.meter && cellGrid.r.temp !== undefined

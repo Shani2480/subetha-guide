@@ -15,6 +15,7 @@ KCM.SimpleKCM {
     property string cfg_themeModeDefault
     property var cfg_enabledSections: ["weather", "system", "disk", "battery"]
     property var cfg_enabledSectionsDefault
+    property alias cfg_showClockSection: clockCheck.checked
     property string cfg_panelDisplaySensor
     property string cfg_panelDisplaySensorDefault
     property alias cfg_showPanelIcon: panelIconCheck.checked
@@ -24,6 +25,7 @@ KCM.SimpleKCM {
     // Panel item choices, with a sample of how each reads in the panel.
     readonly property var panelSensors: [
         { value: "weather",   text: i18n("Weather temperature"), sample: "☁ 11°" },
+        { value: "clock",     text: i18n("Clock"),               sample: "◷ 01:59" },
         { value: "cpuLoad",   text: i18n("CPU load"),            sample: i18nc("panel label", "CPU") + " 42%" },
         { value: "cpuTemp",   text: i18n("CPU temperature"),     sample: i18nc("panel label", "CPU") + " 58°C" },
         { value: "gpuTemp",   text: i18n("GPU temperature"),     sample: i18nc("panel label", "GPU") + " 62°C" },
@@ -120,12 +122,15 @@ KCM.SimpleKCM {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: i18n("Sections")
         }
+        QQC2.CheckBox {
+            id: clockCheck
+            Kirigami.FormData.label: i18n("Show:")
+            text: i18n("Clock: local time, date, time zone and chronometry")
+        }
         Repeater {
             model: page.sections
             QQC2.CheckBox {
                 required property var modelData
-                required property int index
-                Kirigami.FormData.label: index === 0 ? i18n("Show:") : ""
                 text: modelData.text
                 checked: page.enabled(modelData.key)
                 onToggled: page.setEnabled(modelData.key, checked)
@@ -174,7 +179,7 @@ KCM.SimpleKCM {
                 }
                 Rectangle {
                     id: previewMeter
-                    visible: page.cfg_showPanelMeter && ["weather", "netSpeed", "multiPill"].indexOf(parent.parent.choice.value) < 0
+                    visible: page.cfg_showPanelMeter && ["weather", "clock", "netSpeed", "multiPill"].indexOf(parent.parent.choice.value) < 0
                     anchors.verticalCenter: parent.verticalCenter
                     width: 24; height: 3; radius: 1
                     color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.2)

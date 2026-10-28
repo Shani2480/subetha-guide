@@ -3,10 +3,11 @@ import QtQuick.Layouts
 import "common"
 
 // The Guide's card: one header (title, location or host, DON'T PANIC) over
-// the enabled sections, stacked in a fixed order: weather, system, storage,
-// power. A section switched off folds to nothing and the ones below slide up.
-// At the wide step (740) the sections flow into two columns, weather and
-// storage on the left, system and power on the right. On the desktop the
+// the enabled sections, stacked in a fixed order: clock, weather, system,
+// storage, power. A section switched off folds to nothing and the ones below
+// slide up. At the wide step (740) the clock spans the card and the sections
+// below it flow into two columns, weather and storage on the left, system
+// and power on the right. On the desktop the
 // whole stack snaps to the layout steps (SnapFrame) and scrolls when taller.
 // Each section is full or compact on its own (config.<key>Density, flipped by
 // the tag on its card); a section that changes density animates its height
@@ -20,6 +21,7 @@ SnapFrame {
     property string subtitle: ""
     property bool live: false
     property var config
+    property QtObject timeEngine
     property QtObject weatherFeed
     property QtObject systemFeed
     property var systemSensors: []
@@ -49,7 +51,9 @@ SnapFrame {
         readonly property real columnWidth: twoColumns ? (width - gap) / 2 : width
         readonly property real rightX: twoColumns ? columnWidth + gap : 0
         // Room above the first cards for the density tags on their top borders.
-        readonly property real firstY: header.height + (header.open ? 0 : 6)
+        readonly property real topY: header.height + (header.open ? 0 : 6)
+        // The columns start below the clock, which runs the full width.
+        readonly property real firstY: clockSection.y + clockSection.height
         width: parent.width
         height: Math.max(diskSection.y + diskSection.height, batterySection.y + batterySection.height,
                          empty.visible ? empty.y + empty.height : 0)
@@ -75,6 +79,19 @@ SnapFrame {
             }
         }
 
+        ClockSection {
+            id: clockSection
+            y: stack.topY
+            width: parent.width
+            open: full.has("clock")
+            theme: full.theme
+            engine: full.timeEngine
+            config: full.config
+            minimal: full.compact("clock")
+            onDensityToggled: full.toggleDensity("clock")
+            live: full.live
+            entranceSerial: full.entranceSerial
+        }
         WeatherSection {
             id: weatherSection
             x: 0
@@ -140,7 +157,7 @@ SnapFrame {
         VectorFrame {
             id: empty
             visible: full.sections.length === 0
-            y: stack.firstY
+            y: stack.topY
             width: parent.width
             theme: full.theme
             Text {

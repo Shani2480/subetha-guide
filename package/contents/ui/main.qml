@@ -9,10 +9,11 @@ import "weather"
 import "system"
 import "disk"
 import "battery"
+import "clock"
 import "common"
 import "common/i18n.js" as I18n
 
-// The Sub-Etha Guide: weather, compute, storage and power in one card. Each
+// The Sub-Etha Guide: time, weather, compute, storage and power in one card. Each
 // module's feed runs only while its section is switched on (and, for the
 // live ones, while the card is on screen and the session unlocked); the
 // views get everything as properties.
@@ -40,7 +41,8 @@ PlasmoidItem {
     readonly property bool shown: expanded || onDesktop || previewing
     property bool previewing: false       // the panel item's hover card is open
     readonly property var cfg: Plasmoid.configuration
-    readonly property var sections: cfg.enabledSections
+    // The clock has a switch of its own (showClockSection) and always leads.
+    readonly property var sections: (cfg.showClockSection ? ["clock"] : []).concat(cfg.enabledSections)
     function has(key) { return sections.indexOf(key) >= 0 }
     // Each section is "full" or "compact" on its own (cfg.<key>Density).
     function compact(key) { return !!cfg && cfg[key + "Density"] === "compact" }
@@ -72,9 +74,16 @@ PlasmoidItem {
         weatherFeed: weatherData
         systemFeed: systemData
         batteryFeed: powerData
+        timeEngine: clock
+        clockSeconds: root.cfg.showSeconds
     }
 
     // ---- feeds ----
+    TimeEngine {
+        id: clock
+        running: (root.has("clock") && root.live) || root.panelNeeds("clock")
+        use24h: root.cfg.timeFormat24h
+    }
     WeatherFeed {
         id: weatherData
         running: root.has("weather") || root.panelNeeds("weather")
@@ -224,6 +233,7 @@ PlasmoidItem {
                     required property string modelData
                     width: parent.width
                     sourceComponent: modelData === "weather" ? weatherPreview
+                                   : modelData === "clock" ? clockPreview
                                    : modelData === "battery" ? batteryPreview : systemPreview
                     property string key: modelData
                 }
@@ -241,6 +251,19 @@ PlasmoidItem {
             live: root.previewing
             gap: 0
             toggleVisible: false
+        }
+    }
+    Component {
+        id: clockPreview
+        ClockPanel {
+            width: parent ? parent.width : 356
+            theme: guide
+            engine: clock
+            showSeconds: root.cfg.showSeconds
+            showDate: root.cfg.showDate
+            showTzOffset: root.cfg.showTzOffset
+            showGalactic: root.cfg.showGalacticSiderealTime
+            live: root.previewing
         }
     }
     Component {
@@ -286,6 +309,7 @@ PlasmoidItem {
                    ? root.cfg.locationName.trim().toUpperCase() : i18n("HOST %1", root.hostName.toUpperCase()))
         live: root.live && visible && Window.window !== null && Window.window.visible
         config: root.cfg
+        timeEngine: clock
         weatherFeed: weatherData
         systemFeed: systemData
         systemSensors: root.systemSensors
