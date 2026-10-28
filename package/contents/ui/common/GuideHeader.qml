@@ -25,7 +25,7 @@ RowLayout {
             visible: header.subtitle !== ""
             Layout.fillWidth: true
             text: header.subtitle
-            color: header.theme.tint(0.6)
+            color: header.theme.inkSoft
             font { family: header.theme.mono; pixelSize: 10; bold: true; letterSpacing: 0.4 }
             elide: Text.ElideRight
         }

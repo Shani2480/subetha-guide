@@ -57,6 +57,7 @@ CollapsibleSection {
             locationName: section.config.locationName.trim()
             iconStyle: section.config.iconStyle
             themeStyle: section.themeStyle
+            skin: section.theme.skinned ? section.theme : null
             desktopMode: true
             translucent: false
             live: section.live && section.open
@@ -71,6 +72,7 @@ CollapsibleSection {
             locationName: section.config.locationName.trim()
             iconStyle: section.config.iconStyle
             themeStyle: section.themeStyle
+            skin: section.theme.skinned ? section.theme : null
             desktopMode: true
             translucent: section.config.translucentDesktopBackground
             ambientAnimations: section.config.enableBackgroundAnimations

@@ -56,8 +56,10 @@ SlidingPillContainer {
     verticalPadding: minimal ? 7 : 10
     horizontalPadding: minimal ? 12 : 14
 
-    readonly property color rxColor: theme.cool
-    readonly property color txColor: theme.dark ? theme.amber : theme.coral
+    readonly property color rxColor: theme.netDown
+    readonly property color txColor: theme.netUp
+    // a skin's sparkline colours, or the load colour as the Guide has it
+    readonly property bool skinGraph: theme.sparkline.a > 0
     function loadColor(p) { return p >= 85 ? theme.low : p >= 50 ? theme.mid : theme.high }
 
     readonly property var glyphs: ({
@@ -241,7 +243,10 @@ SlidingPillContainer {
             SparklineGraph {
                 anchors.fill: parent
                 historyData: card.graphData
-                strokeColor: card.loadColor(card.percent)
+                strokeColor: card.skinGraph ? card.theme.sparkline : card.loadColor(card.percent)
+                fillColor: card.skinGraph && card.theme.sparklineFill.a > 0 ? card.theme.sparklineFill
+                         : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
+                lineWidth: card.skinGraph ? 2 : 1.5
             }
             SparklineGraph {
                 anchors.fill: parent

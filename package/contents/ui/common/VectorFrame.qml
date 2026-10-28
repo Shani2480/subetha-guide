@@ -5,37 +5,47 @@ import QtQuick
 // corner reticles. Grid, scanlines and reticles are left off while `plain`
 // (by default the theme's minimal flag; a compact section sets it for its own
 // card). Content goes inside, padded; the frame sizes to it.
+//
+// A skin sets the border, radius, shadow and hover fill through the theme;
+// one with a "handheld" frame swaps grid and reticles for its own chassis
+// (HandheldChassis.qml) on the frames that ask for it with `chassis`.
 Item {
     id: frame
 
     property QtObject theme
     property real padding: 14
     property bool plain: theme.minimal
+    property bool chassis: false
     default property alias content: inner.data
 
-    implicitHeight: inner.childrenRect.height + padding * 2 + 2
+    readonly property bool handheld: chassis && !!theme.frame
+    readonly property real shadowX: Math.max(0, theme.shadowX)
+    readonly property real shadowY: Math.max(0, theme.shadowY)
+    implicitHeight: inner.childrenRect.height + padding * 2 + shadowY + (handheld ? body.stripHeight : 0)
 
     Rectangle {   // flat offset shadow (light)
         visible: frame.theme.flatShadow
-        x: 2; y: 2
+        x: frame.shadowX; y: frame.shadowY
         width: surface.width; height: surface.height
         radius: surface.radius
-        color: frame.theme.ink
+        color: frame.theme.shadow
     }
 
+    HoverHandler { id: hover; enabled: frame.theme.skinned }
     Rectangle {
         id: surface
-        anchors { fill: parent; rightMargin: 2; bottomMargin: 2 }
+        anchors { fill: parent; rightMargin: frame.shadowX; bottomMargin: frame.shadowY }
         radius: frame.theme.outerRadius
-        color: frame.theme.bg
-        border.width: 2
-        border.color: frame.theme.dark ? frame.theme.tint(0.55) : frame.theme.ink
+        color: hover.hovered ? frame.theme.cardHover : frame.theme.bg
+        Behavior on color { ColorAnimation { duration: 120 } }
+        border.width: frame.theme.borderWidth
+        border.color: frame.theme.border
 
         // Tiled textures uploaded once, not painted: a 24px coordinate grid and
         // a 1px raster line every 2px. Inset past the rounded corners so the
         // textures never poke out of them.
         Image {
-            visible: !frame.plain
+            visible: !frame.plain && !frame.theme.frame
             anchors { fill: parent; margins: Math.max(2, surface.radius * 0.3) }
             source: Qt.resolvedUrl(frame.theme.dark ? "grid-dark.svg" : "grid-light.svg")
             sourceSize: Qt.size(24, 24)
@@ -55,7 +65,7 @@ Item {
 
         // L-shaped targeting reticles in the four corners.
         Repeater {
-            model: frame.plain ? 0 : 4
+            model: frame.plain || frame.theme.frame ? 0 : 4
             Item {
                 required property int index
                 readonly property bool atRight: index % 2 === 1
@@ -76,6 +86,13 @@ Item {
                 }
             }
         }
+    }
+
+    HandheldChassis {
+        id: body
+        visible: frame.handheld
+        anchors.fill: surface
+        theme: frame.theme
     }
 
     Item {

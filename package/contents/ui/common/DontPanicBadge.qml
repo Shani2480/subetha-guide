@@ -1,18 +1,19 @@
 import QtQuick
 
 // The Guide's cover legend as a pill: mustard with a charcoal outline on the
-// movie pages, an amber outline on the terminal.
+// movie pages, an amber outline on the terminal. A skin brings its own legend
+// and colours.
 Rectangle {
     id: badge
 
     property QtObject theme
-    property string text: i18n("DON'T PANIC")
+    property string text: theme.badgeText || i18n("DON'T PANIC")
     property int pixelSize: 12
 
     implicitWidth: label.implicitWidth + pixelSize * 1.7
     implicitHeight: label.implicitHeight + pixelSize * 0.7
     radius: height / 2
-    color: theme.dark ? "transparent" : theme.badge
+    color: theme.dark && !theme.skinned ? "transparent" : theme.badge
     border.width: 2
     border.color: theme.dark ? theme.badge : theme.ink
 
@@ -20,7 +21,7 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         text: badge.text
-        color: badge.theme.dark ? badge.theme.badge : badge.theme.ink
+        color: badge.theme.badgeInk
         font { family: badge.theme.sans; pixelSize: badge.pixelSize; weight: Font.Black; letterSpacing: 0.8 }
     }
 }

@@ -8,6 +8,10 @@
         <entry name="themeMode" type="String">
             <default>auto</default>
         </entry>
+        <!-- id of an installed community skin (Theme Store tab), "" for the built-in palette -->
+        <entry name="activeSkin" type="String">
+            <default></default>
+        </entry>
         <!-- legacy global mode, superseded by the per-section densities below;
              "minimal" is migrated to all-compact once on load, then reset -->
         <entry name="displayMode" type="String">

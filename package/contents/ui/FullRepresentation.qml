@@ -68,6 +68,7 @@ SnapFrame {
                     width: parent.width
                     theme: full.theme
                     padding: 14
+                    chassis: true
                     GuideHeader {
                         width: parent.width
                         theme: full.theme

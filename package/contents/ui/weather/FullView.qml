@@ -26,6 +26,10 @@ Rectangle {
     property string locationName: ""
     property string iconStyle: "wireframe"
     property string themeStyle: "movieLight"   // movieLight (2005 film Guide) / terminalDark (1981 CRT) / improbability (neon wireframe)
+    // The Guide's SubEthaTheme while a community skin is active, else null: its
+    // colours, font, radius and line weight then replace the three Guide themes,
+    // and its roamers (if any) stand in for Arthur and Marvin.
+    property QtObject skin: null
     property bool active: false
     property bool pinned: false
     property bool forecastCollapsed: false
@@ -241,20 +245,20 @@ Rectangle {
     // improbability: neon magenta and cyan wireframe on deep violet.
     readonly property bool light: themeStyle === "movieLight"
     readonly property bool neon: themeStyle === "improbability"
-    readonly property color bg:       light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
-    readonly property color surface:  light ? "#EDE8DC" : neon ? "#14091F" : "#071008"
-    readonly property color text:     light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
-    readonly property color outline:  text
-    readonly property color accent:   light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"   // sun, highs, badge, selection
-    readonly property color mustard:  light ? "#FFBE1A" : neon ? "#FFE65C" : "#FFB000"   // solar arcs, Arthur's towel
-    readonly property color cool:     light ? "#26A69A" : neon ? "#00E5FF" : "#00E5FF"   // rain, feels-like
-    readonly property color navy:     light ? "#2C3E50" : neon ? "#7A3CFF" : "#00FF66"   // Marvin accents
-    readonly property color danger:   light ? "#E53935" : neon ? "#FF2BD6" : "#FF3333"
+    readonly property color bg:       skin ? skin.bg : light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
+    readonly property color surface:  skin ? skin.card : light ? "#EDE8DC" : neon ? "#14091F" : "#071008"
+    readonly property color text:     skin ? skin.ink : light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
+    readonly property color outline:  skin ? skin.border : text
+    readonly property color accent:   skin ? skin.accent : light ? "#FF6B4A" : neon ? "#00E5FF" : "#FFB000"   // sun, highs, badge, selection
+    readonly property color mustard:  skin ? skin.mustard : light ? "#FFBE1A" : neon ? "#FFE65C" : "#FFB000"   // solar arcs, Arthur's towel
+    readonly property color cool:     skin ? skin.cool : light ? "#26A69A" : neon ? "#00E5FF" : "#00E5FF"   // rain, feels-like
+    readonly property color navy:     skin ? skin.ink : light ? "#2C3E50" : neon ? "#7A3CFF" : "#00FF66"   // Marvin accents
+    readonly property color danger:   skin ? skin.alert : light ? "#E53935" : neon ? "#FF2BD6" : "#FF3333"
     readonly property color onAccent: light ? "#FFFFFF" : bg                              // text on an accent-filled pill
-    readonly property string fontFamily: light ? Qt.application.font.family : "monospace"
+    readonly property string fontFamily: skin ? skin.sans : light ? Qt.application.font.family : "monospace"
     readonly property real pill: light ? 20 : 0            // hourly strip, day cards, solar cards
-    readonly property real cardRadius: light ? 16 : 0      // hero card and tiles
-    readonly property real lineW: light ? 2 : 1.5          // outlines
+    readonly property real cardRadius: skin ? skin.outerRadius : light ? 16 : 0      // hero card and tiles
+    readonly property real lineW: skin ? skin.borderWidth : light ? 2 : 1.5          // outlines
     readonly property real thinW: light ? 2 : 1
     readonly property bool scanlines: !light
     readonly property bool flatShadow: light               // 2px 2px offset solid shadow, no blur
@@ -652,6 +656,26 @@ Rectangle {
     // card's bottom border. The position follows the strip as it collapses,
     // so switching tiers never makes the pair jump. It starts in the gap
     // between the temperature text and the solar cards.
+    // A skin's sprite walkers take the same track and ground line.
+    readonly property bool skinRoamers: !!skin && skin.roamers.length > 0
+    SpriteRoamers {
+        z: 10
+        visible: view.skinRoamers && view.showCharacter && view.ambientAnimations
+        roamers: view.skin ? view.skin.roamers : []
+        hovered: heroMouse.containsMouse
+        noteColor: view.text
+        readonly property real heroX: column.x + hero.x
+        readonly property real heroY: column.y + hero.y
+        readonly property real edgeY: heroY + hero.height - 1 - ground
+        readonly property real stripY: heroY + hero.hpad + hourlyWell.y - ground
+        opacity: view.desktopMode && hero.visible && view.flipAngle < 90 ? (view.isMiniMode ? 0.5 : 1) : 0
+        y: edgeY + (stripY - edgeY) * view.hourlyVisibility
+        minTrackX: heroX + 16
+        maxTrackX: Math.max(heroX + 20, heroX + hero.width - width - 16)
+        homeX: heroX + (hero.width - width) / 2
+        running: view.active && visible && opacity > 0
+    }
+
     WeatherCharacter {
         id: figure
         z: 10
@@ -666,7 +690,7 @@ Rectangle {
         readonly property real heroY: column.y + hero.y
         readonly property real edgeY: heroY + hero.height - 1 - ground                               // feet on the hero's bottom border
         readonly property real stripY: heroY + hero.hpad + hourlyWell.y - ground    // feet on the strip's top edge
-        visible: view.showCharacter && view.ambientAnimations
+        visible: view.showCharacter && view.ambientAnimations && !view.skinRoamers
         // only the desktop card shows the pair, and only its front side
         opacity: view.desktopMode && hero.visible && view.flipAngle < 90 ? restOpacity : 0
         y: edgeY + (stripY - edgeY) * view.hourlyVisibility

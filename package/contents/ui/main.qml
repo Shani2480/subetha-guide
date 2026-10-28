@@ -166,6 +166,7 @@ PlasmoidItem {
     ]
 
     // ---- theme ----
+    SkinEngine { id: skinEngine; activeSkin: root.cfg.activeSkin }
     SubEthaTheme {
         id: guide
         mode: root.cfg.themeMode
@@ -173,6 +174,8 @@ PlasmoidItem {
         longitude: root.cfg.longitude
         systemDark: { var c = Kirigami.Theme.backgroundColor; return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.5 }
         minimal: root.allCompact
+        skin: skinEngine.style
+        mood: root.anyCritical || systemData.cpuUsage > 85 ? "stressed" : "idle"
     }
     onExpandedChanged: if (root.expanded) guide.refresh()
 
