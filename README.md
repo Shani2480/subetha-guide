@@ -120,9 +120,9 @@ shows **Update**.
 | Skin | |
 | --- | --- |
 | **Adventure Time (BMO Terminal):** seafoam handheld chassis with a D-pad, BMO's face screen and face buttons; Finn and Jake walk the forecast strip | <img src="skins/adventure-time/preview.png" width="240" alt="Adventure Time skin preview"> |
-| **Cyberpunk 2077 (Arasaka Kiroshi HUD):** chamfered carbon bezels, cyber-yellow brackets and calibration ticks, scanlines with a rare glitch, stepped sparklines with a danger zone; Johnny Silverhand and a netrunner on a neon ground line | <img src="skins/cyberpunk-2077/preview.png" width="240" alt="Cyberpunk 2077 skin preview"> |
-| **Mirror's Edge (Runner Vision):** matte white panels with soft shadows, a Runner Red corner slash, slot gauges and sparklines that turn red above 75 %; Faith sprints and vaults ahead of a scout on a rooftop ledge | <img src="skins/mirrors-edge/preview.png" width="240" alt="Mirror's Edge skin preview"> |
-| **Dexter's Laboratory (Secret Mainframe):** riveted mainframe with a hazard-striped rail, a DEE DEE PROOF pushbutton and two analog dials for load and heat, glass-tube gauges; Dexter marches while Dee Dee dances behind him, and on hover or a load spike she reaches for the button and he panics | <img src="skins/dexters-lab/preview.png" width="240" alt="Dexter's Laboratory skin preview"> |
+| **Cyberpunk 2077 (Arasaka Kiroshi HUD):** chamfered carbon bezels and pills, tech-bracket borders, cyber-yellow brackets and calibration ticks, scanlines with a rare glitch, stepped sparklines with a danger zone; Johnny Silverhand and a netrunner on a neon ground line | <img src="skins/cyberpunk-2077/preview.png" width="240" alt="Cyberpunk 2077 skin preview"> |
+| **Mirror's Edge (Runner Vision):** razor-sharp matte white panels with soft shadows, a Runner Red corner slash, flat gauges and sparklines that turn red above 75 %; Faith sprints and vaults ahead of a scout on a rooftop ledge | <img src="skins/mirrors-edge/preview.png" width="240" alt="Mirror's Edge skin preview"> |
+| **Dexter's Laboratory (Secret Mainframe):** riveted mainframe with a hazard-striped rail, a DEE DEE PROOF pushbutton and two analog dials for load and heat, graduated segment gauges; Dexter marches while Dee Dee dances behind him, and on hover or a load spike she reaches for the button and he panics | <img src="skins/dexters-lab/preview.png" width="240" alt="Dexter's Laboratory skin preview"> |
 
 The skins are fan-made. The characters and names belong to their owners.
 
@@ -136,6 +136,14 @@ which of them to use and with what:
   shadow, gauge track / fill / edge, sparkline style and colours (`stepped`,
   a `sparklineDanger` band, a `sparklineHot` colour past a load), network
   colours and the commentary colour.
+- **`geometry`:** the shape of every card, pill, gauge and button.
+  `cardShape` / `pillShape` (`rounded`, `chamfer`, `sharp`, `stadium`),
+  `gaugeShape` (`segmented`, `flat`, `stadium`, `chamfer`), `cornerRadius` /
+  `pillRadius`, `chamferCut` / `pillChamferCut`, `borderStyle` (`solid`,
+  `dashed`, `double`, `tech-brackets`), `borderWidth`, `hasCornerBrackets`,
+  and the shadow: `hasDropShadow`, `shadowType` (`flat-2d`, `soft`, `glow`,
+  `none`), `shadowOffset`, `shadowBlur` (px). Left out, the shapes follow
+  the older `colors` radius / shadow tokens and the frame's chamfer.
 - **`isDark`, `fontFamily`, `badgeText` / `badgeColor` / `badgeTextColor`.**
 - **`commentaryTemplates`:** the System section's lines for nominal,
   moderate, high load, critical and night.
