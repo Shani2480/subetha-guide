@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "skins": [
+    {
+      "id": "adventure-time",
+      "name": "Adventure Time (BMO Terminal)",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/adventure-time/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/adventure-time.tar.gz",
+      "sha256": "dbe64230baa69ec3ea989799336b45cdc7d908f051740d6b3132d972928bce84"
+    }
+  ]
+}
