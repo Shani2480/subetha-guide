@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="34" viewBox="0 0 28 34">
+  <polyline points="9,21 5.5,18.5 3.5,15" fill="none" stroke="#0E1318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="15,25.5 20.5,23 25,23.5" fill="none" stroke="#5C6A79" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="15,25.5 20.5,23 25,23.5" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="24.2,21.4 26.4,22 26.4,25.4 24.2,25.4" fill="#0E1318"/>
+  <polyline points="15,25.5 20,27.5 24.5,28.5" fill="none" stroke="#5C6A79" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="15,25.5 20,27.5 24.5,28.5" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="23.8,26.6 26.2,27 26.2,30.4 23.8,30.4" fill="#0E1318"/>
+  <polygon points="13.4,28 17.2,24.8 11,18.4 7.4,21.4" fill="#0E1318"/>
+  <line x1="10" y1="17.5" x2="10.2" y2="19.5" stroke="#0E1318" stroke-width="2"/>
+  <circle cx="10.5" cy="14.6" r="3" fill="#0E1318"/>
+  <polygon points="11.4,13.8 13.7,14.3 13.2,17 11.2,17.4" fill="#8A99A8"/>
+  <polygon points="8.6,11.8 13.9,12.5 13.8,14.3 11.3,13.5" fill="#0E1318"/>
+  <polygon points="7.6,13.9 5.8,16 8.2,15.8" fill="#0E1318"/>
+  <polyline points="10.5,21 11.5,26.5 12,32" fill="none" stroke="#0E1318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="12.2" cy="32.4" rx="2" ry="1.6" fill="#FF1721"/>
+</svg>

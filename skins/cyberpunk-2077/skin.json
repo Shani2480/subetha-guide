@@ -1,0 +1,91 @@
+{
+  "id": "cyberpunk-2077",
+  "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
+  "isDark": true,
+  "fontFamily": "monospace",
+  "colors": {
+    "background": "#0B0E14",
+    "cardBackground": "#121720",
+    "cardBackgroundHover": "#18202C",
+    "textPrimary": "#00F0FF",
+    "textSecondary": "#708298",
+    "accent": "#FCEE0A",
+    "accentSecondary": "#FF003C",
+    "accentTertiary": "#00F0FF",
+    "border": "#FCEE0A",
+    "borderWidth": 1.5,
+    "borderRadius": 0,
+    "shadowColor": "rgba(252, 238, 10, 0.25)",
+    "shadowOffset": [0, 0],
+    "gaugeTrack": "rgba(0, 240, 255, 0.12)",
+    "gaugeFillUsage": "#00F0FF",
+    "gaugeFillEdge": "#B8FCFF",
+    "gaugeEdgeWidth": 0.75,
+    "gaugeFillTemp": "rgba(255, 0, 60, 0.45)",
+    "tempPulseC": 80,
+    "sparkline": "#FCEE0A",
+    "sparklineFill": "rgba(252, 238, 10, 0.08)",
+    "sparklineStyle": "stepped",
+    "sparklineWidth": 1.5,
+    "sparklineDanger": "#FF003C",
+    "sparklineDangerAbove": 0.85,
+    "netDown": "#00F0FF",
+    "netUp": "#FCEE0A"
+  },
+  "badgeText": "KIROSHI v4.2 // ARASAKA CORP",
+  "badgeColor": "#FF003C",
+  "badgeTextColor": "#FFFFFF",
+  "commentaryTemplates": {
+    "nominal": "CYBERWARE TELEMETRY STABLE. NO ICE BREACHES DETECTED.",
+    "moderate": "NEURAL BUFFER UNDER PRESSURE. OPTIMIZE DAEMONS CHOOM.",
+    "highLoad": "THERMAL RUNAWAY IMMINENT. COOL DOWN BEFORE YOUR CYBERWARE BURNS OUT.",
+    "critical": "CRITICAL OVERHEAT! FLATLINE WARNING! ENGAGE TRAUMA TEAM PROTOCOL!",
+    "night": "AFTER DARK IN NIGHT CITY. WATCH YOUR SIX, CHOOMBA."
+  },
+  "frame": {
+    "style": "bezel",
+    "chamfer": 12,
+    "brackets": "#FCEE0A",
+    "ticks": true,
+    "logo": "assets/arasaka_logo.svg",
+    "alertIcon": "assets/trauma_team_cross.svg",
+    "watermark": "[ARASAKA-SYS-77]",
+    "watermarkColor": "#708298",
+    "scanlines": 0.06,
+    "glitch": true
+  },
+  "labels": {
+    "rx": "DAEMON RX",
+    "tx": "ICE TX",
+    "lan": "NET_GRID // LOCAL_NODE",
+    "wan": "WAN_PROXY // SUBNET_ZZ9",
+    "wanTag": "NC-77"
+  },
+  "ground": {
+    "color": "#00F0FF",
+    "alertColor": "#FF003C",
+    "width": 1,
+    "pulses": true
+  },
+  "roamers": [
+    {
+      "name": "Johnny",
+      "frames": ["assets/johnny_walk_01.svg", "assets/johnny_walk_02.svg"],
+      "idleFrame": "assets/johnny_idle.svg",
+      "width": 22,
+      "height": 33,
+      "stride": 7
+    },
+    {
+      "name": "Netrunner",
+      "frames": ["assets/runner_walk_01.svg", "assets/runner_walk_02.svg"],
+      "width": 20,
+      "height": 33,
+      "follow": 8,
+      "stride": 7
+    }
+  ]
+}

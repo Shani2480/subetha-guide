@@ -1,0 +1,88 @@
+{
+  "id": "mirrors-edge",
+  "name": "Mirror's Edge (Runner Vision)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
+  "isDark": false,
+  "fontFamily": "Ubuntu",
+  "colors": {
+    "background": "#F7F9FA",
+    "cardBackground": "#FFFFFF",
+    "cardBackgroundHover": "#EEF2F5",
+    "textPrimary": "#0E1318",
+    "textSecondary": "#5C6A79",
+    "accent": "#FF1721",
+    "accentSecondary": "#FF525A",
+    "accentTertiary": "#00A8FF",
+    "border": "#E2E8ED",
+    "borderWidth": 1,
+    "borderRadius": 4,
+    "shadowColor": "rgba(14, 19, 24, 0.08)",
+    "shadowOffset": [0, 4],
+    "shadowBlur": 0.7,
+    "gaugeStyle": "slot",
+    "gaugeTrack": "#EEF2F5",
+    "gaugeFillUsage": "#FF1721",
+    "gaugeFillEdge": "#FF1721",
+    "gaugeEdgeWidth": 0,
+    "gaugeFillTemp": "rgba(255, 23, 33, 0.22)",
+    "sparkline": "#0E1318",
+    "sparklineFill": "rgba(14, 19, 24, 0.05)",
+    "sparklineWidth": 1.5,
+    "sparklineHot": "#FF1721",
+    "sparklineHotAbove": 0.75,
+    "netDown": "#FF1721",
+    "netUp": "#FF1721"
+  },
+  "badgeText": "RUNNER // UNMONITORED",
+  "badgeColor": "#FF1721",
+  "badgeTextColor": "#FFFFFF",
+  "commentaryTemplates": {
+    "nominal": "LINE OF SIGHT CLEAR. RUNNER VISION ACTIVE. MAINTAIN MOMENTUM.",
+    "moderate": "CONGESTION ON LOWER GRID. TAKE THE ROOFTOPS.",
+    "highLoad": "BLUES CLOSING IN. HARD SPRINT REQUIRED. PUSH CORE TO LIMIT.",
+    "critical": "SNIPER LOCK DETECTED! THERMAL CRITICAL! VAULT AND EVADE NOW!",
+    "night": "ROOFTOPS COLD AND QUIET. SILENT TRANSIT PROTOCOL ENGAGED."
+  },
+  "frame": {
+    "style": "bezel",
+    "slash": "#FF1721",
+    "logo": "assets/runner_eye_logo.svg",
+    "mark": "assets/pirandello_kruger_badge.svg",
+    "watermark": "[PIRANDELLO KRUGER SEC-GRID // SECTOR-01]",
+    "watermarkColor": "#8A99A8"
+  },
+  "labels": {
+    "rx": "DOWNLINK // PIPE",
+    "tx": "UPLINK // BURST",
+    "lan": "LAN",
+    "wan": "WAN"
+  },
+  "netGlyph": "chevron",
+  "ground": {
+    "color": "#0E1318",
+    "alertColor": "#FF1721",
+    "width": 2,
+    "ledge": true
+  },
+  "roamers": [
+    {
+      "name": "Faith",
+      "frames": ["assets/faith_run_01.svg", "assets/faith_run_02.svg"],
+      "vaultFrame": "assets/faith_vault_01.svg",
+      "width": 25,
+      "height": 30,
+      "stride": 8
+    },
+    {
+      "name": "Scout",
+      "frames": ["assets/runner_silhouette.svg", "assets/runner_run_02.svg"],
+      "idleFrame": "assets/runner_crouch.svg",
+      "width": 23,
+      "height": 30,
+      "follow": 10,
+      "stride": 8
+    }
+  ]
+}
