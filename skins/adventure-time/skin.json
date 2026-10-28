@@ -1,0 +1,74 @@
+{
+  "id": "adventure-time",
+  "name": "Adventure Time (BMO Terminal)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
+  "isDark": false,
+  "fontFamily": "Ubuntu",
+  "colors": {
+    "background": "#8BD4C4",
+    "cardBackground": "#6ABEA7",
+    "cardBackgroundHover": "#5EAA95",
+    "textPrimary": "#183038",
+    "textSecondary": "#2C5866",
+    "accent": "#FFD13B",
+    "accentSecondary": "#FF5768",
+    "accentTertiary": "#3FA9F5",
+    "accentGood": "#4CD964",
+    "border": "#183038",
+    "borderWidth": 2.5,
+    "borderRadius": 18,
+    "shadowColor": "#183038",
+    "shadowOffset": [3, 3],
+    "gaugeTrack": "rgba(24, 48, 56, 0.15)",
+    "gaugeFillUsage": "#FFD13B",
+    "gaugeFillTemp": "rgba(255, 87, 104, 0.35)",
+    "sparkline": "#3FA9F5",
+    "sparklineFill": "rgba(127, 215, 255, 0.30)",
+    "netDown": "#3FA9F5",
+    "netUp": "#FFD13B"
+  },
+  "badgeText": "ALGEBRAIC!",
+  "badgeColor": "#FF5768",
+  "badgeTextColor": "#FFFFFF",
+  "commentaryTemplates": {
+    "nominal": "MATHEMATICAL! ALL CORE SYSTEMS RUNNING ALGEBRAIC.",
+    "moderate": "WHOA! BMO IS DOING SOME HEAVY CALCULATIONS RIGHT NOW!",
+    "highLoad": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED. COOL DOWN BUDDY!",
+    "critical": "WHAT TIME IS IT? TOTAL MELTDOWN CRISIS TIME!",
+    "night": "WHO WANTS TO PLAY VIDEO GAMES? OH WAIT, EVERYONE IS ASLEEP."
+  },
+  "frame": {
+    "style": "handheld",
+    "dpad": "#FFD13B",
+    "buttons": ["#3FA9F5", "#FF5768", "#4CD964"],
+    "vents": 3
+  },
+  "faces": {
+    "idle": "assets/bmo_face_idle.svg",
+    "happy": "assets/bmo_face_happy.svg",
+    "stressed": "assets/bmo_face_stressed.svg"
+  },
+  "roamers": [
+    {
+      "name": "Finn",
+      "frames": ["assets/finn_walk_01.svg", "assets/finn_walk_02.svg"],
+      "width": 22,
+      "height": 33,
+      "stride": 7
+    },
+    {
+      "name": "Jake",
+      "frames": ["assets/jake_walk_01.svg", "assets/jake_walk_02.svg"],
+      "width": 31,
+      "height": 22,
+      "follow": 6,
+      "stride": 6,
+      "bob": true,
+      "stretch": true,
+      "notes": true,
+      "waves": true
+    }
+  ]
+}
