@@ -7,8 +7,10 @@ import QtQuick
 // from criticalPercent (with `alerts` off it keeps its resting colour); in
 // front, a solid inset fill for the load, coloured like every load gauge
 // (good / busy / hot). A skin may set its own track, load fill (outlined) and
-// resting temperature wash (gaugeTrack, gaugeUsage, gaugeTemp); the warm and
-// hot alerts keep their colours.
+// resting temperature wash (gaugeTrack, gaugeUsage, gaugeTemp), the fill's
+// edge, a temperature above which the wash pulses (tempPulseC), and a "slot"
+// style: one continuous recessed bar instead of blocks. The warm and hot
+// alerts keep their colours.
 Item {
     id: bar
 
@@ -35,10 +37,12 @@ Item {
     readonly property color tempColor: hot ? theme.red : warm ? "#FF8A1A" : theme.gaugeTemp.a > 0 ? theme.gaugeTemp
                                      : theme.dark ? theme.amber : theme.mustard
 
-    // 0 = resting wash, 1 = brightest; pulses only while hot and on screen.
+    // 0 = resting wash, 1 = brightest; pulses only while hot (or past a
+    // skin's tempPulseC) and on screen.
+    readonly property bool pulsing: hot || (theme.tempPulseC > 0 && tempValue >= theme.tempPulseC)
     property real pulse: 0
     SequentialAnimation on pulse {
-        running: bar.hot && bar.live
+        running: bar.pulsing && bar.live
         loops: Animation.Infinite
         onRunningChanged: if (!running) bar.pulse = 0
         NumberAnimation { to: 1; duration: 600; easing.type: Easing.InOutSine }
@@ -51,7 +55,47 @@ Item {
     implicitWidth: 160
     implicitHeight: segmentHeight
 
+    Rectangle {   // slot style: track, temperature wash, load bar
+        visible: bar.theme.gaugeSlot
+        width: bar.width; height: bar.segmentHeight
+        readonly property real r: bar.theme.gaugeTube ? height / 2 : 2
+        radius: r
+        color: bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(0.12)
+        border { width: bar.theme.gaugeTube ? 1.5 : 0; color: bar.theme.tint(0.45) }
+        Rectangle {
+            width: parent.width * bar.tempFraction; height: parent.height
+            radius: parent.r
+            color: bar.tempColor
+            opacity: bar.tempOpacity
+        }
+        Rectangle {
+            width: Math.max(bar.usageFraction > 0 ? height : 0, parent.width * Math.max(0, Math.min(1, bar.usageFraction)))
+            height: parent.height
+            radius: parent.r
+            color: bar.loadColor
+            border { width: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0; color: bar.theme.gaugeEdge }
+        }
+        Rectangle {   // tube: the glass highlight
+            visible: bar.theme.gaugeTube
+            x: parent.r; y: 2
+            width: parent.width - parent.r * 2; height: Math.max(1, parent.height * 0.18)
+            radius: height / 2
+            color: "white"
+            opacity: 0.35
+        }
+        Repeater {   // tube: graduation marks
+            model: bar.theme.gaugeTube ? 9 : 0
+            Rectangle {
+                required property int index
+                x: parent.width * (index + 1) / 10; y: parent.height - height - 1
+                width: 1; height: index % 2 === 0 ? parent.height * 0.45 : parent.height * 0.25
+                color: bar.theme.tint(0.5)
+            }
+        }
+    }
+
     Row {
+        visible: !bar.theme.gaugeSlot
         spacing: bar.spacing
         Repeater {
             model: bar.segments
@@ -63,7 +107,7 @@ Item {
                 radius: bar.theme.dark ? 0 : Math.min(2, height / 2)
                 color: "transparent"
                 border.width: 1
-                border.color: loaded ? (bar.skinFill ? bar.theme.border : bar.loadColor)
+                border.color: loaded ? (bar.skinFill ? bar.theme.gaugeEdge : bar.loadColor)
                             : bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(bar.theme.dark ? 0.3 : 0.45)
                 Rectangle {   // temperature, behind
                     visible: index < bar.tempFilled
@@ -77,7 +121,7 @@ Item {
                     anchors { fill: parent; margins: bar.skinFill ? 0 : parent.height >= 7 ? 2 : 1 }
                     radius: bar.skinFill ? parent.radius : bar.theme.dark ? 0 : 1
                     color: bar.loadColor
-                    border { width: bar.skinFill ? 1.5 : 0; color: bar.theme.border }
+                    border { width: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0; color: bar.theme.gaugeEdge }
                 }
             }
         }

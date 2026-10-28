@@ -1,8 +1,8 @@
 # The Sub-Etha Guide (H2G2)
 
 An all-in-one KDE Plasma 6 widget in the style of *The Hitchhiker's Guide to
-the Galaxy*. It covers weather, system compute, storage and battery in one
-card, with modular sections. Don't Panic.
+the Galaxy*. It covers time, weather, system compute, storage and battery in
+one card, with modular sections and installable skins. Don't Panic.
 
 <p align="center">
   <img src="docs/screenshots/weather-dark.gif" width="400" alt="Weather card in the Sub-Etha terminal theme, with Arthur and Marvin drifting across the forecast">
@@ -12,7 +12,8 @@ card, with modular sections. Don't Panic.
 
 Two looks: the 2005 film's cream Encyclopedia pages (light) and the 1981 BBC
 Sub-Etha terminal's phosphor green on CRT black (dark). **Solar Auto** switches
-between them at sunrise and sunset at the weather location.
+between them at sunrise and sunset at the weather location. Community
+[skins](#skins) from the in-app Theme Store can restyle the whole card.
 
 ## Gallery
 
@@ -45,11 +46,12 @@ battery.
 
 ## Sections
 
-One header (title, location or host name, DON'T PANIC) sits over four
-sections in a fixed order:
+One header (title, location or host name, DON'T PANIC) sits over the
+clock, which spans the card, and then four sections in a fixed order:
 
 | Section | Shows |
 | --- | --- |
+| Clock | Local time, date and time-zone offset as a slim pill or a large chronometer dial; optional Galactic Epoch badge (stardate and sidereal time) |
 | Weather | Sky hero card, temperature and feels-like, hourly and weekly drawers, Arthur and Marvin on the forecast strip (Open-Meteo) |
 | System | CPU load / clock / temperature, memory, GPU load / temperature / VRAM (pick the GPU on multi-GPU systems), network throughput with LAN / WAN addresses (click to copy), cooling fans; optional host profile banner and 24-sample sparklines; process diagnostics launcher |
 | Storage | Selected volumes: usage, free space, filesystem, live read / write throughput (the activity LED pulses past 50 MB/s) |
@@ -84,6 +86,10 @@ click refreshes it.
 One tab per module:
 - **Appearance & Sections:** theme, per-section density (picked from preview
   cards with hover descriptions), which sections show, and the panel display.
+- **Theme Store:** browse, install, update, apply and remove skins (see
+  [Skins](#skins)).
+- **Clock & Chronometry:** 12 / 24 h, seconds, date, time-zone offset and
+  the Galactic Epoch badge.
 - **Weather & Location:** place search or detect, units, icon style, update
   interval, background animations, Arthur and Marvin.
 - **System Hardware:** which pills and their sizes, GPU, fans, sparklines,
@@ -101,6 +107,69 @@ process monitor available. It tries, in order:
 2. KDE System Monitor
 3. KSysGuard
 4. otherwise Discover, opened on System Monitor's page to install it
+
+## Skins
+
+The **Theme Store** tab lists the skins in [`skins/registry.json`](skins/registry.json)
+on this repository's `main` branch. One click downloads a skin, checks its
+SHA-256, installs it under `~/.local/share/subetha/themes/<id>/` and applies
+it at once, without restarting Plasma. **Use Built-in Palette** goes back to
+the Guide's own look. An installed skin with a newer version in the registry
+shows **Update**.
+
+| Skin | |
+| --- | --- |
+| **Adventure Time (BMO Terminal):** seafoam handheld chassis with a D-pad, BMO's face screen and face buttons; Finn and Jake walk the forecast strip | <img src="skins/adventure-time/preview.png" width="240" alt="Adventure Time skin preview"> |
+| **Cyberpunk 2077 (Arasaka Kiroshi HUD):** chamfered carbon bezels, cyber-yellow brackets and calibration ticks, scanlines with a rare glitch, stepped sparklines with a danger zone; Johnny Silverhand and a netrunner on a neon ground line | <img src="skins/cyberpunk-2077/preview.png" width="240" alt="Cyberpunk 2077 skin preview"> |
+| **Mirror's Edge (Runner Vision):** matte white panels with soft shadows, a Runner Red corner slash, slot gauges and sparklines that turn red above 75 %; Faith sprints and vaults ahead of a scout on a rooftop ledge | <img src="skins/mirrors-edge/preview.png" width="240" alt="Mirror's Edge skin preview"> |
+| **Dexter's Laboratory (Secret Mainframe):** riveted mainframe with a hazard-striped rail, a DEE DEE PROOF pushbutton and two analog dials for load and heat, glass-tube gauges; Dexter marches while Dee Dee dances behind him, and on hover or a load spike she reaches for the button and he panics | <img src="skins/dexters-lab/preview.png" width="240" alt="Dexter's Laboratory skin preview"> |
+
+The skins are fan-made. The characters and names belong to their owners.
+
+**Skins are data, not code.** A skin is a `skin.json` plus SVG and PNG
+images. It never ships QML, so installing one can't run anything. The
+widget draws everything with its own components: the chassis and bezel
+frames, the sprite walkers, gauges and graphs. `skin.json` only chooses
+which of them to use and with what:
+
+- **`colors`:** background, cards, text, accents, border width / radius /
+  shadow, gauge track / fill / edge, sparkline style and colours (`stepped`,
+  a `sparklineDanger` band, a `sparklineHot` colour past a load), network
+  colours and the commentary colour.
+- **`isDark`, `fontFamily`, `badgeText` / `badgeColor` / `badgeTextColor`.**
+- **`commentaryTemplates`:** the System section's lines for nominal,
+  moderate, high load, critical and night.
+- **`frame`:** `"handheld"` (vents, D-pad, face screen and buttons) or
+  `"bezel"`. A bezel can have chamfered corners, brackets, calibration
+  ticks, a corner slash, a hazard rail, rivets, a pushbutton, analog dials,
+  a logo beside the title, a watermark, an alert icon, scanlines and a
+  glitch.
+- **`faces`:** idle, happy and stressed images for the handheld face screen.
+- **`roamers`:** walk frames, plus optional idle, vault and alert frames, with
+  size, spacing and stride, `bob` / `stretch` / `notes` / `waves`, and
+  `havoc`. **`ground`:** the line they walk on, its alert colour, ledge and
+  pulse dots.
+- **`labels`:** renames the network RX / TX readouts and the LAN / WAN
+  labels and tags. **`netGlyph`:** `"chevron"` for chevrons instead of
+  arrows.
+
+The widget checks every value when the skin loads: colours must be hex or
+`rgb()` / `rgba()`, images must be inside the skin's folder, and numbers
+are clamped. Anything malformed is dropped.
+
+To add a skin, create `skins/<id>/` with its `skin.json`, `preview.png`
+(360×220) and `assets/`, then run:
+
+```sh
+tools/package_skins.sh   # builds skins/dist/<id>.tar.gz and rewrites skins/registry.json
+```
+
+The archives are reproducible, so an unchanged skin keeps its hash. Push to
+`main` and the skin appears in every widget's Theme Store. The installer
+(`package/contents/tools/skin_installer.sh install|remove|list`) accepts
+only HTTPS archives of up to 5 MiB. It checks the checksum and refuses
+links, absolute paths and `..`, and moves the skin into place only once it
+has unpacked completely.
 
 ## Languages
 
@@ -141,16 +210,21 @@ package/                       the Plasma applet (com.shani.subethaguide)
 └── contents/
     ├── config/                main.xml (settings), config.qml (tabs)
     ├── locale/                compiled translations
+    ├── tools/                 skin_installer.sh (Theme Store downloads)
     └── ui/
-        ├── main.qml           feeds, theme, actions, representations
+        ├── main.qml           feeds, theme, skin engine, actions, representations
         ├── FullRepresentation.qml, *Section.qml, ModuleCard.qml
         ├── CompactRepresentation.qml, PanelReadings.qml, PanelHoverPopup.qml
-        ├── config*.qml, PreviewCard.qml
-        ├── common/            theme, frames, pills, snapping, sparklines, tooltips, i18n
-        ├── weather/           WeatherFeed, FullView, MinimalView, characters, icons
+        ├── config*.qml, PreviewCard.qml, configSkinStore.qml (Theme Store)
+        ├── common/            theme, frames, pills, snapping, sparklines, tooltips, i18n,
+        │                      TimeEngine, SkinEngine, HandheldChassis, BezelShape, BezelDecor
+        ├── clock/             ClockPanel, ChronoDial
+        ├── weather/           WeatherFeed, FullView, MinimalView, characters, SpriteRoamers, icons
         ├── system/            SystemFeed, SystemPanel, pills, SpecsBanner
         ├── disk/              DiskFeed, DiskPanel, DiskPillCard, VolumePicker
         └── battery/           BatteryFeed, BatteryPanel, BatteryPillCard, DevicePicker
+skins/                         community skins: <id>/ sources, dist/ archives, registry.json
+tools/                         package_skins.sh
 translate/                     template.pot, <lang>.po, build.sh
 docs/screenshots/              the images above
 ```
@@ -168,6 +242,9 @@ docs/screenshots/              the images above
   at most once every 15 minutes and only while the network card is shown.
 - **Storage**: one `df` + `lsblk` + `/proc/diskstats` probe, every 2 s while
   on screen and once a minute otherwise.
+- **Theme Store**: `skins/registry.json` and the skin archives and previews
+  from `raw.githubusercontent.com`, fetched only while the Theme Store tab is
+  open or a skin is installing.
 - **Power**: Plasma's `powermanagement` engine (UPower). Wattage comes from
   ksystemstats' `power/battery_*/chargeRate`, falling back to
   `/sys/class/power_supply/BAT*/power_now`.

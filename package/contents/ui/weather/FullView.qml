@@ -662,7 +662,12 @@ Rectangle {
         z: 10
         visible: view.skinRoamers && view.showCharacter && view.ambientAnimations
         roamers: view.skin ? view.skin.roamers : []
+        groundStyle: view.skin ? view.skin.ground : null
         hovered: heroMouse.containsMouse
+        // a load spike, or the pointer, sets off the line's havoc; storms and spikes redden its ground
+        havoc: heroMouse.containsMouse || (!!view.skin && view.skin.mood === "stressed")
+        alert: (!!view.skin && view.skin.mood === "stressed") || view.heroCondition === "thunder"
+               || (!!view.weather && view.weather.current.wind >= 40)
         noteColor: view.text
         readonly property real heroX: column.x + hero.x
         readonly property real heroY: column.y + hero.y

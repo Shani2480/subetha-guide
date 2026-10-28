@@ -12,7 +12,7 @@ Rectangle {
 
     implicitWidth: label.implicitWidth + pixelSize * 1.7
     implicitHeight: label.implicitHeight + pixelSize * 0.7
-    radius: height / 2
+    radius: theme.skinned ? Math.min(height / 2, theme.outerRadius) : height / 2
     color: theme.dark && !theme.skinned ? "transparent" : theme.badge
     border.width: 2
     border.color: theme.dark ? theme.badge : theme.ink

@@ -59,7 +59,7 @@ ColumnLayout {
         visible: !panel.minimal && !panel.bare
         Layout.fillWidth: true
         text: panel.skinQuip || panel.t.commentary
-        color: panel.theme.accent
+        color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap
     }

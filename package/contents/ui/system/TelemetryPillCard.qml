@@ -67,8 +67,8 @@ SlidingPillContainer {
         ram: "M2 7 H22 V15 H2 Z M5 9.5 H8 V12.5 H5 Z M10.5 9.5 H13.5 V12.5 H10.5 Z M16 9.5 H19 V12.5 H16 Z M4 15 V17.5 M7 15 V17.5 M10 15 V17.5 M14 15 V17.5 M17 15 V17.5 M20 15 V17.5",
         gpu: "M2 4 V19 M2 6 H21 V16 H2 M5 16 V18.5 H14 V16 M7 11 A3 3 0 1 0 13 11 A3 3 0 1 0 7 11 Z M16 9 H18.5 M16 11 H18.5 M16 13 H18.5",
         net: "M12 14 V21 M8.5 21 H15.5 M11 13 A1 1 0 1 0 13 13 A1 1 0 1 0 11 13 Z M9 10.5 A4 4 0 0 1 15 10.5 M6.5 8 A7.5 7.5 0 0 1 17.5 8 M4 5.5 A11 11 0 0 1 20 5.5",
-        down: "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
-        up: "M12 20 V5 M6.5 10.5 L12 5 L17.5 10.5"
+        down: theme.chevrons ? "M6 9 L12 15 L18 9" : "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
+        up: theme.chevrons ? "M6 15 L12 9 L18 15" : "M12 20 V5 M6.5 10.5 L12 5 L17.5 10.5"
     })
 
     ColumnLayout {
@@ -208,13 +208,13 @@ SlidingPillContainer {
                 spacing: 1
                 Text {
                     Layout.alignment: Qt.AlignRight
-                    text: i18n("RX: %1", card.rxText)
+                    text: card.theme.labels.rx ? card.theme.labels.rx + "  " + card.rxText : i18n("RX: %1", card.rxText)
                     color: card.rxColor
                     font { family: card.theme.mono; pixelSize: 12; bold: true }
                 }
                 Text {
                     Layout.alignment: Qt.AlignRight
-                    text: i18n("TX: %1", card.txText)
+                    text: card.theme.labels.tx ? card.theme.labels.tx + "  " + card.txText : i18n("TX: %1", card.txText)
                     color: card.txColor
                     font { family: card.theme.mono; pixelSize: 12; bold: true }
                 }
@@ -246,7 +246,12 @@ SlidingPillContainer {
                 strokeColor: card.skinGraph ? card.theme.sparkline : card.loadColor(card.percent)
                 fillColor: card.skinGraph && card.theme.sparklineFill.a > 0 ? card.theme.sparklineFill
                          : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
-                lineWidth: card.skinGraph ? 2 : 1.5
+                lineWidth: card.skinGraph ? card.theme.sparklineWidth : 1.5
+                stepped: card.theme.sparklineStepped
+                dangerColor: card.theme.sparklineDanger
+                dangerAbove: card.theme.sparklineDangerAbove
+                hotColor: card.theme.sparklineHot
+                hotAbove: card.theme.sparklineHotAbove
             }
             SparklineGraph {
                 anchors.fill: parent
@@ -319,6 +324,7 @@ SlidingPillContainer {
                 height: parent.height / 2 - 1
                 historyData: card.rxHistory.map(v => v / parent.peak)
                 strokeColor: card.rxColor
+                stepped: card.theme.sparklineStepped
             }
             Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
@@ -330,6 +336,7 @@ SlidingPillContainer {
                 height: parent.height / 2 - 1
                 historyData: card.txHistory.map(v => v / parent.peak)
                 strokeColor: card.txColor
+                stepped: card.theme.sparklineStepped
                 inverted: true
             }
         }
@@ -351,17 +358,17 @@ SlidingPillContainer {
             Address {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
-                label: i18n("LAN IP")
+                label: card.theme.labels.lan || i18n("LAN IP")
                 value: card.lanText || i18nc("@info network state", "OFFLINE")
-                tag: card.lanIface.toUpperCase()
+                tag: card.theme.labels.lanTag || card.lanIface.toUpperCase()
                 copyable: card.lanText !== ""
             }
             Address {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 1
-                label: i18n("WAN IP")
+                label: card.theme.labels.wan || i18n("WAN IP")
                 value: card.wanText
-                tag: "SEC-ZZ9"
+                tag: card.theme.labels.wanTag || "SEC-ZZ9"
                 copyable: /^[0-9a-fA-F:.]+$/.test(card.wanText)
             }
         }

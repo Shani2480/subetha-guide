@@ -176,6 +176,9 @@ PlasmoidItem {
         minimal: root.allCompact
         skin: skinEngine.style
         mood: root.anyCritical || systemData.cpuUsage > 85 ? "stressed" : "idle"
+        live: root.live
+        meterA: Math.max(systemData.cpuUsage, systemData.gpuUsage) / 100
+        meterB: Math.max(0, Math.min(1, (systemData.hottest - Sys.TEMP_MIN) / (Sys.TEMP_MAX - Sys.TEMP_MIN)))
     }
     onExpandedChanged: if (root.expanded) guide.refresh()
 

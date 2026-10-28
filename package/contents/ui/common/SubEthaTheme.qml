@@ -25,6 +25,10 @@ QtObject {
     function sc(key, fallback) { return skin && skin.colors[key] ? skin.colors[key] : fallback }
     // "idle", "stressed" (a critical reading); the owner sets it, BMO's face shows it
     property string mood: "idle"
+    property bool live: false           // the Guide is on screen; gates a skin's ambient flicker
+    // Two readings for a skin's analog dials, 0..1: the busier of CPU and GPU, and the hotter.
+    property real meterA: 0
+    property real meterB: 0
 
     readonly property bool hasLocation: latitude !== 0 || longitude !== 0
     property bool sunUp: true
@@ -60,18 +64,33 @@ QtObject {
 
     // ---- skin-only roles; without a skin each is the Guide's own look ----
     readonly property color inkSoft:   sc("textSecondary", tint(0.6))     // subtitles
+    readonly property color commentary: sc("commentary", accent)          // the sections' one-line verdicts
     readonly property color cardHover: sc("cardBackgroundHover", bg)       // a frame under the pointer
     readonly property color border:    sc("border", dark ? tint(0.55) : ink)
     readonly property real borderWidth: skin && skin.borderWidth !== null ? skin.borderWidth : 2
     readonly property color shadow:    sc("shadowColor", ink)
     readonly property real shadowX:    skin && skin.shadowOffset[0] !== null ? skin.shadowOffset[0] : 2
     readonly property real shadowY:    skin && skin.shadowOffset[1] !== null ? skin.shadowOffset[1] : 2
+    readonly property real shadowBlur: skin && skin.shadowBlur !== null ? skin.shadowBlur : 0   // 0: a hard flat shadow
+    readonly property real chamfer:    frame && frame.chamfer ? frame.chamfer : 0              // a bezel's 45° cut corners
     // Gauges and graphs: transparent means "as the Guide colours it".
     readonly property color gaugeTrack: sc("gaugeTrack", "transparent")
     readonly property color gaugeUsage: sc("gaugeFillUsage", "transparent")
     readonly property color gaugeTemp:  sc("gaugeFillTemp", "transparent")
+    readonly property color gaugeEdge:  sc("gaugeFillEdge", border)
+    readonly property real gaugeEdgeWidth: skin && skin.gaugeEdgeWidth !== null ? skin.gaugeEdgeWidth : 1.5
+    readonly property bool gaugeSlot:   !!skin && skin.gaugeStyle !== "blocks"   // one continuous bar, not blocks
+    readonly property bool gaugeTube:   !!skin && skin.gaugeStyle === "tube"     // ...as a glass tube
+    readonly property real tempPulseC:  skin && skin.tempPulseC !== null ? skin.tempPulseC : 0   // 0: pulse only when critical
     readonly property color sparkline:  sc("sparkline", "transparent")
     readonly property color sparklineFill: sc("sparklineFill", "transparent")
+    readonly property bool sparklineStepped: !!skin && skin.sparklineStyle === "stepped"
+    readonly property real sparklineWidth: skin && skin.sparklineWidth !== null ? skin.sparklineWidth : 2
+    // a red band over the top of the graph, and/or the trace turning red, past a load fraction
+    readonly property color sparklineDanger: sc("sparklineDanger", "transparent")
+    readonly property real sparklineDangerAbove: skin && skin.sparklineDangerAbove !== null ? skin.sparklineDangerAbove : 0.85
+    readonly property color sparklineHot: sc("sparklineHot", "transparent")
+    readonly property real sparklineHotAbove: skin && skin.sparklineHotAbove !== null ? skin.sparklineHotAbove : 0.75
     readonly property color netDown:    sc("netDown", cool)
     readonly property color netUp:      sc("netUp", dark ? amber : coral)
     readonly property string badgeText: skin ? skin.badgeText : ""
@@ -80,13 +99,17 @@ QtObject {
     readonly property var frame: skin ? skin.frame : null          // { style: "handheld", dpad, buttons, vents }
     readonly property var faces: skin ? skin.faces : ({})          // { idle, happy, stressed }: image URLs
     readonly property var roamers: skin ? skin.roamers : []        // see weather/SpriteRoamers.qml
+    readonly property var ground: skin ? skin.ground : null        // the roamers' ground line
+    // Text a skin renames: rx, tx, lan, wan, lanTag, wanTag ("" keeps the Guide's).
+    readonly property var labels: skin ? skin.labels : ({})
+    readonly property bool chevrons: !!skin && skin.netGlyph === "chevron"
 
     readonly property string mono: "monospace"
     readonly property string sans: skin && skin.font ? skin.font : dark ? "monospace" : Qt.application.font.family
     // Shape and layout tokens, shared 1:1 by every widget so cards placed side
     // by side line up: radius 16 outer frames, 12 inner pills, 4px margins.
     readonly property real outerRadius: skin && skin.borderRadius !== null ? skin.borderRadius : 16
-    readonly property real pillRadius: 12
+    readonly property real pillRadius: skin && skin.borderRadius !== null ? Math.min(12, skin.borderRadius) : 12
     readonly property real margin: 4
 
     // Stepped resizing: a desktop card snaps to one of three column widths and
@@ -108,8 +131,10 @@ QtObject {
         return h < 175 ? rowHeightPill : h < 310 ? rowHeightMedium
              : rowHeightFull + Math.max(0, Math.floor((h - rowHeightFull) / rowHeightPill)) * rowHeightPill
     }
-    readonly property bool flatShadow: !dark                   // 2px 2px solid charcoal, no blur
+    // 2px 2px solid charcoal, no blur, on the light pages; a skin's whenever it gives an offset
+    readonly property bool flatShadow: skin ? (shadowX !== 0 || shadowY !== 0) && shadow.a > 0 : !dark
     readonly property bool scanlines: dark && !minimal
+    readonly property real scanlineOpacity: frame && frame.scanlines !== null && frame.scanlines !== undefined ? frame.scanlines : 0.15
     // A skin's chassis is its own ornament: no coordinate grid or reticles on it.
     readonly property bool grid: !minimal && !frame
     readonly property bool reticles: !minimal && !frame

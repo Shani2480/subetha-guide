@@ -176,7 +176,7 @@ SlidingPillContainer {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: panel.e ? panel.e.commentary : ""
-                color: panel.theme.accent
+                color: panel.theme.commentary
                 font { family: panel.theme.mono; pixelSize: 8; bold: true }
                 lineHeight: 0.9
                 horizontalAlignment: Text.AlignHCenter

@@ -8,7 +8,8 @@ import org.kde.plasma.plasma5support as P5Support
 //
 // A skin is data, never code: skin.json names colours, a font, the badge and
 // commentary lines, and SVGs inside the skin's own folder for the built-in
-// pieces that draw them (HandheldChassis.qml, weather/SpriteRoamers.qml).
+// pieces that draw them (HandheldChassis.qml, BezelDecor.qml,
+// weather/SpriteRoamers.qml).
 // Anything malformed is dropped here, so the views can trust what they get.
 QtObject {
     id: skins
@@ -25,7 +26,7 @@ QtObject {
     readonly property var colorKeys: ["background", "cardBackground", "cardBackgroundHover", "textPrimary", "textSecondary",
                                       "accent", "accentSecondary", "accentTertiary", "accentGood", "border", "shadowColor",
                                       "gaugeTrack", "gaugeFillUsage", "gaugeFillTemp", "sparkline", "sparklineFill",
-                                      "netDown", "netUp"]
+                                      "netDown", "netUp", "gaugeFillEdge", "sparklineDanger", "sparklineHot", "commentary"]
     readonly property var quipKeys: ["nominal", "moderate", "highLoad", "critical", "night"]
     readonly property string installer: decodeURIComponent(Qt.resolvedUrl("../../tools/skin_installer.sh").toString().replace(/^file:\/\//, ""))
 
@@ -89,7 +90,15 @@ QtObject {
             borderWidth: number(c.borderWidth, 0, 6),
             borderRadius: number(c.borderRadius, 0, 40),
             shadowOffset: [number(offset[0], -8, 8), number(offset[1], -8, 8)],
-            badgeText: text(json.badgeText, 24),
+            shadowBlur: number(c.shadowBlur, 0, 1),
+            gaugeStyle: ["slot", "tube"].indexOf(c.gaugeStyle) >= 0 ? c.gaugeStyle : "blocks",
+            gaugeEdgeWidth: number(c.gaugeEdgeWidth, 0, 4),
+            tempPulseC: number(c.tempPulseC, 30, 120),
+            sparklineStyle: c.sparklineStyle === "stepped" ? "stepped" : "line",
+            sparklineWidth: number(c.sparklineWidth, 0.5, 4),
+            sparklineDangerAbove: number(c.sparklineDangerAbove, 0, 1),
+            sparklineHotAbove: number(c.sparklineHotAbove, 0, 1),
+            badgeText: text(json.badgeText, 40),
             badgeColor: color(json.badgeColor),
             badgeTextColor: color(json.badgeTextColor),
             quips: quips,
@@ -98,12 +107,45 @@ QtObject {
                 dpad: color(frame.dpad),
                 buttons: (Array.isArray(frame.buttons) ? frame.buttons : []).slice(0, 4).map(color).filter(v => v),
                 vents: number(frame.vents, 0, 6)
+            } : frame.style === "bezel" ? {
+                style: "bezel",
+                chamfer: number(frame.chamfer, 0, 24) || 0,           // 45° cuts, top-right and bottom-left
+                brackets: color(frame.brackets),                      // L corner brackets on every frame
+                ticks: frame.ticks === true,                          // calibration ticks down the left edge
+                slash: color(frame.slash),                            // 45° accent tab over the top-right corner
+                logo: asset(dir, frame.logo),                         // beside the Guide's title
+                alertIcon: asset(dir, frame.alertIcon),               // blinks on a critical reading
+                watermark: text(frame.watermark, 60),
+                mark: asset(dir, frame.mark),                         // a small icon before the watermark
+                watermarkColor: color(frame.watermarkColor),
+                scanlines: number(frame.scanlines, 0, 0.5),
+                glitch: frame.glitch === true,
+                hazard: Array.isArray(frame.hazard) ? frame.hazard.slice(0, 2).map(color).filter(v => v) : [],   // stripe colours along the top rail
+                rivets: color(frame.rivets),                          // bolts in the four corners
+                button: frame.button ? { text: text(frame.button.text, 20), color: color(frame.button.color) } : null,
+                dials: color(frame.dials)                             // two analog meters (load, heat); the needle colour
+            } : null,
+            labels: {
+                rx: text((json.labels || {}).rx, 24), tx: text((json.labels || {}).tx, 24),
+                lan: text((json.labels || {}).lan, 32), wan: text((json.labels || {}).wan, 32),
+                lanTag: text((json.labels || {}).lanTag, 16), wanTag: text((json.labels || {}).wanTag, 16)
+            },
+            netGlyph: json.netGlyph === "chevron" ? "chevron" : "arrow",
+            ground: json.ground ? {
+                color: color(json.ground.color),
+                alertColor: color(json.ground.alertColor),
+                width: number(json.ground.width, 0.5, 4) || 1.5,
+                ledge: json.ground.ledge === true,                    // a drop shadow under the line
+                pulses: json.ground.pulses === true                   // dots trailing the walkers
             } : null,
             faces: faces,
             roamers: (Array.isArray(json.roamers) ? json.roamers : []).slice(0, 3).map(r => ({
                 name: text(r.name, 24),
                 frames: (Array.isArray(r.frames) ? r.frames : []).slice(0, 8).map(f => asset(dir, f)).filter(v => v),
                 idleFrame: asset(dir, r.idleFrame),
+                vaultFrame: asset(dir, r.vaultFrame),                 // now and then mid-stride, with a hop
+                alertFrame: asset(dir, r.alertFrame),                 // during havoc (hover or a load spike)
+                havoc: r.havoc === true,                              // this one hops forward to cause it
                 width: number(r.width, 8, 64) || 24,
                 height: number(r.height, 8, 64) || 32,
                 follow: number(r.follow, 0, 80) || 0,
