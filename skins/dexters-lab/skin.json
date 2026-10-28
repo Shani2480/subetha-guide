@@ -1,0 +1,90 @@
+{
+  "id": "dexters-lab",
+  "name": "Dexter's Laboratory (Secret Mainframe)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
+  "isDark": true,
+  "fontFamily": "monospace",
+  "colors": {
+    "background": "#1A1528",
+    "cardBackground": "#261F3B",
+    "cardBackgroundHover": "#332A4F",
+    "textPrimary": "#39FF14",
+    "textSecondary": "#B8A9DC",
+    "accent": "#7B2CBF",
+    "accentSecondary": "#FF2A85",
+    "accentTertiary": "#FF9E00",
+    "border": "#7B2CBF",
+    "borderWidth": 2.5,
+    "borderRadius": 8,
+    "shadowColor": "rgba(123, 44, 191, 0.35)",
+    "shadowOffset": [3, 3],
+    "gaugeStyle": "tube",
+    "gaugeTrack": "rgba(57, 255, 20, 0.12)",
+    "gaugeFillUsage": "#39FF14",
+    "gaugeFillEdge": "#120E1C",
+    "gaugeEdgeWidth": 1.5,
+    "gaugeFillTemp": "rgba(255, 42, 133, 0.40)",
+    "sparkline": "#39FF14",
+    "sparklineFill": "rgba(57, 255, 20, 0.08)",
+    "sparklineWidth": 1.5,
+    "netDown": "#39FF14",
+    "netUp": "#FF2A85",
+    "commentary": "#FF9E00"
+  },
+  "badgeText": "RESTRICTED ACCESS // TOP SECRET",
+  "badgeColor": "#FF2A85",
+  "badgeTextColor": "#FFFFFF",
+  "commentaryTemplates": {
+    "nominal": "I AM A GENIUS! ALL CORE PROTOCOLS RUNNING AT OPTIMUM EFFICIENCY.",
+    "moderate": "CAUTION! COMPUTATIONAL EXPERIMENTATION NEARING MAXIMUM VOLTAGE.",
+    "highLoad": "WHAT ARE YOU DOING IN MY LABORATORY?! COMPUTATIONAL OVERLOAD!",
+    "critical": "DEE DEE! DO NOT PUSH THAT BUTTON! CORE MELTDOWN IN PROGRESS!",
+    "night": "AH, THE TRANQUILITY OF LATE-NIGHT SCIENTIFIC DISCOVERY."
+  },
+  "frame": {
+    "style": "bezel",
+    "hazard": ["#FF9E00", "#000000"],
+    "rivets": "#9A8FB8",
+    "button": { "text": "DEE DEE PROOF", "color": "#E0182D" },
+    "dials": "#39FF14",
+    "logo": "assets/dexter_glasses_badge.svg",
+    "alertIcon": "assets/radiation_hazard_icon.svg"
+  },
+  "labels": {
+    "rx": "MAINFRAME RX",
+    "tx": "SATELLITE TX",
+    "lan": "NODE_LOCAL // SECRET_SUB_BASE",
+    "wan": "OUTSIDE_WORLD // DEXTER_NET",
+    "wanTag": "LAB-01"
+  },
+  "ground": {
+    "color": "#B8A9DC",
+    "alertColor": "#FF2A85",
+    "width": 1.5
+  },
+  "roamers": [
+    {
+      "name": "Dexter",
+      "frames": ["assets/dexter_walk_01.svg", "assets/dexter_walk_02.svg"],
+      "idleFrame": "assets/dexter_idle.svg",
+      "alertFrame": "assets/dexter_panic.svg",
+      "width": 20,
+      "height": 27,
+      "stride": 6,
+      "bob": true
+    },
+    {
+      "name": "Dee Dee",
+      "frames": ["assets/deedee_dance_01.svg", "assets/deedee_dance_02.svg"],
+      "alertFrame": "assets/deedee_reach.svg",
+      "width": 21,
+      "height": 33,
+      "follow": 8,
+      "stride": 9,
+      "bob": true,
+      "havoc": true
+    }
+  ]
+}
