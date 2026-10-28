@@ -2,7 +2,7 @@
   "id": "adventure-time",
   "name": "Adventure Time (BMO Terminal)",
   "author": "Shani",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
   "isDark": false,
   "fontFamily": "Ubuntu",
@@ -28,6 +28,19 @@
     "sparklineFill": "rgba(127, 215, 255, 0.30)",
     "netDown": "#3FA9F5",
     "netUp": "#FFD13B"
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 18,
+    "borderStyle": "solid",
+    "borderWidth": 2.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "flat-2d",
+    "shadowOffset": [3, 3],
+    "shadowBlur": 0
   },
   "badgeText": "ALGEBRAIC!",
   "badgeColor": "#FF5768",
