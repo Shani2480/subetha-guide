@@ -210,6 +210,15 @@ PlasmoidItem {
     toolTipMainText: onDesktop ? i18n("The Sub-Etha Guide") : ""
     toolTipSubText: !onDesktop ? "" : [
         has("weather") && weatherData.hasData ? (root.cfg.locationName || "") + "  " + weatherData.tempText : "",
+    // The skin and light / dark / auto, kept the same as the Sub-Etha System Monitor's.
+    ThemeSync {
+        skin: root.cfg.activeSkin
+        mode: root.cfg.themeMode
+        onReceived: (skin, mode) => {
+            if (root.cfg.activeSkin !== skin) root.cfg.activeSkin = skin
+            if (root.cfg.themeMode !== mode) root.cfg.themeMode = mode
+        }
+    }
         systemData.cpuUsage > 0 || systemData.cpuTemp > 0
             ? i18n("CPU %1% · %2", Math.round(systemData.cpuUsage), Sys.temp(systemData.cpuTemp, root.cfg.tempUnit)) : "",
         systemData.hasGpu && systemData.gpuTemp > 0

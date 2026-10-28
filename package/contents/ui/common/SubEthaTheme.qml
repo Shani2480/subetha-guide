@@ -15,7 +15,7 @@ QtObject {
     property real longitude: 0
     property bool systemDark: false     // the owner passes Kirigami.Theme's verdict
     property bool minimal: false        // displayMode "minimal": no raster, grid, reticles or commentary
-    // The active community skin's look, as SkinEngine.style parses it, or null
+    // The active community skin's look, as skins.js parses it, or null
     // for the Guide's own. Its colours replace the raw palette below (so every
     // role and every direct use follows), and it brings tokens of its own: the
     // frame's border and shadow, gauge and graph colours, badge, commentary,
@@ -76,7 +76,7 @@ QtObject {
     readonly property color shadow:    sc("shadowColor", !skin && dark ? tint(0.4) : ink)
 
     // ---- geometry: the shape of cards, pills, gauges and buttons ----
-    // A skin's `geometry` block (SkinEngine.parseGeometry), else what its
+    // A skin's `geometry` block (skins.js parseGeometry), else what its
     // older tokens imply (borderRadius, frame.chamfer, gaugeStyle, the shadow
     // offset and blur), else the Guide's own: the 1981 terminal sharp with
     // corner reticles, segmented gauges and a phosphor glow; the 2005 pages
