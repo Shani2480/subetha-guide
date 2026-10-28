@@ -19,7 +19,7 @@ SlidingPillContainer {
     // Blinks on and off while critical and on screen (the disk warning's rhythm).
     property real flash: 1
     SequentialAnimation on flash {
-        running: card.isCritical && card.lowBlink && card.live
+        running: card.isCritical && card.lowBlink && card.live && card.theme.alertMotion
         loops: Animation.Infinite
         onRunningChanged: if (!running) card.flash = 1
         PauseAnimation { duration: 700 }

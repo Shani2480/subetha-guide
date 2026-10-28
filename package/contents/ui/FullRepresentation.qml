@@ -4,9 +4,9 @@ import "common"
 
 // The Guide's card: one header (title, location or host, DON'T PANIC) over
 // the enabled sections, stacked in a fixed order: clock, weather, system,
-// storage, power. A section switched off folds to nothing and the ones below
+// storage, power, AI. A section switched off folds to nothing and the ones below
 // slide up. At the wide step (740) the clock spans the card and the sections
-// below it flow into two columns, weather and storage on the left, system
+// below it flow into two columns, weather, storage and AI on the left, system
 // and power on the right. On the desktop the
 // whole stack snaps to the layout steps (SnapFrame) and scrolls when taller.
 // Each section is full or compact on its own (config.<key>Density, flipped by
@@ -27,12 +27,14 @@ SnapFrame {
     property var systemSensors: []
     property QtObject diskFeed
     property QtObject batteryFeed
+    property QtObject aiFeed
+    property QtObject alerts              // an AlertManager
 
     signal locationChosen(string name, real latitude, real longitude)
     signal densityChosen(string key, string density)
     signal sensorSizeChosen(string key, string size)
     signal configureRequested()
-    signal diagnosticsRequested()
+    signal monitorRequested(string tab)   // a System Monitor tab
 
     function has(key) { return sections.indexOf(key) >= 0 }
     function compact(key) { return !!config && config[key + "Density"] === "compact" }
@@ -55,7 +57,7 @@ SnapFrame {
         // The columns start below the clock, which runs the full width.
         readonly property real firstY: clockSection.y + clockSection.height
         width: parent.width
-        height: Math.max(diskSection.y + diskSection.height, batterySection.y + batterySection.height,
+        height: Math.max(diskSection.y + diskSection.height, batterySection.y + batterySection.height, aiSection.y + aiSection.height,
                          empty.visible ? empty.y + empty.height : 0)
 
         CollapsibleSection {
@@ -119,12 +121,13 @@ SnapFrame {
             feed: full.systemFeed
             config: full.config
             sensors: full.systemSensors
+            alerts: full.alerts
             minimal: full.compact("system")
             onDensityToggled: full.toggleDensity("system")
             onSensorSizeChosen: (key, size) => full.sensorSizeChosen(key, size)
             live: full.live
             entranceSerial: full.entranceSerial
-            onDiagnosticsRequested: full.diagnosticsRequested()
+            onMonitorRequested: tab => full.monitorRequested(tab)
         }
         DiskSection {
             id: diskSection
@@ -134,9 +137,11 @@ SnapFrame {
             open: full.has("disk")
             theme: full.theme
             feed: full.diskFeed
+            alerts: full.alerts
             config: full.config
             minimal: full.compact("disk")
             onDensityToggled: full.toggleDensity("disk")
+            onMonitorRequested: tab => full.monitorRequested(tab)
             live: full.live
             entranceSerial: full.entranceSerial
         }
@@ -151,6 +156,20 @@ SnapFrame {
             config: full.config
             minimal: full.compact("battery")
             onDensityToggled: full.toggleDensity("battery")
+            live: full.live
+            entranceSerial: full.entranceSerial
+        }
+        AiSection {
+            id: aiSection
+            x: 0
+            y: stack.twoColumns ? diskSection.y + diskSection.height : batterySection.y + batterySection.height
+            width: stack.columnWidth
+            open: full.has("ai")
+            theme: full.theme
+            feed: full.aiFeed
+            config: full.config
+            minimal: full.compact("ai")
+            onDensityToggled: full.toggleDensity("ai")
             live: full.live
             entranceSerial: full.entranceSerial
         }

@@ -37,4 +37,9 @@ ConfigModel {
         icon: "battery-charging"
         source: "configBattery.qml"
     }
+    ConfigCategory {
+        name: i18n("AI Telemetry")
+        icon: "preferences-system-network"
+        source: "configAi.qml"
+    }
 }

@@ -9,7 +9,10 @@ import "../common"
 // fans with sparklines and gauges, and the sampling footer. Minimal: one slim
 // pill per component. Otherwise each pill is small or large on its own
 // (`sizes`, kind -> "small" | "large"), flipped by the tag on the pill, which
-// emits sizeToggled(kind). All data comes in as properties.
+// emits sizeToggled(kind). With `monitorLinks` a double-click on a pill emits
+// monitorRequested with the System Monitor tab that goes deeper: CPU and RAM
+// the processes, GPU and fans the sensors, network the network. All data
+// comes in as properties.
 ColumnLayout {
     id: panel
 
@@ -26,11 +29,12 @@ ColumnLayout {
     property var sizes: ({})
     property bool sizeTogglesShown: true  // false: no [ - ] / [ + ] tags (the panel's hover card)
     property bool bare: false             // just the pills: no commentary, rule, host profile or footer
-    property bool tempAlerts: true        // temperature colours on the CPU / GPU bars and a pulsing border when critical
-    property int tempWarnPercent: 80      // of the 30-100 °C scale
-    property int tempCriticalPercent: 90
-    readonly property real hotC: Sys.tempAt(tempCriticalPercent)
+    property QtObject alerts               // an AlertManager: each pill's warning / critical level; null: none
     signal sizeToggled(string kind)
+    property bool monitorLinks: false     // double-click a pill: monitorRequested(tab)
+    signal monitorRequested(string tab)
+    readonly property var monitorTabs: ({ cpu: "processes", ram: "processes", gpu: "sensors", net: "network", fans: "sensors" })
+    function tabFor(kind) { return monitorLinks ? monitorTabs[kind] : "" }
     property bool live: false
     property int entranceSerial: 0
 
@@ -86,13 +90,16 @@ ColumnLayout {
         minimal: panel.small("cpu")
         sizeToggle: !panel.minimal && panel.sizeTogglesShown
         onSizeToggled: panel.sizeToggled("cpu")
+        monitorTab: panel.tabFor("cpu")
+        onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         kind: "cpu"
         title: i18n("CPU CORE ARRAY")
         subtitle: i18np("%1 CORE", "%1 CORES", panel.t.cpuCores) + " · " + Sys.ghz(panel.t.cpuFreq)
         tempText: Sys.temp(panel.t.cpuTemp, panel.tempUnit)
-        hot: panel.tempAlerts && panel.t.cpuTemp >= panel.hotC
-        tempAlerts: panel.tempAlerts; tempWarnPercent: panel.tempWarnPercent; tempCriticalPercent: panel.tempCriticalPercent
+        tempLevel: panel.alerts ? panel.alerts.cpuTemp : 0
+        loadLevel: panel.alerts ? panel.alerts.cpuLoad : 0
+        criticalText: panel.alerts ? panel.alerts.criticalText("cpu") : ""
         valueText: Math.round(panel.t.cpuUsage) + "%"
         percent: panel.t.cpuUsage
         graphData: Sys.norm(panel.t.cpuHistory, 100)
@@ -114,12 +121,15 @@ ColumnLayout {
         minimal: panel.small("ram")
         sizeToggle: !panel.minimal && panel.sizeTogglesShown
         onSizeToggled: panel.sizeToggled("ram")
+        monitorTab: panel.tabFor("ram")
+        onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         kind: "ram"
         readonly property real pct: panel.t.memPercent
         title: i18n("PRIMARY BUFFER")
         subtitle: Sys.gb(panel.t.memUsed) + " / " + Sys.gb(panel.t.memTotal)
-        hot: pct >= 90
+        loadLevel: panel.alerts ? panel.alerts.ram : 0
+        criticalText: panel.alerts ? panel.alerts.criticalText("ram") : ""
         valueText: Math.round(pct) + "%"
         percent: pct
         graphData: Sys.norm(panel.t.ramHistory, 100)
@@ -138,6 +148,8 @@ ColumnLayout {
         minimal: panel.small("gpu")
         sizeToggle: !panel.minimal && panel.sizeTogglesShown
         onSizeToggled: panel.sizeToggled("gpu")
+        monitorTab: panel.tabFor("gpu")
+        onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         kind: "gpu"
         readonly property real vramPct: panel.t.vramTotal > 0 ? 100 * panel.t.vramUsed / panel.t.vramTotal : 0
@@ -146,8 +158,9 @@ ColumnLayout {
                : panel.t.gpuName || i18n("GRAPHICS ENGINE")).toUpperCase()
         subtitle: i18n("VRAM %1 / %2", Sys.gb(panel.t.vramUsed), Sys.gb(panel.t.vramTotal))
         tempText: Sys.temp(panel.t.gpuTemp, panel.tempUnit)
-        hot: panel.tempAlerts && panel.t.gpuTemp >= panel.hotC
-        tempAlerts: panel.tempAlerts; tempWarnPercent: panel.tempWarnPercent; tempCriticalPercent: panel.tempCriticalPercent
+        tempLevel: panel.alerts ? panel.alerts.gpuTemp : 0
+        loadLevel: panel.alerts ? panel.alerts.gpuLoad : 0
+        criticalText: panel.alerts ? panel.alerts.criticalText("gpu") : ""
         valueText: Math.round(panel.t.gpuUsage) + "%"
         percent: panel.t.gpuUsage
         secondaryPercent: vramPct
@@ -171,6 +184,8 @@ ColumnLayout {
         minimal: panel.small("net")
         sizeToggle: !panel.minimal && panel.sizeTogglesShown
         onSizeToggled: panel.sizeToggled("net")
+        monitorTab: panel.tabFor("net")
+        onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         kind: "net"
         title: panel.t.iface ? panel.t.iface.toUpperCase() : i18n("ALL INTERFACES")
@@ -199,6 +214,8 @@ ColumnLayout {
         minimal: panel.small("fans")
         sizeToggle: !panel.minimal && panel.sizeTogglesShown
         onSizeToggled: panel.sizeToggled("fans")
+        monitorTab: panel.tabFor("fans")
+        onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         fans: panel.t.fans
         histories: panel.t.fanHistory

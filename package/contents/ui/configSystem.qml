@@ -6,7 +6,7 @@ import org.kde.kcmutils as KCM
 import org.kde.plasma.plasma5support as P5Support
 
 // "System Hardware": which pills the system section shows, which GPU the GPU
-// pill follows, its extras and how often it samples.
+// pill follows, its extras, the alert thresholds and how often it samples.
 KCM.SimpleKCM {
     id: page
 
@@ -36,10 +36,14 @@ KCM.SimpleKCM {
     property alias cfg_showFanPercent: fanPercentCheck.checked
     property alias cfg_fanMaxRpm: fanMaxSpin.value
     property alias cfg_tempColorAlerts: tempAlertsCheck.checked
-    property alias cfg_tempWarnPercent: tempWarnSpin.value
-    property alias cfg_tempCriticalPercent: tempCriticalSpin.value
-    // The temperature bars run 30-100 °C; a threshold as % of that scale, in °C.
-    function celsiusAt(percent) { return Math.round(30 + 70 * percent / 100) }
+    property alias cfg_enablePulsingAnimations: motionCheck.checked
+    property alias cfg_cpuTempWarnThreshold: cpuWarnSpin.value
+    property alias cfg_cpuTempCritThreshold: cpuCritSpin.value
+    property alias cfg_gpuTempWarnThreshold: gpuWarnSpin.value
+    property alias cfg_gpuTempCritThreshold: gpuCritSpin.value
+    property alias cfg_cpuLoadCritThreshold: cpuLoadSpin.value
+    property alias cfg_gpuLoadCritThreshold: gpuLoadSpin.value
+    property alias cfg_ramLoadCritThreshold: ramLoadSpin.value
     property alias cfg_showTelemetryGraphs: graphsCheck.checked
     property alias cfg_showSystemSpecs: specsCheck.checked
     property alias cfg_systemUpdateInterval: intervalSpin.value
@@ -124,33 +128,53 @@ KCM.SimpleKCM {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: i18n("Temperature alerts")
+            Kirigami.FormData.label: i18n("Alerts")
         }
         QQC2.CheckBox {
             id: tempAlertsCheck
-            Kirigami.FormData.label: i18n("Colours:")
-            text: i18n("Change the CPU / GPU temperature colour as it heats up")
+            Kirigami.FormData.label: i18n("Alerts:")
+            text: i18n("Turn readings amber at a warning and crimson when critical")
         }
-        QQC2.SpinBox {
-            id: tempWarnSpin
-            Kirigami.FormData.label: i18n("Warning (orange) from:")
+        QQC2.CheckBox {
+            id: motionCheck
             enabled: tempAlertsCheck.checked
-            from: 50; to: 99
-            textFromValue: (v) => i18n("%1% of range (%2 °C)", v, page.celsiusAt(v))
-            valueFromText: (t) => parseInt(t)
-            onValueModified: if (tempCriticalSpin.value < value) tempCriticalSpin.value = value
+            text: i18n("Animate them: breathing glow, blinking badges, strobing bars")
         }
-        QQC2.SpinBox {
-            id: tempCriticalSpin
-            Kirigami.FormData.label: i18n("Critical (red, pulsing) from:")
+        RowLayout {
+            Kirigami.FormData.label: i18n("CPU temperature:")
             enabled: tempAlertsCheck.checked
-            from: tempWarnSpin.value; to: 100
-            textFromValue: (v) => i18n("%1% of range (%2 °C)", v, page.celsiusAt(v))
-            valueFromText: (t) => parseInt(t)
+            ThresholdSpin { id: cpuWarnSpin; unit: "°C"; from: 40; to: 110; onValueModified: if (cpuCritSpin.value < value) cpuCritSpin.value = value }
+            QQC2.Label { text: i18nc("warning threshold ... critical threshold", "warning, critical from") }
+            ThresholdSpin { id: cpuCritSpin; unit: "°C"; from: cpuWarnSpin.value; to: 110 }
+        }
+        RowLayout {
+            Kirigami.FormData.label: i18n("GPU temperature:")
+            enabled: tempAlertsCheck.checked
+            ThresholdSpin { id: gpuWarnSpin; unit: "°C"; from: 40; to: 110; onValueModified: if (gpuCritSpin.value < value) gpuCritSpin.value = value }
+            QQC2.Label { text: i18nc("warning threshold ... critical threshold", "warning, critical from") }
+            ThresholdSpin { id: gpuCritSpin; unit: "°C"; from: gpuWarnSpin.value; to: 110 }
+        }
+        ThresholdSpin {
+            id: cpuLoadSpin
+            Kirigami.FormData.label: i18n("CPU load critical from:")
+            enabled: tempAlertsCheck.checked
+            unit: "%"; from: 50; to: 100
+        }
+        ThresholdSpin {
+            id: gpuLoadSpin
+            Kirigami.FormData.label: i18n("GPU load critical from:")
+            enabled: tempAlertsCheck.checked
+            unit: "%"; from: 50; to: 100
+        }
+        ThresholdSpin {
+            id: ramLoadSpin
+            Kirigami.FormData.label: i18n("Memory critical from:")
+            enabled: tempAlertsCheck.checked
+            unit: "%"; from: 50; to: 100
         }
         QQC2.Label {
             Layout.maximumWidth: Kirigami.Units.gridUnit * 22
-            text: i18n("The bars run from 30 °C to 100 °C. At the critical level the pill's border pulses too and the panel icon asks for attention. With colours off the temperature keeps its normal amber.")
+            text: i18n("A warning shows [WARN] on the pill and colours its figure amber. A critical reading blinks [CRITICAL], haloes its pill and card, strobes its bar and flashes the panel item; a critical reading the panel isn't showing puts a blinking dot on the panel icon. Disks use the warning level under Disks & Storage. Temperatures are set in °C.")
             wrapMode: Text.WordWrap
             font: Kirigami.Theme.smallFont
             opacity: 0.7
@@ -194,5 +218,12 @@ KCM.SimpleKCM {
             textFromValue: (v) => i18n("%1 s", (v / 1000).toFixed(1))
             valueFromText: (t) => Math.round(parseFloat(t) * 1000)
         }
+    }
+
+    component ThresholdSpin: QQC2.SpinBox {
+        property string unit: ""
+        editable: true
+        textFromValue: (v) => v + " " + unit
+        valueFromText: (t) => parseInt(t)
     }
 }

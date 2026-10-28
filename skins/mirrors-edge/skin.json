@@ -2,7 +2,7 @@
   "id": "mirrors-edge",
   "name": "Mirror's Edge (Runner Vision)",
   "author": "Shani",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
   "isDark": false,
   "fontFamily": "Ubuntu",
@@ -108,6 +108,7 @@
       }
     }
   },
+  "aiQuip": "RUNNER NET ROUTING THOUGHTS OFF-GRID. KEEP MOVING.",
   "clockQuips": {
     "nominal": "LINE OF SIGHT ESTABLISHED. MOMENTUM CONSTANT.",
     "stress": "BLUES ON THE ROOF. HEAVY CONGESTION. TIME TO SPRINT."

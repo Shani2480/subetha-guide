@@ -5,41 +5,91 @@
       "id": "adventure-time",
       "name": "Adventure Time (BMO Terminal)",
       "author": "Shani",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/adventure-time/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/adventure-time.tar.gz",
-      "sha256": "b5e2c3f383f101e2e01d083e6c4e13a73c4c24a2eb5121fb523ee7b908f0f017"
+      "sha256": "0f83d2c01c48e33d9bf10952f253fd2599b3372bc201f96195e41df10f053ae9"
     },
     {
       "id": "cyberpunk-2077",
       "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
       "author": "Shani",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/cyberpunk-2077/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/cyberpunk-2077.tar.gz",
-      "sha256": "43cecb2511b987377a3900134d9488f7ebbaad4bb46cb6387bc80fade0560fd2"
+      "sha256": "180000a894d4a79382cd988916b08a4837ab929f70eac82781165b3bce358c0a"
     },
     {
       "id": "dexters-lab",
       "name": "Dexter's Laboratory (Secret Mainframe)",
       "author": "Shani",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab.tar.gz",
-      "sha256": "e26831dfeec9e6d5dbb39c6736e3592a718c52e31be69d1f8d3610f7551775b3"
+      "sha256": "4596f3c75431835b5fc311059b6bda758e99a71e48b8b5ffc953ea842dae337b"
+    },
+    {
+      "id": "macos-liquid-glass",
+      "name": "macOS Liquid Glass",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "Liquid Glass: translucent rounded panes with a 1px specular rim, soft deep elevation, capsule pills and gauges, in graphite dark and frosted light.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/macos-liquid-glass/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/macos-liquid-glass.tar.gz",
+      "sha256": "cae027bcbb421db83812b1aa9b7d44051c2057d0860f161b69715d0b46b5706c"
+    },
+    {
+      "id": "material-you",
+      "name": "Material You (M3 Expressive)",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "Material 3 Expressive: tonal surface containers, 24px rounded cards, stadium pills and capsule gauges on soft elevation, in Monet lavender light and dark.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/material-you/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/material-you.tar.gz",
+      "sha256": "b0b9749247a8f03df10d7d25f6bd1453354ed00693cee6d53becb1d75505c489"
     },
     {
       "id": "mirrors-edge",
       "name": "Mirror's Edge (Runner Vision)",
       "author": "Shani",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/mirrors-edge/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/mirrors-edge.tar.gz",
-      "sha256": "30e10e5cb75f1b497072d6c1143330a6fa3cf28be8801522c31057c1052a411a"
+      "sha256": "3a694a45010a62f9ce289c4949cc4d598b938dbbfa7551e4e09ec7b4763ddfae"
+    },
+    {
+      "id": "retro-terminal",
+      "name": "VT-Terminal (1970s/1980s CRT)",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "A DEC VT100 / IBM 3270 glass teletype: P1 green phosphor in dark mode, P3 amber in light, raster scanlines, discrete block gauges, a phosphor glow and wireframe Arthur and Marvin on the ground line.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/retro-terminal/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/retro-terminal.tar.gz",
+      "sha256": "1d7e9bd50bd0b8f2921ae0022215e8cb16220d1c924e45307d4ccde4e7a401bd"
+    },
+    {
+      "id": "windows-vista",
+      "name": "Windows Vista (Aero Glass)",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "Aero Glass: icy teal-tinted translucent panes with soft depth, rounded corners and segmented green meters, in midnight and daylight glass.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-vista/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-vista.tar.gz",
+      "sha256": "53cd8046730f7c875887329cb90ba06ca6b3333e5250fe957eae91d543df455e"
+    },
+    {
+      "id": "windows-xp",
+      "name": "Windows XP (Luna)",
+      "author": "Shani",
+      "version": "1.0.0",
+      "description": "Luna: royal blue desktop, beige Explorer panels with a hard drop shadow, a green Start pushbutton and segmented green LED meters; Royale Noir after dark.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-xp/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-xp.tar.gz",
+      "sha256": "2b72082c29e58f9dd7585be9b0104f15f0030aebe66106d155101ecb402b002a"
     }
   ]
 }

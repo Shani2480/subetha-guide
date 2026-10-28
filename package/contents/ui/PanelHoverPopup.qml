@@ -6,7 +6,8 @@ import "common"
 // drawn in the Guide's own theme (VectorFrame: CRT black with phosphor
 // outline and amber reticles, or cream paper with a charcoal outline and
 // flat shadow) under a "SUB-ETHA SENSOR TELEMETRY" header, holding the
-// large card of whatever the panel item shows (`content`). The window
+// large card of whatever the panel item shows (`content`), and above it one
+// crimson "ALERT: ..." line per critical reading (`alertLines`). The window
 // reports `hovered` so the panel item keeps it open while the pointer
 // crosses over to it.
 PlasmaCore.Dialog {
@@ -14,6 +15,7 @@ PlasmaCore.Dialog {
 
     property QtObject theme
     property Component content
+    property var alertLines: []           // e.g. "CPU THERMAL CEILING EXCEEDED [92°C]"
     readonly property bool hovered: cardHover.hovered
 
     type: PlasmaCore.Dialog.Tooltip
@@ -40,6 +42,18 @@ PlasmaCore.Dialog {
                     color: popup.theme.accent
                     font { family: popup.theme.mono; pixelSize: 10; bold: true; letterSpacing: 1 }
                     leftPadding: 10   // clear of the corner reticle
+                }
+                Repeater {
+                    model: popup.alertLines
+                    Text {
+                        required property string modelData
+                        width: parent.width
+                        text: i18n("ALERT: %1", modelData)
+                        color: popup.theme.critColor
+                        font { family: popup.theme.mono; pixelSize: 11; bold: true; letterSpacing: 0.4 }
+                        wrapMode: Text.WordWrap
+                        leftPadding: 10
+                    }
                 }
                 Loader {
                     width: parent.width

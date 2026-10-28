@@ -15,7 +15,7 @@ QtObject {
     property real longitude: 0
     property bool systemDark: false     // the owner passes Kirigami.Theme's verdict
     property bool minimal: false        // displayMode "minimal": no raster, grid, reticles or commentary
-    // The active community skin's look, as SkinEngine.style parses it, or null
+    // The active community skin's look, as skins.js parses it, or null
     // for the Guide's own. Its colours replace the raw palette below (so every
     // role and every direct use follows), and it brings tokens of its own: the
     // frame's border and shadow, gauge and graph colours, badge, commentary,
@@ -31,6 +31,7 @@ QtObject {
     // "idle", "stressed" (a critical reading); the owner sets it, BMO's face shows it
     property string mood: "idle"
     property bool live: false           // the Guide is on screen; gates a skin's ambient flicker
+    property bool alertMotion: true     // enablePulsingAnimations: alerts breathe, blink and strobe
     // Two readings for a skin's analog dials, 0..1: the busier of CPU and GPU, and the hotter.
     property real meterA: 0
     property real meterB: 0
@@ -62,6 +63,11 @@ QtObject {
     readonly property color accent: dark ? amber : coral           // commentary
     readonly property color cool:   dark ? cyan : teal             // charging, mains, I/O
     readonly property color alert:  dark || skinned ? red : "#E53935"
+    // alert levels (AlertManager): fixed, so a skin's palette never hides a warning
+    readonly property color warnColor: dark ? "#FFB000" : "#E8890C"     // warning: amber
+    readonly property color critColor: dark ? "#FF2A4B" : "#D91B33"     // critical: crimson
+    // the CRT terminal and glitch skins jitter a critical figure by a pixel
+    readonly property bool alertJitter: (dark && !skinned) || (!!frame && frame.glitch === true)
     // Fill by how healthy a level is: good, middling, bad
     readonly property color high:   sc("accentGood", dark ? phosphor : teal)
     readonly property color mid:    dark ? amber : mustard
@@ -76,7 +82,7 @@ QtObject {
     readonly property color shadow:    sc("shadowColor", !skin && dark ? tint(0.4) : ink)
 
     // ---- geometry: the shape of cards, pills, gauges and buttons ----
-    // A skin's `geometry` block (SkinEngine.parseGeometry), else what its
+    // A skin's `geometry` block (skins.js parseGeometry), else what its
     // older tokens imply (borderRadius, frame.chamfer, gaugeStyle, the shadow
     // offset and blur), else the Guide's own: the 1981 terminal sharp with
     // corner reticles, segmented gauges and a phosphor glow; the 2005 pages
@@ -155,6 +161,7 @@ QtObject {
                                 : variant ? Object.assign({}, skin.ground, variant.ground) : skin.ground
     // A skin's clock lines ({ nominal, stress }) and the storm's falling hazards (image URLs).
     readonly property var clockQuips: skin ? skin.clockQuips : ({})
+    readonly property string aiQuip: skin ? skin.aiQuip : ""     // the AI section's line, "" for the Guide's own
     readonly property var hazards: skin ? skin.hazards : []
     // Text a skin renames: rx, tx, lan, wan, lanTag, wanTag ("" keeps the Guide's).
     readonly property var labels: skin ? skin.labels : ({})

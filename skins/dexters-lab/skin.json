@@ -2,7 +2,7 @@
   "id": "dexters-lab",
   "name": "Dexter's Laboratory (Secret Mainframe)",
   "author": "Shani",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
   "isDark": true,
   "fontFamily": "monospace",
@@ -114,6 +114,7 @@
       }
     }
   },
+  "aiQuip": "MY GREATEST INVENTION REQUIRES MAXIMUM COMPUTATIONAL POWER!",
   "clockQuips": {
     "nominal": "I AM A GENIUS! THE MAIN COMPUTING CORE OPERATES FLAWLESSLY.",
     "stress": "DEE DEE! WHAT HAVE YOU DONE TO MY TELEMETRY CORES?!"

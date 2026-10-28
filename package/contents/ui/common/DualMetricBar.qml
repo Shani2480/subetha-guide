@@ -3,10 +3,12 @@ import QtQuick
 // Load and temperature on one segmented track, in the same blocks as the
 // other gauges. Each block lights in two layers: behind, a translucent wash
 // for the temperature on a 30-100 °C scale (amber on the CRT, mustard on the
-// movie pages), turning orange from warnPercent of the scale and pulsing red
-// from criticalPercent (with `alerts` off it keeps its resting colour); in
-// front, a solid inset fill for the load, coloured like every load gauge
-// (good / busy / hot). A skin may set its own track, load fill (outlined) and
+// movie pages), steady orange at a temperature warning (`tempLevel` 1) and
+// a glowing crimson strobe when critical (2); in front, a solid inset fill
+// for the load, coloured like every load gauge (good / busy / hot), that
+// pulses between full brightness and hazard amber when the load is critical
+// (`loadLevel` 2). The levels come from the AlertManager; with `animate` off
+// they keep their colours without the motion. A skin may set its own track, load fill (outlined) and
 // resting temperature wash (gaugeTrack, gaugeUsage, gaugeTemp), the fill's
 // edge, and a temperature above which the wash pulses (tempPulseC). The
 // theme's gaugeShape picks blocks ("segmented") or one continuous bar, square
@@ -20,41 +22,73 @@ Item {
     property real tempValue: 0            // °C; 0 or less: no temperature layer
     property real minTemp: 30
     property real maxTemp: 100
-    property bool alerts: true
-    property int warnPercent: 80          // of the temperature scale
-    property int criticalPercent: 90
-    property bool live: false             // gates the warning pulse
+    property int tempLevel: 0             // 0 nominal, 1 warning, 2 critical
+    property int loadLevel: 0             // 0 nominal, 2 critical
+    property bool animate: !!theme && theme.alertMotion
+    property bool live: false             // gates the pulses
     property int segments: 24
     property real segmentHeight: 9
 
     readonly property real tempFraction: tempValue > 0 ? Math.max(0, Math.min(1, (tempValue - minTemp) / (maxTemp - minTemp))) : 0
-    readonly property bool warm: alerts && tempValue > 0 && tempFraction * 100 >= warnPercent
-    readonly property bool hot: alerts && tempValue > 0 && tempFraction * 100 >= criticalPercent
+    readonly property bool warm: tempValue > 0 && tempLevel === 1
+    readonly property bool hot: tempValue > 0 && tempLevel === 2
     readonly property int loadFilled: Math.round(Math.max(0, Math.min(1, usageFraction)) * segments)
     readonly property int tempFilled: Math.round(tempFraction * segments)
     readonly property real load: usageFraction * 100
     readonly property bool skinFill: theme.gaugeUsage.a > 0
-    readonly property color loadColor: skinFill ? theme.gaugeUsage : load >= 85 ? theme.low : load >= 50 ? theme.mid : theme.high
-    readonly property color tempColor: hot ? theme.red : warm ? "#FF8A1A" : theme.gaugeTemp.a > 0 ? theme.gaugeTemp
+    readonly property color restingLoad: skinFill ? theme.gaugeUsage : load >= 85 ? theme.low : load >= 50 ? theme.mid : theme.high
+    // critical load: full brightness <-> hazard amber
+    readonly property color loadColor: loadLevel === 2 ? theme.mix(Qt.lighter(restingLoad, 1.25), theme.warnColor, hazard)
+                                                       : restingLoad
+    readonly property color tempColor: hot ? theme.critColor : warm ? "#FF8A1A" : theme.gaugeTemp.a > 0 ? theme.gaugeTemp
                                      : theme.dark ? theme.amber : theme.mustard
 
-    // 0 = resting wash, 1 = brightest; pulses only while hot (or past a
-    // skin's tempPulseC) and on screen.
-    readonly property bool pulsing: hot || (theme.tempPulseC > 0 && tempValue >= theme.tempPulseC)
+    // 0 = resting wash, 1 = brightest; a skin's tempPulseC breathes the wash.
+    readonly property bool pulsing: !hot && theme.tempPulseC > 0 && tempValue >= theme.tempPulseC
+    readonly property bool moving: animate && live
     property real pulse: 0
     SequentialAnimation on pulse {
-        running: bar.pulsing && bar.live
+        running: bar.pulsing && bar.moving
         loops: Animation.Infinite
         onRunningChanged: if (!running) bar.pulse = 0
         NumberAnimation { to: 1; duration: 600; easing.type: Easing.InOutSine }
         NumberAnimation { to: 0; duration: 600; easing.type: Easing.InOutSine }
     }
+    // critical temperature: a hard strobe, dim <-> glowing
+    property real strobe: 1
+    SequentialAnimation on strobe {
+        running: bar.hot && bar.moving
+        loops: Animation.Infinite
+        onRunningChanged: if (!running) bar.strobe = 1
+        NumberAnimation { to: 0.25; duration: 90 }
+        PauseAnimation { duration: 160 }
+        NumberAnimation { to: 1; duration: 90 }
+        PauseAnimation { duration: 160 }
+    }
+    property real hazard: 0
+    SequentialAnimation on hazard {
+        running: bar.loadLevel === 2 && bar.moving
+        loops: Animation.Infinite
+        onRunningChanged: if (!running) bar.hazard = 0
+        NumberAnimation { to: 1; duration: 450; easing.type: Easing.InOutSine }
+        NumberAnimation { to: 0; duration: 450; easing.type: Easing.InOutSine }
+    }
     // a skin's wash carries its own alpha
-    readonly property real tempOpacity: (hot ? 0.45 : warm ? 0.5 : theme.gaugeTemp.a > 0 ? 1 : theme.dark ? 0.35 : 0.3) + pulse * 0.3
+    readonly property real tempOpacity: hot ? 0.95 * strobe
+                                      : (warm ? 0.5 : theme.gaugeTemp.a > 0 ? 1 : theme.dark ? 0.35 : 0.3) + pulse * 0.3
 
     readonly property real spacing: 2
     implicitWidth: 160
     implicitHeight: segmentHeight
+
+    Rectangle {   // critical temperature: the glow around the track, in step with the strobe
+        visible: bar.hot
+        anchors { fill: parent; margins: -2 }
+        radius: Math.min(height / 2, bar.theme.gaugeBlockRadius + 2)
+        color: "transparent"
+        border { width: 2; color: bar.theme.critColor }
+        opacity: 0.55 * bar.strobe
+    }
 
     Item {   // continuous: track, temperature wash, load bar, in the theme's gauge shape
         visible: bar.theme.gaugeSlot

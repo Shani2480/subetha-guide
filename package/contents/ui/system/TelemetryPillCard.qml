@@ -12,10 +12,16 @@ import "../common"
 // header (governor, memory breakdown, clocks, session totals). With
 // `sizeToggle` the first row ends in a [ - ] / [ + ] tag that emits
 // sizeToggled; the pill animates its height as it switches.
-// `tipText` is the technical detail shown in a themed tooltip on hover.
+// `tipText` is the technical detail shown in a themed tooltip on hover, with
+// a double-click hint while the pill links to a monitor tab (`monitorTab`).
 // Net, large: a LAN / WAN identity strip under the plot; clicking an address
 // copies it and flashes [COPIED], hovering it shows gateway, CIDR and DNS.
-// The border pulses when a chip runs hot or memory is nearly full.
+// Alerts (`tempLevel`, `loadLevel`, from the AlertManager; the pill takes the
+// higher): a severity pip before the title, a static accent dot when
+// nominal, an amber [WARN] at a warning, a crimson [CRITICAL: <figure>]
+// blinking every 300 ms when critical; the tripped figure turns amber or
+// crimson and, on the CRT terminal and glitch skins, jitters a pixel now and
+// then; the pill's border and halo follow (SlidingPillContainer).
 SlidingPillContainer {
     id: card
 
@@ -27,10 +33,9 @@ SlidingPillContainer {
     property string detailText: ""        // full: sub-metrics line under the header
     property bool sizeToggle: false       // show the [ - ] / [ + ] tag
     property real tempC: 0                // cpu / gpu: temperature in °C, layered behind the load bar
-    property bool tempAlerts: true        // the bar's temperature wash changes colour at the thresholds
-    property int tempWarnPercent: 80      // of the 30-100 °C scale
-    property int tempCriticalPercent: 90
-    readonly property real tempPct: tempC > 0 ? Math.max(0, Math.min(100, (tempC - 30) / 70 * 100)) : 0
+    property int tempLevel: 0             // cpu / gpu: 0 nominal, 1 warning, 2 critical
+    property int loadLevel: 0             // 0 nominal, 2 critical
+    property string criticalText: ""      // the figure in [CRITICAL: ...]
     property string tipText: ""           // hover detail for the whole pill
     property string lanText: ""           // net: "192.168.1.91", or "" while unknown
     property string lanIface: ""
@@ -38,7 +43,7 @@ SlidingPillContainer {
     property string identityTip: ""       // net: gateway, CIDR, DNS
     property string valueText: ""
     property string tempText: ""
-    property bool hot: false
+    readonly property bool hot: alertLevel === 2
     property real percent: 0              // main gauge
     property real secondaryPercent: 0     // gpu: VRAM half of the split gauge
     property bool graphs: true            // the rolling sparklines (full mode)
@@ -51,7 +56,7 @@ SlidingPillContainer {
 
     signal sizeToggled()
 
-    critical: hot
+    alertLevel: Math.max(tempLevel, loadLevel)
     animateHeight: true
     verticalPadding: minimal ? 7 : 10
     horizontalPadding: minimal ? 12 : 14
@@ -61,6 +66,32 @@ SlidingPillContainer {
     // a skin's sparkline colours, or the load colour as the Guide has it
     readonly property bool skinGraph: theme.sparkline.a > 0
     function loadColor(p) { return p >= 85 ? theme.low : p >= 50 ? theme.mid : theme.high }
+    function levelInk(level, resting) { return level === 2 ? theme.critColor : level === 1 ? theme.warnColor : resting }
+
+    // motion at a critical alert: the pip blinks, the figure jitters
+    readonly property bool alertMoving: theme.alertMotion && live && alertLevel === 2
+    property bool blinkOn: true
+    Timer {
+        interval: 300
+        repeat: true
+        running: card.alertMoving
+        onTriggered: card.blinkOn = !card.blinkOn
+        onRunningChanged: if (!running) card.blinkOn = true
+    }
+    property real jitterY: 0
+    SequentialAnimation on jitterY {
+        running: card.alertMoving && card.theme.alertJitter
+        loops: Animation.Infinite
+        onRunningChanged: if (!running) card.jitterY = 0
+        PauseAnimation { duration: 1100 }
+        PropertyAction { value: -1 }
+        PauseAnimation { duration: 70 }
+        PropertyAction { value: 0 }
+        PauseAnimation { duration: 260 }
+        PropertyAction { value: -1 }
+        PauseAnimation { duration: 50 }
+        PropertyAction { value: 0 }
+    }
 
     readonly property var glyphs: ({
         cpu: "M7 7 H17 V17 H7 Z M9.5 9.5 H14.5 V14.5 H9.5 Z M9 7 V4 M12 7 V4 M15 7 V4 M9 17 V20 M12 17 V20 M15 17 V20 M7 9 H4 M7 12 H4 M7 15 H4 M17 9 H20 M17 12 H20 M17 15 H20",
@@ -79,7 +110,7 @@ SlidingPillContainer {
         SubEthaTooltip {
             theme: card.theme
             shown: pillHover.hovered && !identityHover.hovered
-            text: card.tipText
+            text: card.tipText + (card.monitorTab && card.tipText ? "\n" + i18n("DOUBLE-CLICK: OPEN IN SYSTEM MONITOR") : "")
         }
 
         // ---- minimal ----
@@ -94,11 +125,12 @@ SlidingPillContainer {
                 color: card.theme.ink
                 strokeWidth: card.theme.dark ? 1.6 : 2
             }
+            SeverityPip { visible: card.alertLevel > 0; compact: true }
             Text {
                 visible: card.kind !== "net"
                 Layout.fillWidth: true
                 text: card.minimalText
-                color: card.hot ? card.alertInk : card.theme.ink
+                color: card.levelInk(card.alertLevel, card.theme.ink)
                 font { family: card.theme.mono; pixelSize: 11; bold: true }
                 elide: Text.ElideRight
             }
@@ -140,9 +172,8 @@ SlidingPillContainer {
             live: card.live
             usageFraction: card.percent / 100
             tempValue: card.tempC
-            alerts: card.tempAlerts
-            warnPercent: card.tempWarnPercent
-            criticalPercent: card.tempCriticalPercent
+            tempLevel: card.tempLevel
+            loadLevel: card.loadLevel
         }
 
         // ---- full: header row ----
@@ -161,12 +192,17 @@ SlidingPillContainer {
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
-                Text {
+                RowLayout {
                     Layout.fillWidth: true
-                    text: card.title
-                    color: card.theme.ink
-                    font { family: card.theme.sans; pixelSize: 13; bold: true; letterSpacing: 0.4 }
-                    elide: Text.ElideRight
+                    spacing: 6
+                    SeverityPip {}
+                    Text {
+                        Layout.fillWidth: true
+                        text: card.title
+                        color: card.theme.ink
+                        font { family: card.theme.sans; pixelSize: 13; bold: true; letterSpacing: 0.4 }
+                        elide: Text.ElideRight
+                    }
                 }
                 Text {
                     Layout.fillWidth: true
@@ -182,14 +218,16 @@ SlidingPillContainer {
                 Layout.alignment: Qt.AlignVCenter
                 implicitWidth: tempLabel.implicitWidth + 12
                 implicitHeight: tempLabel.implicitHeight + 6
-                fillColor: card.hot ? card.alertInk : "transparent"
+                fillColor: card.tempLevel === 2 ? card.theme.critColor : "transparent"
                 strokeWidth: card.theme.dark ? 1 : 1.5
-                strokeColor: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.6 : 1)
+                strokeColor: card.levelInk(card.tempLevel, card.theme.tint(card.theme.dark ? 0.6 : 1))
+                transform: Translate { y: card.tempLevel === 2 ? card.jitterY : 0 }
                 Text {
                     id: tempLabel
                     anchors.centerIn: parent
                     text: card.tempText
-                    color: card.hot ? (card.theme.dark ? card.theme.bg : "#FFFFFF") : card.theme.ink
+                    color: card.tempLevel === 2 ? (card.theme.dark ? card.theme.bg : "#FFFFFF")
+                         : card.levelInk(card.tempLevel, card.theme.ink)
                     font { family: card.theme.mono; pixelSize: 11; bold: true }
                 }
             }
@@ -197,8 +235,17 @@ SlidingPillContainer {
                 visible: card.kind !== "net"
                 Layout.alignment: Qt.AlignVCenter
                 text: card.valueText
-                color: card.hot ? card.alertInk : card.theme.ink
+                color: card.levelInk(card.loadLevel, card.theme.ink)
                 font { family: card.theme.mono; pixelSize: 24; bold: true }
+                transform: Translate { y: card.loadLevel === 2 ? card.jitterY : 0 }
+                Text {   // glitch frame: a crimson ghost a pixel to the side while it jitters
+                    visible: card.jitterY !== 0 && card.loadLevel === 2
+                    x: 1.5
+                    text: parent.text
+                    color: card.theme.critColor
+                    opacity: 0.5
+                    font: parent.font
+                }
             }
             // net: live RX / TX readouts
             ColumnLayout {
@@ -256,7 +303,7 @@ SlidingPillContainer {
                 anchors.fill: parent
                 visible: card.graphData2.length > 1
                 historyData: card.graphData2
-                strokeColor: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.55 : 0.6)
+                strokeColor: card.levelInk(card.tempLevel, card.theme.tint(card.theme.dark ? 0.55 : 0.6))
                 fillColor: "transparent"
                 lineWidth: 1
             }
@@ -276,15 +323,13 @@ SlidingPillContainer {
             spacing: 10
             Text {
                 text: i18n("LOAD %1%", Math.round(card.percent))
-                color: card.loadColor(card.percent)   // the colour of the solid fill
+                color: card.levelInk(card.loadLevel, card.loadColor(card.percent))   // the colour of the solid fill
                 font { family: card.theme.mono; pixelSize: 9; bold: true }
             }
             Text {
                 visible: card.tempC > 0
                 text: i18n("TEMP %1", card.tempText)
-                color: card.tempAlerts && card.tempPct >= card.tempCriticalPercent ? card.alertInk
-                     : card.tempAlerts && card.tempPct >= card.tempWarnPercent ? "#FF8A1A"
-                     : card.theme.dark ? card.theme.amber : "#B07800"
+                color: card.levelInk(card.tempLevel, card.theme.dark ? card.theme.amber : "#B07800")
                 opacity: 0.9
                 font { family: card.theme.mono; pixelSize: 9; bold: true }
             }
@@ -300,9 +345,8 @@ SlidingPillContainer {
             live: card.live
             usageFraction: card.percent / 100
             tempValue: card.tempC
-            alerts: card.tempAlerts
-            warnPercent: card.tempWarnPercent
-            criticalPercent: card.tempCriticalPercent
+            tempLevel: card.tempLevel
+            loadLevel: card.loadLevel
         }
         RowLayout {   // gpu: VRAM gauge
             visible: !card.minimal && card.kind === "gpu"
@@ -417,6 +461,39 @@ SlidingPillContainer {
             enabled: address.copyable
             cursorShape: Qt.PointingHandCursor
             onClicked: { card.copyText(address.value); copied.restart() }
+        }
+    }
+
+    // The alert level before the title: an accent dot, [WARN], or a blinking
+    // [CRITICAL: figure]; `compact` (the small pill) shows [WARN] / [CRIT].
+    component SeverityPip: Item {
+        id: pip
+        property bool compact: false
+        Layout.alignment: Qt.AlignVCenter
+        implicitWidth: card.alertLevel === 0 ? 6 : tag.implicitWidth
+        implicitHeight: card.alertLevel === 0 ? 6 : tag.implicitHeight
+        Rectangle {
+            visible: card.alertLevel === 0
+            anchors.fill: parent
+            radius: 3
+            color: card.theme.accent
+        }
+        Badge {
+            id: tag
+            visible: card.alertLevel > 0
+            implicitWidth: tagText.implicitWidth + 10
+            implicitHeight: tagText.implicitHeight + 2
+            fillColor: card.alertLevel === 2 ? card.theme.critColor : card.theme.warnColor
+            strokeWidth: 0
+            opacity: card.blinkOn ? 1 : 0.12
+            Text {
+                id: tagText
+                anchors.centerIn: parent
+                text: card.alertLevel === 1 ? i18n("[WARN]")
+                    : pip.compact || !card.criticalText ? i18n("[CRIT]") : i18n("[CRITICAL: %1]", card.criticalText)
+                color: card.theme.dark ? card.theme.bg : "#FFFFFF"
+                font { family: card.theme.mono; pixelSize: 9; bold: true; letterSpacing: 0.3 }
+            }
         }
     }
 

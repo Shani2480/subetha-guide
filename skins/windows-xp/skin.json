@@ -1,0 +1,175 @@
+{
+  "id": "windows-xp",
+  "name": "Windows XP (Luna)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Luna: royal blue desktop, beige Explorer panels with a hard drop shadow, a green Start pushbutton and segmented green LED meters; Royale Noir after dark.",
+  "isDark": false,
+  "fontFamily": "Noto Sans",
+  "colors": {
+    "background": "#0055EA",
+    "cardBackground": "#ECE9D8",
+    "cardBackgroundHover": "#F5F3EC",
+    "textPrimary": "#000000",
+    "textSecondary": "#5A574F",
+    "accent": "#3882C7",
+    "accentSecondary": "#38B038",
+    "accentTertiary": "#3882C7",
+    "accentGood": "#38B038",
+    "border": "#0055EA",
+    "shadowColor": "#00309C",
+    "gaugeTrack": "#D8D4C8",
+    "gaugeFillUsage": "#38B038",
+    "gaugeFillTemp": "#E65C00",
+    "sparkline": "#3882C7",
+    "sparklineFill": "rgba(56, 130, 199, 0.12)",
+    "netDown": "#3882C7",
+    "netUp": "#38B038",
+    "commentary": "#3882C7",
+    "borderWidth": 1.5,
+    "borderRadius": 6
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "rounded",
+    "gaugeShape": "segmented",
+    "cornerRadius": 6,
+    "pillRadius": 6,
+    "borderStyle": "solid",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "flat-2d",
+    "shadowOffset": [
+      2,
+      2
+    ]
+  },
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#0055EA",
+        "cardBackground": "#ECE9D8",
+        "cardBackgroundHover": "#F5F3EC",
+        "textPrimary": "#000000",
+        "textSecondary": "#5A574F",
+        "accent": "#3882C7",
+        "accentSecondary": "#38B038",
+        "accentTertiary": "#3882C7",
+        "accentGood": "#38B038",
+        "border": "#0055EA",
+        "shadowColor": "#00309C",
+        "gaugeTrack": "#D8D4C8",
+        "gaugeFillUsage": "#38B038",
+        "gaugeFillTemp": "#E65C00",
+        "sparkline": "#3882C7",
+        "sparklineFill": "rgba(56, 130, 199, 0.12)",
+        "netDown": "#3882C7",
+        "netUp": "#38B038",
+        "commentary": "#3882C7"
+      },
+      "badgeColor": "#38B038",
+      "badgeTextColor": "#FFFFFF",
+      "ground": {
+        "color": "#FFFFFF",
+        "alertColor": "#E65C00"
+      },
+      "frame": {
+        "rivets": "#7A96DF",
+        "buttonColor": "#38B038"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#1C1D21",
+        "cardBackground": "#2E3038",
+        "cardBackgroundHover": "#393C45",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#A4A8B5",
+        "accent": "#4D76A1",
+        "accentSecondary": "#38B038",
+        "accentTertiary": "#4D76A1",
+        "accentGood": "#38B038",
+        "border": "#4D76A1",
+        "shadowColor": "#0E0F12",
+        "gaugeTrack": "#1F2024",
+        "gaugeFillUsage": "#38B038",
+        "gaugeFillTemp": "#FF4422",
+        "sparkline": "#4D76A1",
+        "sparklineFill": "rgba(77, 118, 161, 0.12)",
+        "netDown": "#4D76A1",
+        "netUp": "#38B038",
+        "commentary": "#4D76A1"
+      },
+      "badgeColor": "#4D76A1",
+      "badgeTextColor": "#FFFFFF",
+      "ground": {
+        "color": "#4D76A1",
+        "alertColor": "#FF4422"
+      },
+      "frame": {
+        "rivets": "#484D5C",
+        "buttonColor": "#38B038"
+      }
+    }
+  },
+  "badgeText": "WINDOWS XP // NT-5.1",
+  "commentaryTemplates": {
+    "nominal": "IT IS NOW SAFE TO TURN OFF YOUR COMPUTER. (OR RUN STABLE).",
+    "moderate": "YOUR COMPUTER MIGHT BE AT RISK. CLICK THIS BALLOON.",
+    "highLoad": "NOT RESPONDING. WINDOWS IS WAITING FOR THE PROGRAM.",
+    "critical": "KERNEL MEMORY PARITY THREAT! AVOIDING BSOD STATUS.",
+    "night": "THE BLISS HILL IS DARK. SCREENSAVER STANDING BY."
+  },
+  "clockQuips": {
+    "nominal": "TIME SYNCHRONISED WITH TIME.WINDOWS.COM.",
+    "stress": "THE HOURGLASS WILL NOT STOP TURNING."
+  },
+  "aiQuip": "AN ASSISTANT IS THINKING. IT LOOKS LIKE YOU'RE WRITING A LETTER.",
+  "frame": {
+    "style": "bezel",
+    "rivets": "#7A96DF",
+    "button": {
+      "text": "start",
+      "color": "#38B038"
+    }
+  },
+  "labels": {
+    "rx": "RECEIVED",
+    "tx": "SENT",
+    "lan": "LOCAL AREA CONNECTION",
+    "wan": "INTERNET GATEWAY"
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/bliss_hill.svg"
+  },
+  "ground": {
+    "color": "#FFFFFF",
+    "alertColor": "#E65C00",
+    "width": 1.5
+  },
+  "roamers": [
+    {
+      "name": "Paperclip",
+      "frames": [
+        "assets/clippy_walk.svg",
+        "assets/clippy_walk_02.svg"
+      ],
+      "width": 16,
+      "height": 28,
+      "stride": 5,
+      "bob": true
+    },
+    {
+      "name": "Rover",
+      "frames": [
+        "assets/rover_dog.svg",
+        "assets/rover_dog_02.svg"
+      ],
+      "width": 26,
+      "height": 20,
+      "follow": 10,
+      "stride": 7
+    }
+  ]
+}

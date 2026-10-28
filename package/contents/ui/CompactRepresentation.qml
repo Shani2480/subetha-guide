@@ -8,8 +8,12 @@ import "common"
 // icon, a monospace figure and an optional micro meter, sized from the panel
 // thickness. Horizontal panels lay the readings out in a row, icon | figure
 // | meter, with thin dividers; vertical panels stack each one, icon over
-// figure over meter, the figure shrunk to fit the panel width. Static:
-// nothing animates in the panel. The light theme inks in the panel's own
+// figure over meter, the figure shrunk to fit the panel width. Nothing
+// animates in the panel but alerts: a reading at a warning turns amber; a
+// critical one flashes its figure and icon to crimson once a second, and a
+// critical reading the item isn't showing puts a blinking 4 px pip on its
+// top-right corner (with alert motion off both hold steady). The hover card
+// opens with an "ALERT: ..." line for each critical reading. The light theme inks in the panel's own
 // text colour; the dark theme keeps its phosphor green. Left click opens the
 // popup, middle click asks for a refresh. Resting the pointer on it for
 // 350 ms opens the hover card (PanelHoverPopup) with the large card of the
@@ -28,9 +32,9 @@ MouseArea {
     property QtObject theme               // SubEthaTheme, for the hover card
     property Component preview            // the hover card's content
     property bool expanded: false         // the popup is open: no hover card
-    property bool tempAlerts: true        // for the layered CPU / GPU meter
-    property int tempWarnPercent: 80
-    property int tempCriticalPercent: 90
+    property QtObject alerts              // an AlertManager
+    property var offPanelCritical: []     // PanelReadings.offPanelCritical
+    property bool animate: true           // alert motion, while the panel item is live
     property int popupLocation: 0         // Plasmoid.location, where the card opens
     readonly property bool previewOpen: hoverCard.visible
 
@@ -59,6 +63,7 @@ MouseArea {
         location: compact.popupLocation
         theme: compact.theme
         content: compact.preview
+        alertLines: compact.alerts ? compact.alerts.culprits.filter(c => c.level === 2).map(c => c.text) : []
         onHoveredChanged: if (!hovered && !compact.containsMouse) hoverCloseTimer.restart()
                           else hoverCloseTimer.stop()
     }
@@ -67,6 +72,28 @@ MouseArea {
     readonly property color busy: dark ? "#FFB000" : "#E8890C"
     readonly property color alert: dark ? "#FF3333" : "#FF6B4A"
     function levelColor(level) { return level === "alert" ? alert : level === "busy" ? busy : ink }
+    readonly property color critical: theme ? theme.critColor : alert
+    // figure and icon at the reading's alert level; a critical one flashes
+    function alertInk(r) { return r.alert === 2 ? (flashOn ? critical : ink) : r.alert === 1 ? busy : ink }
+
+    readonly property bool anyCritical: readings.some(r => r.alert === 2) || offPanelCritical.length > 0
+    property bool flashOn: true           // 500 ms crimson, 500 ms resting
+    Timer {
+        interval: 500
+        repeat: true
+        running: compact.animate && compact.anyCritical
+        onTriggered: compact.flashOn = !compact.flashOn
+        onRunningChanged: if (!running) compact.flashOn = true
+    }
+    Rectangle {   // a critical reading off the panel: the pip, top-right
+        visible: compact.offPanelCritical.length > 0
+        z: 1
+        anchors { top: parent.top; right: parent.right; margins: 1 }
+        width: 4; height: 4
+        radius: 2
+        color: compact.critical
+        opacity: compact.flashOn ? 1 : 0.15
+    }
 
     readonly property real thickness: vertical ? width : height
     readonly property real glyphSize: Math.max(12, Math.min(22, Math.round(thickness * (vertical ? 0.42 : 0.55))))
@@ -136,7 +163,7 @@ MouseArea {
                     visible: cellGrid.r.key !== "weather"
                     anchors.fill: parent
                     path: cellGrid.r.glyph
-                    color: cellGrid.r.level === "alert" ? compact.alert : compact.ink
+                    color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.ink
                     strokeWidth: 2
                 }
                 WeatherIcon {
@@ -155,7 +182,7 @@ MouseArea {
                 // Without an icon a label says what the figure is.
                 text: compact.vertical ? cellGrid.r.shortText
                     : (compact.showIcon || cellGrid.r.key === "weather" || cellGrid.r.key === "clock" ? "" : cellGrid.r.label + " ") + cellGrid.r.text
-                color: cellGrid.r.level === "alert" ? compact.alert : compact.ink
+                color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.ink
                 font { family: "monospace"; pixelSize: compact.fontPx; bold: true }
                 width: compact.vertical ? Math.min(implicitWidth, compact.width - 4) : implicitWidth
                 fontSizeMode: compact.vertical ? Text.HorizontalFit : Text.FixedSize
@@ -182,9 +209,10 @@ MouseArea {
                 theme: compact.theme
                 usageFraction: cellGrid.r.load || 0
                 tempValue: cellGrid.r.temp || 0
-                alerts: compact.tempAlerts
-                warnPercent: compact.tempWarnPercent
-                criticalPercent: compact.tempCriticalPercent
+                tempLevel: cellGrid.r.tempLevel || 0
+                loadLevel: cellGrid.r.loadLevel || 0
+                animate: compact.animate
+                live: compact.animate
             }
             Rectangle {   // micro meter: track and fill
                 visible: cellGrid.meter && cellGrid.r.temp === undefined

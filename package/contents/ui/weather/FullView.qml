@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 import "code/weather.js" as Weather
+import "../common"
 
 // Expanded view, Sub-Etha edition: a CRT terminal card (phosphor green on
 // near-black, monospace, blueprint grid, scanlines, corner reticles) that
@@ -1259,7 +1260,7 @@ Rectangle {
                     transform: Translate { id: lift; y: cell.selected ? -6 : 0; Behavior on y { NumberAnimation { duration: 180; easing.type: Easing.OutBack } } }
 
                     Rectangle {   // soft glow around the selected card (dark themes)
-                        visible: !view.light
+                        visible: !view.light && !view.skin
                         anchors.fill: card
                         anchors.margins: -2
                         radius: card.radius + 2
@@ -1271,17 +1272,38 @@ Rectangle {
                     }
                     Rectangle {
                         id: card
+                        readonly property color fill: cell.selected ? (view.light ? view.accent : view.tintAccent(0.14))
+                                                    : (view.light ? view.surface : view.tint(0.03))
+                        readonly property color stroke: view.light ? view.outline : cell.selected ? view.amber : view.wireDim
+                        readonly property real strokeWidth: view.light ? 2 : cell.selected ? 1.5 : 1
                         anchors.fill: parent
                         radius: view.pill
-                        color: cell.selected ? (view.light ? view.accent : view.tintAccent(0.14))
-                             : (view.light ? view.surface : view.tint(0.03))
-                        border.width: view.light ? 2 : cell.selected ? 1.5 : 1
-                        border.color: view.light ? view.outline : cell.selected ? view.amber : view.wireDim
+                        // a skin draws the card in its own pill shape (shell, below)
+                        color: view.skin ? "transparent" : fill
+                        border.width: view.skin ? 0 : strokeWidth
+                        border.color: stroke
                         Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutQuad } }
                         Behavior on border.color { ColorAnimation { duration: 150; easing.type: Easing.OutQuad } }
                         Behavior on border.width { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
-                        FlatShadow {}
+                        FlatShadow { visible: view.flatShadow && !view.skin }
                         PillEntrance { target: card; index: cell.index }
+
+                        ThemeShapeContainer {
+                            id: shell
+                            z: -1
+                            visible: !!view.skin
+                            anchors.fill: parent
+                            theme: view.skin
+                            role: "pill"
+                            fillColor: view.skin && cellMouse.containsMouse && !cell.selected ? view.skin.cardHover : card.fill
+                            strokeColor: card.stroke
+                            strokeWidth: Math.max(card.strokeWidth, view.skin ? view.skin.borderWidth : 0)
+                            cornerBrackets: cell.selected && borderStyle === "tech-brackets"
+                            bracketColor: view.amber
+                            bracketSize: 7
+                            bracketInset: 3
+                            Behavior on fillColor { ColorAnimation { duration: 150; easing.type: Easing.OutQuad } }
+                        }
 
                         ColumnLayout {
                             anchors.centerIn: parent
@@ -1333,7 +1355,8 @@ Rectangle {
                             }
                         }
 
-                        Rectangle {   // hover brightness
+                        Rectangle {   // hover brightness (a skin's shell changes its fill instead)
+                            visible: !view.skin
                             anchors.fill: parent
                             radius: card.radius
                             color: view.light ? Qt.rgba(1, 1, 1, 0.35) : view.tint(0.04)

@@ -4,8 +4,12 @@ import QtQuick
 // shadowed as the theme has it: a capsule with a flat 2px offset shadow on
 // the movie pages, sharp with a phosphor glow on the terminal. It slides in
 // from the left (x -30 -> 0, scale 0.9 -> 1, 260 ms OutBack, staggered 45 ms
-// per cascadeIndex) when it is created or entranceSerial changes, and its
-// border pulses badge -> alert while `critical`. Content goes inside, padded; the pill sizes to it.
+// per cascadeIndex) when it is created or entranceSerial changes. At an
+// alert (`alertLevel`, or 2 while `critical`) its border turns amber or
+// crimson and an AlertGlowContainer haloes it, breathing when critical.
+// Content goes inside, padded; the pill sizes to it.
+// With a `monitorTab` set, double-clicking the pill emits monitorRequested
+// for that tab of the System Monitor (controls inside keep their own clicks).
 Item {
     id: pill
 
@@ -14,17 +18,19 @@ Item {
     property int entranceSerial: 0
     property int cascadeIndex: 0
     property bool critical: false
+    property int alertLevel: critical ? 2 : 0   // 0 nominal, 1 warning, 2 critical
     property real radius: theme.pillRadius
     property real horizontalPadding: 14
     property real verticalPadding: 10
+    property string monitorTab: ""        // overview sensors processes services network disks; "" = no link
     default property alias content: inner.data
 
-    // 0 = badge colour, 1 = alert; animates only while critical and live.
-    property real pulse: 0
-    readonly property color borderColor: critical ? theme.mix(theme.badge, theme.alert, pulse)
+    signal monitorRequested(string tab)
+
+    readonly property color borderColor: alertLevel === 2 ? theme.critColor : alertLevel === 1 ? theme.warnColor
                                        : theme.dark ? theme.tint(0.7) : theme.ink
-    // Warning text: mustard is unreadable on cream, so light stays red.
-    readonly property color alertInk: theme.dark ? borderColor : theme.alert
+    // text at the pill's alert level
+    readonly property color alertInk: alertLevel === 1 ? theme.warnColor : theme.critColor
 
     // a capsule's round ends take a little more room at the sides
     readonly property real sidePadding: horizontalPadding + (shell.shape === "stadium" ? Math.round(shell.radius * 0.25) : 0)
@@ -60,11 +66,12 @@ Item {
         }
     }
 
-    SequentialAnimation on pulse {
-        running: pill.critical && pill.live
-        loops: Animation.Infinite
-        NumberAnimation { to: 1; duration: 550; easing.type: Easing.InOutSine }
-        NumberAnimation { to: 0; duration: 550; easing.type: Easing.InOutSine }
+    AlertGlowContainer {
+        anchors.fill: shell
+        theme: pill.theme
+        role: "pill"
+        alertLevel: pill.alertLevel
+        animate: pill.theme.alertMotion && pill.live
     }
 
     ThemeShapeContainer {
@@ -74,11 +81,16 @@ Item {
         role: "pill"
         fillColor: pill.theme.card
         strokeColor: pill.borderColor
-        strokeWidth: pill.critical ? Math.max(2, pill.theme.borderWidth) : pill.theme.borderWidth
+        strokeWidth: pill.alertLevel > 0 ? Math.max(2, pill.theme.borderWidth) : pill.theme.borderWidth
         cornerRadius: pill.radius
         bracketSize: 7
         bracketInset: 3
     }
+    TapHandler {
+        enabled: pill.monitorTab !== ""
+        onDoubleTapped: pill.monitorRequested(pill.monitorTab)
+    }
+
     Item {   // placed, not anchored: the face is not a sibling
         id: inner
         x: shell.face.x + pill.sidePadding

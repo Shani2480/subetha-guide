@@ -5,7 +5,9 @@ import "../common"
 
 // The body of the storage page, without frame or header: the commentary, one
 // drawer pill per selected volume with its live read / write throughput, and
-// a totals footer. Minimal: slim pills only. All data comes in as properties.
+// a totals footer. Minimal: slim pills only. With `monitorLinks` a
+// double-click on a pill emits monitorRequested("disks"). All data comes in
+// as properties.
 ColumnLayout {
     id: panel
 
@@ -17,6 +19,8 @@ ColumnLayout {
     property bool showIoThroughput: true
     property bool live: false
     property int entranceSerial: 0
+    property bool monitorLinks: false
+    signal monitorRequested(string tab)
 
     readonly property int count: feed ? feed.model.count : 0
     readonly property var totals: (feed ? feed.volumes : []).reduce((t, v) => ({ used: t.used + v.usedBytes, size: t.size + v.totalBytes }),
@@ -65,6 +69,8 @@ ColumnLayout {
             live: panel.live
             entranceSerial: panel.entranceSerial
             cascadeIndex: index
+            monitorTab: panel.monitorLinks ? "disks" : ""
+            onMonitorRequested: tab => panel.monitorRequested(tab)
             volumeLabel: label
             volumeMount: mountPoint
             volumeExtraMounts: extraMounts
