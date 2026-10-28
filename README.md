@@ -117,12 +117,23 @@ it at once, without restarting Plasma. **Use Built-in Palette** goes back to
 the Guide's own look. An installed skin with a newer version in the registry
 shows **Update**.
 
-| Skin | |
-| --- | --- |
-| **Adventure Time (BMO Terminal):** Land of Ooo daytime (candy sky, grass-green cards) or BMO's seafoam circuitry by night, in a handheld chassis with a D-pad, BMO's face screen and face buttons; Finn and Jake walk the forecast strip while the Ice King and Gunter fall through storms | <img src="skins/adventure-time/preview.png" width="240" alt="Adventure Time skin preview"> |
-| **Cyberpunk 2077 (Arasaka Kiroshi HUD):** Trauma Team platinum medical HUD by day, Kiroshi optics by night: chamfered carbon bezels and pills, tech-bracket borders, cyber-yellow brackets and calibration ticks, scanlines with a rare glitch, stepped sparklines with a danger zone; Johnny Silverhand and a netrunner on a neon ground line; a burning AV and a Trauma Team drone fall through storms | <img src="skins/cyberpunk-2077/preview.png" width="240" alt="Cyberpunk 2077 skin preview"> |
-| **Mirror's Edge (Runner Vision):** sunlit City of Glass rooftops or midnight infiltration in obsidian and cyan: razor-sharp panels with soft shadows, a Runner Red corner slash, flat gauges and sparklines that turn red above 75 %; Faith sprints and vaults ahead of a scout on a rooftop ledge; a Pirandello Kruger helicopter and a dropped satchel fall through storms | <img src="skins/mirrors-edge/preview.png" width="240" alt="Mirror's Edge skin preview"> |
-| **Dexter's Laboratory (Secret Mainframe):** a clean cream-and-teal lab by day or the midnight violet vault: riveted mainframe with a hazard-striped rail, a DEE DEE PROOF pushbutton and two analog dials for load and heat, graduated segment gauges; Dexter marches while Dee Dee dances behind him, and on hover or a load spike she reaches for the button and he panics; a spilling beaker and an exploded prototype gear fall through storms | <img src="skins/dexters-lab/preview.png" width="240" alt="Dexter's Laboratory skin preview"> |
+Each skin has a light and a dark look, which follow the widget's Light / Dark / Solar Auto setting (light on the left, dark on the right below).
+
+**Adventure Time (BMO Terminal):** Land of Ooo daytime (candy sky, grass-green cards) or BMO's seafoam circuitry by night, in a handheld chassis with a D-pad, BMO's face screen and face buttons; Finn and Jake walk the forecast strip while the Ice King and Gunter fall through storms.
+
+<img src="docs/screenshots/skins/adventure-time.png" width="520" alt="Adventure Time skin, light and dark">
+
+**Cyberpunk 2077 (Arasaka Kiroshi HUD):** Trauma Team platinum medical HUD by day, Kiroshi optics by night: chamfered carbon bezels and pills, tech-bracket borders, cyber-yellow brackets and calibration ticks, scanlines with a rare glitch, stepped sparklines with a danger zone; Johnny Silverhand and a netrunner on a neon ground line; a burning AV and a Trauma Team drone fall through storms.
+
+<img src="docs/screenshots/skins/cyberpunk-2077.png" width="520" alt="Cyberpunk 2077 skin, light and dark">
+
+**Mirror's Edge (Runner Vision):** sunlit City of Glass rooftops or midnight infiltration in obsidian and cyan: razor-sharp panels with soft shadows, a Runner Red corner slash, flat gauges and sparklines that turn red above 75 %; Faith sprints and vaults ahead of a scout on a rooftop ledge; a Pirandello Kruger helicopter and a dropped satchel fall through storms.
+
+<img src="docs/screenshots/skins/mirrors-edge.png" width="520" alt="Mirror's Edge skin, light and dark">
+
+**Dexter's Laboratory (Secret Mainframe):** a clean cream-and-teal lab by day or the midnight violet vault: riveted mainframe with a hazard-striped rail, a DEE DEE PROOF pushbutton and two analog dials for load and heat, graduated segment gauges; Dexter marches while Dee Dee dances behind him, and on hover or a load spike she reaches for the button and he panics; a spilling beaker and an exploded prototype gear fall through storms.
+
+<img src="docs/screenshots/skins/dexters-lab.png" width="520" alt="Dexter's Laboratory skin, light and dark">
 
 The skins are fan-made. The characters and names belong to their owners.
 
