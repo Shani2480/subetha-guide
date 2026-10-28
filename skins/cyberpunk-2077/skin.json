@@ -2,7 +2,7 @@
   "id": "cyberpunk-2077",
   "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
   "author": "Shani",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
   "isDark": true,
   "fontFamily": "monospace",
@@ -34,6 +34,18 @@
     "sparklineDangerAbove": 0.85,
     "netDown": "#00F0FF",
     "netUp": "#FCEE0A"
+  },
+  "geometry": {
+    "cardShape": "chamfer",
+    "pillShape": "chamfer",
+    "gaugeShape": "chamfer",
+    "chamferCut": 14,
+    "pillChamferCut": 6,
+    "borderStyle": "tech-brackets",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": true,
+    "hasDropShadow": false,
+    "shadowType": "none"
   },
   "badgeText": "KIROSHI v4.2 // ARASAKA CORP",
   "badgeColor": "#FF003C",
