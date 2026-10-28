@@ -225,7 +225,7 @@ Information).
 
 ## System Monitor app
 
-The [Sub-Etha System Monitor](../subetha-monitor), a separate project, is
+The [Sub-Etha System Monitor](https://github.com/Shani2480/subetha-monitor), a separate project, is
 a standalone companion window in the same two themes: live telemetry, a
 process table with SIGTERM / SIGKILL, systemd unit control, network and
 storage tabs, and fans that spin at their real RPM. Once it is installed
