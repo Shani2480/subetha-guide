@@ -16,6 +16,7 @@ KCM.SimpleKCM {
     property var cfg_enabledSections: ["weather", "system", "disk", "battery"]
     property var cfg_enabledSectionsDefault
     property alias cfg_showClockSection: clockCheck.checked
+    property alias cfg_showAiSection: aiCheck.checked
     property string cfg_panelDisplaySensor
     property string cfg_panelDisplaySensorDefault
     property alias cfg_showPanelIcon: panelIconCheck.checked
@@ -32,6 +33,7 @@ KCM.SimpleKCM {
         { value: "ramUsage",  text: i18n("Memory usage"),        sample: i18nc("panel label", "RAM") + " 44%" },
         { value: "netSpeed",  text: i18n("Network download"),    sample: i18nc("panel label", "NET") + " ↓12.4M" },
         { value: "battery",   text: i18n("Battery level"),       sample: i18nc("panel label", "BAT") + " 87%" },
+        { value: "aiUsage",   text: i18n("AI spend or local model"), sample: i18nc("panel label", "AI") + " $4.20" },
         { value: "multiPill", text: i18n("Several at once"),     sample: "☁ 11° │ " + i18nc("panel label", "CPU") + " 42% │ " + i18nc("panel label", "BAT") + " 87%" }
     ]
 
@@ -135,6 +137,10 @@ KCM.SimpleKCM {
                 checked: page.enabled(modelData.key)
                 onToggled: page.setEnabled(modelData.key, checked)
             }
+        }
+        QQC2.CheckBox {
+            id: aiCheck
+            text: i18n("AI: API spend against a budget, or local models in VRAM (set up under AI Telemetry)")
         }
         QQC2.Label {
             Layout.maximumWidth: Kirigami.Units.gridUnit * 22

@@ -155,6 +155,7 @@ QtObject {
                                 : variant ? Object.assign({}, skin.ground, variant.ground) : skin.ground
     // A skin's clock lines ({ nominal, stress }) and the storm's falling hazards (image URLs).
     readonly property var clockQuips: skin ? skin.clockQuips : ({})
+    readonly property string aiQuip: skin ? skin.aiQuip : ""     // the AI section's line, "" for the Guide's own
     readonly property var hazards: skin ? skin.hazards : []
     // Text a skin renames: rx, tx, lan, wan, lanTag, wanTag ("" keeps the Guide's).
     readonly property var labels: skin ? skin.labels : ({})

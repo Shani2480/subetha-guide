@@ -10,6 +10,7 @@ import "system"
 import "disk"
 import "battery"
 import "clock"
+import "ai"
 import "common"
 import "common/i18n.js" as I18n
 
@@ -41,8 +42,10 @@ PlasmoidItem {
     readonly property bool shown: expanded || onDesktop || previewing
     property bool previewing: false       // the panel item's hover card is open
     readonly property var cfg: Plasmoid.configuration
-    // The clock has a switch of its own (showClockSection) and always leads.
+    // The clock and the AI section have switches of their own (showClockSection,
+    // showAiSection); the clock always leads and the AI section comes last.
     readonly property var sections: (cfg.showClockSection ? ["clock"] : []).concat(cfg.enabledSections)
+                                    .concat(cfg.showAiSection ? ["ai"] : [])
     function has(key) { return sections.indexOf(key) >= 0 }
     // Each section is "full" or "compact" on its own (cfg.<key>Density).
     function compact(key) { return !!cfg && cfg[key + "Density"] === "compact" }
@@ -74,6 +77,7 @@ PlasmoidItem {
         weatherFeed: weatherData
         systemFeed: systemData
         batteryFeed: powerData
+        aiFeed: aiData
         timeEngine: clock
         clockSeconds: root.cfg.showSeconds
     }
@@ -120,6 +124,17 @@ PlasmoidItem {
         showEstimate: root.cfg.showChargingEstimate
         wantRate: root.cfg.showPowerRate
         live: root.live && (root.has("battery") || root.previewing)
+    }
+    AiFeed {
+        id: aiData
+        running: root.has("ai") || root.panelNeeds("aiUsage")
+        live: root.live && (root.has("ai") || root.previewing)
+        provider: root.cfg.aiProvider
+        apiKey: root.cfg.aiApiKey
+        endpoint: root.cfg.localAiEndpoint
+        budget: root.cfg.aiMonthlyBudget
+        pollMinutes: root.cfg.aiPollMinutes
+        vramTotal: systemData.vramTotal
     }
 
     // The header names the place the forecast is for, or else this machine.
@@ -183,6 +198,7 @@ PlasmoidItem {
     onExpandedChanged: if (root.expanded) guide.refresh()
 
     readonly property bool anyCritical: (has("disk") && diskData.anyCritical) || (has("battery") && powerData.anyCritical)
+                                      || (has("ai") && aiData.anyCritical)
                                       || (has("system") && cfg.tempColorAlerts && systemData.hottest >= Sys.tempAt(cfg.tempCriticalPercent))
 
     // ---- representations ----
@@ -200,7 +216,9 @@ PlasmoidItem {
             ? i18n("GPU %1% · %2", Math.round(systemData.gpuUsage), Sys.temp(systemData.gpuTemp, root.cfg.tempUnit)) : "",
         systemData.memTotal > 0 ? i18n("RAM %1 / %2", Sys.gb(systemData.memUsed), Sys.gb(systemData.memTotal)) : "",
         has("disk") && diskData.panelVolume ? i18n("Disk %1% used", diskData.panelVolume.usedPercentage) : "",
-        has("battery") && powerData.panelDevice ? i18n("Battery %1%", powerData.panelDevice.percent) : ""
+        has("battery") && powerData.panelDevice ? i18n("Battery %1%", powerData.panelDevice.percent) : "",
+        has("ai") && aiData.status === "ok" ? (aiData.cloud ? i18n("AI %1 of %2 this month", "$" + aiData.spentMonth.toFixed(2), "$" + aiData.budget.toFixed(2))
+                                                            : aiData.model ? i18n("AI %1 loaded", aiData.model) : "") : ""
     ].filter(s => s !== "").join("\n") || i18n("Don't Panic.")
 
     compactRepresentation: CompactRepresentation {
@@ -240,7 +258,8 @@ PlasmoidItem {
                     width: parent.width
                     sourceComponent: modelData === "weather" ? weatherPreview
                                    : modelData === "clock" ? clockPreview
-                                   : modelData === "battery" ? batteryPreview : systemPreview
+                                   : modelData === "battery" ? batteryPreview
+                                   : modelData === "aiUsage" ? aiPreview : systemPreview
                     property string key: modelData
                 }
             }
@@ -307,6 +326,17 @@ PlasmoidItem {
         }
     }
 
+    Component {
+        id: aiPreview
+        AiPanel {
+            width: parent ? parent.width : 356
+            theme: guide
+            feed: aiData
+            endpoint: root.cfg.localAiEndpoint
+            live: root.previewing
+        }
+    }
+
     fullRepresentation: FullRepresentation {
         theme: guide
         desktop: root.onDesktop
@@ -321,6 +351,7 @@ PlasmoidItem {
         systemSensors: root.systemSensors
         diskFeed: diskData
         batteryFeed: powerData
+        aiFeed: aiData
         onLocationChosen: (name, latitude, longitude) => {
             root.cfg.locationName = name
             root.cfg.latitude = latitude

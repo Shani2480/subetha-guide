@@ -34,6 +34,10 @@
         <entry name="clockDensity" type="String">
             <default>compact</default>
         </entry>
+        <!-- "compact" (one slim pill) or "full" (meter, sparkline and quip); the config page calls it Large -->
+        <entry name="aiDensity" type="String">
+            <default>compact</default>
+        </entry>
         <!-- ==== panel item ==== -->
         <!-- weather clock cpuTemp gpuTemp cpuLoad ramUsage netSpeed battery multiPill -->
         <entry name="panelDisplaySensor" type="String">
@@ -241,6 +245,37 @@
             <default>15</default>
             <min>1</min>
             <max>50</max>
+        </entry>
+    </group>
+
+    <!-- ==== AI quota & inference telemetry ==== -->
+    <group name="Ai">
+        <!-- like the clock, the AI section has a switch of its own and comes last -->
+        <entry name="showAiSection" type="Bool">
+            <default>false</default>
+        </entry>
+        <!-- anthropic | openai (Admin API cost and usage reports), ollama | openwebui (loaded models) -->
+        <entry name="aiProvider" type="String">
+            <default>anthropic</default>
+        </entry>
+        <!-- an Admin key for anthropic / openai, an API key for openwebui; stored as plain text in the applet config -->
+        <entry name="aiApiKey" type="String">
+            <default></default>
+        </entry>
+        <entry name="localAiEndpoint" type="String">
+            <default>http://localhost:11434</default>
+        </entry>
+        <!-- USD a calendar month (UTC), the scale of the spend meter -->
+        <entry name="aiMonthlyBudget" type="Double">
+            <default>20.0</default>
+            <min>1</min>
+            <max>1000000</max>
+        </entry>
+        <!-- minutes between cloud report fetches; local servers are polled every few seconds while shown -->
+        <entry name="aiPollMinutes" type="Int">
+            <default>5</default>
+            <min>1</min>
+            <max>60</max>
         </entry>
     </group>
 </kcfg>

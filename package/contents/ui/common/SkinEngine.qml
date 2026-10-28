@@ -147,6 +147,7 @@ QtObject {
             variants: parseVariant(variants.light) && parseVariant(variants.dark)
                       ? { light: parseVariant(variants.light), dark: parseVariant(variants.dark) } : null,
             clockQuips: clockQuips,
+            aiQuip: text(json.aiQuip, 120),
             // tumbling down the weather hero in rain and thunder, in place of the whale and the petunias
             hazards: [asset(dir, story.fallingSkyHazard), asset(dir, story.hazardSecondary)].filter(v => v),
             font: /^[A-Za-z0-9 _-]{1,64}$/.test(json.fontFamily || "") ? json.fontFamily : "",

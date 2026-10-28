@@ -1,5 +1,6 @@
 import QtQuick
 import "system/code/system.js" as Sys
+import "ai/code/ai.js" as Ai
 
 // What the panel item shows: the chosen reading (panelDisplaySensor), three
 // at once ("multiPill"), or, with a cycle interval, each available reading in
@@ -28,6 +29,7 @@ Item {
     property QtObject weatherFeed
     property QtObject systemFeed
     property QtObject batteryFeed
+    property QtObject aiFeed
     property QtObject timeEngine
     property bool clockSeconds: true
 
@@ -38,21 +40,24 @@ Item {
         ramUsage: "M2 7 H22 V15 H2 Z M5 9.5 H8 V12.5 H5 Z M10.5 9.5 H13.5 V12.5 H10.5 Z M16 9.5 H19 V12.5 H16 Z M4 15 V17.5 M7 15 V17.5 M10 15 V17.5 M14 15 V17.5 M17 15 V17.5 M20 15 V17.5",
         netSpeed: "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5",
         battery: "M3 7 H19 V17 H3 Z M19 10 H21.5 V14 H19 M6 10 V14 M9 10 V14 M12 10 V14",
-        clock: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14"
+        clock: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14",
+        aiUsage: "M9 4.5 A3 3 0 0 0 4.5 7 A3 3 0 0 0 3.5 12 A3 3 0 0 0 5.5 16.5 A3 3 0 0 0 10 19.5 V4.5 Z M14 4.5 A3 3 0 0 1 19.5 7 A3 3 0 0 1 20.5 12 A3 3 0 0 1 18.5 16.5 A3 3 0 0 1 14 19.5 Z M12 2 V22"
     })
     readonly property var labels: ({ weather: i18nc("panel label", "WX"), cpuLoad: i18nc("panel label", "CPU"),
                                      cpuTemp: i18nc("panel label", "CPU"), gpuTemp: i18nc("panel label", "GPU"),
                                      ramUsage: i18nc("panel label", "RAM"), netSpeed: i18nc("panel label", "NET"),
-                                     battery: i18nc("panel label", "BAT"), clock: i18nc("panel label", "TIME") })
+                                     battery: i18nc("panel label", "BAT"), clock: i18nc("panel label", "TIME"),
+                                     aiUsage: i18nc("panel label", "AI") })
 
     function sectionOf(key) {
-        return key === "weather" || key === "battery" || key === "clock" ? key : "system"
+        return key === "weather" || key === "battery" || key === "clock" ? key : key === "aiUsage" ? "ai" : "system"
     }
     function available(key) {
         if (key === "weather") return !!weatherFeed && weatherFeed.hasData
         if (key === "gpuTemp") return !!systemFeed && systemFeed.hasGpu
         if (key === "battery") return !!batteryFeed && !!batteryFeed.panelDevice
         if (key === "clock") return !!timeEngine
+        if (key === "aiUsage") return !!aiFeed && aiFeed.status === "ok"
         return !!systemFeed
     }
     // 12.4 MB/s -> "12.4M": the panel has no room for units.
@@ -90,6 +95,15 @@ Item {
             r.fraction = d ? d.percent / 100 : -1
             r.level = d && d.critical ? "alert" : "ok"
             return Object.assign(r, { shortText: r.text })
+        } else if (key === "aiUsage") {
+            // the month's spend, or the loaded model's context ("$4.20", "32k")
+            var a = aiFeed
+            r.text = !a || a.status !== "ok" ? "--" : a.cloud ? Ai.usd(a.spentMonth)
+                   : a.topModel ? (a.topModel.context > 0 ? i18nc("context window in the panel", "%1 CTX", Ai.tokens(a.topModel.context)) : Ai.gb(a.vramUsed))
+                   : i18nc("no local model loaded", "IDLE")
+            r.fraction = a && a.status === "ok" && (a.cloud || a.vramTotal > 0) ? Math.min(1, a.fraction) : -1
+            r.level = r.fraction >= 1 ? "alert" : r.fraction >= 0.85 ? "busy" : "ok"
+            return Object.assign(r, { shortText: r.text.replace(" CTX", "") })
         }
         if (key === "cpuLoad" || key === "ramUsage") r.level = levelOf(r.fraction)
         if (key === "cpuLoad" || key === "cpuTemp") { r.load = s.cpuUsage / 100; r.temp = s.cpuTemp }
@@ -98,7 +112,7 @@ Item {
         return r
     }
 
-    readonly property var allKeys: ["clock", "weather", "cpuLoad", "cpuTemp", "gpuTemp", "ramUsage", "netSpeed", "battery"]
+    readonly property var allKeys: ["clock", "weather", "cpuLoad", "cpuTemp", "gpuTemp", "ramUsage", "netSpeed", "battery", "aiUsage"]
     // Readings of the switched-on sections, in a fixed order.
     readonly property var enabledKeys: (allKeys || []).filter(k => (sections || []).indexOf(sectionOf(k)) >= 0)
     readonly property bool cycling: cycleSeconds > 0 && sensor !== "multiPill"
