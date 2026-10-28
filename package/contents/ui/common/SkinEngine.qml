@@ -6,7 +6,8 @@ import org.kde.plasma.plasma5support as P5Support
 // `style` is the active one's look, checked, for SubEthaTheme.skin. The
 // widget and the Theme Store each keep one.
 //
-// A skin is data, never code: skin.json names colours, a font, the badge and
+// A skin is data, never code: skin.json names colours, the geometry of cards,
+// pills and gauges (see parseGeometry), a font, the badge and
 // commentary lines, and SVGs inside the skin's own folder for the built-in
 // pieces that draw them (HandheldChassis.qml, BezelDecor.qml,
 // weather/SpriteRoamers.qml).
@@ -73,6 +74,33 @@ QtObject {
         return "file://" + encodeURI(dir + "/" + rel)
     }
 
+    function oneOf(v, options) { return options.indexOf(v) >= 0 ? v : "" }
+    // The skin's `geometry` block: the shape of cards, pills, gauges and
+    // buttons, their border and shadow. Anything missing or malformed is ""
+    // or null and SubEthaTheme falls back to the skin's older colour tokens
+    // (borderRadius, frame.chamfer, gaugeStyle, shadowOffset), then the Guide's.
+    function parseGeometry(g) {
+        g = g && typeof g === "object" ? g : {}
+        var offset = Array.isArray(g.shadowOffset) ? g.shadowOffset : []
+        var shapes = ["rounded", "chamfer", "sharp", "stadium"]
+        return {
+            cardShape: oneOf(g.cardShape === "custom" ? "" : g.cardShape, shapes),   // "custom": the skin's frame decides
+            pillShape: oneOf(g.pillShape, shapes),
+            gaugeShape: oneOf(g.gaugeShape, ["flat", "stadium", "segmented", "chamfer"]),
+            cornerRadius: number(g.cornerRadius, 0, 40),
+            pillRadius: number(g.pillRadius, 0, 40),
+            chamferCut: number(g.chamferCut, 0, 24),
+            pillChamferCut: number(g.pillChamferCut, 0, 16),
+            borderStyle: oneOf(g.borderStyle, ["solid", "dashed", "tech-brackets", "double"]),
+            borderWidth: number(g.borderWidth, 0, 6),
+            hasCornerBrackets: typeof g.hasCornerBrackets === "boolean" ? g.hasCornerBrackets : null,
+            hasDropShadow: typeof g.hasDropShadow === "boolean" ? g.hasDropShadow : null,
+            shadowType: oneOf(g.shadowType, ["flat-2d", "glow", "soft", "none"]),
+            shadowOffset: [number(offset[0], -8, 8), number(offset[1], -8, 8)],
+            shadowBlur: number(g.shadowBlur, 0, 32)                // px
+        }
+    }
+
     function parseStyle(json, dir) {
         var c = json.colors || {}
         var colors = {}
@@ -93,6 +121,7 @@ QtObject {
             shadowBlur: number(c.shadowBlur, 0, 1),
             gaugeStyle: ["slot", "tube"].indexOf(c.gaugeStyle) >= 0 ? c.gaugeStyle : "blocks",
             gaugeEdgeWidth: number(c.gaugeEdgeWidth, 0, 4),
+            geometry: parseGeometry(json.geometry),
             tempPulseC: number(c.tempPulseC, 30, 120),
             sparklineStyle: c.sparklineStyle === "stepped" ? "stepped" : "line",
             sparklineWidth: number(c.sparklineWidth, 0.5, 4),

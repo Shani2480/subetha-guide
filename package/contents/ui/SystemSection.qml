@@ -62,17 +62,19 @@ CollapsibleSection {
             }
         }
 
-        Rectangle {   // [LAUNCH FULL PROCESS DIAGNOSTICS]
+        ThemeShapeContainer {   // [LAUNCH FULL PROCESS DIAGNOSTICS], a button in the theme's pill shape
             id: launch
             visible: !section.minimal
             Layout.fillWidth: true
             Layout.topMargin: 2
             implicitHeight: launchText.implicitHeight + 14
-            radius: section.theme.pillRadius
+            theme: section.theme
+            role: "pill"
+            shadowType: "none"
             readonly property bool hot: launchArea.containsMouse
-            color: hot ? section.theme.ink : "transparent"
-            border.width: section.theme.dark ? 1 : 2
-            border.color: section.theme.dark ? section.theme.tint(launchArea.containsMouse ? 1 : 0.6) : section.theme.ink
+            fillColor: hot ? section.theme.ink : "transparent"
+            strokeWidth: section.theme.dark ? 1 : 2
+            strokeColor: section.theme.dark ? section.theme.tint(launchArea.containsMouse ? 1 : 0.6) : section.theme.ink
             Text {
                 id: launchText
                 anchors.centerIn: parent

@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Effects
 
 // The outer card of every Sub-Etha widget: cream paper with a flat offset
 // shadow, or CRT black with a coordinate grid, raster scanlines and amber
@@ -7,10 +6,11 @@ import QtQuick.Effects
 // (by default the theme's minimal flag; a compact section sets it for its own
 // card). Content goes inside, padded; the frame sizes to it.
 //
-// A skin sets the border, radius, shadow and hover fill through the theme.
-// Its frame style replaces grid and reticles with its own ornament: a
-// "handheld" chassis (HandheldChassis.qml), or a "bezel" with cut corners,
-// L brackets and, on the frames that ask with `chassis`, BezelDecor.qml.
+// The outline, border, corner marks and shadow are the theme's card geometry
+// (a ThemeShapeContainer); a skin also sets the hover fill. Its frame style
+// replaces the grid with its own ornament: a "handheld" chassis
+// (HandheldChassis.qml), or a "bezel" with, on the frames that ask with
+// `chassis`, BezelDecor.qml.
 Item {
     id: frame
 
@@ -23,55 +23,32 @@ Item {
     readonly property string style: theme.frame ? theme.frame.style : ""
     readonly property bool handheld: chassis && style === "handheld"
     readonly property bool bezel: chassis && style === "bezel"
-    readonly property real chamfer: theme.chamfer
-    readonly property real shadowX: Math.max(0, theme.shadowX)
-    readonly property real shadowY: Math.max(0, theme.shadowY)
-    implicitHeight: inner.childrenRect.height + padding * 2 + shadowY
+    implicitHeight: inner.childrenRect.height + padding * 2 + Math.abs(theme.shadowY)
                   + (handheld ? body.stripHeight : bezel ? decor.footerHeight : 0)
-
-    Item {   // flat offset shadow (light), blurred when the skin asks
-        visible: frame.theme.flatShadow
-        x: frame.shadowX; y: frame.shadowY
-        width: surface.width; height: surface.height
-        layer.enabled: frame.theme.shadowBlur > 0
-        layer.effect: MultiEffect { blurEnabled: true; blur: frame.theme.shadowBlur; blurMax: 24; autoPaddingEnabled: true }
-        Rectangle {
-            visible: frame.chamfer === 0
-            anchors.fill: parent
-            radius: surface.radius
-            color: frame.theme.shadow
-        }
-        BezelShape {
-            visible: frame.chamfer > 0
-            anchors.fill: parent
-            chamfer: frame.chamfer
-            fillColor: frame.theme.shadow
-        }
-    }
 
     HoverHandler { id: hover; enabled: frame.theme.skinned }
     property color fill: hover.hovered ? theme.cardHover : theme.bg
     Behavior on fill { ColorAnimation { duration: 120 } }
-    BezelShape {
-        visible: frame.chamfer > 0
-        anchors.fill: surface
-        chamfer: frame.chamfer
+    ThemeShapeContainer {
+        id: shell
+        anchors.fill: parent
+        theme: frame.theme
+        role: "card"
         fillColor: frame.fill
-        strokeColor: frame.theme.border
-        strokeWidth: frame.theme.borderWidth
+        // the Guide's targeting reticles, or a bezel skin's brackets
+        cornerBrackets: !frame.plain && (frame.theme.cornerBrackets || borderStyle === "tech-brackets")
+        bracketSize: frame.theme.frame ? 11 : 9
+        bracketInset: frame.theme.frame ? 5 : 9
     }
-    Rectangle {
+    Item {
         id: surface
-        anchors { fill: parent; rightMargin: frame.shadowX; bottomMargin: frame.shadowY }
-        radius: frame.chamfer > 0 ? 0 : frame.theme.outerRadius
-        color: frame.chamfer > 0 ? "transparent" : frame.fill
-        border.width: frame.chamfer > 0 ? 0 : frame.theme.borderWidth
-        border.color: frame.theme.border
+        x: shell.face.x; y: shell.face.y
+        width: shell.face.width; height: shell.face.height
 
         // Tiled textures uploaded once, not painted: a 24px coordinate grid and
         // a 1px raster line every 2px. Inset past the rounded or cut corners so
         // the textures never poke out of them.
-        readonly property real textureInset: Math.max(2, radius * 0.3, frame.chamfer)
+        readonly property real textureInset: Math.max(2, shell.radius * 0.3, shell.cut)
         Image {
             visible: !frame.plain && !frame.theme.frame
             anchors { fill: parent; margins: surface.textureInset }
@@ -89,35 +66,6 @@ Item {
             fillMode: Image.Tile
             smooth: false
             opacity: frame.theme.scanlineOpacity
-        }
-
-        // L-shaped corner marks: the Guide's targeting reticles, or a bezel
-        // skin's brackets (only on the two uncut corners when chamfered).
-        readonly property color bracket: frame.theme.frame ? frame.theme.frame.brackets || "transparent"
-                                       : frame.theme.dark ? frame.theme.amber : frame.theme.ink
-        Repeater {
-            model: frame.plain || (frame.theme.frame && !frame.theme.frame.brackets) ? 0 : 4
-            Item {
-                required property int index
-                readonly property bool atRight: index % 2 === 1
-                readonly property bool atBottom: index >= 2
-                readonly property bool cut: frame.chamfer > 0 && atRight !== atBottom
-                readonly property real inset: frame.theme.frame ? 5 : 9
-                visible: !cut
-                width: frame.theme.frame ? 11 : 9; height: width
-                x: atRight ? surface.width - width - inset : inset
-                y: atBottom ? surface.height - height - inset : inset
-                Rectangle {   // horizontal arm
-                    width: parent.width; height: 1.5
-                    y: parent.atBottom ? parent.height - height : 0
-                    color: surface.bracket
-                }
-                Rectangle {   // vertical arm
-                    width: 1.5; height: parent.height
-                    x: parent.atRight ? parent.width - width : 0
-                    color: surface.bracket
-                }
-            }
         }
     }
 

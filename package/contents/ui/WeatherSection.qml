@@ -4,8 +4,9 @@ import "common"
 
 // The weather module: the sky hero card with temperature and feels-like, the
 // hourly and weekly drawers, and Arthur and Marvin walking the forecast strip
-// (full), or the one compact card (minimal). The card is the weather view's
-// own frame; the density tag sits on its top border. Only the full view
+// (full), or the one compact card (minimal). The card is a
+// ThemeShapeContainer in the theme's card shape, the view drawn inside it;
+// the density tag sits on its top border. Only the full view
 // carries the characters, so in compact nobody walks and no ground line is
 // laid out. Nothing is instantiated, so no animation timer runs, while the
 // section is switched off and folded away.
@@ -31,13 +32,26 @@ CollapsibleSection {
 
     Item {
         width: parent.width
-        height: (section.minimal ? (view.item ? view.item.implicitHeight : 0) : section.fullHeight) + section.gap
-        Loader {
-            id: view
+        height: (section.minimal ? (view.item ? view.item.implicitHeight + card.inset : 0) : section.fullHeight) + section.gap
+        ThemeShapeContainer {   // the card, in the theme's shape; the views draw none of their own
+            id: card
             width: parent.width
             height: parent.height - section.gap
-            active: (section.open || section.visible) && section.feed !== null && section.config !== undefined
-            sourceComponent: section.minimal ? minimalView : fullView
+            visible: view.status === Loader.Ready
+            theme: section.theme
+            role: "card"
+            readonly property bool translucent: !section.minimal && section.config !== undefined
+                                                && section.config.translucentDesktopBackground
+            fillColor: translucent ? Qt.rgba(theme.bg.r, theme.bg.g, theme.bg.b, theme.dark ? 0.9 : 0.93) : theme.bg
+            // the border on both sides, plus whatever a flat or soft shadow's offset takes
+            readonly property real inset: strokeWidth * 2 + (offsetShadow ? Math.abs(shadowOffsetY) : 0)
+            padding: strokeWidth
+            Loader {
+                id: view
+                anchors.fill: parent
+                active: (section.open || section.visible) && section.feed !== null && section.config !== undefined
+                sourceComponent: section.minimal ? minimalView : fullView
+            }
         }
         DensityToggle {
             visible: section.toggleVisible
@@ -60,6 +74,7 @@ CollapsibleSection {
             skin: section.theme.skinned ? section.theme : null
             desktopMode: true
             translucent: false
+            backdrop: false
             live: section.live && section.open
         }
     }
@@ -75,6 +90,8 @@ CollapsibleSection {
             skin: section.theme.skinned ? section.theme : null
             desktopMode: true
             translucent: section.config.translucentDesktopBackground
+            backdrop: false
+            textureInset: Math.max(4, card.radius * 0.3, card.cut)
             ambientAnimations: section.config.enableBackgroundAnimations
             showCharacter: section.config.showWeatherCharacter
             showBadge: false

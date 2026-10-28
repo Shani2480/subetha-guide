@@ -38,6 +38,12 @@ Rectangle {
     property bool ambientAnimations: true   // subtle weather animation behind the hero text
     property bool showCharacter: true       // Arthur and Marvin on the hourly strip (needs ambientAnimations)
     property bool showBadge: true           // the Guide shows one badge in its own header instead
+    // false: the owner draws the card behind the view (the Guide's
+    // ThemeShapeContainer, in the skin's shape), so the view keeps no fill or
+    // border of its own; textureInset then keeps the grid and raster clear of
+    // the owner's corners.
+    property bool backdrop: true
+    property real textureInset: radius * 0.3
     property bool glow: true                // phosphor bloom on labels and the badge (GPU layers; previews can turn it off)
     // The Weather Underground sets come in a black and a white edition: the
     // light theme shows the black one, the dark themes the white one.
@@ -354,9 +360,9 @@ Rectangle {
     Layout.minimumHeight: desktopMode ? miniMinHeight : implicitHeight
 
     radius: 16   // the suite's outer-frame token (SubEthaTheme.outerRadius)
-    color: !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
+    color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
-    border.width: lineW
+    border.width: backdrop ? lineW : 0
     border.color: wire
 
     // Blueprint grid: 24px squares in the theme's line colour, a tiled SVG
@@ -551,7 +557,7 @@ Rectangle {
         }
     }
 
-    BlueprintGrid { anchors.fill: parent; anchors.margins: view.radius * 0.3; z: 0; alpha: 0.035 }
+    BlueprintGrid { anchors.fill: parent; anchors.margins: view.textureInset; z: 0; alpha: 0.035 }
 
     Rectangle {   // the hero card's flat shadow (a sibling: the hero clips its own children)
         visible: view.flatShadow && hero.visible && view.flipAngle < 90
@@ -1348,7 +1354,7 @@ Rectangle {
 
     Scanlines {   // CRT raster over everything, both sides of the card
         anchors.fill: parent
-        anchors.margins: view.radius * 0.3   // clear of the rounded corners
+        anchors.margins: view.textureInset   // clear of the rounded or cut corners
         z: 30
     }
 }

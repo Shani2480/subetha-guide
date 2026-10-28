@@ -67,20 +67,62 @@ QtObject {
     readonly property color commentary: sc("commentary", accent)          // the sections' one-line verdicts
     readonly property color cardHover: sc("cardBackgroundHover", bg)       // a frame under the pointer
     readonly property color border:    sc("border", dark ? tint(0.55) : ink)
-    readonly property real borderWidth: skin && skin.borderWidth !== null ? skin.borderWidth : 2
-    readonly property color shadow:    sc("shadowColor", ink)
-    readonly property real shadowX:    skin && skin.shadowOffset[0] !== null ? skin.shadowOffset[0] : 2
-    readonly property real shadowY:    skin && skin.shadowOffset[1] !== null ? skin.shadowOffset[1] : 2
-    readonly property real shadowBlur: skin && skin.shadowBlur !== null ? skin.shadowBlur : 0   // 0: a hard flat shadow
-    readonly property real chamfer:    frame && frame.chamfer ? frame.chamfer : 0              // a bezel's 45° cut corners
+    // a glow's colour on the terminal is a soft phosphor, not solid ink
+    readonly property color shadow:    sc("shadowColor", !skin && dark ? tint(0.4) : ink)
+
+    // ---- geometry: the shape of cards, pills, gauges and buttons ----
+    // A skin's `geometry` block (SkinEngine.parseGeometry), else what its
+    // older tokens imply (borderRadius, frame.chamfer, gaugeStyle, the shadow
+    // offset and blur), else the Guide's own: the 1981 terminal sharp with
+    // corner reticles, segmented gauges and a phosphor glow; the 2005 pages
+    // rounded with capsule pills and gauges and a flat 2px charcoal shadow.
+    // ThemeShapeContainer draws them; the shape names are documented there.
+    readonly property var geo: skin ? skin.geometry : ({})
+    function gv(key, fallback) { var v = geo[key]; return v === null || v === undefined || v === "" ? fallback : v }
+    readonly property real legacyChamfer: frame && frame.chamfer ? frame.chamfer : 0
+    readonly property real legacyRadius: skin && skin.borderRadius !== null ? skin.borderRadius : -1
+    readonly property string cardShape: gv("cardShape", legacyChamfer > 0 ? "chamfer"
+                                                      : legacyRadius === 0 || (!skin && dark) ? "sharp" : "rounded")
+    readonly property string pillShape: gv("pillShape", skin ? (legacyRadius === 0 ? "sharp" : "rounded") : dark ? "sharp" : "stadium")
+    readonly property string gaugeShape: gv("gaugeShape", !skin ? (dark ? "segmented" : "stadium")
+                                                        : ({ blocks: "segmented", slot: "flat", tube: "stadium" })[skin.gaugeStyle])
+    readonly property real cornerRadius: gv("cornerRadius", legacyRadius >= 0 ? legacyRadius : 12)
+    readonly property real pillCornerRadius: gv("pillRadius", Math.min(12, cornerRadius))
+    readonly property real chamferCut: gv("chamferCut", legacyChamfer || 12)
+    readonly property real pillChamferCut: gv("pillChamferCut", Math.min(6, chamferCut))
+    readonly property real stadiumMax: 24       // a tall stadium card is a well-rounded box, not a lozenge
+    readonly property string borderStyle: gv("borderStyle", "solid")
+    readonly property real borderWidth: gv("borderWidth", skin && skin.borderWidth !== null ? skin.borderWidth : 2)
+    // L corner marks on the outer cards; "tech-brackets" borders put them on pills too
+    readonly property bool cornerBrackets: gv("hasCornerBrackets", skin ? !!(frame && frame.brackets) : true)
+    readonly property color bracketColor: frame && frame.brackets ? frame.brackets : !skin ? (dark ? amber : ink) : border
+    readonly property bool legacyShadow: !!skin && (skin.shadowOffset[0] || skin.shadowOffset[1]) && shadow.a > 0
+    readonly property string shadowType: geo.hasDropShadow === false ? "none"
+        : gv("shadowType", !skin ? (dark ? "glow" : "flat-2d")
+                         : legacyShadow ? (skin.shadowBlur > 0 ? "soft" : "flat-2d") : "none")
+    readonly property real shadowX: shadowType === "glow" || shadowType === "none" ? 0
+        : (geo.shadowOffset || [])[0] ?? (skin && skin.shadowOffset[0] !== null ? skin.shadowOffset[0] : 2)
+    readonly property real shadowY: shadowType === "glow" || shadowType === "none" ? 0
+        : (geo.shadowOffset || [])[1] ?? (skin && skin.shadowOffset[1] !== null ? skin.shadowOffset[1] : 2)
+    // px; an older skin's blur was a 0..1 fraction of 24px
+    readonly property real shadowBlur: gv("shadowBlur", skin && skin.shadowBlur !== null ? skin.shadowBlur * 24 : shadowType === "glow" ? 6 : 0)
+
+    // A ThemeShapeContainer's shape, radius and cut by role: "card" (outer
+    // frames), "pill" (pills, buttons and badges) or "gauge" (a continuous
+    // gauge's track and fill; a segmented one draws square blocks).
+    function shapeOf(role) { return role === "pill" ? pillShape : role === "gauge" ? ({ segmented: "sharp", flat: "sharp" })[gaugeShape] || gaugeShape : cardShape }
+    function radiusOf(role) { return role === "pill" ? pillCornerRadius : role === "gauge" ? 2 : cornerRadius }
+    function chamferOf(role) { return role === "card" ? chamferCut : pillChamferCut }
+    readonly property real chamfer:    cardShape === "chamfer" ? chamferCut : 0      // a frame's 45° cut corners
     // Gauges and graphs: transparent means "as the Guide colours it".
     readonly property color gaugeTrack: sc("gaugeTrack", "transparent")
     readonly property color gaugeUsage: sc("gaugeFillUsage", "transparent")
     readonly property color gaugeTemp:  sc("gaugeFillTemp", "transparent")
     readonly property color gaugeEdge:  sc("gaugeFillEdge", border)
     readonly property real gaugeEdgeWidth: skin && skin.gaugeEdgeWidth !== null ? skin.gaugeEdgeWidth : 1.5
-    readonly property bool gaugeSlot:   !!skin && skin.gaugeStyle !== "blocks"   // one continuous bar, not blocks
-    readonly property bool gaugeTube:   !!skin && skin.gaugeStyle === "tube"     // ...as a glass tube
+    readonly property bool gaugeSlot:   gaugeShape !== "segmented"               // one continuous bar, not blocks
+    readonly property bool gaugeTube:   gaugeShape === "stadium" && !!skin && skin.gaugeStyle === "tube"   // ...as a glass tube
+    readonly property real gaugeBlockRadius: pillShape === "sharp" || pillShape === "chamfer" ? 0 : 2        // a segmented gauge's blocks
     readonly property real tempPulseC:  skin && skin.tempPulseC !== null ? skin.tempPulseC : 0   // 0: pulse only when critical
     readonly property color sparkline:  sc("sparkline", "transparent")
     readonly property color sparklineFill: sc("sparklineFill", "transparent")
@@ -106,10 +148,11 @@ QtObject {
 
     readonly property string mono: "monospace"
     readonly property string sans: skin && skin.font ? skin.font : dark ? "monospace" : Qt.application.font.family
-    // Shape and layout tokens, shared 1:1 by every widget so cards placed side
-    // by side line up: radius 16 outer frames, 12 inner pills, 4px margins.
-    readonly property real outerRadius: skin && skin.borderRadius !== null ? skin.borderRadius : 16
-    readonly property real pillRadius: skin && skin.borderRadius !== null ? Math.min(12, skin.borderRadius) : 12
+    // Corner radii as a plain Rectangle can take them (a stadium is as round as
+    // stadiumMax, which a short Rectangle clamps to a capsule), shared 1:1 by
+    // every widget so cards placed side by side line up; 4px margins.
+    readonly property real outerRadius: cardShape === "rounded" ? cornerRadius : cardShape === "stadium" ? stadiumMax : 0
+    readonly property real pillRadius: pillShape === "rounded" ? pillCornerRadius : pillShape === "stadium" ? stadiumMax : 0
     readonly property real margin: 4
 
     // Stepped resizing: a desktop card snaps to one of three column widths and
@@ -131,8 +174,8 @@ QtObject {
         return h < 175 ? rowHeightPill : h < 310 ? rowHeightMedium
              : rowHeightFull + Math.max(0, Math.floor((h - rowHeightFull) / rowHeightPill)) * rowHeightPill
     }
-    // 2px 2px solid charcoal, no blur, on the light pages; a skin's whenever it gives an offset
-    readonly property bool flatShadow: skin ? (shadowX !== 0 || shadowY !== 0) && shadow.a > 0 : !dark
+    // a hard offset copy, no blur: 2px 2px charcoal on the light pages
+    readonly property bool flatShadow: shadowType === "flat-2d" && (shadowX !== 0 || shadowY !== 0)
     readonly property bool scanlines: dark && !minimal
     readonly property real scanlineOpacity: frame && frame.scanlines !== null && frame.scanlines !== undefined ? frame.scanlines : 0.15
     // A skin's chassis is its own ornament: no coordinate grid or reticles on it.

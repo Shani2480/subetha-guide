@@ -177,15 +177,14 @@ SlidingPillContainer {
                 }
             }
             // cpu / gpu: temperature badge
-            Rectangle {
+            Badge {
                 visible: card.tempText !== ""
                 Layout.alignment: Qt.AlignVCenter
                 implicitWidth: tempLabel.implicitWidth + 12
                 implicitHeight: tempLabel.implicitHeight + 6
-                radius: card.theme.dark ? 0 : height / 2
-                color: card.hot ? card.alertInk : "transparent"
-                border.width: card.theme.dark ? 1 : 1.5
-                border.color: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.6 : 1)
+                fillColor: card.hot ? card.alertInk : "transparent"
+                strokeWidth: card.theme.dark ? 1 : 1.5
+                strokeColor: card.hot ? card.alertInk : card.theme.tint(card.theme.dark ? 0.6 : 1)
                 Text {
                     id: tempLabel
                     anchors.centerIn: parent
@@ -395,13 +394,13 @@ SlidingPillContainer {
             elide: Text.ElideRight
             opacity: copied.running ? 0 : 1
         }
-        Rectangle {   // [COPIED]
+        Badge {   // [COPIED]
             visible: copied.running
             anchors.verticalCenter: parent.verticalCenter
-            implicitWidth: copiedText.implicitWidth + 10
-            implicitHeight: copiedText.implicitHeight + 2
-            radius: card.theme.dark ? 0 : height / 2
-            color: card.theme.ink
+            width: copiedText.implicitWidth + 10
+            height: copiedText.implicitHeight + 2
+            fillColor: card.theme.ink
+            strokeWidth: 0
             Text {
                 id: copiedText
                 anchors.centerIn: parent
@@ -421,26 +420,58 @@ SlidingPillContainer {
         }
     }
 
-    // Segmented gauge; fill colour follows the load (good / busy / hot).
-    component Gauge: Row {
+    // A small label in the theme's pill shape: no corner marks or shadow at this size.
+    component Badge: ThemeShapeContainer {
+        theme: card.theme
+        role: "pill"
+        cornerBrackets: false
+        shadowType: "none"
+    }
+
+    // A gauge in the theme's gaugeShape: blocks, or one continuous bar;
+    // the fill colour follows the load (good / busy / hot).
+    component Gauge: Item {
         id: gauge
         property int segments: 20
         property real segmentHeight: 8
         property real value: 0
-        readonly property int filled: Math.round(Math.max(0, Math.min(100, value)) / 100 * segments)
+        readonly property real fraction: Math.max(0, Math.min(100, value)) / 100
+        readonly property int filled: Math.round(fraction * segments)
         readonly property color fill: card.loadColor(value)
-        spacing: 2
-        Repeater {
-            model: gauge.segments
-            Rectangle {
-                required property int index
-                readonly property bool on: index < gauge.filled
-                width: (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments
-                height: gauge.segmentHeight
-                radius: card.theme.dark ? 0 : Math.min(2, height / 2)
-                color: on ? gauge.fill : "transparent"
-                border.width: 1
-                border.color: on ? gauge.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
+        readonly property real spacing: 2
+        implicitHeight: segmentHeight
+        Row {
+            visible: !card.theme.gaugeSlot
+            spacing: gauge.spacing
+            Repeater {
+                model: gauge.segments
+                Rectangle {
+                    required property int index
+                    readonly property bool on: index < gauge.filled
+                    width: (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments
+                    height: gauge.segmentHeight
+                    radius: Math.min(card.theme.gaugeBlockRadius, height / 2)
+                    color: on ? gauge.fill : "transparent"
+                    border.width: 1
+                    border.color: on ? gauge.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
+                }
+            }
+        }
+        ThemeShapeContainer {   // continuous: track
+            visible: card.theme.gaugeSlot
+            width: gauge.width; height: gauge.segmentHeight
+            theme: card.theme
+            role: "gauge"
+            fillColor: card.theme.gaugeTrack.a > 0 ? card.theme.gaugeTrack : card.theme.tint(0.12)
+            strokeWidth: 0
+            ThemeShapeContainer {   // ...and fill
+                visible: gauge.fraction > 0
+                width: Math.max(height, parent.width * gauge.fraction); height: parent.height
+                theme: card.theme
+                role: "gauge"
+                fillColor: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeUsage : gauge.fill
+                strokeColor: card.theme.gaugeEdge
+                strokeWidth: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeEdgeWidth : 0
             }
         }
     }

@@ -8,9 +8,10 @@ import QtQuick
 // front, a solid inset fill for the load, coloured like every load gauge
 // (good / busy / hot). A skin may set its own track, load fill (outlined) and
 // resting temperature wash (gaugeTrack, gaugeUsage, gaugeTemp), the fill's
-// edge, a temperature above which the wash pulses (tempPulseC), and a "slot"
-// style: one continuous recessed bar instead of blocks. The warm and hot
-// alerts keep their colours.
+// edge, and a temperature above which the wash pulses (tempPulseC). The
+// theme's gaugeShape picks blocks ("segmented") or one continuous bar, square
+// ("flat"), capsule ("stadium", a glass tube for a "tube" skin) or cut at 45°
+// ("chamfer"). The warm and hot alerts keep their colours.
 Item {
     id: bar
 
@@ -55,25 +56,36 @@ Item {
     implicitWidth: 160
     implicitHeight: segmentHeight
 
-    Rectangle {   // slot style: track, temperature wash, load bar
+    Item {   // continuous: track, temperature wash, load bar, in the theme's gauge shape
         visible: bar.theme.gaugeSlot
         width: bar.width; height: bar.segmentHeight
-        readonly property real r: bar.theme.gaugeTube ? height / 2 : 2
-        radius: r
-        color: bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(0.12)
-        border { width: bar.theme.gaugeTube ? 1.5 : 0; color: bar.theme.tint(0.45) }
-        Rectangle {
+        readonly property real r: height / 2
+        ThemeShapeContainer {
+            anchors.fill: parent
+            theme: bar.theme
+            role: "gauge"
+            fillColor: bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(0.12)
+            strokeColor: bar.theme.tint(0.45)
+            strokeWidth: bar.theme.gaugeTube ? 1.5 : 0
+        }
+        ThemeShapeContainer {
+            visible: bar.tempFraction > 0
             width: parent.width * bar.tempFraction; height: parent.height
-            radius: parent.r
-            color: bar.tempColor
+            theme: bar.theme
+            role: "gauge"
+            fillColor: bar.tempColor
+            strokeWidth: 0
             opacity: bar.tempOpacity
         }
-        Rectangle {
-            width: Math.max(bar.usageFraction > 0 ? height : 0, parent.width * Math.max(0, Math.min(1, bar.usageFraction)))
+        ThemeShapeContainer {
+            visible: bar.usageFraction > 0
+            width: Math.max(height, parent.width * Math.max(0, Math.min(1, bar.usageFraction)))
             height: parent.height
-            radius: parent.r
-            color: bar.loadColor
-            border { width: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0; color: bar.theme.gaugeEdge }
+            theme: bar.theme
+            role: "gauge"
+            fillColor: bar.loadColor
+            strokeColor: bar.theme.gaugeEdge
+            strokeWidth: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0
         }
         Rectangle {   // tube: the glass highlight
             visible: bar.theme.gaugeTube
@@ -104,7 +116,7 @@ Item {
                 readonly property bool loaded: index < bar.loadFilled
                 width: (bar.width - bar.spacing * (bar.segments - 1)) / bar.segments
                 height: bar.segmentHeight
-                radius: bar.theme.dark ? 0 : Math.min(2, height / 2)
+                radius: Math.min(bar.theme.gaugeBlockRadius, height / 2)
                 color: "transparent"
                 border.width: 1
                 border.color: loaded ? (bar.skinFill ? bar.theme.gaugeEdge : bar.loadColor)
@@ -119,7 +131,7 @@ Item {
                 Rectangle {   // load, in front; a skin's fill is the whole block, outlined
                     visible: parent.loaded
                     anchors { fill: parent; margins: bar.skinFill ? 0 : parent.height >= 7 ? 2 : 1 }
-                    radius: bar.skinFill ? parent.radius : bar.theme.dark ? 0 : 1
+                    radius: bar.skinFill ? parent.radius : Math.min(1, parent.radius)
                     color: bar.loadColor
                     border { width: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0; color: bar.theme.gaugeEdge }
                 }

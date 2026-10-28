@@ -19,6 +19,7 @@ Rectangle {
     property bool desktopMode: false
     property bool translucent: true
     property bool live: false               // on screen; the icon animates only then
+    property bool backdrop: true            // as FullView.backdrop
 
     // Same palette as FullView's three Guide themes.
     readonly property bool light: themeStyle === "movieLight"
@@ -46,9 +47,9 @@ Rectangle {
     Layout.minimumHeight: implicitHeight
 
     radius: 16   // SubEthaTheme.outerRadius
-    color: !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
+    color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
-    border.width: light ? 2 : 1.5
+    border.width: backdrop ? (light ? 2 : 1.5) : 0
     border.color: light ? ink : tint(0.5)
 
     RowLayout {
