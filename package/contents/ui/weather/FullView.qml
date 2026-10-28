@@ -841,6 +841,7 @@ Rectangle {
                 z: 0
                 cornerRadius: hero.radius
                 palette: ({ outline: view.outline, accent: view.accent, cool: view.cool, danger: view.danger, light: view.light })
+                hazards: view.skin ? view.skin.hazards : []
                 running: view.ambientAnimations && view.active && hero.visible && !view.flipped
                 condition: view.heroCondition
                 isNight: view.selToday && view.weather ? !view.weather.current.isDay : false

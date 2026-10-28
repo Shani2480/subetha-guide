@@ -101,18 +101,54 @@ QtObject {
         }
     }
 
+    function colorMap(c, keys) {
+        var out = {}
+        keys.forEach(k => { var v = color((c || {})[k]); if (v) out[k] = v })
+        return out
+    }
+    readonly property var frameColorKeys: ["dpad", "brackets", "slash", "watermarkColor", "rivets", "dials"]
+    // One of `variants.light` / `variants.dark`: colours (the `colors` keys,
+    // laid over them), the badge's, and the frame's and ground line's
+    // colours. The Guide's light / dark / Solar Auto setting picks one.
+    function parseVariant(v) {
+        if (!v || typeof v !== "object") return null
+        var frame = v.frame || {}
+        return {
+            colors: colorMap(v.colors || v, colorKeys),       // nested under "colors" or flat
+            badgeColor: color(v.badgeColor),
+            badgeTextColor: color(v.badgeTextColor),
+            frame: Object.assign(colorMap(frame, frameColorKeys),
+                                 Array.isArray(frame.buttons) ? { buttons: frame.buttons.slice(0, 4).map(color).filter(b => b) } : {},
+                                 Array.isArray(frame.hazard) ? { hazard: frame.hazard.slice(0, 2).map(color).filter(b => b) } : {},
+                                 frame.button && color(frame.button.color) ? { buttonColor: color(frame.button.color) } : {}),
+            ground: colorMap(v.ground, ["color", "alertColor"])
+        }
+    }
+
     function parseStyle(json, dir) {
         var c = json.colors || {}
-        var colors = {}
-        colorKeys.forEach(k => { var v = color(c[k]); if (v) colors[k] = v })
+        var colors = colorMap(c, colorKeys)
         var quips = {}
         quipKeys.forEach(k => { var v = text((json.commentaryTemplates || {})[k], 160); if (v) quips[k] = v })
+        var clockQuips = {}
+        ;["nominal", "stress"].forEach(k => { var v = text((json.clockQuips || {})[k], 120); if (v) clockQuips[k] = v })
+        // `narrativeAssets`: a short form of the badge, the walkers and the
+        // storm's falling hazards. The long forms (badgeText, roamers) win.
+        var story = json.narrativeAssets && typeof json.narrativeAssets === "object" ? json.narrativeAssets : {}
+        var walkers = Array.isArray(json.roamers) ? json.roamers
+                    : ["primaryRoamer", "secondaryRoamer"].filter(k => story[k]).map((k, i) => ({ frames: [story[k]], follow: i ? 10 : 0 }))
+        var variants = json.variants && typeof json.variants === "object" ? json.variants : {}
         var frame = json.frame || {}
         var faces = {}
         ;["idle", "happy", "stressed"].forEach(k => { var v = asset(dir, (json.faces || {})[k]); if (v) faces[k] = v })
         var offset = Array.isArray(c.shadowOffset) ? c.shadowOffset : []
         return {
-            isDark: typeof json.isDark === "boolean" ? json.isDark : null,
+            isDark: typeof json.isDark === "boolean" ? json.isDark : null,     // ignored when there are variants
+            variants: parseVariant(variants.light) && parseVariant(variants.dark)
+                      ? { light: parseVariant(variants.light), dark: parseVariant(variants.dark) } : null,
+            clockQuips: clockQuips,
+            // tumbling down the weather hero in rain and thunder, in place of the whale and the petunias
+            hazards: [asset(dir, story.fallingSkyHazard), asset(dir, story.hazardSecondary)].filter(v => v),
             font: /^[A-Za-z0-9 _-]{1,64}$/.test(json.fontFamily || "") ? json.fontFamily : "",
             colors: colors,
             borderWidth: number(c.borderWidth, 0, 6),
@@ -127,8 +163,8 @@ QtObject {
             sparklineWidth: number(c.sparklineWidth, 0.5, 4),
             sparklineDangerAbove: number(c.sparklineDangerAbove, 0, 1),
             sparklineHotAbove: number(c.sparklineHotAbove, 0, 1),
-            badgeText: text(json.badgeText, 40),
-            badgeColor: color(json.badgeColor),
+            badgeText: text(json.badgeText, 40) || text(story.badgeText, 40),
+            badgeColor: color(json.badgeColor) || color(story.badgeColor),
             badgeTextColor: color(json.badgeTextColor),
             quips: quips,
             frame: frame.style === "handheld" ? {
@@ -168,7 +204,7 @@ QtObject {
                 pulses: json.ground.pulses === true                   // dots trailing the walkers
             } : null,
             faces: faces,
-            roamers: (Array.isArray(json.roamers) ? json.roamers : []).slice(0, 3).map(r => ({
+            roamers: walkers.slice(0, 3).map(r => ({
                 name: text(r.name, 24),
                 frames: (Array.isArray(r.frames) ? r.frames : []).slice(0, 8).map(f => asset(dir, f)).filter(v => v),
                 idleFrame: asset(dir, r.idleFrame),

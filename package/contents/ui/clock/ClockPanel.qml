@@ -24,6 +24,13 @@ SlidingPillContainer {
 
     readonly property var e: engine
     readonly property string readout: e ? e.hours + ":" + e.minutes + (showSeconds ? ":" + e.seconds : "") : "--:--"
+    // The line under the dial: under stress (a critical reading or a busy
+    // CPU, theme.mood) the skin's stress quip or the Guide's towel warning,
+    // else the skin's nominal quip or the Guide's line for the time of day.
+    readonly property bool stressed: theme.mood === "stressed"
+    readonly property string quip: theme.clockQuips[stressed ? "stress" : "nominal"]
+                                 || (stressed ? i18n("DON'T PANIC, BUT YOUR PROCESSOR IS CURRENTLY WONDERING WHERE ITS TOWEL IS.")
+                                              : e ? e.commentary : "")
     readonly property string glyph: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14 M12 1 V3 M12 21 V23 M1 12 H3 M21 12 H23"
 
     verticalPadding: minimal ? 7 : 10
@@ -175,7 +182,7 @@ SlidingPillContainer {
             Text {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: panel.e ? panel.e.commentary : ""
+                text: panel.quip
                 color: panel.theme.commentary
                 font { family: panel.theme.mono; pixelSize: 8; bold: true }
                 lineHeight: 0.9

@@ -22,7 +22,12 @@ QtObject {
     // and the chassis and roamers it asks the built-in pieces to draw.
     property var skin: null
     readonly property bool skinned: !!skin
-    function sc(key, fallback) { return skin && skin.colors[key] ? skin.colors[key] : fallback }
+    // A skin with light and dark variants follows the mode like the Guide
+    // does; the variant in use is laid over its base colours, badge, frame
+    // and ground line. One without them keeps its single look (isDark).
+    readonly property var variant: skin && skin.variants ? skin.variants[dark ? "dark" : "light"] : null
+    readonly property var skinColors: !skin ? ({}) : variant ? Object.assign({}, skin.colors, variant.colors) : skin.colors
+    function sc(key, fallback) { return skinColors[key] ? skinColors[key] : fallback }
     // "idle", "stressed" (a critical reading); the owner sets it, BMO's face shows it
     property string mood: "idle"
     property bool live: false           // the Guide is on screen; gates a skin's ambient flicker
@@ -32,7 +37,7 @@ QtObject {
 
     readonly property bool hasLocation: latitude !== 0 || longitude !== 0
     property bool sunUp: true
-    readonly property bool dark: skin && skin.isDark !== null ? skin.isDark
+    readonly property bool dark: skin && !skin.variants && skin.isDark !== null ? skin.isDark
                                : mode === "dark" || (mode === "auto" && (hasLocation ? !sunUp : systemDark))
 
     // ---- raw palette (a skin replaces all of it) ----
@@ -53,7 +58,7 @@ QtObject {
     readonly property color bg:     dark ? crtBlack : cream
     readonly property color card:   dark ? crtCard : paper
     readonly property color ink:    dark ? phosphor : charcoal     // text and outlines
-    readonly property color badge:  skin && skin.badgeColor ? skin.badgeColor : dark ? amber : mustard   // DON'T PANIC, critical pulse start
+    readonly property color badge:  variant && variant.badgeColor ? variant.badgeColor : skin && skin.badgeColor ? skin.badgeColor : dark ? amber : mustard   // DON'T PANIC, critical pulse start
     readonly property color accent: dark ? amber : coral           // commentary
     readonly property color cool:   dark ? cyan : teal             // charging, mains, I/O
     readonly property color alert:  dark || skinned ? red : "#E53935"
@@ -136,12 +141,21 @@ QtObject {
     readonly property color netDown:    sc("netDown", cool)
     readonly property color netUp:      sc("netUp", dark ? amber : coral)
     readonly property string badgeText: skin ? skin.badgeText : ""
-    readonly property color badgeInk:   skin && skin.badgeTextColor ? skin.badgeTextColor : dark ? badge : ink
+    readonly property color badgeInk:   variant && variant.badgeTextColor ? variant.badgeTextColor
+                                      : skin && skin.badgeTextColor ? skin.badgeTextColor : dark ? badge : ink
     readonly property var quips: skin ? skin.quips : ({})
-    readonly property var frame: skin ? skin.frame : null          // { style: "handheld", dpad, buttons, vents }
+    readonly property var frame: !skin || !skin.frame ? null      // { style: "handheld", dpad, buttons, vents }
+                               : !variant ? skin.frame
+                               : Object.assign({}, skin.frame, variant.frame,
+                                               skin.frame.button && variant.frame.buttonColor
+                                               ? { button: { text: skin.frame.button.text, color: variant.frame.buttonColor } } : {})
     readonly property var faces: skin ? skin.faces : ({})          // { idle, happy, stressed }: image URLs
     readonly property var roamers: skin ? skin.roamers : []        // see weather/SpriteRoamers.qml
-    readonly property var ground: skin ? skin.ground : null        // the roamers' ground line
+    readonly property var ground: !skin || !skin.ground ? null      // the roamers' ground line
+                                : variant ? Object.assign({}, skin.ground, variant.ground) : skin.ground
+    // A skin's clock lines ({ nominal, stress }) and the storm's falling hazards (image URLs).
+    readonly property var clockQuips: skin ? skin.clockQuips : ({})
+    readonly property var hazards: skin ? skin.hazards : []
     // Text a skin renames: rx, tx, lan, wan, lanTag, wanTag ("" keeps the Guide's).
     readonly property var labels: skin ? skin.labels : ({})
     readonly property bool chevrons: !!skin && skin.netGlyph === "chevron"
