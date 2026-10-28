@@ -171,11 +171,53 @@
         <entry name="fanSensorSize" type="String">
             <default>small</default>
         </entry>
-        <!-- temperature colours on the CPU / GPU bars, as % of the 30-100 °C scale:
-             warn turns the wash orange, critical turns it red, pulsing, with a pulsing border -->
+        <!-- alerts (AlertManager): a reading turns warning (amber) or critical
+             (crimson) at these thresholds; temperatures in °C, loads in %.
+             tempColorAlerts switches alerts on and off as a whole,
+             enablePulsingAnimations their motion (breathing, blinking, strobe) -->
         <entry name="tempColorAlerts" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="enablePulsingAnimations" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="cpuTempWarnThreshold" type="Int">
+            <default>75</default>
+            <min>40</min>
+            <max>110</max>
+        </entry>
+        <entry name="cpuTempCritThreshold" type="Int">
+            <default>85</default>
+            <min>40</min>
+            <max>110</max>
+        </entry>
+        <entry name="gpuTempWarnThreshold" type="Int">
+            <default>75</default>
+            <min>40</min>
+            <max>110</max>
+        </entry>
+        <entry name="gpuTempCritThreshold" type="Int">
+            <default>85</default>
+            <min>40</min>
+            <max>110</max>
+        </entry>
+        <entry name="cpuLoadCritThreshold" type="Int">
+            <default>90</default>
+            <min>50</min>
+            <max>100</max>
+        </entry>
+        <entry name="gpuLoadCritThreshold" type="Int">
+            <default>95</default>
+            <min>50</min>
+            <max>100</max>
+        </entry>
+        <entry name="ramLoadCritThreshold" type="Int">
+            <default>90</default>
+            <min>50</min>
+            <max>100</max>
+        </entry>
+        <!-- legacy: the old thresholds as % of a 30-100 °C scale; main.qml
+             carries a changed pair over to the °C entries once, then resets them -->
         <entry name="tempWarnPercent" type="Int">
             <default>80</default>
             <min>50</min>

@@ -7,6 +7,8 @@ import "common"
 // host profile and sparklines (SystemPanel). Full mode ends with a terminal
 // pill that opens the process and service diagnostics. While the section is
 // full each pill is small or large on its own (config.<sensor>SensorSize).
+// The card's title opens the System Monitor's Overview, a double-clicked
+// pill the tab for that component (SystemPanel.monitorTabs).
 CollapsibleSection {
     id: section
 
@@ -14,11 +16,12 @@ CollapsibleSection {
     property QtObject feed                // a SystemFeed
     property var config
     property var sensors: []
+    property QtObject alerts              // an AlertManager
     property bool minimal: false          // this section's density is "compact"
     property bool live: false
     property int entranceSerial: 0
 
-    signal diagnosticsRequested()
+    signal monitorRequested(string tab)
     signal densityToggled()
     signal sensorSizeChosen(string key, string size)   // key: cpu ram gpu net fan
 
@@ -29,6 +32,12 @@ CollapsibleSection {
         theme: section.theme
         minimal: section.minimal
         onDensityToggled: section.densityToggled()
+        monitorTab: "overview"
+        alertLevel: !section.alerts ? 0 : Math.max(section.sensors.indexOf("cpu") >= 0 ? section.alerts.cpu : 0,
+                                                   section.sensors.indexOf("ram") >= 0 ? section.alerts.ram : 0,
+                                                   section.sensors.indexOf("gpu") >= 0 ? section.alerts.gpu : 0)
+        live: section.live && section.open
+        onMonitorRequested: tab => section.monitorRequested(tab)
         title: i18n("COMPUTE // EDDIE CORE")
         glyph: "M7 7 H17 V17 H7 Z M9.5 9.5 H14.5 V14.5 H9.5 Z M9 7 V4 M12 7 V4 M15 7 V4 M9 17 V20 M12 17 V20 M15 17 V20 M7 9 H4 M7 12 H4 M7 15 H4 M17 9 H20 M17 12 H20 M17 15 H20"
         // Created once the feed and settings are attached, so no binding
@@ -44,9 +53,7 @@ CollapsibleSection {
                     tempUnit: section.config.tempUnit
                     showFanPercent: section.config.showFanPercent
                     fanMaxRpm: section.config.fanMaxRpm
-                    tempAlerts: section.config.tempColorAlerts
-                    tempWarnPercent: section.config.tempWarnPercent
-                    tempCriticalPercent: section.config.tempCriticalPercent
+                    alerts: section.alerts
                     interval: section.feed.interval
                     showGraphs: section.config.showTelemetryGraphs
                     showSpecs: section.config.showSystemSpecs
@@ -56,6 +63,8 @@ CollapsibleSection {
                               fans: section.config.fanSensorSize })
                     onSizeToggled: kind => section.sensorSizeChosen(section.sizeKey(kind),
                                                                     sizes[kind] === "small" ? "large" : "small")
+                    monitorLinks: true
+                    onMonitorRequested: tab => section.monitorRequested(tab)
                     live: section.live && section.open
                     entranceSerial: section.entranceSerial
                 }
@@ -87,7 +96,7 @@ CollapsibleSection {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onClicked: section.diagnosticsRequested()
+                onClicked: section.monitorRequested("processes")
             }
         }
     }

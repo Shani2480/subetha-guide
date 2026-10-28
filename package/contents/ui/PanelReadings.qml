@@ -5,8 +5,11 @@ import "ai/code/ai.js" as Ai
 // What the panel item shows: the chosen reading (panelDisplaySensor), three
 // at once ("multiPill"), or, with a cycle interval, each available reading in
 // turn. A reading is { key, label, text, shortText, fraction (0..1, or -1 for
-// no meter), level ("ok" | "busy" | "alert"), glyph, and for the CPU and GPU
-// readings load (0..1) and temp (°C) for the layered meter }; the weather reading
+// no meter), level ("ok" | "busy" | "alert", the meter's tone), alert (the
+// AlertManager's 0 nominal / 1 warning / 2 critical for the chip behind it,
+// source: cpu | gpu | ram, or none), glyph, and for the CPU and GPU readings
+// load (0..1) and temp (°C) for the layered meter with their tempLevel and
+// loadLevel }; the weather reading
 // is drawn with the live condition icon instead of a glyph. `keys` lists the
 // readings that need data, so the feeds keep exactly those running while the
 // popup is closed.
@@ -18,14 +21,9 @@ Item {
     property bool running: false          // the panel item is visible and the session unlocked
     property var sections: []             // enabled sections, for cycling and multiPill
     property string tempUnit: "C"
-    property bool tempAlerts: true        // temperatures turn busy / alert at the thresholds below
-    property int tempWarnPercent: 80      // of the 30-100 °C scale
-    property int tempCriticalPercent: 90
-    function tempLevel(c) {
-        if (!tempAlerts || c <= 0) return "ok"
-        var p = (c - Sys.TEMP_MIN) / (Sys.TEMP_MAX - Sys.TEMP_MIN) * 100
-        return p >= tempCriticalPercent ? "alert" : p >= tempWarnPercent ? "busy" : "ok"
-    }
+    property QtObject alerts              // an AlertManager
+    function toneOf(level) { return level === 2 ? "alert" : level === 1 ? "busy" : "ok" }
+    function alertOf(source) { return !alerts ? 0 : source === "cpu" ? alerts.cpu : source === "gpu" ? alerts.gpu : source === "ram" ? alerts.ram : 0 }
     property QtObject weatherFeed
     property QtObject systemFeed
     property QtObject batteryFeed
@@ -69,7 +67,7 @@ Item {
     function heat(celsius) { return celsius > 0 ? Math.max(0, Math.min(1, (celsius - 20) / 80)) : -1 }
 
     function reading(key) {
-        var s = systemFeed, r = { key: key, label: labels[key] || "", glyph: glyphs[key] || "", fraction: -1, level: "ok" }
+        var s = systemFeed, r = { key: key, label: labels[key] || "", glyph: glyphs[key] || "", fraction: -1, level: "ok", alert: 0, source: "" }
         if (key === "weather") {
             r.text = weatherFeed ? weatherFeed.tempText : "--°"
         } else if (key === "clock") {
@@ -81,10 +79,10 @@ Item {
             r.text = Math.round(s.cpuUsage) + "%"; r.fraction = s.cpuUsage / 100
         } else if (key === "cpuTemp") {
             r.text = Sys.temp(s.cpuTemp, tempUnit); r.fraction = heat(s.cpuTemp)
-            r.level = tempLevel(s.cpuTemp)
+            r.level = toneOf(alerts ? alerts.cpuTemp : 0)
         } else if (key === "gpuTemp") {
             r.text = Sys.temp(s.gpuTemp, tempUnit); r.fraction = heat(s.gpuTemp)
-            r.level = tempLevel(s.gpuTemp)
+            r.level = toneOf(alerts ? alerts.gpuTemp : 0)
         } else if (key === "ramUsage") {
             r.text = Math.round(s.memPercent) + "%"; r.fraction = s.memPercent / 100
         } else if (key === "netSpeed") {
@@ -106,8 +104,16 @@ Item {
             return Object.assign(r, { shortText: r.text.replace(" CTX", "") })
         }
         if (key === "cpuLoad" || key === "ramUsage") r.level = levelOf(r.fraction)
-        if (key === "cpuLoad" || key === "cpuTemp") { r.load = s.cpuUsage / 100; r.temp = s.cpuTemp }
-        if (key === "gpuTemp") { r.load = s.gpuUsage / 100; r.temp = s.gpuTemp }
+        r.source = key === "cpuLoad" || key === "cpuTemp" ? "cpu" : key === "gpuTemp" ? "gpu" : key === "ramUsage" ? "ram" : ""
+        r.alert = alertOf(r.source)
+        if (key === "cpuLoad" || key === "cpuTemp") {
+            r.load = s.cpuUsage / 100; r.temp = s.cpuTemp
+            r.tempLevel = alerts ? alerts.cpuTemp : 0; r.loadLevel = alerts ? alerts.cpuLoad : 0
+        }
+        if (key === "gpuTemp") {
+            r.load = s.gpuUsage / 100; r.temp = s.gpuTemp
+            r.tempLevel = alerts ? alerts.gpuTemp : 0; r.loadLevel = alerts ? alerts.gpuLoad : 0
+        }
         r.shortText = r.text.replace("°C", "°").replace("°F", "°")
         return r
     }
@@ -134,4 +140,8 @@ Item {
                                    : cycling && cycleKeys.length ? [cycleKeys[step % cycleKeys.length]]
                                    : [sensor]
     readonly property var shown: shownKeys.map(k => reading(k))
+    // critical readings the panel item isn't showing (a weather panel with a
+    // hot CPU): the item carries a blinking pip for them
+    readonly property var offPanelCritical: !alerts ? []
+        : alerts.culprits.filter(c => c.level === 2 && shown.every(r => r.source !== c.key))
 }

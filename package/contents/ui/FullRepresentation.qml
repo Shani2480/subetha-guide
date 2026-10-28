@@ -28,12 +28,13 @@ SnapFrame {
     property QtObject diskFeed
     property QtObject batteryFeed
     property QtObject aiFeed
+    property QtObject alerts              // an AlertManager
 
     signal locationChosen(string name, real latitude, real longitude)
     signal densityChosen(string key, string density)
     signal sensorSizeChosen(string key, string size)
     signal configureRequested()
-    signal diagnosticsRequested()
+    signal monitorRequested(string tab)   // a System Monitor tab
 
     function has(key) { return sections.indexOf(key) >= 0 }
     function compact(key) { return !!config && config[key + "Density"] === "compact" }
@@ -120,12 +121,13 @@ SnapFrame {
             feed: full.systemFeed
             config: full.config
             sensors: full.systemSensors
+            alerts: full.alerts
             minimal: full.compact("system")
             onDensityToggled: full.toggleDensity("system")
             onSensorSizeChosen: (key, size) => full.sensorSizeChosen(key, size)
             live: full.live
             entranceSerial: full.entranceSerial
-            onDiagnosticsRequested: full.diagnosticsRequested()
+            onMonitorRequested: tab => full.monitorRequested(tab)
         }
         DiskSection {
             id: diskSection
@@ -135,9 +137,11 @@ SnapFrame {
             open: full.has("disk")
             theme: full.theme
             feed: full.diskFeed
+            alerts: full.alerts
             config: full.config
             minimal: full.compact("disk")
             onDensityToggled: full.toggleDensity("disk")
+            onMonitorRequested: tab => full.monitorRequested(tab)
             live: full.live
             entranceSerial: full.entranceSerial
         }

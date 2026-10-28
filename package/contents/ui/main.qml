@@ -51,9 +51,20 @@ PlasmoidItem {
     function compact(key) { return !!cfg && cfg[key + "Density"] === "compact" }
     readonly property bool allCompact: sections.length > 0 && sections.every(k => compact(k))
     // The old all-or-nothing displayMode "minimal" becomes every section compact, once.
-    Component.onCompleted: if (cfg.displayMode === "minimal") {
-        ["weather", "system", "disk", "battery"].forEach(k => cfg[k + "Density"] = "compact")
-        cfg.displayMode = "full"
+    Component.onCompleted: {
+        if (cfg.displayMode === "minimal") {
+            ["weather", "system", "disk", "battery"].forEach(k => cfg[k + "Density"] = "compact")
+            cfg.displayMode = "full"
+        }
+        // The old temperature thresholds, % of a 30-100 °C scale, become °C
+        // for both chips, once: a changed pair carries over, then resets.
+        if (cfg.tempWarnPercent !== 80 || cfg.tempCriticalPercent !== 90) {
+            var warn = Math.round(Sys.tempAt(cfg.tempWarnPercent)), crit = Math.round(Sys.tempAt(cfg.tempCriticalPercent))
+            cfg.cpuTempWarnThreshold = cfg.gpuTempWarnThreshold = warn
+            cfg.cpuTempCritThreshold = cfg.gpuTempCritThreshold = crit
+            cfg.tempWarnPercent = 80
+            cfg.tempCriticalPercent = 90
+        }
     }
 
     SessionLock { id: lock; watching: (root.shown && (root.has("system") || root.has("battery"))) || !root.onDesktop }
@@ -71,9 +82,7 @@ PlasmoidItem {
         running: root.panelOn
         sections: root.sections
         tempUnit: root.cfg.tempUnit
-        tempAlerts: root.cfg.tempColorAlerts
-        tempWarnPercent: root.cfg.tempWarnPercent
-        tempCriticalPercent: root.cfg.tempCriticalPercent
+        alerts: alertManager
         weatherFeed: weatherData
         systemFeed: systemData
         batteryFeed: powerData
@@ -137,6 +146,25 @@ PlasmoidItem {
         vramTotal: systemData.vramTotal
     }
 
+    // ---- alerts ----
+    // Every reading judged against the thresholds: the pills, cards, panel
+    // item and its hover card all read their warning / critical levels here.
+    AlertManager {
+        id: alertManager
+        enabled: root.cfg.tempColorAlerts
+        animate: root.cfg.enablePulsingAnimations
+        cpuTempWarn: root.cfg.cpuTempWarnThreshold
+        cpuTempCrit: root.cfg.cpuTempCritThreshold
+        gpuTempWarn: root.cfg.gpuTempWarnThreshold
+        gpuTempCrit: root.cfg.gpuTempCritThreshold
+        cpuLoadCrit: root.cfg.cpuLoadCritThreshold
+        gpuLoadCrit: root.cfg.gpuLoadCritThreshold
+        ramLoadCrit: root.cfg.ramLoadCritThreshold
+        tempUnit: root.cfg.tempUnit
+        system: systemData
+        disk: root.has("disk") ? diskData : null
+    }
+
     // The header names the place the forecast is for, or else this machine.
     property string hostName: ""
     P5Support.DataSource {
@@ -167,7 +195,7 @@ PlasmoidItem {
             if (String(data["stdout"]).trim() === "none") Qt.openUrlExternally("appstream://org.kde.plasma-systemmonitor")
         }
     }
-    // tab: overview | processes | services | network | disks
+    // tab: overview | sensors | processes | services | network | disks
     function openDiagnostics(tab) {
         var command = launchCommand(tab || "processes")
         if (launcher.connectedSources.indexOf(command) < 0) launcher.connectSource(command)
@@ -182,6 +210,15 @@ PlasmoidItem {
 
     // ---- theme ----
     SkinEngine { id: skinEngine; activeSkin: root.cfg.activeSkin }
+    // The skin and light / dark / auto, kept the same as the Sub-Etha System Monitor's.
+    ThemeSync {
+        skin: root.cfg.activeSkin
+        mode: root.cfg.themeMode
+        onReceived: (skin, mode) => {
+            if (root.cfg.activeSkin !== skin) root.cfg.activeSkin = skin
+            if (root.cfg.themeMode !== mode) root.cfg.themeMode = mode
+        }
+    }
     SubEthaTheme {
         id: guide
         mode: root.cfg.themeMode
@@ -192,6 +229,7 @@ PlasmoidItem {
         skin: skinEngine.style
         mood: root.anyCritical || systemData.cpuUsage > 85 ? "stressed" : "idle"
         live: root.live
+        alertMotion: alertManager.animate
         meterA: Math.max(systemData.cpuUsage, systemData.gpuUsage) / 100
         meterB: Math.max(0, Math.min(1, (systemData.hottest - Sys.TEMP_MIN) / (Sys.TEMP_MAX - Sys.TEMP_MIN)))
     }
@@ -199,7 +237,7 @@ PlasmoidItem {
 
     readonly property bool anyCritical: (has("disk") && diskData.anyCritical) || (has("battery") && powerData.anyCritical)
                                       || (has("ai") && aiData.anyCritical)
-                                      || (has("system") && cfg.tempColorAlerts && systemData.hottest >= Sys.tempAt(cfg.tempCriticalPercent))
+                                      || (has("system") && (alertManager.cpu === 2 || alertManager.gpu === 2 || alertManager.ram === 2))
 
     // ---- representations ----
     preferredRepresentation: onDesktop ? fullRepresentation : compactRepresentation
@@ -210,15 +248,6 @@ PlasmoidItem {
     toolTipMainText: onDesktop ? i18n("The Sub-Etha Guide") : ""
     toolTipSubText: !onDesktop ? "" : [
         has("weather") && weatherData.hasData ? (root.cfg.locationName || "") + "  " + weatherData.tempText : "",
-    // The skin and light / dark / auto, kept the same as the Sub-Etha System Monitor's.
-    ThemeSync {
-        skin: root.cfg.activeSkin
-        mode: root.cfg.themeMode
-        onReceived: (skin, mode) => {
-            if (root.cfg.activeSkin !== skin) root.cfg.activeSkin = skin
-            if (root.cfg.themeMode !== mode) root.cfg.themeMode = mode
-        }
-    }
         systemData.cpuUsage > 0 || systemData.cpuTemp > 0
             ? i18n("CPU %1% · %2", Math.round(systemData.cpuUsage), Sys.temp(systemData.cpuTemp, root.cfg.tempUnit)) : "",
         systemData.hasGpu && systemData.gpuTemp > 0
@@ -242,9 +271,9 @@ PlasmoidItem {
         onRefreshRequested: weatherData.refresh()
         theme: guide
         expanded: root.expanded
-        tempAlerts: root.cfg.tempColorAlerts
-        tempWarnPercent: root.cfg.tempWarnPercent
-        tempCriticalPercent: root.cfg.tempCriticalPercent
+        alerts: alertManager
+        offPanelCritical: panelReadings.offPanelCritical
+        animate: alertManager.animate && root.panelOn
         popupLocation: Plasmoid.location
         preview: panelPreview
         onPreviewOpenChanged: root.previewing = previewOpen
@@ -310,9 +339,7 @@ PlasmoidItem {
             tempUnit: root.cfg.tempUnit
             showFanPercent: root.cfg.showFanPercent
             fanMaxRpm: root.cfg.fanMaxRpm
-            tempAlerts: root.cfg.tempColorAlerts
-            tempWarnPercent: root.cfg.tempWarnPercent
-            tempCriticalPercent: root.cfg.tempCriticalPercent
+            alerts: alertManager
             interval: systemData.interval
             showGraphs: true
             showSpecs: false
@@ -361,6 +388,7 @@ PlasmoidItem {
         diskFeed: diskData
         batteryFeed: powerData
         aiFeed: aiData
+        alerts: alertManager
         onLocationChosen: (name, latitude, longitude) => {
             root.cfg.locationName = name
             root.cfg.latitude = latitude
@@ -369,6 +397,6 @@ PlasmoidItem {
         onDensityChosen: (key, density) => root.cfg[key + "Density"] = density
         onSensorSizeChosen: (key, size) => root.cfg[key + "SensorSize"] = size
         onConfigureRequested: Plasmoid.internalAction("configure").trigger()
-        onDiagnosticsRequested: root.openDiagnostics("processes")
+        onMonitorRequested: tab => root.openDiagnostics(tab)
     }
 }

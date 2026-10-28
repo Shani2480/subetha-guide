@@ -31,6 +31,7 @@ QtObject {
     // "idle", "stressed" (a critical reading); the owner sets it, BMO's face shows it
     property string mood: "idle"
     property bool live: false           // the Guide is on screen; gates a skin's ambient flicker
+    property bool alertMotion: true     // enablePulsingAnimations: alerts breathe, blink and strobe
     // Two readings for a skin's analog dials, 0..1: the busier of CPU and GPU, and the hotter.
     property real meterA: 0
     property real meterB: 0
@@ -62,6 +63,11 @@ QtObject {
     readonly property color accent: dark ? amber : coral           // commentary
     readonly property color cool:   dark ? cyan : teal             // charging, mains, I/O
     readonly property color alert:  dark || skinned ? red : "#E53935"
+    // alert levels (AlertManager): fixed, so a skin's palette never hides a warning
+    readonly property color warnColor: dark ? "#FFB000" : "#E8890C"     // warning: amber
+    readonly property color critColor: dark ? "#FF2A4B" : "#D91B33"     // critical: crimson
+    // the CRT terminal and glitch skins jitter a critical figure by a pixel
+    readonly property bool alertJitter: (dark && !skinned) || (!!frame && frame.glitch === true)
     // Fill by how healthy a level is: good, middling, bad
     readonly property color high:   sc("accentGood", dark ? phosphor : teal)
     readonly property color mid:    dark ? amber : mustard

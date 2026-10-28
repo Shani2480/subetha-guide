@@ -50,7 +50,7 @@ SlidingPillContainer {
     // CRITICAL QUOTA EXCEEDED blinks on and off while on screen.
     property real flash: 1
     SequentialAnimation on flash {
-        running: card.isCritical && card.live
+        running: card.isCritical && card.live && card.theme.alertMotion
         loops: Animation.Infinite
         onRunningChanged: if (!running) card.flash = 1
         PauseAnimation { duration: 700 }

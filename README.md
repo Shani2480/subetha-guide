@@ -93,16 +93,34 @@ One tab per module:
 - **Weather & Location:** place search or detect, units, icon style, update
   interval, background animations, Arthur and Marvin.
 - **System Hardware:** which pills and their sizes, GPU, fans, sparklines,
-  host profile, temperature unit and colour alerts (warning and critical as
-  a share of the 30-100 °C scale), sampling interval.
+  host profile, temperature unit, alerts (below), sampling interval.
 - **Disks & Storage:** which volumes, throughput, figure and unit, warning
   level.
 - **Power & Battery:** which devices, wattage, gauges, estimates, critical
   level and low-battery blink.
 
+**Alerts**: each CPU, GPU, RAM and disk reading is judged against the
+thresholds under System Hardware → Alerts: CPU and GPU temperature warn at
+75 °C and are critical at 85 °C; CPU, GPU and memory load are critical at
+90 %, 95 % and 90 %. A warning shows an amber `[WARN]` on the pill. A
+critical reading blinks `[CRITICAL: 88°C]`, turns its figure crimson
+(jittering a pixel on the CRT terminal and glitch skins), haloes its pill
+and card with a breathing glow, and strobes the bar's temperature wash or
+pulses its load fill. In a panel, a critical reading flashes once a second.
+A critical reading the panel isn't showing puts a blinking dot on the icon,
+and the hover card opens with an `ALERT: ...` line for it. *Animate them*
+switches the motion off and keeps the colours.
+
 **Process diagnostics**: the System section's `[LAUNCH FULL PROCESS
 DIAGNOSTICS]` pill (Full mode) and the widget's context menu open the fullest
-process monitor available. It tries, in order:
+process monitor available. So do these, each aimed at the matching tab of the
+Sub-Etha System Monitor:
+- the **COMPUTE** card's title (Overview) and the **STORAGE** card's title
+  (Disks), which underline on hover and carry an open-in-window arrow
+- a **double-click** on a pill: CPU or RAM opens Processes, GPU or fans
+  Sensors, network Network, a volume Disks
+
+It tries, in order:
 1. a themed companion at `package/contents/tools/subetha-monitor.py`, if present
 2. KDE System Monitor
 3. KSysGuard
@@ -231,7 +249,8 @@ process table with SIGTERM / SIGKILL, systemd unit control, network and
 storage tabs, and fans that spin at their real RPM. Once it is installed
 (its `install.sh` puts `subetha-monitor` on the app menu and in
 `~/.local/bin`), the widget's diagnostics button opens it on the Processes
-tab; without it, the button falls back to KDE's System Monitor.
+tab, the section titles and double-clicked pills on the tab for what they
+show; without it, they fall back to KDE's System Monitor.
 
 ## Layout
 
