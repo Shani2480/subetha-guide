@@ -1,0 +1,1300 @@
+# Dutch translations for The Sub-Etha package.
+# Copyright (C) 2026 THE The Sub-Etha'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the The Sub-Etha Guide package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: The Sub-Etha Guide\n"
+"Report-Msgid-Bugs-To: shani248@gmail.com\n"
+"POT-Creation-Date: 2026-10-28 01:01+0100\n"
+"PO-Revision-Date: 2026-10-28 00:56+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Appearance & Sections"
+msgstr "Uiterlijk & secties"
+
+msgid "Weather & Location"
+msgstr "Weer & locatie"
+
+msgid "System Hardware"
+msgstr "Systeemhardware"
+
+msgid "Disks & Storage"
+msgstr "Schijven & opslag"
+
+msgid "Power & Battery"
+msgstr "Energie & batterij"
+
+#, javascript-format
+msgid "%1% OF DESIGN CAPACITY"
+msgstr "%1% VAN ONTWERPCAPACITEIT"
+
+msgctxt "not available"
+msgid "N/A"
+msgstr "N.V.T."
+
+msgid "HEALTH: %1"
+msgstr "CONDITIE: %1"
+
+msgid "CYCLES: %1"
+msgstr "CYCLI: %1"
+
+msgid "NO SELECTED BATTERIES REPORTING ON THIS VESSEL."
+msgstr "GEEN GESELECTEERDE BATTERIJEN MELDEN ZICH OP DIT SCHIP."
+
+msgid "MAINS: CONNECTED"
+msgstr "NETSTROOM: AANGESLOTEN"
+
+msgid "MAINS: OFFLINE"
+msgstr "NETSTROOM: OFFLINE"
+
+msgctxt "power profile"
+msgid "SAVER"
+msgstr "BESPARING"
+
+msgctxt "power profile"
+msgid "PERFORMANCE"
+msgstr "PRESTATIES"
+
+msgctxt "power profile"
+msgid "BALANCED"
+msgstr "GEBALANCEERD"
+
+#, javascript-format
+msgctxt "charging, battery percent"
+msgid "CHG %1%"
+msgstr "LAD %1%"
+
+msgid "DEPLETION IMMINENT"
+msgstr "BIJNA LEEG"
+
+msgctxt "time estimate: hours, minutes"
+msgid "%1H %2M"
+msgstr "%1U %2M"
+
+msgctxt "time estimate: minutes"
+msgid "%1M"
+msgstr "%1M"
+
+msgid "CHARGING · %1 TO FULL"
+msgstr "LADEN · %1 TOT VOL"
+
+msgid "CHARGING"
+msgstr "LADEN"
+
+msgid "DRAINING · %1 LEFT"
+msgstr "ONTLADEN · %1 OVER"
+
+msgid "DRAINING"
+msgstr "ONTLADEN"
+
+msgid "FULLY CHARGED"
+msgstr "VOLLEDIG GELADEN"
+
+msgid "ON MAINS · HOLDING"
+msgstr "OP NETSTROOM · STABIEL"
+
+msgctxt "battery state"
+msgid "IDLE"
+msgstr "INACTIEF"
+
+msgctxt "battery state"
+msgid "ONLINE"
+msgstr "ONLINE"
+
+#, javascript-format
+msgid "HEALTH %1%"
+msgstr "CONDITIE %1%"
+
+#, javascript-format
+msgctxt "charge stop threshold"
+msgid "LIMIT %1%"
+msgstr "LIMIET %1%"
+
+msgid "Energy cell"
+msgstr "Energiecel"
+
+msgid "NO ENERGY CELLS DETECTED. MOSTLY HARMLESS."
+msgstr "GEEN ENERGIECELLEN GEDETECTEERD. MEESTAL ONGEVAARLIJK."
+
+msgid "IMPROBABILITY SURGE IMMINENT. PLUG IN BEFORE DESTRUCTION."
+msgstr "ONWAARSCHIJNLIJKHEIDSPIEK NABIJ. SLUIT AAN VÓÓR VERNIETIGING."
+
+msgid "SIPHONING ELECTRONS FROM LOCAL GRID. STANDBY."
+msgstr "ELEKTRONEN WORDEN UIT HET LOKALE NET GEHEVELD. EVEN GEDULD."
+
+msgid "ENERGY CELLS OPTIMAL. NO IMMEDIATE TOWEL REQUIRED."
+msgstr "ENERGIECELLEN OPTIMAAL. VOORLOPIG GEEN HANDDOEK NODIG."
+
+msgid "DISCHARGING GRADUALLY. RELATIVELY HARMLESS."
+msgstr "GELEIDELIJK ONTLADEN. BETREKKELIJK ONGEVAARLIJK."
+
+msgid "RESERVES DWINDLING. LOCATE TOWEL AND CHARGER."
+msgstr "RESERVES SLINKEN. ZOEK HANDDOEK EN OPLADER."
+
+msgid "%1 [CHARGING]"
+msgstr "%1 [LADEN]"
+
+msgid "%1 [DRAIN]"
+msgstr "%1 [ONTLADEN]"
+
+msgid "%1 [IDLE / MAINS]"
+msgstr "%1 [INACTIEF / NETSTROOM]"
+
+msgid "%1 [IDLE]"
+msgstr "%1 [INACTIEF]"
+
+msgid "Select All"
+msgstr "Alles selecteren"
+
+msgid "Primary Only"
+msgstr "Alleen primaire"
+
+msgid "  (system battery)"
+msgstr "  (systeembatterij)"
+
+msgid "  · not connected"
+msgstr "  · niet verbonden"
+
+msgid "No battery-reporting devices found."
+msgstr "Geen apparaten gevonden die batterijgegevens melden."
+
+msgid "Select All also shows devices you connect later."
+msgstr "Alles selecteren toont ook apparaten die u later verbindt."
+
+msgid "Devices connected later appear only after you tick them here."
+msgstr "Later verbonden apparaten verschijnen pas nadat u ze hier aanvinkt."
+
+msgid "POWER // ENERGY CELLS"
+msgstr "ENERGIE // ENERGIECELLEN"
+
+msgid "Toggle Compact / Full telemetry"
+msgstr "Telemetrie compact / volledig omschakelen"
+
+msgid "DON'T PANIC"
+msgstr "GEEN PANIEK"
+
+msgid "Expand detailed telemetry & sparkline"
+msgstr "Gedetailleerde telemetrie en minigrafiek uitvouwen"
+
+msgid "Collapse to compact indicator"
+msgstr "Inklappen tot compacte indicator"
+
+msgid "Section density:"
+msgstr "Sectiedichtheid:"
+
+msgid "Compact: a slim bar per device with its percentage and wattage."
+msgstr "Compact: een smalle balk per apparaat met percentage en wattage."
+
+msgid ""
+"Full: expanded cards for the laptop and each peripheral, with status, live "
+"wattage, a segmented gauge and time to full / empty."
+msgstr ""
+"Volledig: uitgebreide kaarten voor de laptop en elk randapparaat, met "
+"status, actueel wattage, een gesegmenteerde meter en tijd tot vol / leeg."
+
+msgid "Show:"
+msgstr "Tonen:"
+
+msgid "Display"
+msgstr "Weergave"
+
+msgid "Power rate:"
+msgstr "Vermogen:"
+
+msgid "Show live charge / drain wattage"
+msgstr "Actueel laad- / ontlaadwattage tonen"
+
+msgid "Gauges:"
+msgstr "Meters:"
+
+msgid "Show percentage only (hide the segmented bars)"
+msgstr "Alleen percentage tonen (gesegmenteerde balken verbergen)"
+
+msgid "Estimates:"
+msgstr "Schattingen:"
+
+msgid "Show time to empty / time to full"
+msgstr "Tijd tot leeg / tijd tot vol tonen"
+
+msgid "Critical warning below:"
+msgstr "Kritieke waarschuwing onder:"
+
+msgid "Low battery:"
+msgstr "Batterij bijna leeg:"
+
+msgid "Blink the percentage and DEPLETION IMMINENT below the warning level"
+msgstr "Percentage en BIJNA LEEG laten knipperen onder het waarschuwingsniveau"
+
+msgid ""
+"Compact: one slim pill per volume with its label, figure and capacity bar."
+msgstr "Compact: één smal vak per volume met label, waarde en capaciteitsbalk."
+
+msgid ""
+"Full: expanded drive cards with live read / write speeds, filesystem badge, "
+"mount point and a segmented gauge."
+msgstr ""
+"Volledig: uitgebreide schijfkaarten met actuele lees- / schrijfsnelheden, "
+"bestandssysteemlabel, koppelpunt en een gesegmenteerde meter."
+
+msgid "Removable:"
+msgstr "Verwijderbaar:"
+
+msgid "Hide USB and external drives"
+msgstr "USB- en externe schijven verbergen"
+
+msgid "System:"
+msgstr "Systeem:"
+
+msgid "Show boot and EFI partitions"
+msgstr "Opstart- en EFI-partities tonen"
+
+msgid "Throughput:"
+msgstr "Doorvoer:"
+
+msgid "Show live read / write speeds"
+msgstr "Actuele lees- / schrijfsnelheden tonen"
+
+msgid "Figure:"
+msgstr "Waarde:"
+
+msgid "Free space"
+msgstr "Vrije ruimte"
+
+msgid "Used space"
+msgstr "Gebruikte ruimte"
+
+msgid "Used / total"
+msgstr "Gebruikt / totaal"
+
+msgid "Unit:"
+msgstr "Eenheid:"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Gigabytes (GB)"
+msgstr "Gigabytes (GB)"
+
+msgid "Terabytes (TB)"
+msgstr "Terabytes (TB)"
+
+msgid "Percent"
+msgstr "Procent"
+
+msgid "Warning at:"
+msgstr "Waarschuwen bij:"
+
+#, javascript-format
+msgid "%1% used"
+msgstr "%1% gebruikt"
+
+msgid "Automatic (first GPU)"
+msgstr "Automatisch (eerste GPU)"
+
+msgid "GPU %1: %2"
+msgstr "GPU %1: %2"
+
+msgid ""
+"Compact: condensed one-line pills (CPU load and temperature, RAM, GPU, "
+"network). No sparklines or hardware banner."
+msgstr ""
+"Compact: beknopte vakken op één regel (CPU-belasting en -temperatuur, RAM, "
+"GPU, netwerk). Geen minigrafieken of hardwarebanner."
+
+msgid ""
+"Full: expanded cards with rolling sparkline graphs, the hardware profile "
+"banner and fan speed dials."
+msgstr ""
+"Volledig: uitgebreide kaarten met doorlopende minigrafieken, de "
+"hardwareprofielbanner en ventilatorsnelheidsmeters."
+
+msgid "CPU load, clock and temperature"
+msgstr "CPU-belasting, kloksnelheid en temperatuur"
+
+msgid "Memory"
+msgstr "Geheugen"
+
+msgid "GPU load, temperature and VRAM"
+msgstr "GPU-belasting, temperatuur en VRAM"
+
+msgid "GPU:"
+msgstr "GPU:"
+
+msgid "Only one GPU is reporting on this machine."
+msgstr "Er meldt zich maar één GPU op deze machine."
+
+msgid "No GPU is reporting through the system monitor."
+msgstr "Er meldt zich geen GPU via de systeemmonitor."
+
+msgid "Network throughput"
+msgstr "Netwerkdoorvoer"
+
+msgid "Cooling fans / RPM"
+msgstr "Koelventilatoren / RPM"
+
+msgid "Show fan speed as a percentage"
+msgstr "Ventilatorsnelheid als percentage tonen"
+
+msgid "Fan full speed:"
+msgstr "Maximale ventilatorsnelheid:"
+
+msgid "%1 RPM"
+msgstr "%1 RPM"
+
+msgid "Temperature alerts"
+msgstr "Temperatuurwaarschuwingen"
+
+msgid "Colours:"
+msgstr "Kleuren:"
+
+msgid "Change the CPU / GPU temperature colour as it heats up"
+msgstr "Kleur van CPU- / GPU-temperatuur laten veranderen bij opwarming"
+
+msgid "Warning (orange) from:"
+msgstr "Waarschuwing (oranje) vanaf:"
+
+msgid "%1% of range (%2 °C)"
+msgstr "%1% van bereik (%2 °C)"
+
+msgid "Critical (red, pulsing) from:"
+msgstr "Kritiek (rood, pulserend) vanaf:"
+
+msgid ""
+"The bars run from 30 °C to 100 °C. At the critical level the pill's border "
+"pulses too and the panel icon asks for attention. With colours off the "
+"temperature keeps its normal amber."
+msgstr ""
+"De balken lopen van 30 °C tot 100 °C. Op het kritieke niveau pulseert ook de "
+"rand van het vak en vraagt het paneelpictogram om aandacht. Met kleuren uit "
+"behoudt de temperatuur zijn normale amberkleur."
+
+msgid "Full mode extras"
+msgstr "Extra's in volledige modus"
+
+msgid "Graphs:"
+msgstr "Grafieken:"
+
+msgid "Rolling sparklines in each pill"
+msgstr "Doorlopende minigrafieken in elk vak"
+
+msgid "Host profile:"
+msgstr "Hostprofiel:"
+
+msgid "Show CPU, GPU, memory and OS banner"
+msgstr "Banner met CPU, GPU, geheugen en besturingssysteem tonen"
+
+msgid "Sampling"
+msgstr "Bemonstering"
+
+msgid "Temperature:"
+msgstr "Temperatuur:"
+
+msgid "Celsius (°C)"
+msgstr "Celsius (°C)"
+
+msgid "Fahrenheit (°F)"
+msgstr "Fahrenheit (°F)"
+
+msgid "Update every:"
+msgstr "Bijwerken elke:"
+
+msgid "%1 s"
+msgstr "%1 s"
+
+msgid "Weather temperature"
+msgstr "Weertemperatuur"
+
+msgid "CPU load"
+msgstr "CPU-belasting"
+
+msgctxt "panel label"
+msgid "CPU"
+msgstr "CPU"
+
+msgid "CPU temperature"
+msgstr "CPU-temperatuur"
+
+msgid "GPU temperature"
+msgstr "GPU-temperatuur"
+
+msgctxt "panel label"
+msgid "GPU"
+msgstr "GPU"
+
+msgid "Memory usage"
+msgstr "Geheugengebruik"
+
+msgctxt "panel label"
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Network download"
+msgstr "Netwerkdownload"
+
+msgctxt "panel label"
+msgid "NET"
+msgstr "NET"
+
+msgid "Battery level"
+msgstr "Batterijniveau"
+
+msgctxt "panel label"
+msgid "BAT"
+msgstr "BAT"
+
+msgid "Several at once"
+msgstr "Meerdere tegelijk"
+
+msgid "Weather: sky hero card, forecast drawers, Arthur and Marvin"
+msgstr "Weer: luchtkaart, voorspellingslades, Arthur en Marvin"
+
+msgid "System: CPU, memory, GPU, network and fans"
+msgstr "Systeem: CPU, geheugen, GPU, netwerk en ventilatoren"
+
+msgid "Storage: volumes, capacity and I/O throughput"
+msgstr "Opslag: volumes, capaciteit en I/O-doorvoer"
+
+msgid "Power: batteries and live wattage"
+msgstr "Energie: batterijen en actueel wattage"
+
+msgid "Guide theme:"
+msgstr "Gidsthema:"
+
+msgid "Movie Encyclopedia"
+msgstr "Filmencyclopedie"
+
+msgid ""
+"Movie Encyclopedia: Clean cream parchment background with bold 2D graphic "
+"typography, flat shadows, and Shynola-inspired infographic colors."
+msgstr ""
+"Filmencyclopedie: strakke crèmekleurige perkamentachtergrond met vette 2D-"
+"grafische typografie, vlakke schaduwen en door Shynola geïnspireerde "
+"infographic-kleuren."
+
+msgid "Sub-Etha Terminal"
+msgstr "Sub-Etha-terminal"
+
+msgid ""
+"Sub-Etha Terminal: Classic 1981 BBC green phosphor CRT display with "
+"scanlines, coordinate grids, and amber telemetry alerts."
+msgstr ""
+"Sub-Etha-terminal: klassiek groen fosfor-CRT-scherm van de BBC uit 1981 met "
+"scanlijnen, coördinatenrasters en amberkleurige telemetriewaarschuwingen."
+
+msgid "Solar Auto"
+msgstr "Zon automatisch"
+
+msgid ""
+"Solar Synchronization: Automatically switches to Movie Light at sunrise and "
+"Sub-Etha CRT Dark at sunset based on local coordinates."
+msgstr ""
+"Zonsynchronisatie: schakelt automatisch over naar Film Licht bij zonsopkomst "
+"en Sub-Etha CRT Donker bij zonsondergang, op basis van de lokale coördinaten."
+
+msgid ""
+"Auto follows sunrise and sunset at the weather location (Weather & Location "
+"tab)."
+msgstr ""
+"Automatisch volgt zonsopkomst en zonsondergang op de weerlocatie (tabblad "
+"Weer & locatie)."
+
+msgid ""
+"Each section is Compact or Full on its own: pick it on the section's tab, or "
+"click the [ - ] / [ + ] tag on its card."
+msgstr ""
+"Elke sectie is apart Compact of Volledig: kies het op het tabblad van de "
+"sectie, of klik op het label [ - ] / [ + ] op de kaart."
+
+msgid "Sections"
+msgstr "Secties"
+
+msgid "A section that is switched off folds away and stops sampling."
+msgstr "Een uitgeschakelde sectie klapt in en stopt met meten."
+
+msgid "Panel Display"
+msgstr "Paneelweergave"
+
+msgid "Show in panel:"
+msgstr "Tonen in paneel:"
+
+msgid "Preview:"
+msgstr "Voorbeeld:"
+
+msgid "%1  → next every %2 s"
+msgstr "%1  → volgende elke %2 s"
+
+msgid "Icon:"
+msgstr "Pictogram:"
+
+msgid "Show the reading's icon (weather condition, chip, battery...)"
+msgstr "Pictogram van de meting tonen (weertype, chip, batterij...)"
+
+msgid "Meter:"
+msgstr "Meter:"
+
+msgid "Show a micro progress bar next to the figure"
+msgstr "Een kleine voortgangsbalk naast de waarde tonen"
+
+msgid "Cycle readings:"
+msgstr "Metingen afwisselen:"
+
+msgid "Off"
+msgstr "Uit"
+
+msgid "Every %1 s"
+msgstr "Elke %1 s"
+
+msgid ""
+"Cycling steps through the readings of the sections switched on above. Middle-"
+"click the panel item to refresh the forecast."
+msgstr ""
+"Afwisselen loopt door de metingen van de hierboven ingeschakelde secties. "
+"Middelklik op het paneelitem om de voorspelling te vernieuwen."
+
+msgid "%1 (approximate, from your IP address)"
+msgstr "%1 (bij benadering, op basis van uw IP-adres)"
+
+msgid ""
+"Compact: one low-profile pill with the location, condition icon, temperature "
+"and feels-like. Arthur and Marvin stay home and the forecast drawers fold "
+"away."
+msgstr ""
+"Compact: één laag vak met de locatie, het weerpictogram, de temperatuur en "
+"de gevoelstemperatuur. Arthur en Marvin blijven thuis en de "
+"voorspellingslades klappen in."
+
+msgid ""
+"Full: the sky hero card with Arthur and Marvin roaming the forecast strip, "
+"plus the hourly and 7-day drawers."
+msgstr ""
+"Volledig: de luchtkaart met Arthur en Marvin die over de voorspellingsstrook "
+"zwerven, plus de lades per uur en voor 7 dagen."
+
+msgid "Location:"
+msgstr "Locatie:"
+
+msgid "Type a city name…"
+msgstr "Typ een plaatsnaam…"
+
+msgid "Detect"
+msgstr "Detecteren"
+
+msgid "Approximate location from your internet connection"
+msgstr "Locatie bij benadering via uw internetverbinding"
+
+msgid "Detecting your location…"
+msgstr "Uw locatie detecteren…"
+
+msgid "Searching…"
+msgstr "Zoeken…"
+
+msgid "No places found for “%1”. Coordinates unchanged."
+msgstr "Geen plaatsen gevonden voor “%1”. Coördinaten ongewijzigd."
+
+msgid "Using: %1"
+msgstr "In gebruik: %1"
+
+msgid "Wind speed:"
+msgstr "Windsnelheid:"
+
+msgid "km/h"
+msgstr "km/u"
+
+msgid "mph"
+msgstr "mph"
+
+msgid "m/s"
+msgstr "m/s"
+
+msgid "Knots"
+msgstr "Knopen"
+
+msgid "Latitude:"
+msgstr "Breedtegraad:"
+
+msgid "Longitude:"
+msgstr "Lengtegraad:"
+
+msgid "Icon style:"
+msgstr "Pictogramstijl:"
+
+msgid "Sub-Etha wireframe"
+msgstr "Sub-Etha-draadmodel"
+
+msgid "Glass 3D (volumetric)"
+msgstr "Glas 3D (volumetrisch)"
+
+msgid "Hand-drawn (animated)"
+msgstr "Handgetekend (geanimeerd)"
+
+msgid "Weather Underground, white"
+msgstr "Weather Underground, wit"
+
+msgid "Weather Underground, black"
+msgstr "Weather Underground, zwart"
+
+msgid "Weather Underground, solid white"
+msgstr "Weather Underground, effen wit"
+
+msgid "Weather Underground, solid black"
+msgstr "Weather Underground, effen zwart"
+
+msgid "Update every (min):"
+msgstr "Bijwerken elke (min):"
+
+msgid "On the desktop:"
+msgstr "Op het bureaublad:"
+
+msgid "Translucent card background"
+msgstr "Doorschijnende kaartachtergrond"
+
+msgid "Hero card:"
+msgstr "Hoofdkaart:"
+
+msgid "Enable subtle background weather animations"
+msgstr "Subtiele weeranimaties op de achtergrond inschakelen"
+
+msgid "Show Arthur and Marvin on the forecast strip"
+msgstr "Arthur en Marvin op de voorspellingsstrook tonen"
+
+msgid "Compact"
+msgstr "Compact"
+
+msgid "Full"
+msgstr "Volledig"
+
+#, javascript-format
+msgid "%1% USED"
+msgstr "%1% GEBRUIKT"
+
+#, javascript-format
+msgid "%1% FREE"
+msgstr "%1% VRIJ"
+
+msgid "%1 USED"
+msgstr "%1 GEBRUIKT"
+
+msgid "%1 FREE"
+msgstr "%1 VRIJ"
+
+msgid "NO STORAGE VOLUMES DETECTED. SUSPICIOUSLY TIDY."
+msgstr "GEEN OPSLAGVOLUMES GEDETECTEERD. VERDACHT OPGERUIMD."
+
+msgid "IMPROBABILITY COLLAPSE IMMINENT. TOWEL CANNOT SAVE THIS DISK."
+msgstr ""
+"ONWAARSCHIJNLIJKHEIDSINSTORTING NABIJ. ZELFS EEN HANDDOEK REDT DEZE SCHIJF "
+"NIET."
+
+msgid "SECTOR MEMORY FULL. IMMEDIATE PURGE STRONGLY ADVISED."
+msgstr "SECTORGEHEUGEN VOL. ONMIDDELLIJK OPSCHONEN STERK AANBEVOLEN."
+
+msgid "STORAGE DENSITY RISING. A MODEST PURGE WOULD NOT GO AMISS."
+msgstr "OPSLAGDICHTHEID STIJGT. WAT OPSCHONEN KAN GEEN KWAAD."
+
+msgid "DATA ENTROPY ACCUMULATING AT NORMAL PARAMETERS."
+msgstr "DATA-ENTROPIE NEEMT TOE BINNEN NORMALE PARAMETERS."
+
+msgid "VAST EXPANSES OF SUB-ETHA SILICON VACUUM AVAILABLE."
+msgstr "UITGESTREKTE VLAKTEN SUB-ETHA-SILICIUMVACUÜM BESCHIKBAAR."
+
+msgid "NO SELECTED VOLUMES MOUNTED."
+msgstr "GEEN GESELECTEERDE VOLUMES GEKOPPELD."
+
+msgid "%1 VOLUME ONLINE"
+msgid_plural "%1 VOLUMES ONLINE"
+msgstr[0] "%1 VOLUME ONLINE"
+msgstr[1] "%1 VOLUMES ONLINE"
+
+msgid "TOTAL %1 / %2"
+msgstr "TOTAAL %1 / %2"
+
+msgid "CRITICAL QUOTA EXCEEDED"
+msgstr "KRITIEK QUOTUM OVERSCHREDEN"
+
+msgid "+%1 MOUNT"
+msgid_plural "+%1 MOUNTS"
+msgstr[0] "+%1 KOPPELPUNT"
+msgstr[1] "+%1 KOPPELPUNTEN"
+
+msgctxt "disk read rate"
+msgid "R: %1"
+msgstr "L: %1"
+
+msgctxt "disk write rate"
+msgid "W: %1"
+msgstr "S: %1"
+
+msgid "STORAGE // SECTOR ZZ9"
+msgstr "OPSLAG // SECTOR ZZ9"
+
+msgid " · removable"
+msgstr " · verwijderbaar"
+
+msgid "not mounted"
+msgstr "niet gekoppeld"
+
+msgid "All Volumes"
+msgstr "Alle volumes"
+
+msgid "Root Only"
+msgstr "Alleen root"
+
+msgid " · also %1"
+msgstr " · ook %1"
+
+msgid "Scanning mounted volumes…"
+msgstr "Gekoppelde volumes scannen…"
+
+msgid "THE SUB-ETHA GUIDE"
+msgstr "THE SUB-ETHA GUIDE"
+
+msgid "MOSTLY HARMLESS // %1"
+msgstr "MEESTAL ONGEVAARLIJK // %1"
+
+msgid "ALL SECTIONS STOWED. ENABLE ONE UNDER APPEARANCE & SECTIONS."
+msgstr "ALLE SECTIES OPGEBORGEN. SCHAKEL ER EEN IN ONDER UITERLIJK & SECTIES."
+
+msgid "Open Sub-Etha Process Diagnostics"
+msgstr "Sub-Etha-procesdiagnostiek openen"
+
+msgid "The Sub-Etha Guide"
+msgstr "The Sub-Etha Guide"
+
+msgid "CPU %1% · %2"
+msgstr "CPU %1% · %2"
+
+msgid "GPU %1% · %2"
+msgstr "GPU %1% · %2"
+
+msgid "RAM %1 / %2"
+msgstr "RAM %1 / %2"
+
+#, javascript-format
+msgid "Disk %1% used"
+msgstr "Schijf %1% gebruikt"
+
+#, javascript-format
+msgid "Battery %1%"
+msgstr "Batterij %1%"
+
+msgid "Don't Panic."
+msgstr "Geen paniek."
+
+msgid "HOST %1"
+msgstr "HOST %1"
+
+msgid "SUB-ETHA SENSOR TELEMETRY"
+msgstr "SUB-ETHA-SENSORTELEMETRIE"
+
+msgctxt "panel label"
+msgid "WX"
+msgstr "WX"
+
+msgctxt "@info processor name"
+msgid "UNKNOWN"
+msgstr "ONBEKEND"
+
+msgid "%1 GB USABLE"
+msgstr "%1 GB BRUIKBAAR"
+
+msgid "%1 MODULE"
+msgid_plural "%1 MODULES"
+msgstr[0] "%1 MODULE"
+msgstr[1] "%1 MODULES"
+
+msgctxt "@info no graphics card"
+msgid "NONE DETECTED"
+msgstr "GEEN GEVONDEN"
+
+msgctxt "@label fan name"
+msgid "PUMP"
+msgstr "POMP"
+
+msgctxt "@label fan name, %1 its number"
+msgid "CASE %1"
+msgstr "KAST %1"
+
+msgctxt "@label fan name"
+msgid "CASE"
+msgstr "KAST"
+
+msgctxt "@label fan name, %1 its number"
+msgid "FAN %1"
+msgstr "VENTILATOR %1"
+
+msgctxt "@label fan name"
+msgid "FAN"
+msgstr "VENTILATOR"
+
+msgid "MELTDOWN IMMINENT. CONSULTING EARTH V2 BLUEPRINTS."
+msgstr "KERNSMELTING NABIJ. BLAUWDRUKKEN VAN AARDE V2 WORDEN GERAADPLEEGD."
+
+msgid "SILICON ANXIETY DETECTED. COOLING TOWEL STRONGLY ADVISED."
+msgstr "SILICIUMANGST GEDETECTEERD. KOELENDE HANDDOEK STERK AANBEVOLEN."
+
+msgid "COOLING TURBINES AT HIGH VELOCITY. DISPLACING SUB-ETHA THERMALS."
+msgstr "KOELTURBINES OP HOGE SNELHEID. SUB-ETHA-WARMTE WORDT VERDREVEN."
+
+msgid "INFINITE IMPROBABILITY ENGINE CALCULATING PROBABILITIES."
+msgstr "ONEINDIGE ONWAARSCHIJNLIJKHEIDSAANDRIJVING BEREKENT KANSEN."
+
+msgid "ACOUSTIC RESONANCE MINIMAL. RELATIVELY HARMLESS."
+msgstr "AKOESTISCHE RESONANTIE MINIMAAL. BETREKKELIJK ONGEVAARLIJK."
+
+msgid "EDDIE COMPUTE CORE NOMINAL. TEA CONSUMPTION UNINTERRUPTED."
+msgstr "EDDIES REKENKERN NOMINAAL. THEECONSUMPTIE ONONDERBROKEN."
+
+msgid "FANS --"
+msgstr "VENTILATOREN --"
+
+msgid "FANS %1"
+msgstr "VENTILATOREN %1"
+
+msgid "COOLING ARRAYS"
+msgstr "KOELSYSTEMEN"
+
+msgid "NO FAN TELEMETRY"
+msgstr "GEEN VENTILATORTELEMETRIE"
+
+msgid "FANS"
+msgstr "VENTILATOREN"
+
+msgid "COMPUTE // EDDIE CORE"
+msgstr "REKENKRACHT // EDDIE-KERN"
+
+msgid "[LAUNCH FULL PROCESS DIAGNOSTICS]"
+msgstr "[VOLLEDIGE PROCESDIAGNOSTIEK STARTEN]"
+
+msgid "SUB-ETHA HOST PROFILE // COMPUTATIONAL FABRIC"
+msgstr "SUB-ETHA-HOSTPROFIEL // REKENWEEFSEL"
+
+msgid "PROCESSOR"
+msgstr "PROCESSOR"
+
+msgid "MEMORY"
+msgstr "GEHEUGEN"
+
+msgid "KERNEL/OS"
+msgstr "KERNEL/OS"
+
+msgid "READING..."
+msgstr "UITLEZEN..."
+
+msgid "CPU CORE ARRAY"
+msgstr "CPU-KERNENREEKS"
+
+msgid "%1 CORE"
+msgid_plural "%1 CORES"
+msgstr[0] "%1 KERN"
+msgstr[1] "%1 KERNEN"
+
+msgid "GOVERNOR %1"
+msgstr "GOVERNOR %1"
+
+#, javascript-format
+msgid "USER %1% · SYSTEM %2% · IO WAIT %3%"
+msgstr "GEBRUIKER %1% · SYSTEEM %2% · IO-WACHT %3%"
+
+msgid "CLOCK %2 – %3 ACROSS %1 CORE"
+msgid_plural "CLOCK %2 – %3 ACROSS %1 CORES"
+msgstr[0] "KLOK %2 – %3 OVER %1 KERN"
+msgstr[1] "KLOK %2 – %3 OVER %1 KERNEN"
+
+#, javascript-format
+msgid "CPU %1%"
+msgstr "CPU %1%"
+
+msgid "PRIMARY BUFFER"
+msgstr "PRIMAIRE BUFFER"
+
+msgid "ACTIVE: %1 | CACHED: %2 | SWAP: %3"
+msgstr "ACTIEF: %1 | CACHE: %2 | SWAP: %3"
+
+msgid "APPS %1 · CACHE %2"
+msgstr "APPS %1 · CACHE %2"
+
+msgid "SWAP %1 / %2"
+msgstr "SWAP %1 / %2"
+
+msgid "RAM %1 / %2 (%3%)"
+msgstr "RAM %1 / %2 (%3%)"
+
+msgid "GRAPHICS ENGINE"
+msgstr "GRAFISCHE ENGINE"
+
+msgid "VRAM %1 / %2"
+msgstr "VRAM %1 / %2"
+
+msgctxt "@info not available"
+msgid "N/A"
+msgstr "N.V.T."
+
+msgid ""
+"PCIE LINK: %1\n"
+"DRIVER: %2\n"
+"FAN DUTY: %3"
+msgstr ""
+"PCIE-VERBINDING: %1\n"
+"STUURPROGRAMMA: %2\n"
+"VENTILATORBELASTING: %3"
+
+msgid "CORE %1"
+msgstr "KERN %1"
+
+#, javascript-format
+msgid "VRAM %1% IN USE"
+msgstr "VRAM %1% IN GEBRUIK"
+
+#, javascript-format
+msgid "GPU %1%"
+msgstr "GPU %1%"
+
+msgid "%1 VRAM"
+msgstr "%1 VRAM"
+
+msgid "ALL INTERFACES"
+msgstr "ALLE INTERFACES"
+
+msgid "SUB-ETHA LINK"
+msgstr "SUB-ETHA-VERBINDING"
+
+msgid "TOTAL RX %1 / TOTAL TX %2"
+msgstr "TOTAAL RX %1 / TOTAAL TX %2"
+
+msgctxt "@info network state"
+msgid "OFFLINE"
+msgstr "OFFLINE"
+
+msgid "RESOLVING..."
+msgstr "OPZOEKEN..."
+
+msgid ""
+"GATEWAY: %1\n"
+"SUBNET: %2\n"
+"DNS: %3"
+msgstr ""
+"GATEWAY: %1\n"
+"SUBNET: %2\n"
+"DNS: %3"
+
+msgid "CLICK AN ADDRESS TO COPY IT"
+msgstr "KLIK OP EEN ADRES OM HET TE KOPIËREN"
+
+msgid "SESSION ↓ %1 ↑ %2"
+msgstr "SESSIE ↓ %1 ↑ %2"
+
+msgid "PEAK ↓ %1 ↑ %2"
+msgstr "PIEK ↓ %1 ↑ %2"
+
+msgid "NO SENSORS SELECTED."
+msgstr "GEEN SENSOREN GESELECTEERD."
+
+msgid "SAMPLING EVERY %1 S"
+msgstr "METING ELKE %1 S"
+
+msgid "%1-SAMPLE HISTORY"
+msgstr "GESCHIEDENIS VAN %1 METINGEN"
+
+msgid "RX: %1"
+msgstr "RX: %1"
+
+msgid "TX: %1"
+msgstr "TX: %1"
+
+#, javascript-format
+msgid "LOAD %1%"
+msgstr "BELASTING %1%"
+
+msgid "TEMP %1"
+msgstr "TEMP %1"
+
+msgid "LAN IP"
+msgstr "LAN IP"
+
+msgid "WAN IP"
+msgstr "WAN IP"
+
+msgid "[COPIED]"
+msgstr "[GEKOPIEERD]"
+
+msgid "Clear sky"
+msgstr "Onbewolkt"
+
+msgid "Mainly clear"
+msgstr "Overwegend helder"
+
+msgid "Partly cloudy"
+msgstr "Half bewolkt"
+
+msgid "Overcast"
+msgstr "Zwaar bewolkt"
+
+msgid "Fog"
+msgstr "Mist"
+
+msgid "Rime fog"
+msgstr "Rijpmist"
+
+msgid "Light drizzle"
+msgstr "Lichte motregen"
+
+msgid "Drizzle"
+msgstr "Motregen"
+
+msgid "Heavy drizzle"
+msgstr "Dichte motregen"
+
+msgid "Freezing drizzle"
+msgstr "Onderkoelde motregen"
+
+msgid "Heavy freezing drizzle"
+msgstr "Zware onderkoelde motregen"
+
+msgid "Light rain"
+msgstr "Lichte regen"
+
+msgid "Rain"
+msgstr "Regen"
+
+msgid "Heavy rain"
+msgstr "Zware regen"
+
+msgid "Freezing rain"
+msgstr "Onderkoelde regen"
+
+msgid "Heavy freezing rain"
+msgstr "Zware onderkoelde regen"
+
+msgid "Light snow"
+msgstr "Lichte sneeuw"
+
+msgid "Snow"
+msgstr "Sneeuw"
+
+msgid "Heavy snow"
+msgstr "Zware sneeuw"
+
+msgid "Snow grains"
+msgstr "Korrelsneeuw"
+
+msgid "Light showers"
+msgstr "Lichte buien"
+
+msgid "Showers"
+msgstr "Buien"
+
+msgid "Violent showers"
+msgstr "Zware buien"
+
+msgid "Snow showers"
+msgstr "Sneeuwbuien"
+
+msgid "Heavy snow showers"
+msgstr "Zware sneeuwbuien"
+
+msgid "Thunderstorm"
+msgstr "Onweer"
+
+msgid "Thunderstorm with hail"
+msgstr "Onweer met hagel"
+
+msgid "Severe thunderstorm with hail"
+msgstr "Zwaar onweer met hagel"
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "ELECTRICAL ANOMALIES. AVOID OPEN FIELDS & VOGON POETRY."
+msgstr "ELEKTRISCHE ANOMALIEËN. MIJD OPEN VELDEN & VOGON-POËZIE."
+
+msgid "ATMOSPHERIC TURBULENCE. TOWEL STRONGLY ADVISED."
+msgstr "ATMOSFERISCHE TURBULENTIE. HANDDOEK STERK AANBEVOLEN."
+
+msgid "PRECIPITATION DETECTED. BRING A TOWEL."
+msgstr "NEERSLAG GEDETECTEERD. NEEM EEN HANDDOEK MEE."
+
+msgid "CRYSTALLINE H2O DEPOSITION. DRESSING GOWN INSUFFICIENT."
+msgstr "KRISTALLIJNE H2O-AFZETTING. OCHTENDJAS ONTOEREIKEND."
+
+msgid "ROTATIONAL DARKNESS. IDEAL FOR STARGAZING OR PANICKING."
+msgstr "ROTATIEDUISTERNIS. IDEAAL VOOR STERRENKIJKEN OF IN PANIEK RAKEN."
+
+msgid "LOCAL STAR VISIBLE. MOSTLY HARMLESS."
+msgstr "LOKALE STER ZICHTBAAR. MEESTAL ONGEVAARLIJK."
+
+msgid "ATMOSPHERIC TURBULENCE. HOLD ON TO YOUR TOWEL."
+msgstr "ATMOSFERISCHE TURBULENTIE. HOU JE HANDDOEK VAST."
+
+msgid "VISIBILITY DEGRADED. PROBABILITY OF IMPROBABILITY: NORMAL."
+msgstr "ZICHT VERMINDERD. KANS OP ONWAARSCHIJNLIJKHEID: NORMAAL."
+
+msgctxt "compass point"
+msgid "N"
+msgstr "N"
+
+msgctxt "compass point"
+msgid "NE"
+msgstr "NO"
+
+msgctxt "compass point"
+msgid "E"
+msgstr "O"
+
+msgctxt "compass point"
+msgid "SE"
+msgstr "ZO"
+
+msgctxt "compass point"
+msgid "S"
+msgstr "Z"
+
+msgctxt "compass point"
+msgid "SW"
+msgstr "ZW"
+
+msgctxt "compass point"
+msgid "W"
+msgstr "W"
+
+msgctxt "compass point"
+msgid "NW"
+msgstr "NW"
+
+msgid "Bad response: %1"
+msgstr "Ongeldig antwoord: %1"
+
+msgid "Could not determine your location"
+msgstr "Kan uw locatie niet bepalen"
+
+msgid "%1° / %2°"
+msgstr "%1° / %2°"
+
+msgid "Updated %1"
+msgstr "Bijgewerkt %1"
+
+msgid "Feels like"
+msgstr "Gevoelstemperatuur"
+
+msgid "Feels"
+msgstr "Gevoel"
+
+msgid "High / Low"
+msgstr "Hoog / Laag"
+
+msgid "Hi / Lo"
+msgstr "Max / Min"
+
+msgid "Humidity"
+msgstr "Luchtvochtigheid"
+
+msgid "Wind"
+msgstr "Wind"
+
+msgid "Wind max"
+msgstr "Max. wind"
+
+msgid "Pressure"
+msgstr "Luchtdruk"
+
+msgid "UV index"
+msgstr "UV-index"
+
+msgid "UV"
+msgstr "UV"
+
+msgid "Rain chance"
+msgstr "Kans op regen"
+
+msgid "Precipitation"
+msgstr "Neerslag"
+
+msgid "Cloud cover"
+msgstr "Bewolking"
+
+msgctxt "short weekday, day of month, short month name"
+msgid "%1 %2 %3"
+msgstr "%1 %2 %3"
+
+msgid "Today · %1"
+msgstr "Vandaag · %1"
+
+msgid "GUIDE ENTRY: %1"
+msgstr "GIDSVERMELDING: %1"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Click to flip back"
+msgstr "Klik om terug te draaien"
+
+msgid "Unpin"
+msgstr "Losmaken"
+
+msgid "Keep open"
+msgstr "Open houden"
+
+msgid "Change location"
+msgstr "Locatie wijzigen"
+
+msgid "Refresh"
+msgstr "Vernieuwen"
+
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Show forecast"
+msgstr "Voorspelling tonen"
+
+msgid "Minimize"
+msgstr "Minimaliseren"
+
+msgid "Close"
+msgstr "Sluiten"
+
+msgid "Loading…"
+msgstr "Laden…"
+
+msgid "GUIDE ENTRY: %1 [SECTOR ZZ9]"
+msgstr "GIDSVERMELDING: %1 [SECTOR ZZ9]"
+
+msgid "H: %1°  L: %2°"
+msgstr "H: %1°  L: %2°"
+
+msgid "Sunrise"
+msgstr "Zonsopkomst"
+
+msgid "Sunset"
+msgstr "Zonsondergang"
+
+msgid "Feels like %1°"
+msgstr "Voelt als %1°"
+
+msgid "[IMPROBABILITY SURGE]"
+msgstr "[ONWAARSCHIJNLIJKHEIDSPIEK]"
+
+msgid "Search city…"
+msgstr "Zoek plaats…"
+
+msgid "Use my current location"
+msgstr "Mijn huidige locatie gebruiken"
+
+msgid "No places found"
+msgstr "Geen plaatsen gevonden"
+
+msgid "FEELS LIKE %1°"
+msgstr "VOELT ALS %1°"
+
+msgctxt "high and low temperature"
+msgid "H %1° · L %2°"
+msgstr "H %1° · L %2°"
+
+msgid "Weather unavailable (%1)"
+msgstr "Weer niet beschikbaar (%1)"

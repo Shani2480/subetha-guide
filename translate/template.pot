@@ -1,0 +1,1264 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the The Sub-Etha Guide package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: The Sub-Etha Guide\n"
+"Report-Msgid-Bugs-To: shani248@gmail.com\n"
+"POT-Creation-Date: 2026-10-28 01:01+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "Appearance & Sections"
+msgstr ""
+
+msgid "Weather & Location"
+msgstr ""
+
+msgid "System Hardware"
+msgstr ""
+
+msgid "Disks & Storage"
+msgstr ""
+
+msgid "Power & Battery"
+msgstr ""
+
+#, javascript-format
+msgid "%1% OF DESIGN CAPACITY"
+msgstr ""
+
+msgctxt "not available"
+msgid "N/A"
+msgstr ""
+
+msgid "HEALTH: %1"
+msgstr ""
+
+msgid "CYCLES: %1"
+msgstr ""
+
+msgid "NO SELECTED BATTERIES REPORTING ON THIS VESSEL."
+msgstr ""
+
+msgid "MAINS: CONNECTED"
+msgstr ""
+
+msgid "MAINS: OFFLINE"
+msgstr ""
+
+msgctxt "power profile"
+msgid "SAVER"
+msgstr ""
+
+msgctxt "power profile"
+msgid "PERFORMANCE"
+msgstr ""
+
+msgctxt "power profile"
+msgid "BALANCED"
+msgstr ""
+
+#, javascript-format
+msgctxt "charging, battery percent"
+msgid "CHG %1%"
+msgstr ""
+
+msgid "DEPLETION IMMINENT"
+msgstr ""
+
+msgctxt "time estimate: hours, minutes"
+msgid "%1H %2M"
+msgstr ""
+
+msgctxt "time estimate: minutes"
+msgid "%1M"
+msgstr ""
+
+msgid "CHARGING · %1 TO FULL"
+msgstr ""
+
+msgid "CHARGING"
+msgstr ""
+
+msgid "DRAINING · %1 LEFT"
+msgstr ""
+
+msgid "DRAINING"
+msgstr ""
+
+msgid "FULLY CHARGED"
+msgstr ""
+
+msgid "ON MAINS · HOLDING"
+msgstr ""
+
+msgctxt "battery state"
+msgid "IDLE"
+msgstr ""
+
+msgctxt "battery state"
+msgid "ONLINE"
+msgstr ""
+
+#, javascript-format
+msgid "HEALTH %1%"
+msgstr ""
+
+#, javascript-format
+msgctxt "charge stop threshold"
+msgid "LIMIT %1%"
+msgstr ""
+
+msgid "Energy cell"
+msgstr ""
+
+msgid "NO ENERGY CELLS DETECTED. MOSTLY HARMLESS."
+msgstr ""
+
+msgid "IMPROBABILITY SURGE IMMINENT. PLUG IN BEFORE DESTRUCTION."
+msgstr ""
+
+msgid "SIPHONING ELECTRONS FROM LOCAL GRID. STANDBY."
+msgstr ""
+
+msgid "ENERGY CELLS OPTIMAL. NO IMMEDIATE TOWEL REQUIRED."
+msgstr ""
+
+msgid "DISCHARGING GRADUALLY. RELATIVELY HARMLESS."
+msgstr ""
+
+msgid "RESERVES DWINDLING. LOCATE TOWEL AND CHARGER."
+msgstr ""
+
+msgid "%1 [CHARGING]"
+msgstr ""
+
+msgid "%1 [DRAIN]"
+msgstr ""
+
+msgid "%1 [IDLE / MAINS]"
+msgstr ""
+
+msgid "%1 [IDLE]"
+msgstr ""
+
+msgid "Select All"
+msgstr ""
+
+msgid "Primary Only"
+msgstr ""
+
+msgid "  (system battery)"
+msgstr ""
+
+msgid "  · not connected"
+msgstr ""
+
+msgid "No battery-reporting devices found."
+msgstr ""
+
+msgid "Select All also shows devices you connect later."
+msgstr ""
+
+msgid "Devices connected later appear only after you tick them here."
+msgstr ""
+
+msgid "POWER // ENERGY CELLS"
+msgstr ""
+
+msgid "Toggle Compact / Full telemetry"
+msgstr ""
+
+msgid "DON'T PANIC"
+msgstr ""
+
+msgid "Expand detailed telemetry & sparkline"
+msgstr ""
+
+msgid "Collapse to compact indicator"
+msgstr ""
+
+msgid "Section density:"
+msgstr ""
+
+msgid "Compact: a slim bar per device with its percentage and wattage."
+msgstr ""
+
+msgid ""
+"Full: expanded cards for the laptop and each peripheral, with status, live "
+"wattage, a segmented gauge and time to full / empty."
+msgstr ""
+
+msgid "Show:"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Power rate:"
+msgstr ""
+
+msgid "Show live charge / drain wattage"
+msgstr ""
+
+msgid "Gauges:"
+msgstr ""
+
+msgid "Show percentage only (hide the segmented bars)"
+msgstr ""
+
+msgid "Estimates:"
+msgstr ""
+
+msgid "Show time to empty / time to full"
+msgstr ""
+
+msgid "Critical warning below:"
+msgstr ""
+
+msgid "Low battery:"
+msgstr ""
+
+msgid "Blink the percentage and DEPLETION IMMINENT below the warning level"
+msgstr ""
+
+msgid ""
+"Compact: one slim pill per volume with its label, figure and capacity bar."
+msgstr ""
+
+msgid ""
+"Full: expanded drive cards with live read / write speeds, filesystem badge, "
+"mount point and a segmented gauge."
+msgstr ""
+
+msgid "Removable:"
+msgstr ""
+
+msgid "Hide USB and external drives"
+msgstr ""
+
+msgid "System:"
+msgstr ""
+
+msgid "Show boot and EFI partitions"
+msgstr ""
+
+msgid "Throughput:"
+msgstr ""
+
+msgid "Show live read / write speeds"
+msgstr ""
+
+msgid "Figure:"
+msgstr ""
+
+msgid "Free space"
+msgstr ""
+
+msgid "Used space"
+msgstr ""
+
+msgid "Used / total"
+msgstr ""
+
+msgid "Unit:"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Gigabytes (GB)"
+msgstr ""
+
+msgid "Terabytes (TB)"
+msgstr ""
+
+msgid "Percent"
+msgstr ""
+
+msgid "Warning at:"
+msgstr ""
+
+#, javascript-format
+msgid "%1% used"
+msgstr ""
+
+msgid "Automatic (first GPU)"
+msgstr ""
+
+msgid "GPU %1: %2"
+msgstr ""
+
+msgid ""
+"Compact: condensed one-line pills (CPU load and temperature, RAM, GPU, "
+"network). No sparklines or hardware banner."
+msgstr ""
+
+msgid ""
+"Full: expanded cards with rolling sparkline graphs, the hardware profile "
+"banner and fan speed dials."
+msgstr ""
+
+msgid "CPU load, clock and temperature"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "GPU load, temperature and VRAM"
+msgstr ""
+
+msgid "GPU:"
+msgstr ""
+
+msgid "Only one GPU is reporting on this machine."
+msgstr ""
+
+msgid "No GPU is reporting through the system monitor."
+msgstr ""
+
+msgid "Network throughput"
+msgstr ""
+
+msgid "Cooling fans / RPM"
+msgstr ""
+
+msgid "Show fan speed as a percentage"
+msgstr ""
+
+msgid "Fan full speed:"
+msgstr ""
+
+msgid "%1 RPM"
+msgstr ""
+
+msgid "Temperature alerts"
+msgstr ""
+
+msgid "Colours:"
+msgstr ""
+
+msgid "Change the CPU / GPU temperature colour as it heats up"
+msgstr ""
+
+msgid "Warning (orange) from:"
+msgstr ""
+
+msgid "%1% of range (%2 °C)"
+msgstr ""
+
+msgid "Critical (red, pulsing) from:"
+msgstr ""
+
+msgid ""
+"The bars run from 30 °C to 100 °C. At the critical level the pill's border "
+"pulses too and the panel icon asks for attention. With colours off the "
+"temperature keeps its normal amber."
+msgstr ""
+
+msgid "Full mode extras"
+msgstr ""
+
+msgid "Graphs:"
+msgstr ""
+
+msgid "Rolling sparklines in each pill"
+msgstr ""
+
+msgid "Host profile:"
+msgstr ""
+
+msgid "Show CPU, GPU, memory and OS banner"
+msgstr ""
+
+msgid "Sampling"
+msgstr ""
+
+msgid "Temperature:"
+msgstr ""
+
+msgid "Celsius (°C)"
+msgstr ""
+
+msgid "Fahrenheit (°F)"
+msgstr ""
+
+msgid "Update every:"
+msgstr ""
+
+msgid "%1 s"
+msgstr ""
+
+msgid "Weather temperature"
+msgstr ""
+
+msgid "CPU load"
+msgstr ""
+
+msgctxt "panel label"
+msgid "CPU"
+msgstr ""
+
+msgid "CPU temperature"
+msgstr ""
+
+msgid "GPU temperature"
+msgstr ""
+
+msgctxt "panel label"
+msgid "GPU"
+msgstr ""
+
+msgid "Memory usage"
+msgstr ""
+
+msgctxt "panel label"
+msgid "RAM"
+msgstr ""
+
+msgid "Network download"
+msgstr ""
+
+msgctxt "panel label"
+msgid "NET"
+msgstr ""
+
+msgid "Battery level"
+msgstr ""
+
+msgctxt "panel label"
+msgid "BAT"
+msgstr ""
+
+msgid "Several at once"
+msgstr ""
+
+msgid "Weather: sky hero card, forecast drawers, Arthur and Marvin"
+msgstr ""
+
+msgid "System: CPU, memory, GPU, network and fans"
+msgstr ""
+
+msgid "Storage: volumes, capacity and I/O throughput"
+msgstr ""
+
+msgid "Power: batteries and live wattage"
+msgstr ""
+
+msgid "Guide theme:"
+msgstr ""
+
+msgid "Movie Encyclopedia"
+msgstr ""
+
+msgid ""
+"Movie Encyclopedia: Clean cream parchment background with bold 2D graphic "
+"typography, flat shadows, and Shynola-inspired infographic colors."
+msgstr ""
+
+msgid "Sub-Etha Terminal"
+msgstr ""
+
+msgid ""
+"Sub-Etha Terminal: Classic 1981 BBC green phosphor CRT display with "
+"scanlines, coordinate grids, and amber telemetry alerts."
+msgstr ""
+
+msgid "Solar Auto"
+msgstr ""
+
+msgid ""
+"Solar Synchronization: Automatically switches to Movie Light at sunrise and "
+"Sub-Etha CRT Dark at sunset based on local coordinates."
+msgstr ""
+
+msgid ""
+"Auto follows sunrise and sunset at the weather location (Weather & Location "
+"tab)."
+msgstr ""
+
+msgid ""
+"Each section is Compact or Full on its own: pick it on the section's tab, or "
+"click the [ - ] / [ + ] tag on its card."
+msgstr ""
+
+msgid "Sections"
+msgstr ""
+
+msgid "A section that is switched off folds away and stops sampling."
+msgstr ""
+
+msgid "Panel Display"
+msgstr ""
+
+msgid "Show in panel:"
+msgstr ""
+
+msgid "Preview:"
+msgstr ""
+
+msgid "%1  → next every %2 s"
+msgstr ""
+
+msgid "Icon:"
+msgstr ""
+
+msgid "Show the reading's icon (weather condition, chip, battery...)"
+msgstr ""
+
+msgid "Meter:"
+msgstr ""
+
+msgid "Show a micro progress bar next to the figure"
+msgstr ""
+
+msgid "Cycle readings:"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Every %1 s"
+msgstr ""
+
+msgid ""
+"Cycling steps through the readings of the sections switched on above. Middle-"
+"click the panel item to refresh the forecast."
+msgstr ""
+
+msgid "%1 (approximate, from your IP address)"
+msgstr ""
+
+msgid ""
+"Compact: one low-profile pill with the location, condition icon, temperature "
+"and feels-like. Arthur and Marvin stay home and the forecast drawers fold "
+"away."
+msgstr ""
+
+msgid ""
+"Full: the sky hero card with Arthur and Marvin roaming the forecast strip, "
+"plus the hourly and 7-day drawers."
+msgstr ""
+
+msgid "Location:"
+msgstr ""
+
+msgid "Type a city name…"
+msgstr ""
+
+msgid "Detect"
+msgstr ""
+
+msgid "Approximate location from your internet connection"
+msgstr ""
+
+msgid "Detecting your location…"
+msgstr ""
+
+msgid "Searching…"
+msgstr ""
+
+msgid "No places found for “%1”. Coordinates unchanged."
+msgstr ""
+
+msgid "Using: %1"
+msgstr ""
+
+msgid "Wind speed:"
+msgstr ""
+
+msgid "km/h"
+msgstr ""
+
+msgid "mph"
+msgstr ""
+
+msgid "m/s"
+msgstr ""
+
+msgid "Knots"
+msgstr ""
+
+msgid "Latitude:"
+msgstr ""
+
+msgid "Longitude:"
+msgstr ""
+
+msgid "Icon style:"
+msgstr ""
+
+msgid "Sub-Etha wireframe"
+msgstr ""
+
+msgid "Glass 3D (volumetric)"
+msgstr ""
+
+msgid "Hand-drawn (animated)"
+msgstr ""
+
+msgid "Weather Underground, white"
+msgstr ""
+
+msgid "Weather Underground, black"
+msgstr ""
+
+msgid "Weather Underground, solid white"
+msgstr ""
+
+msgid "Weather Underground, solid black"
+msgstr ""
+
+msgid "Update every (min):"
+msgstr ""
+
+msgid "On the desktop:"
+msgstr ""
+
+msgid "Translucent card background"
+msgstr ""
+
+msgid "Hero card:"
+msgstr ""
+
+msgid "Enable subtle background weather animations"
+msgstr ""
+
+msgid "Show Arthur and Marvin on the forecast strip"
+msgstr ""
+
+msgid "Compact"
+msgstr ""
+
+msgid "Full"
+msgstr ""
+
+#, javascript-format
+msgid "%1% USED"
+msgstr ""
+
+#, javascript-format
+msgid "%1% FREE"
+msgstr ""
+
+msgid "%1 USED"
+msgstr ""
+
+msgid "%1 FREE"
+msgstr ""
+
+msgid "NO STORAGE VOLUMES DETECTED. SUSPICIOUSLY TIDY."
+msgstr ""
+
+msgid "IMPROBABILITY COLLAPSE IMMINENT. TOWEL CANNOT SAVE THIS DISK."
+msgstr ""
+
+msgid "SECTOR MEMORY FULL. IMMEDIATE PURGE STRONGLY ADVISED."
+msgstr ""
+
+msgid "STORAGE DENSITY RISING. A MODEST PURGE WOULD NOT GO AMISS."
+msgstr ""
+
+msgid "DATA ENTROPY ACCUMULATING AT NORMAL PARAMETERS."
+msgstr ""
+
+msgid "VAST EXPANSES OF SUB-ETHA SILICON VACUUM AVAILABLE."
+msgstr ""
+
+msgid "NO SELECTED VOLUMES MOUNTED."
+msgstr ""
+
+msgid "%1 VOLUME ONLINE"
+msgid_plural "%1 VOLUMES ONLINE"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "TOTAL %1 / %2"
+msgstr ""
+
+msgid "CRITICAL QUOTA EXCEEDED"
+msgstr ""
+
+msgid "+%1 MOUNT"
+msgid_plural "+%1 MOUNTS"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "disk read rate"
+msgid "R: %1"
+msgstr ""
+
+msgctxt "disk write rate"
+msgid "W: %1"
+msgstr ""
+
+msgid "STORAGE // SECTOR ZZ9"
+msgstr ""
+
+msgid " · removable"
+msgstr ""
+
+msgid "not mounted"
+msgstr ""
+
+msgid "All Volumes"
+msgstr ""
+
+msgid "Root Only"
+msgstr ""
+
+msgid " · also %1"
+msgstr ""
+
+msgid "Scanning mounted volumes…"
+msgstr ""
+
+msgid "THE SUB-ETHA GUIDE"
+msgstr ""
+
+msgid "MOSTLY HARMLESS // %1"
+msgstr ""
+
+msgid "ALL SECTIONS STOWED. ENABLE ONE UNDER APPEARANCE & SECTIONS."
+msgstr ""
+
+msgid "Open Sub-Etha Process Diagnostics"
+msgstr ""
+
+msgid "The Sub-Etha Guide"
+msgstr ""
+
+msgid "CPU %1% · %2"
+msgstr ""
+
+msgid "GPU %1% · %2"
+msgstr ""
+
+msgid "RAM %1 / %2"
+msgstr ""
+
+#, javascript-format
+msgid "Disk %1% used"
+msgstr ""
+
+#, javascript-format
+msgid "Battery %1%"
+msgstr ""
+
+msgid "Don't Panic."
+msgstr ""
+
+msgid "HOST %1"
+msgstr ""
+
+msgid "SUB-ETHA SENSOR TELEMETRY"
+msgstr ""
+
+msgctxt "panel label"
+msgid "WX"
+msgstr ""
+
+msgctxt "@info processor name"
+msgid "UNKNOWN"
+msgstr ""
+
+msgid "%1 GB USABLE"
+msgstr ""
+
+msgid "%1 MODULE"
+msgid_plural "%1 MODULES"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "@info no graphics card"
+msgid "NONE DETECTED"
+msgstr ""
+
+msgctxt "@label fan name"
+msgid "PUMP"
+msgstr ""
+
+msgctxt "@label fan name, %1 its number"
+msgid "CASE %1"
+msgstr ""
+
+msgctxt "@label fan name"
+msgid "CASE"
+msgstr ""
+
+msgctxt "@label fan name, %1 its number"
+msgid "FAN %1"
+msgstr ""
+
+msgctxt "@label fan name"
+msgid "FAN"
+msgstr ""
+
+msgid "MELTDOWN IMMINENT. CONSULTING EARTH V2 BLUEPRINTS."
+msgstr ""
+
+msgid "SILICON ANXIETY DETECTED. COOLING TOWEL STRONGLY ADVISED."
+msgstr ""
+
+msgid "COOLING TURBINES AT HIGH VELOCITY. DISPLACING SUB-ETHA THERMALS."
+msgstr ""
+
+msgid "INFINITE IMPROBABILITY ENGINE CALCULATING PROBABILITIES."
+msgstr ""
+
+msgid "ACOUSTIC RESONANCE MINIMAL. RELATIVELY HARMLESS."
+msgstr ""
+
+msgid "EDDIE COMPUTE CORE NOMINAL. TEA CONSUMPTION UNINTERRUPTED."
+msgstr ""
+
+msgid "FANS --"
+msgstr ""
+
+msgid "FANS %1"
+msgstr ""
+
+msgid "COOLING ARRAYS"
+msgstr ""
+
+msgid "NO FAN TELEMETRY"
+msgstr ""
+
+msgid "FANS"
+msgstr ""
+
+msgid "COMPUTE // EDDIE CORE"
+msgstr ""
+
+msgid "[LAUNCH FULL PROCESS DIAGNOSTICS]"
+msgstr ""
+
+msgid "SUB-ETHA HOST PROFILE // COMPUTATIONAL FABRIC"
+msgstr ""
+
+msgid "PROCESSOR"
+msgstr ""
+
+msgid "MEMORY"
+msgstr ""
+
+msgid "KERNEL/OS"
+msgstr ""
+
+msgid "READING..."
+msgstr ""
+
+msgid "CPU CORE ARRAY"
+msgstr ""
+
+msgid "%1 CORE"
+msgid_plural "%1 CORES"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "GOVERNOR %1"
+msgstr ""
+
+#, javascript-format
+msgid "USER %1% · SYSTEM %2% · IO WAIT %3%"
+msgstr ""
+
+msgid "CLOCK %2 – %3 ACROSS %1 CORE"
+msgid_plural "CLOCK %2 – %3 ACROSS %1 CORES"
+msgstr[0] ""
+msgstr[1] ""
+
+#, javascript-format
+msgid "CPU %1%"
+msgstr ""
+
+msgid "PRIMARY BUFFER"
+msgstr ""
+
+msgid "ACTIVE: %1 | CACHED: %2 | SWAP: %3"
+msgstr ""
+
+msgid "APPS %1 · CACHE %2"
+msgstr ""
+
+msgid "SWAP %1 / %2"
+msgstr ""
+
+msgid "RAM %1 / %2 (%3%)"
+msgstr ""
+
+msgid "GRAPHICS ENGINE"
+msgstr ""
+
+msgid "VRAM %1 / %2"
+msgstr ""
+
+msgctxt "@info not available"
+msgid "N/A"
+msgstr ""
+
+msgid ""
+"PCIE LINK: %1\n"
+"DRIVER: %2\n"
+"FAN DUTY: %3"
+msgstr ""
+
+msgid "CORE %1"
+msgstr ""
+
+#, javascript-format
+msgid "VRAM %1% IN USE"
+msgstr ""
+
+#, javascript-format
+msgid "GPU %1%"
+msgstr ""
+
+msgid "%1 VRAM"
+msgstr ""
+
+msgid "ALL INTERFACES"
+msgstr ""
+
+msgid "SUB-ETHA LINK"
+msgstr ""
+
+msgid "TOTAL RX %1 / TOTAL TX %2"
+msgstr ""
+
+msgctxt "@info network state"
+msgid "OFFLINE"
+msgstr ""
+
+msgid "RESOLVING..."
+msgstr ""
+
+msgid ""
+"GATEWAY: %1\n"
+"SUBNET: %2\n"
+"DNS: %3"
+msgstr ""
+
+msgid "CLICK AN ADDRESS TO COPY IT"
+msgstr ""
+
+msgid "SESSION ↓ %1 ↑ %2"
+msgstr ""
+
+msgid "PEAK ↓ %1 ↑ %2"
+msgstr ""
+
+msgid "NO SENSORS SELECTED."
+msgstr ""
+
+msgid "SAMPLING EVERY %1 S"
+msgstr ""
+
+msgid "%1-SAMPLE HISTORY"
+msgstr ""
+
+msgid "RX: %1"
+msgstr ""
+
+msgid "TX: %1"
+msgstr ""
+
+#, javascript-format
+msgid "LOAD %1%"
+msgstr ""
+
+msgid "TEMP %1"
+msgstr ""
+
+msgid "LAN IP"
+msgstr ""
+
+msgid "WAN IP"
+msgstr ""
+
+msgid "[COPIED]"
+msgstr ""
+
+msgid "Clear sky"
+msgstr ""
+
+msgid "Mainly clear"
+msgstr ""
+
+msgid "Partly cloudy"
+msgstr ""
+
+msgid "Overcast"
+msgstr ""
+
+msgid "Fog"
+msgstr ""
+
+msgid "Rime fog"
+msgstr ""
+
+msgid "Light drizzle"
+msgstr ""
+
+msgid "Drizzle"
+msgstr ""
+
+msgid "Heavy drizzle"
+msgstr ""
+
+msgid "Freezing drizzle"
+msgstr ""
+
+msgid "Heavy freezing drizzle"
+msgstr ""
+
+msgid "Light rain"
+msgstr ""
+
+msgid "Rain"
+msgstr ""
+
+msgid "Heavy rain"
+msgstr ""
+
+msgid "Freezing rain"
+msgstr ""
+
+msgid "Heavy freezing rain"
+msgstr ""
+
+msgid "Light snow"
+msgstr ""
+
+msgid "Snow"
+msgstr ""
+
+msgid "Heavy snow"
+msgstr ""
+
+msgid "Snow grains"
+msgstr ""
+
+msgid "Light showers"
+msgstr ""
+
+msgid "Showers"
+msgstr ""
+
+msgid "Violent showers"
+msgstr ""
+
+msgid "Snow showers"
+msgstr ""
+
+msgid "Heavy snow showers"
+msgstr ""
+
+msgid "Thunderstorm"
+msgstr ""
+
+msgid "Thunderstorm with hail"
+msgstr ""
+
+msgid "Severe thunderstorm with hail"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "ELECTRICAL ANOMALIES. AVOID OPEN FIELDS & VOGON POETRY."
+msgstr ""
+
+msgid "ATMOSPHERIC TURBULENCE. TOWEL STRONGLY ADVISED."
+msgstr ""
+
+msgid "PRECIPITATION DETECTED. BRING A TOWEL."
+msgstr ""
+
+msgid "CRYSTALLINE H2O DEPOSITION. DRESSING GOWN INSUFFICIENT."
+msgstr ""
+
+msgid "ROTATIONAL DARKNESS. IDEAL FOR STARGAZING OR PANICKING."
+msgstr ""
+
+msgid "LOCAL STAR VISIBLE. MOSTLY HARMLESS."
+msgstr ""
+
+msgid "ATMOSPHERIC TURBULENCE. HOLD ON TO YOUR TOWEL."
+msgstr ""
+
+msgid "VISIBILITY DEGRADED. PROBABILITY OF IMPROBABILITY: NORMAL."
+msgstr ""
+
+msgctxt "compass point"
+msgid "N"
+msgstr ""
+
+msgctxt "compass point"
+msgid "NE"
+msgstr ""
+
+msgctxt "compass point"
+msgid "E"
+msgstr ""
+
+msgctxt "compass point"
+msgid "SE"
+msgstr ""
+
+msgctxt "compass point"
+msgid "S"
+msgstr ""
+
+msgctxt "compass point"
+msgid "SW"
+msgstr ""
+
+msgctxt "compass point"
+msgid "W"
+msgstr ""
+
+msgctxt "compass point"
+msgid "NW"
+msgstr ""
+
+msgid "Bad response: %1"
+msgstr ""
+
+msgid "Could not determine your location"
+msgstr ""
+
+msgid "%1° / %2°"
+msgstr ""
+
+msgid "Updated %1"
+msgstr ""
+
+msgid "Feels like"
+msgstr ""
+
+msgid "Feels"
+msgstr ""
+
+msgid "High / Low"
+msgstr ""
+
+msgid "Hi / Lo"
+msgstr ""
+
+msgid "Humidity"
+msgstr ""
+
+msgid "Wind"
+msgstr ""
+
+msgid "Wind max"
+msgstr ""
+
+msgid "Pressure"
+msgstr ""
+
+msgid "UV index"
+msgstr ""
+
+msgid "UV"
+msgstr ""
+
+msgid "Rain chance"
+msgstr ""
+
+msgid "Precipitation"
+msgstr ""
+
+msgid "Cloud cover"
+msgstr ""
+
+msgctxt "short weekday, day of month, short month name"
+msgid "%1 %2 %3"
+msgstr ""
+
+msgid "Today · %1"
+msgstr ""
+
+msgid "GUIDE ENTRY: %1"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Click to flip back"
+msgstr ""
+
+msgid "Unpin"
+msgstr ""
+
+msgid "Keep open"
+msgstr ""
+
+msgid "Change location"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Show forecast"
+msgstr ""
+
+msgid "Minimize"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Loading…"
+msgstr ""
+
+msgid "GUIDE ENTRY: %1 [SECTOR ZZ9]"
+msgstr ""
+
+msgid "H: %1°  L: %2°"
+msgstr ""
+
+msgid "Sunrise"
+msgstr ""
+
+msgid "Sunset"
+msgstr ""
+
+msgid "Feels like %1°"
+msgstr ""
+
+msgid "[IMPROBABILITY SURGE]"
+msgstr ""
+
+msgid "Search city…"
+msgstr ""
+
+msgid "Use my current location"
+msgstr ""
+
+msgid "No places found"
+msgstr ""
+
+msgid "FEELS LIKE %1°"
+msgstr ""
+
+msgctxt "high and low temperature"
+msgid "H %1° · L %2°"
+msgstr ""
+
+msgid "Weather unavailable (%1)"
+msgstr ""

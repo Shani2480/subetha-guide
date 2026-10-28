@@ -1,0 +1,1310 @@
+# French translations for The Sub-Etha package.
+# Copyright (C) 2026 THE The Sub-Etha'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the The Sub-Etha Guide package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: The Sub-Etha Guide\n"
+"Report-Msgid-Bugs-To: shani248@gmail.com\n"
+"POT-Creation-Date: 2026-10-28 01:01+0100\n"
+"PO-Revision-Date: 2026-10-28 00:56+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Appearance & Sections"
+msgstr "Apparence et sections"
+
+msgid "Weather & Location"
+msgstr "Météo et emplacement"
+
+msgid "System Hardware"
+msgstr "Matériel système"
+
+msgid "Disks & Storage"
+msgstr "Disques et stockage"
+
+msgid "Power & Battery"
+msgstr "Alimentation et batterie"
+
+#, javascript-format
+msgid "%1% OF DESIGN CAPACITY"
+msgstr "%1% DE LA CAPACITÉ NOMINALE"
+
+msgctxt "not available"
+msgid "N/A"
+msgstr "N/D"
+
+msgid "HEALTH: %1"
+msgstr "SANTÉ : %1"
+
+msgid "CYCLES: %1"
+msgstr "CYCLES : %1"
+
+msgid "NO SELECTED BATTERIES REPORTING ON THIS VESSEL."
+msgstr "AUCUNE BATTERIE SÉLECTIONNÉE NE RÉPOND SUR CE VAISSEAU."
+
+msgid "MAINS: CONNECTED"
+msgstr "SECTEUR : CONNECTÉ"
+
+msgid "MAINS: OFFLINE"
+msgstr "SECTEUR : DÉCONNECTÉ"
+
+msgctxt "power profile"
+msgid "SAVER"
+msgstr "ÉCONOMIE"
+
+msgctxt "power profile"
+msgid "PERFORMANCE"
+msgstr "PERFORMANCE"
+
+msgctxt "power profile"
+msgid "BALANCED"
+msgstr "ÉQUILIBRÉ"
+
+#, javascript-format
+msgctxt "charging, battery percent"
+msgid "CHG %1%"
+msgstr "CHG %1%"
+
+msgid "DEPLETION IMMINENT"
+msgstr "ÉPUISEMENT IMMINENT"
+
+msgctxt "time estimate: hours, minutes"
+msgid "%1H %2M"
+msgstr "%1H %2MIN"
+
+msgctxt "time estimate: minutes"
+msgid "%1M"
+msgstr "%1MIN"
+
+msgid "CHARGING · %1 TO FULL"
+msgstr "EN CHARGE · PLEIN DANS %1"
+
+msgid "CHARGING"
+msgstr "EN CHARGE"
+
+msgid "DRAINING · %1 LEFT"
+msgstr "DÉCHARGE · RESTE %1"
+
+msgid "DRAINING"
+msgstr "DÉCHARGE"
+
+msgid "FULLY CHARGED"
+msgstr "CHARGE COMPLÈTE"
+
+msgid "ON MAINS · HOLDING"
+msgstr "SUR SECTEUR · MAINTIEN"
+
+msgctxt "battery state"
+msgid "IDLE"
+msgstr "AU REPOS"
+
+msgctxt "battery state"
+msgid "ONLINE"
+msgstr "EN LIGNE"
+
+#, javascript-format
+msgid "HEALTH %1%"
+msgstr "SANTÉ %1%"
+
+#, javascript-format
+msgctxt "charge stop threshold"
+msgid "LIMIT %1%"
+msgstr "LIMITE %1%"
+
+msgid "Energy cell"
+msgstr "Cellule d'énergie"
+
+msgid "NO ENERGY CELLS DETECTED. MOSTLY HARMLESS."
+msgstr "AUCUNE CELLULE D'ÉNERGIE DÉTECTÉE. GLOBALEMENT INOFFENSIF."
+
+msgid "IMPROBABILITY SURGE IMMINENT. PLUG IN BEFORE DESTRUCTION."
+msgstr "PIC D'IMPROBABILITÉ IMMINENT. BRANCHEZ AVANT DESTRUCTION."
+
+msgid "SIPHONING ELECTRONS FROM LOCAL GRID. STANDBY."
+msgstr "SIPHONNAGE D'ÉLECTRONS SUR LE RÉSEAU LOCAL. PATIENTEZ."
+
+msgid "ENERGY CELLS OPTIMAL. NO IMMEDIATE TOWEL REQUIRED."
+msgstr "CELLULES D'ÉNERGIE OPTIMALES. SERVIETTE INUTILE POUR L'INSTANT."
+
+msgid "DISCHARGING GRADUALLY. RELATIVELY HARMLESS."
+msgstr "DÉCHARGE PROGRESSIVE. RELATIVEMENT INOFFENSIF."
+
+msgid "RESERVES DWINDLING. LOCATE TOWEL AND CHARGER."
+msgstr "RÉSERVES EN BAISSE. TROUVEZ SERVIETTE ET CHARGEUR."
+
+msgid "%1 [CHARGING]"
+msgstr "%1 [EN CHARGE]"
+
+msgid "%1 [DRAIN]"
+msgstr "%1 [DÉCHARGE]"
+
+msgid "%1 [IDLE / MAINS]"
+msgstr "%1 [REPOS / SECTEUR]"
+
+msgid "%1 [IDLE]"
+msgstr "%1 [REPOS]"
+
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+msgid "Primary Only"
+msgstr "Principale uniquement"
+
+msgid "  (system battery)"
+msgstr "  (batterie système)"
+
+msgid "  · not connected"
+msgstr "  · non connecté"
+
+msgid "No battery-reporting devices found."
+msgstr "Aucun appareil avec batterie détecté."
+
+msgid "Select All also shows devices you connect later."
+msgstr ""
+"« Tout sélectionner » affiche aussi les appareils connectés ultérieurement."
+
+msgid "Devices connected later appear only after you tick them here."
+msgstr ""
+"Les appareils connectés ultérieurement n'apparaissent qu'une fois cochés ici."
+
+msgid "POWER // ENERGY CELLS"
+msgstr "ALIMENTATION // CELLULES D'ÉNERGIE"
+
+msgid "Toggle Compact / Full telemetry"
+msgstr "Basculer télémétrie compacte / complète"
+
+msgid "DON'T PANIC"
+msgstr "PAS DE PANIQUE"
+
+msgid "Expand detailed telemetry & sparkline"
+msgstr "Afficher la télémétrie détaillée et le mini-graphique"
+
+msgid "Collapse to compact indicator"
+msgstr "Réduire en indicateur compact"
+
+msgid "Section density:"
+msgstr "Densité de la section :"
+
+msgid "Compact: a slim bar per device with its percentage and wattage."
+msgstr ""
+"Compact : une barre fine par appareil avec son pourcentage et sa puissance."
+
+msgid ""
+"Full: expanded cards for the laptop and each peripheral, with status, live "
+"wattage, a segmented gauge and time to full / empty."
+msgstr ""
+"Complet : cartes détaillées pour le portable et chaque périphérique, avec "
+"état, puissance en direct, jauge segmentée et temps avant charge complète / "
+"décharge."
+
+msgid "Show:"
+msgstr "Afficher :"
+
+msgid "Display"
+msgstr "Affichage"
+
+msgid "Power rate:"
+msgstr "Puissance :"
+
+msgid "Show live charge / drain wattage"
+msgstr "Afficher la puissance de charge / décharge en direct"
+
+msgid "Gauges:"
+msgstr "Jauges :"
+
+msgid "Show percentage only (hide the segmented bars)"
+msgstr "Afficher uniquement le pourcentage (masquer les barres segmentées)"
+
+msgid "Estimates:"
+msgstr "Estimations :"
+
+msgid "Show time to empty / time to full"
+msgstr "Afficher le temps avant décharge / charge complète"
+
+msgid "Critical warning below:"
+msgstr "Alerte critique sous :"
+
+msgid "Low battery:"
+msgstr "Batterie faible :"
+
+msgid "Blink the percentage and DEPLETION IMMINENT below the warning level"
+msgstr ""
+"Faire clignoter le pourcentage et ÉPUISEMENT IMMINENT sous le seuil d'alerte"
+
+msgid ""
+"Compact: one slim pill per volume with its label, figure and capacity bar."
+msgstr ""
+"Compact : une pastille fine par volume avec son nom, sa valeur et sa barre "
+"de capacité."
+
+msgid ""
+"Full: expanded drive cards with live read / write speeds, filesystem badge, "
+"mount point and a segmented gauge."
+msgstr ""
+"Complet : cartes de disque détaillées avec vitesses de lecture / écriture en "
+"direct, badge du système de fichiers, point de montage et jauge segmentée."
+
+msgid "Removable:"
+msgstr "Amovibles :"
+
+msgid "Hide USB and external drives"
+msgstr "Masquer les disques USB et externes"
+
+msgid "System:"
+msgstr "Système :"
+
+msgid "Show boot and EFI partitions"
+msgstr "Afficher les partitions de démarrage et EFI"
+
+msgid "Throughput:"
+msgstr "Débit :"
+
+msgid "Show live read / write speeds"
+msgstr "Afficher les vitesses de lecture / écriture en direct"
+
+msgid "Figure:"
+msgstr "Valeur :"
+
+msgid "Free space"
+msgstr "Espace libre"
+
+msgid "Used space"
+msgstr "Espace utilisé"
+
+msgid "Used / total"
+msgstr "Utilisé / total"
+
+msgid "Unit:"
+msgstr "Unité :"
+
+msgid "Automatic"
+msgstr "Automatique"
+
+msgid "Gigabytes (GB)"
+msgstr "Gigaoctets (Go)"
+
+msgid "Terabytes (TB)"
+msgstr "Téraoctets (To)"
+
+msgid "Percent"
+msgstr "Pourcentage"
+
+msgid "Warning at:"
+msgstr "Alerte à :"
+
+#, javascript-format
+msgid "%1% used"
+msgstr "%1% utilisé"
+
+msgid "Automatic (first GPU)"
+msgstr "Automatique (premier GPU)"
+
+msgid "GPU %1: %2"
+msgstr "GPU %1 : %2"
+
+msgid ""
+"Compact: condensed one-line pills (CPU load and temperature, RAM, GPU, "
+"network). No sparklines or hardware banner."
+msgstr ""
+"Compact : pastilles condensées sur une ligne (charge et température CPU, "
+"RAM, GPU, réseau). Sans mini-graphiques ni bannière matérielle."
+
+msgid ""
+"Full: expanded cards with rolling sparkline graphs, the hardware profile "
+"banner and fan speed dials."
+msgstr ""
+"Complet : cartes détaillées avec mini-graphiques défilants, bannière du "
+"profil matériel et cadrans de vitesse des ventilateurs."
+
+msgid "CPU load, clock and temperature"
+msgstr "Charge, fréquence et température CPU"
+
+msgid "Memory"
+msgstr "Mémoire"
+
+msgid "GPU load, temperature and VRAM"
+msgstr "Charge, température et VRAM GPU"
+
+msgid "GPU:"
+msgstr "GPU :"
+
+msgid "Only one GPU is reporting on this machine."
+msgstr "Un seul GPU est détecté sur cette machine."
+
+msgid "No GPU is reporting through the system monitor."
+msgstr "Aucun GPU n'est signalé par le moniteur système."
+
+msgid "Network throughput"
+msgstr "Débit réseau"
+
+msgid "Cooling fans / RPM"
+msgstr "Ventilateurs / RPM"
+
+msgid "Show fan speed as a percentage"
+msgstr "Afficher la vitesse des ventilateurs en pourcentage"
+
+msgid "Fan full speed:"
+msgstr "Vitesse maximale du ventilateur :"
+
+msgid "%1 RPM"
+msgstr "%1 RPM"
+
+msgid "Temperature alerts"
+msgstr "Alertes de température"
+
+msgid "Colours:"
+msgstr "Couleurs :"
+
+msgid "Change the CPU / GPU temperature colour as it heats up"
+msgstr "Changer la couleur de la température CPU / GPU quand elle monte"
+
+msgid "Warning (orange) from:"
+msgstr "Alerte (orange) à partir de :"
+
+msgid "%1% of range (%2 °C)"
+msgstr "%1% de la plage (%2 °C)"
+
+msgid "Critical (red, pulsing) from:"
+msgstr "Critique (rouge, pulsé) à partir de :"
+
+msgid ""
+"The bars run from 30 °C to 100 °C. At the critical level the pill's border "
+"pulses too and the panel icon asks for attention. With colours off the "
+"temperature keeps its normal amber."
+msgstr ""
+"Les barres vont de 30 °C à 100 °C. Au niveau critique, la bordure de la "
+"pastille pulse aussi et l'icône du panneau demande votre attention. Couleurs "
+"désactivées, la température garde sa teinte ambre habituelle."
+
+msgid "Full mode extras"
+msgstr "Extras du mode complet"
+
+msgid "Graphs:"
+msgstr "Graphiques :"
+
+msgid "Rolling sparklines in each pill"
+msgstr "Mini-graphiques défilants dans chaque pastille"
+
+msgid "Host profile:"
+msgstr "Profil de l'hôte :"
+
+msgid "Show CPU, GPU, memory and OS banner"
+msgstr "Afficher la bannière CPU, GPU, mémoire et OS"
+
+msgid "Sampling"
+msgstr "Échantillonnage"
+
+msgid "Temperature:"
+msgstr "Température :"
+
+msgid "Celsius (°C)"
+msgstr "Celsius (°C)"
+
+msgid "Fahrenheit (°F)"
+msgstr "Fahrenheit (°F)"
+
+msgid "Update every:"
+msgstr "Actualiser toutes les :"
+
+msgid "%1 s"
+msgstr "%1 s"
+
+msgid "Weather temperature"
+msgstr "Température météo"
+
+msgid "CPU load"
+msgstr "Charge CPU"
+
+msgctxt "panel label"
+msgid "CPU"
+msgstr "CPU"
+
+msgid "CPU temperature"
+msgstr "Température CPU"
+
+msgid "GPU temperature"
+msgstr "Température GPU"
+
+msgctxt "panel label"
+msgid "GPU"
+msgstr "GPU"
+
+msgid "Memory usage"
+msgstr "Utilisation mémoire"
+
+msgctxt "panel label"
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Network download"
+msgstr "Réception réseau"
+
+msgctxt "panel label"
+msgid "NET"
+msgstr "NET"
+
+msgid "Battery level"
+msgstr "Niveau de batterie"
+
+msgctxt "panel label"
+msgid "BAT"
+msgstr "BAT"
+
+msgid "Several at once"
+msgstr "Plusieurs à la fois"
+
+msgid "Weather: sky hero card, forecast drawers, Arthur and Marvin"
+msgstr "Météo : carte du ciel, tiroirs de prévisions, Arthur et Marvin"
+
+msgid "System: CPU, memory, GPU, network and fans"
+msgstr "Système : CPU, mémoire, GPU, réseau et ventilateurs"
+
+msgid "Storage: volumes, capacity and I/O throughput"
+msgstr "Stockage : volumes, capacité et débit E/S"
+
+msgid "Power: batteries and live wattage"
+msgstr "Alimentation : batteries et puissance en direct"
+
+msgid "Guide theme:"
+msgstr "Thème du Guide :"
+
+msgid "Movie Encyclopedia"
+msgstr "Encyclopédie du film"
+
+msgid ""
+"Movie Encyclopedia: Clean cream parchment background with bold 2D graphic "
+"typography, flat shadows, and Shynola-inspired infographic colors."
+msgstr ""
+"Encyclopédie du film : fond parchemin crème épuré, typographie graphique 2D "
+"marquée, ombres plates et couleurs d'infographie inspirées de Shynola."
+
+msgid "Sub-Etha Terminal"
+msgstr "Terminal Sub-Etha"
+
+msgid ""
+"Sub-Etha Terminal: Classic 1981 BBC green phosphor CRT display with "
+"scanlines, coordinate grids, and amber telemetry alerts."
+msgstr ""
+"Terminal Sub-Etha : écran CRT à phosphore vert façon BBC 1981, avec lignes "
+"de balayage, grilles de coordonnées et alertes de télémétrie ambre."
+
+msgid "Solar Auto"
+msgstr "Auto solaire"
+
+msgid ""
+"Solar Synchronization: Automatically switches to Movie Light at sunrise and "
+"Sub-Etha CRT Dark at sunset based on local coordinates."
+msgstr ""
+"Synchronisation solaire : passe automatiquement au thème clair Film au lever "
+"du soleil et au thème sombre CRT Sub-Etha au coucher, selon les coordonnées "
+"locales."
+
+msgid ""
+"Auto follows sunrise and sunset at the weather location (Weather & Location "
+"tab)."
+msgstr ""
+"Le mode auto suit le lever et le coucher du soleil à l'emplacement météo "
+"(onglet Météo et emplacement)."
+
+msgid ""
+"Each section is Compact or Full on its own: pick it on the section's tab, or "
+"click the [ - ] / [ + ] tag on its card."
+msgstr ""
+"Chaque section est compacte ou complète indépendamment : choisissez dans "
+"l'onglet de la section ou cliquez sur l'étiquette [ - ] / [ + ] de sa carte."
+
+msgid "Sections"
+msgstr "Sections"
+
+msgid "A section that is switched off folds away and stops sampling."
+msgstr "Une section désactivée se replie et cesse l'échantillonnage."
+
+msgid "Panel Display"
+msgstr "Affichage dans le panneau"
+
+msgid "Show in panel:"
+msgstr "Afficher dans le panneau :"
+
+msgid "Preview:"
+msgstr "Aperçu :"
+
+msgid "%1  → next every %2 s"
+msgstr "%1  → suivant toutes les %2 s"
+
+msgid "Icon:"
+msgstr "Icône :"
+
+msgid "Show the reading's icon (weather condition, chip, battery...)"
+msgstr "Afficher l'icône de la mesure (météo, puce, batterie...)"
+
+msgid "Meter:"
+msgstr "Jauge :"
+
+msgid "Show a micro progress bar next to the figure"
+msgstr "Afficher une mini barre de progression à côté de la valeur"
+
+msgid "Cycle readings:"
+msgstr "Alterner les mesures :"
+
+msgid "Off"
+msgstr "Désactivé"
+
+msgid "Every %1 s"
+msgstr "Toutes les %1 s"
+
+msgid ""
+"Cycling steps through the readings of the sections switched on above. Middle-"
+"click the panel item to refresh the forecast."
+msgstr ""
+"L'alternance parcourt les mesures des sections activées ci-dessus. Clic du "
+"milieu sur l'élément du panneau pour actualiser les prévisions."
+
+msgid "%1 (approximate, from your IP address)"
+msgstr "%1 (approximatif, d'après votre adresse IP)"
+
+msgid ""
+"Compact: one low-profile pill with the location, condition icon, temperature "
+"and feels-like. Arthur and Marvin stay home and the forecast drawers fold "
+"away."
+msgstr ""
+"Compact : une pastille discrète avec l'emplacement, l'icône météo, la "
+"température et le ressenti. Arthur et Marvin restent à la maison et les "
+"tiroirs de prévisions se replient."
+
+msgid ""
+"Full: the sky hero card with Arthur and Marvin roaming the forecast strip, "
+"plus the hourly and 7-day drawers."
+msgstr ""
+"Complet : la carte du ciel avec Arthur et Marvin arpentant le bandeau de "
+"prévisions, plus les tiroirs horaire et sur 7 jours."
+
+msgid "Location:"
+msgstr "Emplacement :"
+
+msgid "Type a city name…"
+msgstr "Saisissez un nom de ville…"
+
+msgid "Detect"
+msgstr "Détecter"
+
+msgid "Approximate location from your internet connection"
+msgstr "Emplacement approximatif d'après votre connexion Internet"
+
+msgid "Detecting your location…"
+msgstr "Détection de votre emplacement…"
+
+msgid "Searching…"
+msgstr "Recherche…"
+
+msgid "No places found for “%1”. Coordinates unchanged."
+msgstr "Aucun lieu trouvé pour « %1 ». Coordonnées inchangées."
+
+msgid "Using: %1"
+msgstr "Utilisé : %1"
+
+msgid "Wind speed:"
+msgstr "Vitesse du vent :"
+
+msgid "km/h"
+msgstr "km/h"
+
+msgid "mph"
+msgstr "mph"
+
+msgid "m/s"
+msgstr "m/s"
+
+msgid "Knots"
+msgstr "Nœuds"
+
+msgid "Latitude:"
+msgstr "Latitude :"
+
+msgid "Longitude:"
+msgstr "Longitude :"
+
+msgid "Icon style:"
+msgstr "Style d'icônes :"
+
+msgid "Sub-Etha wireframe"
+msgstr "Fil de fer Sub-Etha"
+
+msgid "Glass 3D (volumetric)"
+msgstr "Verre 3D (volumétrique)"
+
+msgid "Hand-drawn (animated)"
+msgstr "Dessiné à la main (animé)"
+
+msgid "Weather Underground, white"
+msgstr "Weather Underground, blanc"
+
+msgid "Weather Underground, black"
+msgstr "Weather Underground, noir"
+
+msgid "Weather Underground, solid white"
+msgstr "Weather Underground, blanc plein"
+
+msgid "Weather Underground, solid black"
+msgstr "Weather Underground, noir plein"
+
+msgid "Update every (min):"
+msgstr "Actualiser toutes les (min) :"
+
+msgid "On the desktop:"
+msgstr "Sur le bureau :"
+
+msgid "Translucent card background"
+msgstr "Fond de carte translucide"
+
+msgid "Hero card:"
+msgstr "Carte principale :"
+
+msgid "Enable subtle background weather animations"
+msgstr "Activer de discrètes animations météo en arrière-plan"
+
+msgid "Show Arthur and Marvin on the forecast strip"
+msgstr "Afficher Arthur et Marvin sur le bandeau de prévisions"
+
+msgid "Compact"
+msgstr "Compact"
+
+msgid "Full"
+msgstr "Complet"
+
+#, javascript-format
+msgid "%1% USED"
+msgstr "%1% UTILISÉ"
+
+#, javascript-format
+msgid "%1% FREE"
+msgstr "%1% LIBRE"
+
+msgid "%1 USED"
+msgstr "%1 UTILISÉS"
+
+msgid "%1 FREE"
+msgstr "%1 LIBRES"
+
+msgid "NO STORAGE VOLUMES DETECTED. SUSPICIOUSLY TIDY."
+msgstr "AUCUN VOLUME DE STOCKAGE DÉTECTÉ. ÉTRANGEMENT RANGÉ."
+
+msgid "IMPROBABILITY COLLAPSE IMMINENT. TOWEL CANNOT SAVE THIS DISK."
+msgstr ""
+"EFFONDREMENT D'IMPROBABILITÉ IMMINENT. AUCUNE SERVIETTE NE SAUVERA CE DISQUE."
+
+msgid "SECTOR MEMORY FULL. IMMEDIATE PURGE STRONGLY ADVISED."
+msgstr "MÉMOIRE DU SECTEUR PLEINE. PURGE IMMÉDIATE VIVEMENT CONSEILLÉE."
+
+msgid "STORAGE DENSITY RISING. A MODEST PURGE WOULD NOT GO AMISS."
+msgstr "DENSITÉ DE STOCKAGE EN HAUSSE. UNE PETITE PURGE NE SERAIT PAS DE TROP."
+
+msgid "DATA ENTROPY ACCUMULATING AT NORMAL PARAMETERS."
+msgstr "ACCUMULATION D'ENTROPIE DES DONNÉES DANS LES PARAMÈTRES NORMAUX."
+
+msgid "VAST EXPANSES OF SUB-ETHA SILICON VACUUM AVAILABLE."
+msgstr "VASTES ÉTENDUES DE VIDE SILICIUM SUB-ETHA DISPONIBLES."
+
+msgid "NO SELECTED VOLUMES MOUNTED."
+msgstr "AUCUN VOLUME SÉLECTIONNÉ MONTÉ."
+
+msgid "%1 VOLUME ONLINE"
+msgid_plural "%1 VOLUMES ONLINE"
+msgstr[0] "%1 VOLUME EN LIGNE"
+msgstr[1] "%1 VOLUMES EN LIGNE"
+
+msgid "TOTAL %1 / %2"
+msgstr "TOTAL %1 / %2"
+
+msgid "CRITICAL QUOTA EXCEEDED"
+msgstr "QUOTA CRITIQUE DÉPASSÉ"
+
+msgid "+%1 MOUNT"
+msgid_plural "+%1 MOUNTS"
+msgstr[0] "+%1 MONTAGE"
+msgstr[1] "+%1 MONTAGES"
+
+msgctxt "disk read rate"
+msgid "R: %1"
+msgstr "L : %1"
+
+msgctxt "disk write rate"
+msgid "W: %1"
+msgstr "É : %1"
+
+msgid "STORAGE // SECTOR ZZ9"
+msgstr "STOCKAGE // SECTEUR ZZ9"
+
+msgid " · removable"
+msgstr " · amovible"
+
+msgid "not mounted"
+msgstr "non monté"
+
+msgid "All Volumes"
+msgstr "Tous les volumes"
+
+msgid "Root Only"
+msgstr "Racine uniquement"
+
+msgid " · also %1"
+msgstr " · aussi %1"
+
+msgid "Scanning mounted volumes…"
+msgstr "Analyse des volumes montés…"
+
+msgid "THE SUB-ETHA GUIDE"
+msgstr "THE SUB-ETHA GUIDE"
+
+msgid "MOSTLY HARMLESS // %1"
+msgstr "GLOBALEMENT INOFFENSIF // %1"
+
+msgid "ALL SECTIONS STOWED. ENABLE ONE UNDER APPEARANCE & SECTIONS."
+msgstr ""
+"TOUTES LES SECTIONS RANGÉES. ACTIVEZ-EN UNE DANS APPARENCE ET SECTIONS."
+
+msgid "Open Sub-Etha Process Diagnostics"
+msgstr "Ouvrir le diagnostic des processus Sub-Etha"
+
+msgid "The Sub-Etha Guide"
+msgstr "The Sub-Etha Guide"
+
+msgid "CPU %1% · %2"
+msgstr "CPU %1% · %2"
+
+msgid "GPU %1% · %2"
+msgstr "GPU %1% · %2"
+
+msgid "RAM %1 / %2"
+msgstr "RAM %1 / %2"
+
+#, javascript-format
+msgid "Disk %1% used"
+msgstr "Disque %1% utilisé"
+
+#, javascript-format
+msgid "Battery %1%"
+msgstr "Batterie %1%"
+
+msgid "Don't Panic."
+msgstr "Pas de panique."
+
+msgid "HOST %1"
+msgstr "HÔTE %1"
+
+msgid "SUB-ETHA SENSOR TELEMETRY"
+msgstr "TÉLÉMÉTRIE DES CAPTEURS SUB-ETHA"
+
+msgctxt "panel label"
+msgid "WX"
+msgstr "MÉT"
+
+msgctxt "@info processor name"
+msgid "UNKNOWN"
+msgstr "INCONNU"
+
+msgid "%1 GB USABLE"
+msgstr "%1 Go UTILISABLES"
+
+msgid "%1 MODULE"
+msgid_plural "%1 MODULES"
+msgstr[0] "%1 MODULE"
+msgstr[1] "%1 MODULES"
+
+msgctxt "@info no graphics card"
+msgid "NONE DETECTED"
+msgstr "AUCUN DÉTECTÉ"
+
+msgctxt "@label fan name"
+msgid "PUMP"
+msgstr "POMPE"
+
+msgctxt "@label fan name, %1 its number"
+msgid "CASE %1"
+msgstr "BOÎTIER %1"
+
+msgctxt "@label fan name"
+msgid "CASE"
+msgstr "BOÎTIER"
+
+msgctxt "@label fan name, %1 its number"
+msgid "FAN %1"
+msgstr "VENTILO %1"
+
+msgctxt "@label fan name"
+msgid "FAN"
+msgstr "VENTILO"
+
+msgid "MELTDOWN IMMINENT. CONSULTING EARTH V2 BLUEPRINTS."
+msgstr "FUSION IMMINENTE. CONSULTATION DES PLANS DE LA TERRE V2."
+
+msgid "SILICON ANXIETY DETECTED. COOLING TOWEL STRONGLY ADVISED."
+msgstr ""
+"ANXIÉTÉ DU SILICIUM DÉTECTÉE. SERVIETTE RAFRAÎCHISSANTE VIVEMENT CONSEILLÉE."
+
+msgid "COOLING TURBINES AT HIGH VELOCITY. DISPLACING SUB-ETHA THERMALS."
+msgstr ""
+"TURBINES DE REFROIDISSEMENT À HAUT RÉGIME. DISPERSION DES THERMIQUES SUB-"
+"ETHA."
+
+msgid "INFINITE IMPROBABILITY ENGINE CALCULATING PROBABILITIES."
+msgstr "GÉNÉRATEUR D'IMPROBABILITÉ INFINIE EN PLEIN CALCUL DE PROBABILITÉS."
+
+msgid "ACOUSTIC RESONANCE MINIMAL. RELATIVELY HARMLESS."
+msgstr "RÉSONANCE ACOUSTIQUE MINIMALE. RELATIVEMENT INOFFENSIF."
+
+msgid "EDDIE COMPUTE CORE NOMINAL. TEA CONSUMPTION UNINTERRUPTED."
+msgstr "CŒUR DE CALCUL EDDIE NOMINAL. CONSOMMATION DE THÉ ININTERROMPUE."
+
+msgid "FANS --"
+msgstr "VENTILOS --"
+
+msgid "FANS %1"
+msgstr "VENTILOS %1"
+
+msgid "COOLING ARRAYS"
+msgstr "SYSTÈMES DE REFROIDISSEMENT"
+
+msgid "NO FAN TELEMETRY"
+msgstr "AUCUNE TÉLÉMÉTRIE VENTILATEUR"
+
+msgid "FANS"
+msgstr "VENTILOS"
+
+msgid "COMPUTE // EDDIE CORE"
+msgstr "CALCUL // CŒUR EDDIE"
+
+msgid "[LAUNCH FULL PROCESS DIAGNOSTICS]"
+msgstr "[LANCER LE DIAGNOSTIC COMPLET DES PROCESSUS]"
+
+msgid "SUB-ETHA HOST PROFILE // COMPUTATIONAL FABRIC"
+msgstr "PROFIL DE L'HÔTE SUB-ETHA // TISSU DE CALCUL"
+
+msgid "PROCESSOR"
+msgstr "PROCESSEUR"
+
+msgid "MEMORY"
+msgstr "MÉMOIRE"
+
+msgid "KERNEL/OS"
+msgstr "NOYAU/OS"
+
+msgid "READING..."
+msgstr "LECTURE..."
+
+msgid "CPU CORE ARRAY"
+msgstr "MATRICE DE CŒURS CPU"
+
+msgid "%1 CORE"
+msgid_plural "%1 CORES"
+msgstr[0] "%1 CŒUR"
+msgstr[1] "%1 CŒURS"
+
+msgid "GOVERNOR %1"
+msgstr "GOUVERNEUR %1"
+
+#, javascript-format
+msgid "USER %1% · SYSTEM %2% · IO WAIT %3%"
+msgstr "UTIL. %1% · SYSTÈME %2% · ATTENTE E/S %3%"
+
+msgid "CLOCK %2 – %3 ACROSS %1 CORE"
+msgid_plural "CLOCK %2 – %3 ACROSS %1 CORES"
+msgstr[0] "FRÉQ. %2 – %3 SUR %1 CŒUR"
+msgstr[1] "FRÉQ. %2 – %3 SUR %1 CŒURS"
+
+#, javascript-format
+msgid "CPU %1%"
+msgstr "CPU %1%"
+
+msgid "PRIMARY BUFFER"
+msgstr "TAMPON PRINCIPAL"
+
+msgid "ACTIVE: %1 | CACHED: %2 | SWAP: %3"
+msgstr "ACTIVE : %1 | CACHE : %2 | SWAP : %3"
+
+msgid "APPS %1 · CACHE %2"
+msgstr "APPLIS %1 · CACHE %2"
+
+msgid "SWAP %1 / %2"
+msgstr "SWAP %1 / %2"
+
+msgid "RAM %1 / %2 (%3%)"
+msgstr "RAM %1 / %2 (%3%)"
+
+msgid "GRAPHICS ENGINE"
+msgstr "MOTEUR GRAPHIQUE"
+
+msgid "VRAM %1 / %2"
+msgstr "VRAM %1 / %2"
+
+msgctxt "@info not available"
+msgid "N/A"
+msgstr "N/D"
+
+msgid ""
+"PCIE LINK: %1\n"
+"DRIVER: %2\n"
+"FAN DUTY: %3"
+msgstr ""
+"LIEN PCIE : %1\n"
+"PILOTE : %2\n"
+"VENTILATEUR : %3"
+
+msgid "CORE %1"
+msgstr "CŒUR %1"
+
+#, javascript-format
+msgid "VRAM %1% IN USE"
+msgstr "VRAM %1% UTILISÉE"
+
+#, javascript-format
+msgid "GPU %1%"
+msgstr "GPU %1%"
+
+msgid "%1 VRAM"
+msgstr "%1 VRAM"
+
+msgid "ALL INTERFACES"
+msgstr "TOUTES LES INTERFACES"
+
+msgid "SUB-ETHA LINK"
+msgstr "LIAISON SUB-ETHA"
+
+msgid "TOTAL RX %1 / TOTAL TX %2"
+msgstr "RX TOTAL %1 / TX TOTAL %2"
+
+msgctxt "@info network state"
+msgid "OFFLINE"
+msgstr "HORS LIGNE"
+
+msgid "RESOLVING..."
+msgstr "RÉSOLUTION..."
+
+msgid ""
+"GATEWAY: %1\n"
+"SUBNET: %2\n"
+"DNS: %3"
+msgstr ""
+"PASSERELLE : %1\n"
+"SOUS-RÉSEAU : %2\n"
+"DNS : %3"
+
+msgid "CLICK AN ADDRESS TO COPY IT"
+msgstr "CLIQUEZ SUR UNE ADRESSE POUR LA COPIER"
+
+msgid "SESSION ↓ %1 ↑ %2"
+msgstr "SESSION ↓ %1 ↑ %2"
+
+msgid "PEAK ↓ %1 ↑ %2"
+msgstr "PIC ↓ %1 ↑ %2"
+
+msgid "NO SENSORS SELECTED."
+msgstr "AUCUN CAPTEUR SÉLECTIONNÉ."
+
+msgid "SAMPLING EVERY %1 S"
+msgstr "ÉCHANTILLONNAGE TOUTES LES %1 S"
+
+msgid "%1-SAMPLE HISTORY"
+msgstr "HISTORIQUE DE %1 ÉCHANTILLONS"
+
+msgid "RX: %1"
+msgstr "RX : %1"
+
+msgid "TX: %1"
+msgstr "TX : %1"
+
+#, javascript-format
+msgid "LOAD %1%"
+msgstr "CHARGE %1%"
+
+msgid "TEMP %1"
+msgstr "TEMP %1"
+
+msgid "LAN IP"
+msgstr "IP LAN"
+
+msgid "WAN IP"
+msgstr "IP WAN"
+
+msgid "[COPIED]"
+msgstr "[COPIÉ]"
+
+msgid "Clear sky"
+msgstr "Ciel dégagé"
+
+msgid "Mainly clear"
+msgstr "Plutôt dégagé"
+
+msgid "Partly cloudy"
+msgstr "Partiellement nuageux"
+
+msgid "Overcast"
+msgstr "Couvert"
+
+msgid "Fog"
+msgstr "Brouillard"
+
+msgid "Rime fog"
+msgstr "Brouillard givrant"
+
+msgid "Light drizzle"
+msgstr "Bruine légère"
+
+msgid "Drizzle"
+msgstr "Bruine"
+
+msgid "Heavy drizzle"
+msgstr "Bruine dense"
+
+msgid "Freezing drizzle"
+msgstr "Bruine verglaçante"
+
+msgid "Heavy freezing drizzle"
+msgstr "Bruine verglaçante dense"
+
+msgid "Light rain"
+msgstr "Pluie faible"
+
+msgid "Rain"
+msgstr "Pluie"
+
+msgid "Heavy rain"
+msgstr "Forte pluie"
+
+msgid "Freezing rain"
+msgstr "Pluie verglaçante"
+
+msgid "Heavy freezing rain"
+msgstr "Forte pluie verglaçante"
+
+msgid "Light snow"
+msgstr "Neige faible"
+
+msgid "Snow"
+msgstr "Neige"
+
+msgid "Heavy snow"
+msgstr "Forte neige"
+
+msgid "Snow grains"
+msgstr "Neige en grains"
+
+msgid "Light showers"
+msgstr "Averses faibles"
+
+msgid "Showers"
+msgstr "Averses"
+
+msgid "Violent showers"
+msgstr "Averses violentes"
+
+msgid "Snow showers"
+msgstr "Averses de neige"
+
+msgid "Heavy snow showers"
+msgstr "Fortes averses de neige"
+
+msgid "Thunderstorm"
+msgstr "Orage"
+
+msgid "Thunderstorm with hail"
+msgstr "Orage avec grêle"
+
+msgid "Severe thunderstorm with hail"
+msgstr "Violent orage avec grêle"
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgid "ELECTRICAL ANOMALIES. AVOID OPEN FIELDS & VOGON POETRY."
+msgstr "ANOMALIES ÉLECTRIQUES. ÉVITEZ LES CHAMPS DÉGAGÉS ET LA POÉSIE VOGONE."
+
+msgid "ATMOSPHERIC TURBULENCE. TOWEL STRONGLY ADVISED."
+msgstr "TURBULENCES ATMOSPHÉRIQUES. SERVIETTE VIVEMENT CONSEILLÉE."
+
+msgid "PRECIPITATION DETECTED. BRING A TOWEL."
+msgstr "PRÉCIPITATIONS DÉTECTÉES. PRENEZ UNE SERVIETTE."
+
+msgid "CRYSTALLINE H2O DEPOSITION. DRESSING GOWN INSUFFICIENT."
+msgstr "DÉPÔT DE H2O CRISTALLIN. ROBE DE CHAMBRE INSUFFISANTE."
+
+msgid "ROTATIONAL DARKNESS. IDEAL FOR STARGAZING OR PANICKING."
+msgstr "OBSCURITÉ ROTATIONNELLE. IDÉAL POUR OBSERVER LES ÉTOILES OU PANIQUER."
+
+msgid "LOCAL STAR VISIBLE. MOSTLY HARMLESS."
+msgstr "ÉTOILE LOCALE VISIBLE. GLOBALEMENT INOFFENSIF."
+
+msgid "ATMOSPHERIC TURBULENCE. HOLD ON TO YOUR TOWEL."
+msgstr "TURBULENCES ATMOSPHÉRIQUES. CRAMPONNEZ-VOUS À VOTRE SERVIETTE."
+
+msgid "VISIBILITY DEGRADED. PROBABILITY OF IMPROBABILITY: NORMAL."
+msgstr "VISIBILITÉ RÉDUITE. PROBABILITÉ D'IMPROBABILITÉ : NORMALE."
+
+msgctxt "compass point"
+msgid "N"
+msgstr "N"
+
+msgctxt "compass point"
+msgid "NE"
+msgstr "NE"
+
+msgctxt "compass point"
+msgid "E"
+msgstr "E"
+
+msgctxt "compass point"
+msgid "SE"
+msgstr "SE"
+
+msgctxt "compass point"
+msgid "S"
+msgstr "S"
+
+msgctxt "compass point"
+msgid "SW"
+msgstr "SO"
+
+msgctxt "compass point"
+msgid "W"
+msgstr "O"
+
+msgctxt "compass point"
+msgid "NW"
+msgstr "NO"
+
+msgid "Bad response: %1"
+msgstr "Réponse invalide : %1"
+
+msgid "Could not determine your location"
+msgstr "Impossible de déterminer votre emplacement"
+
+msgid "%1° / %2°"
+msgstr "%1° / %2°"
+
+msgid "Updated %1"
+msgstr "Mis à jour %1"
+
+msgid "Feels like"
+msgstr "Ressenti"
+
+msgid "Feels"
+msgstr "Ress."
+
+msgid "High / Low"
+msgstr "Max / Min"
+
+msgid "Hi / Lo"
+msgstr "Max / Min"
+
+msgid "Humidity"
+msgstr "Humidité"
+
+msgid "Wind"
+msgstr "Vent"
+
+msgid "Wind max"
+msgstr "Vent max"
+
+msgid "Pressure"
+msgstr "Pression"
+
+msgid "UV index"
+msgstr "Indice UV"
+
+msgid "UV"
+msgstr "UV"
+
+msgid "Rain chance"
+msgstr "Risque de pluie"
+
+msgid "Precipitation"
+msgstr "Précipitations"
+
+msgid "Cloud cover"
+msgstr "Couverture nuageuse"
+
+msgctxt "short weekday, day of month, short month name"
+msgid "%1 %2 %3"
+msgstr "%1 %2 %3"
+
+msgid "Today · %1"
+msgstr "Aujourd'hui · %1"
+
+msgid "GUIDE ENTRY: %1"
+msgstr "ENTRÉE DU GUIDE : %1"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Click to flip back"
+msgstr "Cliquez pour retourner"
+
+msgid "Unpin"
+msgstr "Détacher"
+
+msgid "Keep open"
+msgstr "Garder ouvert"
+
+msgid "Change location"
+msgstr "Changer d'emplacement"
+
+msgid "Refresh"
+msgstr "Actualiser"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Show forecast"
+msgstr "Afficher les prévisions"
+
+msgid "Minimize"
+msgstr "Réduire"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Loading…"
+msgstr "Chargement…"
+
+msgid "GUIDE ENTRY: %1 [SECTOR ZZ9]"
+msgstr "ENTRÉE DU GUIDE : %1 [SECTEUR ZZ9]"
+
+msgid "H: %1°  L: %2°"
+msgstr "Max : %1°  Min : %2°"
+
+msgid "Sunrise"
+msgstr "Lever du soleil"
+
+msgid "Sunset"
+msgstr "Coucher du soleil"
+
+msgid "Feels like %1°"
+msgstr "Ressenti %1°"
+
+msgid "[IMPROBABILITY SURGE]"
+msgstr "[PIC D'IMPROBABILITÉ]"
+
+msgid "Search city…"
+msgstr "Rechercher une ville…"
+
+msgid "Use my current location"
+msgstr "Utiliser ma position actuelle"
+
+msgid "No places found"
+msgstr "Aucun lieu trouvé"
+
+msgid "FEELS LIKE %1°"
+msgstr "RESSENTI %1°"
+
+msgctxt "high and low temperature"
+msgid "H %1° · L %2°"
+msgstr "Max %1° · Min %2°"
+
+msgid "Weather unavailable (%1)"
+msgstr "Météo indisponible (%1)"
