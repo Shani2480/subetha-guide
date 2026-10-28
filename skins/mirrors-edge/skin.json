@@ -2,7 +2,7 @@
   "id": "mirrors-edge",
   "name": "Mirror's Edge (Runner Vision)",
   "author": "Shani",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
   "isDark": false,
   "fontFamily": "Ubuntu",
@@ -48,7 +48,75 @@
     "shadowOffset": [0, 4],
     "shadowBlur": 8
   },
-  "badgeText": "RUNNER // UNMONITORED",
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#FAFCFD",
+        "cardBackground": "#E9EFF4",
+        "cardBackgroundHover": "#DFE7EE",
+        "textPrimary": "#0E1318",
+        "textSecondary": "#5C6A79",
+        "accent": "#FF1721",
+        "accentSecondary": "#FF525A",
+        "accentTertiary": "#00A8FF",
+        "border": "#0E1318",
+        "shadowColor": "rgba(14, 19, 24, 0.08)",
+        "gaugeTrack": "#FFFFFF",
+        "gaugeFillUsage": "#FF1721",
+        "gaugeFillEdge": "#0E1318",
+        "gaugeFillTemp": "rgba(14, 19, 24, 0.14)",
+        "sparkline": "#0E1318",
+        "sparklineFill": "rgba(14, 19, 24, 0.05)",
+        "sparklineHot": "#FF1721",
+        "netDown": "#FF1721",
+        "netUp": "#0E1318"
+      },
+      "ground": {
+        "color": "#0E1318",
+        "alertColor": "#FF1721"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#0F141A",
+        "cardBackground": "#1B222B",
+        "cardBackgroundHover": "#232C37",
+        "textPrimary": "#E9EFF4",
+        "textSecondary": "#7F8FA0",
+        "accent": "#FF1721",
+        "accentSecondary": "#FF525A",
+        "accentTertiary": "#5BC0DE",
+        "border": "rgba(91, 192, 222, 0.6)",
+        "shadowColor": "rgba(0, 0, 0, 0.5)",
+        "gaugeTrack": "#0A0E12",
+        "gaugeFillUsage": "#FF1721",
+        "gaugeFillEdge": "#FF1721",
+        "gaugeFillTemp": "rgba(91, 192, 222, 0.25)",
+        "sparkline": "#5BC0DE",
+        "sparklineFill": "rgba(91, 192, 222, 0.08)",
+        "sparklineHot": "#FF1721",
+        "netDown": "#5BC0DE",
+        "netUp": "#FF1721",
+        "commentary": "#5BC0DE"
+      },
+      "frame": {
+        "watermarkColor": "#5B6B7C"
+      },
+      "ground": {
+        "color": "#E9EFF4",
+        "alertColor": "#FF1721"
+      }
+    }
+  },
+  "clockQuips": {
+    "nominal": "LINE OF SIGHT ESTABLISHED. MOMENTUM CONSTANT.",
+    "stress": "BLUES ON THE ROOF. HEAVY CONGESTION. TIME TO SPRINT."
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/kruger_heli.svg",
+    "hazardSecondary": "assets/runner_satchel.svg"
+  },
+  "badgeText": "RUNNER // OFF-GRID",
   "badgeColor": "#FF1721",
   "badgeTextColor": "#FFFFFF",
   "commentaryTemplates": {

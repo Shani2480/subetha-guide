@@ -2,7 +2,7 @@
   "id": "cyberpunk-2077",
   "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
   "author": "Shani",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
   "isDark": true,
   "fontFamily": "monospace",
@@ -47,7 +47,82 @@
     "hasDropShadow": false,
     "shadowType": "none"
   },
-  "badgeText": "KIROSHI v4.2 // ARASAKA CORP",
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#ECEFF2",
+        "cardBackground": "#DCE1E7",
+        "cardBackgroundHover": "#D0D7DF",
+        "textPrimary": "#10202A",
+        "textSecondary": "#5A6B7A",
+        "accent": "#00A8B5",
+        "accentSecondary": "#E0115F",
+        "accentTertiary": "#00A8B5",
+        "accentGood": "#00A8B5",
+        "border": "#00A8B5",
+        "shadowColor": "rgba(0, 0, 0, 0)",
+        "gaugeTrack": "rgba(0, 168, 181, 0.15)",
+        "gaugeFillUsage": "#00A8B5",
+        "gaugeFillEdge": "#007C86",
+        "gaugeFillTemp": "rgba(224, 17, 95, 0.4)",
+        "sparkline": "#00A8B5",
+        "sparklineFill": "rgba(0, 168, 181, 0.08)",
+        "sparklineDanger": "#E0115F",
+        "netDown": "#00A8B5",
+        "netUp": "#E0115F",
+        "commentary": "#007C86"
+      },
+      "badgeColor": "#E0115F",
+      "frame": {
+        "brackets": "#00A8B5",
+        "watermarkColor": "#7A8A99"
+      },
+      "ground": {
+        "color": "#00A8B5",
+        "alertColor": "#E0115F"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#0B0E14",
+        "cardBackground": "#121720",
+        "cardBackgroundHover": "#18202C",
+        "textPrimary": "#00F0FF",
+        "textSecondary": "#708298",
+        "accent": "#FCEE0A",
+        "accentSecondary": "#FF003C",
+        "accentTertiary": "#00F0FF",
+        "border": "#FCEE0A",
+        "shadowColor": "rgba(252, 238, 10, 0.25)",
+        "gaugeTrack": "rgba(0, 240, 255, 0.12)",
+        "gaugeFillUsage": "#00F0FF",
+        "gaugeFillEdge": "#B8FCFF",
+        "gaugeFillTemp": "rgba(255, 0, 60, 0.45)",
+        "sparkline": "#FCEE0A",
+        "sparklineFill": "rgba(252, 238, 10, 0.08)",
+        "sparklineDanger": "#FF003C",
+        "netDown": "#00F0FF",
+        "netUp": "#FCEE0A"
+      },
+      "frame": {
+        "brackets": "#FCEE0A",
+        "watermarkColor": "#708298"
+      },
+      "ground": {
+        "color": "#00F0FF",
+        "alertColor": "#FF003C"
+      }
+    }
+  },
+  "clockQuips": {
+    "nominal": "CYBERWARE LINK NOMINAL. ZERO ICE INTRUSIONS.",
+    "stress": "NEURAL THERMAL RUNAWAY! FLATLINE RISK IMMINENT, CHOOM!"
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/av_falling.svg",
+    "hazardSecondary": "assets/trauma_drone.svg"
+  },
+  "badgeText": "KIROSHI v4.2 // UNREGISTERED",
   "badgeColor": "#FF003C",
   "badgeTextColor": "#FFFFFF",
   "commentaryTemplates": {

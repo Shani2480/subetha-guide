@@ -2,7 +2,7 @@
   "id": "dexters-lab",
   "name": "Dexter's Laboratory (Secret Mainframe)",
   "author": "Shani",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
   "isDark": true,
   "fontFamily": "monospace",
@@ -47,8 +47,83 @@
     "shadowOffset": [3, 3],
     "shadowBlur": 0
   },
-  "badgeText": "RESTRICTED ACCESS // TOP SECRET",
-  "badgeColor": "#FF2A85",
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#F7F3E8",
+        "cardBackground": "#C4E5E0",
+        "cardBackgroundHover": "#B3DBD5",
+        "textPrimary": "#181226",
+        "textSecondary": "#5A4E78",
+        "accent": "#7B2CBF",
+        "accentSecondary": "#FF2A85",
+        "accentTertiary": "#FF9E00",
+        "accentGood": "#22A80E",
+        "border": "#181226",
+        "shadowColor": "#181226",
+        "gaugeTrack": "rgba(24, 18, 38, 0.12)",
+        "gaugeFillUsage": "#2DC80F",
+        "gaugeFillEdge": "#181226",
+        "gaugeFillTemp": "rgba(255, 42, 133, 0.45)",
+        "sparkline": "#7B2CBF",
+        "sparklineFill": "rgba(123, 44, 191, 0.1)",
+        "netDown": "#22A80E",
+        "netUp": "#FF2A85",
+        "commentary": "#7B2CBF"
+      },
+      "frame": {
+        "rivets": "#8A7FA8",
+        "dials": "#7B2CBF",
+        "hazard": ["#FF9E00", "#181226"]
+      },
+      "ground": {
+        "color": "#5A4E78",
+        "alertColor": "#FF2A85"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#181226",
+        "cardBackground": "#271E3D",
+        "cardBackgroundHover": "#332A4F",
+        "textPrimary": "#39FF14",
+        "textSecondary": "#B8A9DC",
+        "accent": "#FF2A85",
+        "accentSecondary": "#FF2A85",
+        "accentTertiary": "#FF9E00",
+        "border": "#7B2CBF",
+        "shadowColor": "rgba(123, 44, 191, 0.35)",
+        "gaugeTrack": "rgba(57, 255, 20, 0.12)",
+        "gaugeFillUsage": "#39FF14",
+        "gaugeFillEdge": "#120E1C",
+        "gaugeFillTemp": "rgba(255, 42, 133, 0.5)",
+        "sparkline": "#39FF14",
+        "sparklineFill": "rgba(57, 255, 20, 0.08)",
+        "netDown": "#39FF14",
+        "netUp": "#FF2A85",
+        "commentary": "#FF9E00"
+      },
+      "frame": {
+        "rivets": "#9A8FB8",
+        "dials": "#39FF14",
+        "hazard": ["#FF9E00", "#000000"]
+      },
+      "ground": {
+        "color": "#B8A9DC",
+        "alertColor": "#FF2A85"
+      }
+    }
+  },
+  "clockQuips": {
+    "nominal": "I AM A GENIUS! THE MAIN COMPUTING CORE OPERATES FLAWLESSLY.",
+    "stress": "DEE DEE! WHAT HAVE YOU DONE TO MY TELEMETRY CORES?!"
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/spilling_beaker.svg",
+    "hazardSecondary": "assets/exploding_gear.svg"
+  },
+  "badgeText": "DEE DEE PROOF // TOP SECRET",
+  "badgeColor": "#E0182D",
   "badgeTextColor": "#FFFFFF",
   "commentaryTemplates": {
     "nominal": "I AM A GENIUS! ALL CORE PROTOCOLS RUNNING AT OPTIMUM EFFICIENCY.",

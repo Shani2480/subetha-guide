@@ -2,7 +2,7 @@
   "id": "adventure-time",
   "name": "Adventure Time (BMO Terminal)",
   "author": "Shani",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
   "isDark": false,
   "fontFamily": "Ubuntu",
@@ -42,9 +42,73 @@
     "shadowOffset": [3, 3],
     "shadowBlur": 0
   },
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#CBEBF6",
+        "cardBackground": "#A3E487",
+        "cardBackgroundHover": "#93D877",
+        "textPrimary": "#182B32",
+        "textSecondary": "#2F5560",
+        "accent": "#FFD13B",
+        "accentSecondary": "#FF6FB5",
+        "accentTertiary": "#2F8FE0",
+        "accentGood": "#3DBA54",
+        "border": "#182B32",
+        "shadowColor": "#182B32",
+        "gaugeTrack": "rgba(24, 43, 50, 0.15)",
+        "gaugeFillUsage": "#FFD13B",
+        "gaugeFillTemp": "rgba(255, 111, 181, 0.45)",
+        "sparkline": "#2F8FE0",
+        "sparklineFill": "rgba(47, 143, 224, 0.25)",
+        "netDown": "#2F8FE0",
+        "netUp": "#FF6FB5",
+        "commentary": "#1F6FB8"
+      },
+      "frame": {
+        "dpad": "#FFD13B",
+        "buttons": ["#2F8FE0", "#FF6FB5", "#3DBA54"]
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#234B49",
+        "cardBackground": "#1A3A38",
+        "cardBackgroundHover": "#2A5856",
+        "textPrimary": "#72F2D9",
+        "textSecondary": "#5FB8A8",
+        "accent": "#FFD13B",
+        "accentSecondary": "#FF6FB5",
+        "accentTertiary": "#72F2D9",
+        "accentGood": "#72F2D9",
+        "border": "#0F2423",
+        "shadowColor": "#0F2423",
+        "gaugeTrack": "rgba(114, 242, 217, 0.14)",
+        "gaugeFillUsage": "#FFD13B",
+        "gaugeFillTemp": "rgba(255, 111, 181, 0.5)",
+        "sparkline": "#72F2D9",
+        "sparklineFill": "rgba(114, 242, 217, 0.15)",
+        "netDown": "#72F2D9",
+        "netUp": "#FFD13B",
+        "commentary": "#FFD13B"
+      },
+      "frame": {
+        "dpad": "#FFD13B",
+        "buttons": ["#72F2D9", "#FF6FB5", "#FFD13B"]
+      }
+    }
+  },
+  "clockQuips": {
+    "nominal": "WHAT TIME IS IT? SYSTEM INTEGRITY TIME!",
+    "stress": "HOT DOG WATER! HIGH COMPUTE LOAD DETECTED!"
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/ice_king_fall.svg",
+    "hazardSecondary": "assets/gunter_umbrella.svg"
+  },
   "badgeText": "ALGEBRAIC!",
-  "badgeColor": "#FF5768",
-  "badgeTextColor": "#FFFFFF",
+  "badgeColor": "#FF3B4A",
+  "badgeTextColor": "#FFE14D",
   "commentaryTemplates": {
     "nominal": "MATHEMATICAL! ALL CORE SYSTEMS RUNNING ALGEBRAIC.",
     "moderate": "WHOA! BMO IS DOING SOME HEAVY CALCULATIONS RIGHT NOW!",
