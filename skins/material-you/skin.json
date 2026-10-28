@@ -1,0 +1,157 @@
+{
+  "id": "material-you",
+  "name": "Material You (M3 Expressive)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Material 3 Expressive: tonal surface containers, 24px rounded cards, stadium pills and capsule gauges on soft elevation, in Monet lavender light and dark.",
+  "isDark": false,
+  "fontFamily": "Roboto",
+  "colors": {
+    "background": "#FEF7FF",
+    "cardBackground": "#F3EDF7",
+    "cardBackgroundHover": "#E8DEF8",
+    "textPrimary": "#1D1B20",
+    "textSecondary": "#49454F",
+    "accent": "#6750A4",
+    "accentSecondary": "#625B71",
+    "accentTertiary": "#6750A4",
+    "accentGood": "#6750A4",
+    "border": "rgba(0, 0, 0, 0)",
+    "shadowColor": "rgba(103, 80, 164, 0.18)",
+    "gaugeTrack": "rgba(103, 80, 164, 0.14)",
+    "gaugeFillUsage": "#6750A4",
+    "gaugeFillTemp": "#B3261E",
+    "sparkline": "#6750A4",
+    "sparklineFill": "rgba(103, 80, 164, 0.12)",
+    "netDown": "#6750A4",
+    "netUp": "#625B71",
+    "commentary": "#6750A4",
+    "borderWidth": 0,
+    "borderRadius": 24
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 24,
+    "borderStyle": "solid",
+    "borderWidth": 0,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "soft",
+    "shadowOffset": [
+      0,
+      6
+    ],
+    "shadowBlur": 16
+  },
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#FEF7FF",
+        "cardBackground": "#F3EDF7",
+        "cardBackgroundHover": "#E8DEF8",
+        "textPrimary": "#1D1B20",
+        "textSecondary": "#49454F",
+        "accent": "#6750A4",
+        "accentSecondary": "#625B71",
+        "accentTertiary": "#6750A4",
+        "accentGood": "#6750A4",
+        "border": "rgba(0, 0, 0, 0)",
+        "shadowColor": "rgba(103, 80, 164, 0.18)",
+        "gaugeTrack": "rgba(103, 80, 164, 0.14)",
+        "gaugeFillUsage": "#6750A4",
+        "gaugeFillTemp": "#B3261E",
+        "sparkline": "#6750A4",
+        "sparklineFill": "rgba(103, 80, 164, 0.12)",
+        "netDown": "#6750A4",
+        "netUp": "#625B71",
+        "commentary": "#6750A4"
+      },
+      "badgeColor": "#EADDFF",
+      "badgeTextColor": "#21005D",
+      "ground": {
+        "color": "#6750A4",
+        "alertColor": "#B3261E"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#141218",
+        "cardBackground": "#211F26",
+        "cardBackgroundHover": "#2B2930",
+        "textPrimary": "#E6E1E5",
+        "textSecondary": "#CAC4D0",
+        "accent": "#D0BCFF",
+        "accentSecondary": "#CCC2DC",
+        "accentTertiary": "#D0BCFF",
+        "accentGood": "#D0BCFF",
+        "border": "rgba(0, 0, 0, 0)",
+        "shadowColor": "rgba(0, 0, 0, 0.45)",
+        "gaugeTrack": "rgba(208, 188, 255, 0.16)",
+        "gaugeFillUsage": "#D0BCFF",
+        "gaugeFillTemp": "#F2B8B5",
+        "sparkline": "#D0BCFF",
+        "sparklineFill": "rgba(208, 188, 255, 0.12)",
+        "netDown": "#D0BCFF",
+        "netUp": "#CCC2DC",
+        "commentary": "#D0BCFF"
+      },
+      "badgeColor": "#4F378B",
+      "badgeTextColor": "#EADDFF",
+      "ground": {
+        "color": "#D0BCFF",
+        "alertColor": "#F2B8B5"
+      }
+    }
+  },
+  "badgeText": "MATERIAL DYN-9",
+  "commentaryTemplates": {
+    "nominal": "MONET SYSTEM IN HARMONY. ALL CORES BALANCED.",
+    "moderate": "TONAL PALETTE SHIFTING. A FEW CORES ARE WARMING UP.",
+    "highLoad": "EXPRESSIVE MOTION AT FULL SPRING. SCHEDULER WORKING HARD.",
+    "critical": "THERMAL THROTTLING DETECTED. COOLING ROUTINES ACTIVE.",
+    "night": "DARK THEME ENGAGED. EXTRA DIM, EASY ON THE EYES."
+  },
+  "clockQuips": {
+    "nominal": "AT A GLANCE: ALL CALM.",
+    "stress": "AT A GLANCE: RUNNING HOT."
+  },
+  "aiQuip": "ON-DEVICE MODEL WARMING THE TENSOR CORES.",
+  "labels": {
+    "rx": "DOWNLOAD",
+    "tx": "UPLOAD"
+  },
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/material_flower.svg"
+  },
+  "ground": {
+    "color": "#6750A4",
+    "alertColor": "#B3261E",
+    "width": 2
+  },
+  "roamers": [
+    {
+      "name": "Robot",
+      "frames": [
+        "assets/material_andy_walk.svg",
+        "assets/material_andy_walk_02.svg"
+      ],
+      "width": 22,
+      "height": 28,
+      "stride": 7,
+      "bob": true
+    },
+    {
+      "name": "Companion",
+      "frames": [
+        "assets/material_companion.svg"
+      ],
+      "width": 18,
+      "height": 18,
+      "follow": 10,
+      "stride": 6,
+      "bob": true
+    }
+  ]
+}

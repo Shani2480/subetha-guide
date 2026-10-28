@@ -1,0 +1,180 @@
+{
+  "id": "retro-terminal",
+  "name": "VT-Terminal (1970s/1980s CRT)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "A DEC VT100 / IBM 3270 glass teletype: P1 green phosphor in dark mode, P3 amber in light, raster scanlines, discrete block gauges, a phosphor glow and wireframe Arthur and Marvin on the ground line.",
+  "isDark": true,
+  "fontFamily": "monospace",
+  "colors": {
+    "background": "#020803",
+    "cardBackground": "#07170a",
+    "cardBackgroundHover": "#0d2612",
+    "textPrimary": "#33ff66",
+    "textSecondary": "#1a662e",
+    "accent": "#99ffaa",
+    "accentSecondary": "#1a662e",
+    "accentTertiary": "#99ffaa",
+    "accentGood": "#33ff66",
+    "border": "#33ff66",
+    "shadowColor": "rgba(51, 255, 102, 0.35)",
+    "gaugeTrack": "rgba(51, 255, 102, 0.12)",
+    "gaugeFillUsage": "#33ff66",
+    "gaugeFillTemp": "rgba(51, 255, 102, 0.35)",
+    "sparkline": "#99ffaa",
+    "sparklineFill": "rgba(153, 255, 170, 0.12)",
+    "netDown": "#99ffaa",
+    "netUp": "#1a662e",
+    "commentary": "#99ffaa",
+    "borderWidth": 1.0,
+    "borderRadius": 0
+  },
+  "geometry": {
+    "cardShape": "sharp",
+    "pillShape": "sharp",
+    "gaugeShape": "segmented",
+    "cornerRadius": 0,
+    "borderStyle": "solid",
+    "borderWidth": 1.0,
+    "hasCornerBrackets": true,
+    "hasDropShadow": true,
+    "shadowType": "glow",
+    "shadowOffset": [
+      0,
+      0
+    ],
+    "shadowBlur": 6
+  },
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#0a0600",
+        "cardBackground": "#1f1200",
+        "cardBackgroundHover": "#331e00",
+        "textPrimary": "#ffb000",
+        "textSecondary": "#734500",
+        "accent": "#ffe28a",
+        "accentSecondary": "#734500",
+        "accentTertiary": "#ffe28a",
+        "accentGood": "#ffb000",
+        "border": "#ffb000",
+        "shadowColor": "rgba(255, 176, 0, 0.35)",
+        "gaugeTrack": "rgba(255, 176, 0, 0.12)",
+        "gaugeFillUsage": "#ffb000",
+        "gaugeFillTemp": "rgba(255, 176, 0, 0.35)",
+        "sparkline": "#ffe28a",
+        "sparklineFill": "rgba(255, 226, 138, 0.12)",
+        "netDown": "#ffe28a",
+        "netUp": "#734500",
+        "commentary": "#ffe28a"
+      },
+      "badgeColor": "#ffb000",
+      "badgeTextColor": "#0a0600",
+      "ground": {
+        "color": "#ffb000",
+        "alertColor": "#ffe28a"
+      },
+      "frame": {
+        "brackets": "#ffe28a",
+        "watermarkColor": "#734500"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#020803",
+        "cardBackground": "#07170a",
+        "cardBackgroundHover": "#0d2612",
+        "textPrimary": "#33ff66",
+        "textSecondary": "#1a662e",
+        "accent": "#99ffaa",
+        "accentSecondary": "#1a662e",
+        "accentTertiary": "#99ffaa",
+        "accentGood": "#33ff66",
+        "border": "#33ff66",
+        "shadowColor": "rgba(51, 255, 102, 0.35)",
+        "gaugeTrack": "rgba(51, 255, 102, 0.12)",
+        "gaugeFillUsage": "#33ff66",
+        "gaugeFillTemp": "rgba(51, 255, 102, 0.35)",
+        "sparkline": "#99ffaa",
+        "sparklineFill": "rgba(153, 255, 170, 0.12)",
+        "netDown": "#99ffaa",
+        "netUp": "#1a662e",
+        "commentary": "#99ffaa"
+      },
+      "badgeColor": "#33ff66",
+      "badgeTextColor": "#020803",
+      "ground": {
+        "color": "#33ff66",
+        "alertColor": "#99ffaa"
+      },
+      "frame": {
+        "brackets": "#99ffaa",
+        "watermarkColor": "#1a662e"
+      }
+    }
+  },
+  "badgeText": "9600 BAUD // 8-N-1",
+  "commentaryTemplates": {
+    "nominal": "LINE DISCIPLINE ESTABLISHED. DCD/DSR NOMINAL.",
+    "moderate": "XOFF RECEIVED. BUFFER FILLING, AWAITING XON.",
+    "highLoad": "TTY OVERRUN. CHARACTERS DROPPED AT 9600 BAUD.",
+    "critical": "CARRIER LOST! CORE PARITY ERROR DETECTED!",
+    "night": "NIGHT SHIFT. THE OPERATOR HAS GONE FOR COFFEE."
+  },
+  "clockQuips": {
+    "nominal": "RTC SYNCHRONISED. TICK, TOCK, NO PARITY.",
+    "stress": "CLOCK SKEW! INTERRUPTS ARRIVING LATE!"
+  },
+  "aiQuip": "TELETYPE MODEL CONSUMING CORE. PAPER TAPE RUNNING.",
+  "frame": {
+    "style": "bezel",
+    "brackets": "#99ffaa",
+    "ticks": true,
+    "watermark": "VT-220 // TTY0 // 9600 8-N-1",
+    "watermarkColor": "#1a662e",
+    "scanlines": 0.2,
+    "glitch": false
+  },
+  "labels": {
+    "rx": "RXD",
+    "tx": "TXD",
+    "lan": "LOCAL LINE // TTY0",
+    "wan": "ARPANET // IMP-42",
+    "lanTag": "TTY0",
+    "wanTag": "IMP"
+  },
+  "netGlyph": "chevron",
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/terminal_whale.svg",
+    "hazardSecondary": "assets/terminal_petunias.svg"
+  },
+  "ground": {
+    "color": "#33ff66",
+    "alertColor": "#99ffaa",
+    "width": 1,
+    "pulses": true
+  },
+  "roamers": [
+    {
+      "name": "Arthur",
+      "frames": [
+        "assets/arthur_wireframe.svg",
+        "assets/arthur_wireframe_02.svg"
+      ],
+      "width": 18,
+      "height": 32,
+      "stride": 6
+    },
+    {
+      "name": "Marvin",
+      "frames": [
+        "assets/marvin_wireframe.svg",
+        "assets/marvin_wireframe_02.svg"
+      ],
+      "width": 18,
+      "height": 30,
+      "follow": 12,
+      "stride": 4
+    }
+  ]
+}

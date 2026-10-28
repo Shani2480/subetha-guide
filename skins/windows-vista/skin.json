@@ -1,0 +1,152 @@
+{
+  "id": "windows-vista",
+  "name": "Windows Vista (Aero Glass)",
+  "author": "Shani",
+  "version": "1.0.0",
+  "description": "Aero Glass: icy teal-tinted translucent panes with soft depth, rounded corners and segmented green meters, in midnight and daylight glass.",
+  "isDark": true,
+  "fontFamily": "Noto Sans",
+  "colors": {
+    "background": "#0B151C",
+    "cardBackground": "rgba(18, 38, 51, 0.65)",
+    "cardBackgroundHover": "rgba(25, 52, 70, 0.75)",
+    "textPrimary": "#FFFFFF",
+    "textSecondary": "#B0C9D9",
+    "accent": "#33A2D9",
+    "accentSecondary": "#47C365",
+    "accentTertiary": "#33A2D9",
+    "accentGood": "#28B34B",
+    "border": "rgba(120, 200, 240, 0.35)",
+    "shadowColor": "rgba(0, 0, 0, 0.55)",
+    "gaugeTrack": "rgba(0, 0, 0, 0.35)",
+    "gaugeFillUsage": "#28B34B",
+    "gaugeFillTemp": "#E63946",
+    "sparkline": "#33A2D9",
+    "sparklineFill": "rgba(51, 162, 217, 0.12)",
+    "netDown": "#33A2D9",
+    "netUp": "#47C365",
+    "commentary": "#33A2D9",
+    "borderWidth": 1.5,
+    "borderRadius": 8
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "rounded",
+    "gaugeShape": "segmented",
+    "cornerRadius": 8,
+    "pillRadius": 6,
+    "borderStyle": "solid",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "soft",
+    "shadowOffset": [
+      0,
+      4
+    ],
+    "shadowBlur": 16
+  },
+  "variants": {
+    "light": {
+      "colors": {
+        "background": "#D4E2E8",
+        "cardBackground": "rgba(255, 255, 255, 0.55)",
+        "cardBackgroundHover": "rgba(255, 255, 255, 0.75)",
+        "textPrimary": "#1A252C",
+        "textSecondary": "#486273",
+        "accent": "#1B7FB5",
+        "accentSecondary": "#2E8B57",
+        "accentTertiary": "#1B7FB5",
+        "accentGood": "#1B7FB5",
+        "border": "rgba(255, 255, 255, 0.85)",
+        "shadowColor": "rgba(13, 77, 112, 0.25)",
+        "gaugeTrack": "rgba(0, 0, 0, 0.12)",
+        "gaugeFillUsage": "#1B7FB5",
+        "gaugeFillTemp": "#D9381E",
+        "sparkline": "#1B7FB5",
+        "sparklineFill": "rgba(27, 127, 181, 0.12)",
+        "netDown": "#1B7FB5",
+        "netUp": "#2E8B57",
+        "commentary": "#1B7FB5"
+      },
+      "badgeColor": "#C2DFEE",
+      "badgeTextColor": "#0D4D70",
+      "ground": {
+        "color": "#1B7FB5",
+        "alertColor": "#D9381E"
+      }
+    },
+    "dark": {
+      "colors": {
+        "background": "#0B151C",
+        "cardBackground": "rgba(18, 38, 51, 0.65)",
+        "cardBackgroundHover": "rgba(25, 52, 70, 0.75)",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#B0C9D9",
+        "accent": "#33A2D9",
+        "accentSecondary": "#47C365",
+        "accentTertiary": "#33A2D9",
+        "accentGood": "#28B34B",
+        "border": "rgba(120, 200, 240, 0.35)",
+        "shadowColor": "rgba(0, 0, 0, 0.55)",
+        "gaugeTrack": "rgba(0, 0, 0, 0.35)",
+        "gaugeFillUsage": "#28B34B",
+        "gaugeFillTemp": "#E63946",
+        "sparkline": "#33A2D9",
+        "sparklineFill": "rgba(51, 162, 217, 0.12)",
+        "netDown": "#33A2D9",
+        "netUp": "#47C365",
+        "commentary": "#33A2D9"
+      },
+      "badgeColor": "#163B4F",
+      "badgeTextColor": "#8ED4F8",
+      "ground": {
+        "color": "#33A2D9",
+        "alertColor": "#E63946"
+      }
+    }
+  },
+  "badgeText": "AERO // DWM-6.0",
+  "commentaryTemplates": {
+    "nominal": "DESKTOP WINDOW MANAGER RUNNING WITH 3D GLASS ACCELERATION.",
+    "moderate": "WINDOWS IS CHECKING FOR A SOLUTION TO THE PROBLEM.",
+    "highLoad": "A PROGRAM NEEDS YOUR PERMISSION TO CONTINUE. CANCEL OR ALLOW?",
+    "critical": "WINDOWS SYSTEM RESOURCE OVERCOMMIT! CHECK SIDEBAR RAM.",
+    "night": "THE SIDEBAR GADGETS ARE ASLEEP. MOSTLY."
+  },
+  "clockQuips": {
+    "nominal": "SIDEBAR CLOCK GADGET TICKING SMOOTHLY.",
+    "stress": "SUPERFETCH IS PRELOADING EVERYTHING."
+  },
+  "aiQuip": "SEARCH INDEXER CONSUMING THE CORES AGAIN.",
+  "narrativeAssets": {
+    "fallingSkyHazard": "assets/vista_orb.svg"
+  },
+  "ground": {
+    "color": "#33A2D9",
+    "alertColor": "#E63946",
+    "width": 1.5
+  },
+  "roamers": [
+    {
+      "name": "Gadget",
+      "frames": [
+        "assets/vista_sidebar_gadget.svg"
+      ],
+      "width": 20,
+      "height": 24,
+      "stride": 6,
+      "bob": true
+    },
+    {
+      "name": "Cursor",
+      "frames": [
+        "assets/vista_cursor.svg"
+      ],
+      "width": 14,
+      "height": 20,
+      "follow": 9,
+      "stride": 7
+    }
+  ]
+}
