@@ -18,10 +18,10 @@ Rectangle {
     z: 20
     width: label.implicitWidth + 10
     height: label.implicitHeight + 2
-    radius: 4
+    radius: theme.skinned ? Math.min(4, theme.pillRadius) : 4
     readonly property bool hot: area.containsMouse
     color: hot ? theme.ink : theme.bg
-    border.width: theme.dark ? 1 : 1.5
+    border.width: theme.stroke(1, 1.5)
     border.color: theme.dark ? theme.tint(hot ? 1 : 0.55) : theme.ink
 
     Text {

@@ -577,7 +577,7 @@ Item {
         function Txt(s, x, y, size, alpha) {
             var p = map(x, y)
             ctx.globalAlpha = alpha
-            ctx.font = "bold " + size + "px " + self.fontFamily
+            ctx.font = "bold " + size + "px \"" + self.fontFamily + "\""
             ctx.textAlign = "center"
             ctx.fillText(s, p[0], p[1])
             ctx.textAlign = "start"

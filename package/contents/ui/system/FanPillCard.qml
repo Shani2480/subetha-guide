@@ -52,14 +52,14 @@ SlidingPillContainer {
                     anchors.fill: parent
                     path: card.framePath
                     color: card.theme.tint(card.minimal ? 0 : 0.6)
-                    strokeWidth: card.theme.dark ? 1.3 : 1.6
+                    strokeWidth: card.theme.stroke(1.3, 1.6)
                 }
                 VectorGlyph {
                     id: blades
                     anchors.fill: parent
                     path: card.bladesPath
                     color: card.theme.ink
-                    strokeWidth: card.theme.dark ? 1.5 : 1.8
+                    strokeWidth: card.theme.stroke(1.5, 1.8)
                     // One turn takes 30000 / RPM ms, never faster than 400 ms.
                     NumberAnimation on rotation {
                         running: card.live && card.topRpm > 0
@@ -87,7 +87,7 @@ SlidingPillContainer {
                 spacing: 2
                 Text {
                     Layout.fillWidth: true
-                    text: i18n("COOLING ARRAYS")
+                    text: card.theme.lex("fansTitle", i18n("COOLING ARRAYS"), i18n("FANS"))
                     color: card.theme.ink
                     font { family: card.theme.sans; pixelSize: 13; bold: true; letterSpacing: 0.4 }
                 }
@@ -151,26 +151,17 @@ SlidingPillContainer {
                     font { family: card.theme.mono; pixelSize: 9; bold: true }
                     elide: Text.ElideRight
                 }
-                Row {
+                DynamicMetricGauge {
                     id: tach
                     Layout.fillWidth: true
-                    spacing: 2
-                    readonly property int segments: 20
-                    readonly property int filled: Math.round(tachRow.duty / 100 * segments)
-                    readonly property color fill: card.speedColor(tachRow.duty)
-                    Repeater {
-                        model: tach.segments
-                        Rectangle {
-                            required property int index
-                            readonly property bool on: index < tach.filled
-                            width: (tach.width - tach.spacing * (tach.segments - 1)) / tach.segments
-                            height: 7
-                            radius: card.theme.dark ? 0 : 2
-                            color: on ? tach.fill : "transparent"
-                            border.width: 1
-                            border.color: on ? tach.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
-                        }
-                    }
+                    Layout.preferredHeight: 7
+                    theme: card.theme
+                    shape: card.theme.skinned ? card.theme.gaugeShape : "segmented"
+                    segments: 20
+                    value: Math.round(tachRow.duty / 100 * segments) / segments
+                    fillColor: card.speedColor(tachRow.duty)
+                    outlined: false
+                    live: card.theme.live
                 }
                 Text {
                     Layout.preferredWidth: 62

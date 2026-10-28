@@ -22,6 +22,11 @@ KCM.ScrollViewKCM {
     property string workingId: ""        // the skin being downloaded
     readonly property string activeSkin: Plasmoid.configuration.activeSkin
 
+    readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
+    readonly property color termBg: look.skinned ? look.theme.bg : "#040806"
+    readonly property color termInk: look.skinned ? look.theme.ink : "#00FF66"
+    readonly property color termWarn: look.skinned ? look.theme.accent : "#FFB000"
+
     SkinEngine {
         id: skinEngine
         activeSkin: page.activeSkin
@@ -137,7 +142,7 @@ KCM.ScrollViewKCM {
                         Layout.fillWidth: true
                         Layout.preferredHeight: width * 10 / 16
                         radius: 6
-                        color: "#040806"
+                        color: page.termBg
                         clip: true
                         Image {
                             id: preview
@@ -150,8 +155,8 @@ KCM.ScrollViewKCM {
                             anchors.centerIn: parent
                             visible: preview.status !== Image.Ready
                             text: preview.status === Image.Loading ? i18n("RECEIVING…") : i18n("NO PREVIEW")
-                            color: "#00FF66"
-                            font { family: "monospace"; bold: true }
+                            color: page.termInk
+                            font { family: look.mono; bold: true }
                         }
                     }
                     QQC2.Label {
@@ -224,11 +229,12 @@ KCM.ScrollViewKCM {
             width: Math.min(parent.width - Kirigami.Units.gridUnit * 2, Kirigami.Units.gridUnit * 26)
             height: readout.implicitHeight + Kirigami.Units.gridUnit * 3
             radius: 10
-            color: "#040806"
-            border { width: 2; color: page.registryState === "offline" ? "#FFB000" : "#00FF66" }
+            color: page.termBg
+            border { width: 2; color: page.registryState === "offline" ? page.termWarn : page.termInk }
             clip: true
 
             Image {
+                visible: !look.skinned || look.theme.fx.crtScanlines
                 anchors.fill: parent
                 source: Qt.resolvedUrl("common/scanlines.svg")
                 sourceSize: Qt.size(4, 2)
@@ -240,7 +246,7 @@ KCM.ScrollViewKCM {
                 visible: page.registryState === "loading"
                 width: parent.width
                 height: 3
-                color: "#00FF66"
+                color: page.termInk
                 opacity: 0.6
                 NumberAnimation on y {
                     running: page.registryState === "loading"
@@ -258,10 +264,12 @@ KCM.ScrollViewKCM {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    color: page.registryState === "offline" ? "#FFB000" : "#00FF66"
-                    font { family: "monospace"; bold: true }
-                    text: page.registryState === "loading" ? i18n("SCANNING SUB-ETHA SKIN REGISTRY%1", cursor.on ? " ▮" : "  ")
-                        : page.registryState === "offline" ? i18n("UNABLE TO CONTACT SUB-ETHA SKIN REGISTRY. CHECK NETWORK CONNECTION.")
+                    color: page.registryState === "offline" ? page.termWarn : page.termInk
+                    font { family: look.mono; bold: true }
+                    text: page.registryState === "loading"
+                          ? look.say(i18n("SCANNING SUB-ETHA SKIN REGISTRY%1", cursor.on ? " ▮" : "  "), i18n("SCANNING SKIN REGISTRY%1", cursor.on ? " ▮" : "  "))
+                        : page.registryState === "offline"
+                          ? look.say(i18n("UNABLE TO CONTACT SUB-ETHA SKIN REGISTRY. CHECK NETWORK CONNECTION."), i18n("UNABLE TO CONTACT THE SKIN REGISTRY. CHECK NETWORK CONNECTION."))
                         : i18n("NO SKINS IN THE REGISTRY YET.")
                     Timer {
                         id: cursor

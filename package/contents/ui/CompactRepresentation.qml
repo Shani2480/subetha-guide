@@ -68,9 +68,13 @@ MouseArea {
                           else hoverCloseTimer.stop()
     }
 
-    readonly property color ink: dark ? "#00FF66" : Kirigami.Theme.textColor
-    readonly property color busy: dark ? "#FFB000" : "#E8890C"
-    readonly property color alert: dark ? "#FF3333" : "#FF6B4A"
+    // The Guide's phosphor on the panel after dark; under a skin the panel's
+    // own text colour (the skin's ink is drawn for its cards, not the panel)
+    // with the theme's alert colours.
+    readonly property bool skinned: !!theme && theme.skinned
+    readonly property color ink: skinned ? Kirigami.Theme.textColor : dark ? "#00FF66" : Kirigami.Theme.textColor
+    readonly property color busy: skinned ? theme.warnColor : dark ? "#FFB000" : "#E8890C"
+    readonly property color alert: skinned ? theme.critColor : dark ? "#FF3333" : "#FF6B4A"
     function levelColor(level) { return level === "alert" ? alert : level === "busy" ? busy : ink }
     readonly property color critical: theme ? theme.critColor : alert
     // figure and icon at the reading's alert level; a critical one flashes
@@ -173,8 +177,8 @@ MouseArea {
                     code: compact.weather ? compact.weather.current.code : -1
                     isDay: compact.weather ? compact.weather.current.isDay : true
                     iconStyle: compact.weatherIconStyle
-                    palette: ({ outline: compact.ink, sun: compact.busy, precip: compact.dark ? "#00E5FF" : "#26A69A",
-                                bolt: compact.busy, boltCore: compact.alert, bg: "transparent", solid: !compact.dark })
+                    palette: ({ outline: compact.ink, sun: compact.busy, precip: compact.skinned ? compact.theme.cool : compact.dark ? "#00E5FF" : "#26A69A",
+                                bolt: compact.busy, boltCore: compact.alert, bg: "transparent", solid: compact.skinned || !compact.dark })
                     running: false
                 }
             }
@@ -183,7 +187,7 @@ MouseArea {
                 text: compact.vertical ? cellGrid.r.shortText
                     : (compact.showIcon || cellGrid.r.key === "weather" || cellGrid.r.key === "clock" ? "" : cellGrid.r.label + " ") + cellGrid.r.text
                 color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.ink
-                font { family: "monospace"; pixelSize: compact.fontPx; bold: true }
+                font { family: compact.theme ? compact.theme.mono : "monospace"; pixelSize: compact.fontPx; bold: true }
                 width: compact.vertical ? Math.min(implicitWidth, compact.width - 4) : implicitWidth
                 fontSizeMode: compact.vertical ? Text.HorizontalFit : Text.FixedSize
                 minimumPixelSize: 7

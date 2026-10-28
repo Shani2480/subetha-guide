@@ -22,7 +22,7 @@ CollapsibleSection {
         theme: section.theme
         minimal: section.minimal
         onDensityToggled: section.densityToggled()
-        title: i18n("POWER // ENERGY CELLS")
+        title: section.theme.lex("powerTitle", i18n("POWER // ENERGY CELLS"), i18n("POWER"))
         glyph: "M3 7 H19 V17 H3 Z M19 10 H21.5 V14 H19 M6 10 V14 M9 10 V14 M12 10 V14"
         // Created once the feed and settings are attached, so no binding
         // runs against a null feed while the card is being built.

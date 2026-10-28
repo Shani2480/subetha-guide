@@ -202,7 +202,7 @@ PlasmoidItem {
     }
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
-            text: i18n("Open Sub-Etha Process Diagnostics")
+            text: guide.lex("openMonitor", i18n("Open Sub-Etha Process Diagnostics"), i18n("Open System Monitor"))
             icon.name: "utilities-system-monitor"
             onTriggered: root.openDiagnostics("overview")
         }
@@ -245,7 +245,7 @@ PlasmoidItem {
     Plasmoid.status: anyCritical ? PlasmaCore.Types.NeedsAttentionStatus : PlasmaCore.Types.ActiveStatus
     hideOnWindowDeactivate: true
     // In a panel the themed hover card (PanelHoverPopup) replaces Plasma's tooltip.
-    toolTipMainText: onDesktop ? i18n("The Sub-Etha Guide") : ""
+    toolTipMainText: onDesktop ? guide.lex("appName", i18n("The Sub-Etha Guide"), i18n("System Guide")) : ""
     toolTipSubText: !onDesktop ? "" : [
         has("weather") && weatherData.hasData ? (root.cfg.locationName || "") + "  " + weatherData.tempText : "",
         systemData.cpuUsage > 0 || systemData.cpuTemp > 0
@@ -257,7 +257,7 @@ PlasmoidItem {
         has("battery") && powerData.panelDevice ? i18n("Battery %1%", powerData.panelDevice.percent) : "",
         has("ai") && aiData.status === "ok" ? (aiData.cloud ? i18n("AI %1 of %2 this month", "$" + aiData.spentMonth.toFixed(2), "$" + aiData.budget.toFixed(2))
                                                             : aiData.model ? i18n("AI %1 loaded", aiData.model) : "") : ""
-    ].filter(s => s !== "").join("\n") || i18n("Don't Panic.")
+    ].filter(s => s !== "").join("\n") || guide.lex("idleTip", i18n("Don't Panic."), i18n("All systems nominal."))
 
     compactRepresentation: CompactRepresentation {
         dark: guide.dark

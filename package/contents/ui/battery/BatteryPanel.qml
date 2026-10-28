@@ -25,7 +25,9 @@ ColumnLayout {
     Text {
         visible: !panel.minimal
         Layout.fillWidth: true
-        text: panel.feed ? panel.feed.commentary : ""
+        text: !panel.feed ? "" : !panel.theme.skinned ? panel.feed.commentary
+            : panel.feed.anyCritical ? panel.theme.skinLine("critical", i18n("BATTERY CRITICAL. CONNECT POWER."))
+            : panel.theme.skinLine("nominal", i18n("POWER NOMINAL."))
         color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap
@@ -80,7 +82,7 @@ ColumnLayout {
         Layout.topMargin: 6
         Layout.bottomMargin: 6
         horizontalAlignment: Text.AlignHCenter
-        text: i18n("NO SELECTED BATTERIES REPORTING ON THIS VESSEL.")
+        text: panel.theme.lex("noBatteries", i18n("NO SELECTED BATTERIES REPORTING ON THIS VESSEL."), i18n("NO SELECTED BATTERIES REPORTING."))
         color: panel.theme.tint(0.6)
         font { family: panel.theme.mono; pixelSize: 11 }
         wrapMode: Text.WordWrap
@@ -106,9 +108,9 @@ ColumnLayout {
                 readonly property bool active: modelData === panel.feed.currentProfile
                 implicitWidth: chipText.implicitWidth + 14
                 implicitHeight: chipText.implicitHeight + 6
-                radius: height / 2
+                radius: panel.theme.skinned ? Math.min(height / 2, panel.theme.pillRadius) : height / 2
                 color: active ? panel.theme.ink : "transparent"
-                border.width: panel.theme.dark ? 1 : 2
+                border.width: panel.theme.skinned ? Math.min(2, panel.theme.borderWidth) : panel.theme.dark ? 1 : 2
                 border.color: active ? panel.theme.ink : panel.theme.tint(panel.theme.dark ? 0.45 : 1)
                 Text {
                     id: chipText

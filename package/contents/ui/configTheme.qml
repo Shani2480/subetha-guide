@@ -12,6 +12,13 @@ KCM.SimpleKCM {
     id: page
 
     property string cfg_themeMode
+    readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
+    // Under a skin the three cards are its own light and dark variants.
+    function skinColors(which) {
+        var s = look.engine.style
+        if (!s) return {}
+        return Object.assign({}, s.colors, s.variants ? s.variants[which].colors : {})
+    }
     property string cfg_themeModeDefault
     property var cfg_enabledSections: ["weather", "system", "disk", "battery"]
     property var cfg_enabledSectionsDefault
@@ -27,18 +34,18 @@ KCM.SimpleKCM {
     readonly property var panelSensors: [
         { value: "weather",   text: i18n("Weather temperature"), sample: "☁ 11°" },
         { value: "clock",     text: i18n("Clock"),               sample: "◷ 01:59" },
-        { value: "cpuLoad",   text: i18n("CPU load"),            sample: i18nc("panel label", "CPU") + " 42%" },
+        { value: "cpuLoad",   text: i18n("CPU load"),            sample: i18nc("panel label", "CPU") + (look.skinned ? " 37%" : " 42%") },
         { value: "cpuTemp",   text: i18n("CPU temperature"),     sample: i18nc("panel label", "CPU") + " 58°C" },
         { value: "gpuTemp",   text: i18n("GPU temperature"),     sample: i18nc("panel label", "GPU") + " 62°C" },
         { value: "ramUsage",  text: i18n("Memory usage"),        sample: i18nc("panel label", "RAM") + " 44%" },
         { value: "netSpeed",  text: i18n("Network download"),    sample: i18nc("panel label", "NET") + " ↓12.4M" },
         { value: "battery",   text: i18n("Battery level"),       sample: i18nc("panel label", "BAT") + " 87%" },
         { value: "aiUsage",   text: i18n("AI spend or local model"), sample: i18nc("panel label", "AI") + " $4.20" },
-        { value: "multiPill", text: i18n("Several at once"),     sample: "☁ 11° │ " + i18nc("panel label", "CPU") + " 42% │ " + i18nc("panel label", "BAT") + " 87%" }
+        { value: "multiPill", text: i18n("Several at once"),     sample: "☁ 11° │ " + i18nc("panel label", "CPU") + (look.skinned ? " 37% │ " : " 42% │ ") + i18nc("panel label", "BAT") + " 87%" }
     ]
 
     readonly property var sections: [
-        { key: "weather", text: i18n("Weather: sky hero card, forecast drawers, Arthur and Marvin") },
+        { key: "weather", text: look.say(i18n("Weather: sky hero card, forecast drawers, Arthur and Marvin"), i18n("Weather: sky hero card, forecast drawers and characters")) },
         { key: "system",  text: i18n("System: CPU, memory, GPU, network and fans") },
         { key: "disk",    text: i18n("Storage: volumes, capacity and I/O throughput") },
         { key: "battery", text: i18n("Power: batteries and live wattage") }
@@ -52,53 +59,60 @@ KCM.SimpleKCM {
     Kirigami.FormLayout {
         // ---- theme: three miniature cards ----
         RowLayout {
-            Kirigami.FormData.label: i18n("Guide theme:")
+            Kirigami.FormData.label: look.skinned ? i18n("%1:", look.engine.active ? look.engine.active.name : i18n("Skin")) : i18n("Guide theme:")
             spacing: Kirigami.Units.largeSpacing
 
             PreviewCard {
-                title: i18n("Movie Encyclopedia")
-                cardDescription: i18n("Movie Encyclopedia: Clean cream parchment background with bold 2D graphic typography, flat shadows, and Shynola-inspired infographic colors.")
+                title: look.say(i18n("Movie Encyclopedia"), i18n("Light"))
+                cardDescription: look.say(i18n("Movie Encyclopedia: Clean cream parchment background with bold 2D graphic typography, flat shadows, and Shynola-inspired infographic colors."),
+                                          i18n("Light: the skin's light variant."))
                 selected: page.cfg_themeMode === "light"
                 onClicked: page.cfg_themeMode = "light"
-                surface: "#F5F2EB"
-                MovieSchematic { anchors.fill: parent }
+                surface: look.skinned ? light.bg : "#F5F2EB"
+                MovieSchematic { anchors.fill: parent; visible: !look.skinned }
+                SkinSchematic { id: light; anchors.fill: parent; visible: look.skinned; colors: page.skinColors("light") }
             }
             PreviewCard {
-                title: i18n("Sub-Etha Terminal")
-                cardDescription: i18n("Sub-Etha Terminal: Classic 1981 BBC green phosphor CRT display with scanlines, coordinate grids, and amber telemetry alerts.")
+                title: look.say(i18n("Sub-Etha Terminal"), i18n("Dark"))
+                cardDescription: look.say(i18n("Sub-Etha Terminal: Classic 1981 BBC green phosphor CRT display with scanlines, coordinate grids, and amber telemetry alerts."),
+                                          i18n("Dark: the skin's dark variant."))
                 selected: page.cfg_themeMode === "dark"
                 onClicked: page.cfg_themeMode = "dark"
-                surface: "#040806"
-                CrtSchematic { anchors.fill: parent }
+                surface: look.skinned ? dark.bg : "#040806"
+                CrtSchematic { anchors.fill: parent; visible: !look.skinned }
+                SkinSchematic { id: dark; anchors.fill: parent; visible: look.skinned; colors: page.skinColors("dark") }
             }
             PreviewCard {
                 title: i18n("Solar Auto")
-                cardDescription: i18n("Solar Synchronization: Automatically switches to Movie Light at sunrise and Sub-Etha CRT Dark at sunset based on local coordinates.")
+                cardDescription: look.say(i18n("Solar Synchronization: Automatically switches to Movie Light at sunrise and Sub-Etha CRT Dark at sunset based on local coordinates."),
+                                          i18n("Solar Auto: the light variant from sunrise, the dark one from sunset, at the weather location."))
                 selected: page.cfg_themeMode === "auto"
                 onClicked: page.cfg_themeMode = "auto"
-                surface: "#040806"
-                Item {   // left half movie, right half CRT, sun and moon on the seam
+                surface: look.skinned ? dark.bg : "#040806"
+                Item {   // left half light, right half dark, sun and moon on the seam
                     anchors.fill: parent
                     Item {
                         width: parent.width / 2; height: parent.height
                         clip: true
-                        MovieSchematic { width: parent.width * 2; height: parent.height }
+                        MovieSchematic { width: parent.width * 2; height: parent.height; visible: !look.skinned }
+                        SkinSchematic { width: parent.width * 2; height: parent.height; visible: look.skinned; colors: page.skinColors("light") }
                     }
                     Item {
                         x: parent.width / 2; width: parent.width / 2; height: parent.height
                         clip: true
-                        CrtSchematic { x: -parent.width; width: parent.width * 2; height: parent.height }
+                        CrtSchematic { x: -parent.width; width: parent.width * 2; height: parent.height; visible: !look.skinned }
+                        SkinSchematic { x: -parent.width; width: parent.width * 2; height: parent.height; visible: look.skinned; colors: page.skinColors("dark") }
                     }
-                    Rectangle { x: parent.width / 2 - 1; width: 2; height: parent.height; color: "#FFBE1A" }
+                    Rectangle { x: parent.width / 2 - 1; width: 2; height: parent.height; color: look.skinned ? light.accent : "#FFBE1A" }
                     VectorGlyph {   // sun
                         x: parent.width / 2 - 30; y: parent.height - 30; width: 24; height: 24
                         path: "M8 12 A4 4 0 1 0 16 12 A4 4 0 1 0 8 12 Z M12 2 V5 M12 19 V22 M2 12 H5 M19 12 H22 M4.9 4.9 L7 7 M17 17 L19.1 19.1 M4.9 19.1 L7 17 M17 7 L19.1 4.9"
-                        color: "#E8890C"; strokeWidth: 2
+                        color: look.skinned ? light.accent : "#E8890C"; strokeWidth: 2
                     }
                     VectorGlyph {   // moon
                         x: parent.width / 2 + 6; y: parent.height - 30; width: 24; height: 24
                         path: "M15 3 A9 9 0 1 0 21 15 A7 7 0 0 1 15 3 Z"
-                        color: "#00FF66"; strokeWidth: 1.8
+                        color: look.skinned ? dark.ink : "#00FF66"; strokeWidth: 1.8
                     }
                 }
             }
@@ -181,7 +195,7 @@ KCM.SimpleKCM {
                     text: page.cfg_panelCycleInterval > 0 && parent.parent.choice.value !== "multiPill"
                           ? i18n("%1  → next every %2 s", parent.parent.choice.sample, page.cfg_panelCycleInterval)
                           : parent.parent.choice.sample
-                    font { family: "monospace"; bold: true }
+                    font { family: look.mono; bold: true }
                 }
                 Rectangle {
                     id: previewMeter
@@ -216,6 +230,39 @@ KCM.SimpleKCM {
             wrapMode: Text.WordWrap
             font: Kirigami.Theme.smallFont
             opacity: 0.7
+        }
+    }
+
+    // A skin's miniature, from one variant's colours: its background, a card
+    // with a title rule, and two gauges in its usage and temperature fills.
+    component SkinSchematic: Item {
+        property var colors: ({})
+        readonly property color bg: colors.background || "#808080"
+        readonly property color card: colors.cardBackground || bg
+        readonly property color ink: colors.textPrimary || "#000000"
+        readonly property color accent: colors.accent || ink
+        Rectangle { anchors.fill: parent; color: parent.bg }
+        Rectangle {
+            x: 8; y: 8; width: parent.width - 16; height: parent.height - 16
+            radius: 6
+            color: parent.card
+            border { width: 1; color: parent.colors.border || parent.accent }
+            Rectangle { x: 8; y: 8; width: 60; height: 5; radius: 2; color: parent.parent.ink }
+            Rectangle { x: 8; y: 17; width: 38; height: 3; radius: 1.5; color: parent.parent.ink; opacity: 0.5 }
+            Repeater {
+                model: [{ k: "gaugeFillUsage", w: 0.7 }, { k: "gaugeFillTemp", w: 0.45 }]
+                Rectangle {
+                    required property var modelData
+                    required property int index
+                    readonly property Item art: parent.parent
+                    x: 8; y: 30 + index * 16; width: parent.width - 16; height: 8; radius: 4
+                    color: art.colors.gaugeTrack || Qt.rgba(art.ink.r, art.ink.g, art.ink.b, 0.15)
+                    Rectangle {
+                        width: parent.width * modelData.w; height: parent.height; radius: 4
+                        color: parent.art.colors[modelData.k] || parent.art.accent
+                    }
+                }
+            }
         }
     }
 

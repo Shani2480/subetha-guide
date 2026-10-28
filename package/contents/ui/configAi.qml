@@ -3,12 +3,14 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import "common"
 
 // "AI Telemetry": where the AI section reads from (a cloud provider's Admin
 // API cost and usage reports, or a local inference server's loaded models),
 // the key, the monthly budget and how often the reports are fetched.
 KCM.SimpleKCM {
     id: page
+    readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
 
     property string cfg_aiDensity
     property string cfg_aiDensityDefault
@@ -34,7 +36,8 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Section density:")
             density: page.cfg_aiDensity
             compactDescription: i18n("Compact: one pill with the month's spend against the budget (or the loaded model and its VRAM) over a slim meter.")
-            fullDescription: i18n("Full: the big percentage, a two-layer meter, today / month / reset, the model badge, a 24-hour sparkline and the Guide's comment.")
+            fullDescription: look.say(i18n("Full: the big percentage, a two-layer meter, today / month / reset, the model badge, a 24-hour sparkline and the Guide's comment."),
+                                      i18n("Full: the big percentage, a two-layer meter, today / month / reset, the model badge, a 24-hour sparkline and a comment."))
             onPicked: density => page.cfg_aiDensity = density
         }
         QQC2.Label {

@@ -38,7 +38,7 @@ CollapsibleSection {
                                                    section.sensors.indexOf("gpu") >= 0 ? section.alerts.gpu : 0)
         live: section.live && section.open
         onMonitorRequested: tab => section.monitorRequested(tab)
-        title: i18n("COMPUTE // EDDIE CORE")
+        title: section.theme.lex("systemTitle", i18n("COMPUTE // EDDIE CORE"), i18n("SYSTEM"))
         glyph: "M7 7 H17 V17 H7 Z M9.5 9.5 H14.5 V14.5 H9.5 Z M9 7 V4 M12 7 V4 M15 7 V4 M9 17 V20 M12 17 V20 M15 17 V20 M7 9 H4 M7 12 H4 M7 15 H4 M17 9 H20 M17 12 H20 M17 15 H20"
         // Created once the feed and settings are attached, so no binding
         // runs against a null feed while the card is being built.
@@ -82,7 +82,7 @@ CollapsibleSection {
             shadowType: "none"
             readonly property bool hot: launchArea.containsMouse
             fillColor: hot ? section.theme.ink : "transparent"
-            strokeWidth: section.theme.dark ? 1 : 2
+            strokeWidth: section.theme.stroke(1, 2)
             strokeColor: section.theme.dark ? section.theme.tint(launchArea.containsMouse ? 1 : 0.6) : section.theme.ink
             Text {
                 id: launchText

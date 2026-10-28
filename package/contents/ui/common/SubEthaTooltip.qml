@@ -28,21 +28,21 @@ QQC2.ToolTip {
     }
     background: Item {
         Rectangle {   // flat offset shadow (light)
-            visible: !tip.theme.dark
-            x: 2; y: 2
+            visible: tip.theme.skinned ? tip.theme.flatShadow : !tip.theme.dark
+            x: tip.theme.skinned ? tip.theme.shadowX : 2; y: tip.theme.skinned ? tip.theme.shadowY : 2
             width: parent.width; height: parent.height
-            radius: 6
+            radius: tip.theme.skinned ? Math.min(6, tip.theme.pillRadius) : 6
             color: tip.theme.ink
         }
         Rectangle {
             anchors.fill: parent
-            radius: tip.theme.dark ? 2 : 6
+            radius: tip.theme.skinned ? Math.min(6, tip.theme.pillRadius) : tip.theme.dark ? 2 : 6
             color: tip.theme.dark ? tip.theme.crtBlack : tip.theme.cream
-            border.width: tip.theme.dark ? 1 : 2
-            border.color: tip.theme.dark ? tip.theme.tint(0.8) : tip.theme.ink
+            border.width: tip.theme.skinned ? Math.min(2, tip.theme.borderWidth) : tip.theme.dark ? 1 : 2
+            border.color: tip.theme.skinned ? tip.theme.border : tip.theme.dark ? tip.theme.tint(0.8) : tip.theme.ink
         }
         Repeater {   // corner reticles (dark)
-            model: tip.theme.dark ? 4 : 0
+            model: (tip.theme.skinned ? tip.theme.fx.cornerBrackets : tip.theme.dark) ? 4 : 0
             Item {
                 required property int index
                 readonly property bool atRight: index % 2 === 1
@@ -50,8 +50,8 @@ QQC2.ToolTip {
                 width: 6; height: 6
                 x: atRight ? parent.width - width - 3 : 3
                 y: atBottom ? parent.height - height - 3 : 3
-                Rectangle { width: parent.width; height: 1; y: parent.atBottom ? parent.height - 1 : 0; color: tip.theme.amber }
-                Rectangle { width: 1; height: parent.height; x: parent.atRight ? parent.width - 1 : 0; color: tip.theme.amber }
+                Rectangle { width: parent.width; height: 1; y: parent.atBottom ? parent.height - 1 : 0; color: tip.theme.skinned ? tip.theme.bracketColor : tip.theme.amber }
+                Rectangle { width: 1; height: parent.height; x: parent.atRight ? parent.width - 1 : 0; color: tip.theme.skinned ? tip.theme.bracketColor : tip.theme.amber }
             }
         }
     }

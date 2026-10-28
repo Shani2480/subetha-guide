@@ -3,12 +3,14 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import "common"
 
 // "Clock & Chronometry": the clock section's density, picked from two
 // miniature cards like the other sections' (PreviewCard.qml), and how the
 // time reads, in the section and in the panel.
 KCM.SimpleKCM {
     id: page
+    readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
 
     property string cfg_clockDensity
     property string cfg_clockDensityDefault
@@ -22,7 +24,7 @@ KCM.SimpleKCM {
     readonly property color ink: Kirigami.Theme.textColor
     readonly property color accent: Kirigami.Theme.highlightColor
     // The schematics show the time as it is set below.
-    readonly property string sampleTime: (format24Check.checked ? "13:59" : "01:59") + (secondsCheck.checked ? ":42" : "")
+    readonly property string sampleTime: (format24Check.checked ? "13:59" : "01:59") + (secondsCheck.checked ? (look.skinned ? ":37" : ":42") : "")
                                          + (format24Check.checked ? "" : " PM")
 
     Kirigami.FormLayout {
@@ -45,13 +47,14 @@ KCM.SimpleKCM {
                     QQC2.Label {
                         anchors { right: parent.right; rightMargin: 7; verticalCenter: parent.verticalCenter }
                         text: page.sampleTime
-                        font { family: "monospace"; pixelSize: 9; bold: true }
+                        font { family: look.mono; pixelSize: 9; bold: true }
                     }
                 }
             }
             PreviewCard {
                 title: i18n("Large")
-                cardDescription: i18n("Large: the 32px chronometer with the full date, time zone and UTC offset, a second / day dial and the Guide's comment on the hour.")
+                cardDescription: look.say(i18n("Large: the 32px chronometer with the full date, time zone and UTC offset, a second / day dial and the Guide's comment on the hour."),
+                                          i18n("Large: the 32px chronometer with the full date, time zone and UTC offset, a second / day dial and a comment on the hour."))
                 selected: page.cfg_clockDensity === "full"
                 onClicked: page.cfg_clockDensity = "full"
                 Item {   // section label over the large pill: digits and lines left, rings right
@@ -64,7 +67,7 @@ KCM.SimpleKCM {
                         QQC2.Label {
                             x: 6; y: 6
                             text: page.sampleTime.replace(" PM", "")
-                            font { family: "monospace"; pixelSize: 13; bold: true }
+                            font { family: look.mono; pixelSize: 13; bold: true }
                         }
                         Rectangle { x: 6; y: 28; width: 54; height: 3; radius: 1.5; color: page.ink; opacity: 0.7 }
                         Rectangle { x: 6; y: 35; width: 42; height: 3; radius: 1.5; color: page.ink; opacity: 0.45 }
@@ -120,7 +123,8 @@ KCM.SimpleKCM {
         QQC2.CheckBox {
             id: galacticCheck
             Kirigami.FormData.label: i18n("Epoch badge:")
-            text: i18n("Show the Guide's stardate and Greenwich sidereal time (Large density)")
+            text: look.say(i18n("Show the Guide's stardate and Greenwich sidereal time (Large density)"),
+                          i18n("Show Greenwich sidereal time (Large density)"))
         }
     }
 }

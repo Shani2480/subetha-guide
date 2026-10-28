@@ -3,12 +3,14 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import "common"
 import "weather/code/weather.js" as Weather
 
 // "Weather & Location": where the forecast is for (also the sunrise and
 // sunset that the Auto theme follows), units, icons and the hero card.
 KCM.SimpleKCM {
     id: page
+    readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
 
     property string cfg_weatherDensity
     property string cfg_weatherDensityDefault
@@ -84,8 +86,10 @@ KCM.SimpleKCM {
         DensityPicker {
             Kirigami.FormData.label: i18n("Section density:")
             density: page.cfg_weatherDensity
-            compactDescription: i18n("Compact: one low-profile pill with the location, condition icon, temperature and feels-like. Arthur and Marvin stay home and the forecast drawers fold away.")
-            fullDescription: i18n("Full: the sky hero card with Arthur and Marvin roaming the forecast strip, plus the hourly and 7-day drawers.")
+            compactDescription: look.say(i18n("Compact: one low-profile pill with the location, condition icon, temperature and feels-like. Arthur and Marvin stay home and the forecast drawers fold away."),
+                                         i18n("Compact: one low-profile pill with the location, condition icon, temperature and feels-like. The characters stay home and the forecast drawers fold away."))
+            fullDescription: look.say(i18n("Full: the sky hero card with Arthur and Marvin roaming the forecast strip, plus the hourly and 7-day drawers."),
+                                      i18n("Full: the sky hero card with the skin's characters roaming the forecast strip, plus the hourly and 7-day drawers."))
             onPicked: density => page.cfg_weatherDensity = density
         }
         RowLayout {
@@ -184,7 +188,7 @@ KCM.SimpleKCM {
             textRole: "text"
             valueRole: "value"
             model: [
-                { text: i18n("Sub-Etha wireframe"), value: "wireframe" },
+                { text: look.say(i18n("Sub-Etha wireframe"), i18n("Wireframe")), value: "wireframe" },
                 { text: i18n("Glass 3D (volumetric)"), value: "glass3d" },
                 { text: i18n("Hand-drawn (animated)"), value: "handdrawn" },
                 { text: i18n("Weather Underground, white"), value: "white" },
@@ -212,7 +216,7 @@ KCM.SimpleKCM {
         }
         QQC2.CheckBox {
             id: characterCheck
-            text: i18n("Show Arthur and Marvin on the forecast strip")
+            text: look.say(i18n("Show Arthur and Marvin on the forecast strip"), i18n("Show the skin's characters on the forecast strip"))
             enabled: animationsCheck.checked
         }
     }

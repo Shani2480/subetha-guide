@@ -38,7 +38,7 @@ PlasmaCore.Dialog {
                 spacing: 8
                 Text {
                     width: parent.width
-                    text: i18n("SUB-ETHA SENSOR TELEMETRY")
+                    text: popup.theme.lex("sensorTelemetry", i18n("SUB-ETHA SENSOR TELEMETRY"), i18n("SENSOR TELEMETRY"))
                     color: popup.theme.accent
                     font { family: popup.theme.mono; pixelSize: 10; bold: true; letterSpacing: 1 }
                     leftPadding: 10   // clear of the corner reticle

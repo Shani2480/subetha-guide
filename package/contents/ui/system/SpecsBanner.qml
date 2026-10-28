@@ -36,7 +36,7 @@ Item {
             Text {
                 Layout.fillWidth: true
                 Layout.bottomMargin: 2
-                text: i18n("SUB-ETHA HOST PROFILE // COMPUTATIONAL FABRIC")
+                text: banner.theme.lex("hostProfile", i18n("SUB-ETHA HOST PROFILE // COMPUTATIONAL FABRIC"), i18n("HOST PROFILE"))
                 color: banner.theme.accent
                 font { family: banner.theme.mono; pixelSize: 10; bold: true; letterSpacing: 0.5 }
                 elide: Text.ElideRight

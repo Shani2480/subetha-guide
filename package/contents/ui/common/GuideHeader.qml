@@ -28,7 +28,7 @@ RowLayout {
         Text {
             Layout.fillWidth: true
             text: header.title
-            color: header.theme.ink
+            color: header.theme.onBackground   // the frame's face is the theme's background
             font { family: header.theme.mono; pixelSize: 11; bold: true; letterSpacing: 0.6 }
             wrapMode: Text.WordWrap
         }
@@ -36,7 +36,7 @@ RowLayout {
             visible: header.subtitle !== ""
             Layout.fillWidth: true
             text: header.subtitle
-            color: header.theme.inkSoft
+            color: header.theme.onBackgroundDim
             font { family: header.theme.mono; pixelSize: 10; bold: true; letterSpacing: 0.4 }
             elide: Text.ElideRight
         }

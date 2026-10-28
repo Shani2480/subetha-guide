@@ -23,7 +23,7 @@ CollapsibleSection {
         theme: section.theme
         minimal: section.minimal
         onDensityToggled: section.densityToggled()
-        title: i18n("CHRONOMETRY // SECTOR ZZ9")
+        title: section.theme.lex("clockTitle", i18n("CHRONOMETRY // SECTOR ZZ9"), i18n("CLOCK"))
         glyph: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14 M12 1 V3 M12 21 V23 M1 12 H3 M21 12 H23"
         Loader {
             Layout.fillWidth: true

@@ -42,6 +42,11 @@ Item {
     property bool running: true
     property real cornerRadius: 10
     property var hazards: []              // image URLs that replace the whale and the petunias
+    // The Guide's own touches: the whale and the petunias, the thunder's CRT
+    // flash and its "[IMPROBABILITY SURGE]" readout. Off under a skin, which
+    // brings its `hazards` or nothing.
+    property bool lore: true
+    property string fontFamily: "monospace"
 
     // 0..1 strength of the wind, saturating at 50 km/h. Drives the rain tilt,
     // the trace speed and the sideways drift of everything that falls. Wind
@@ -541,7 +546,7 @@ Item {
 
     function drawWhale(ctx, w, h) {
         var k = whale
-        if (!k.active || hazards.length) return
+        if (!k.active || hazards.length || !lore) return
         var p = (t - k.t0) / 7
         var x = k.x0 * w + p * windFactor * 50 + 3 * Math.sin(t * 0.8)
         var y = -14 + p * (h + 28)
@@ -614,6 +619,7 @@ Item {
             setStroke(ctx, P.danger, 0.6, 0.8 * a)                  // thin hot core
             ctx.stroke()
         }
+        if (!lore) return
         if (e < 0.35) {                                             // screen flash: accent snap, danger afterglow
             var light = P.light === true                            // on cream the flash is gentler
             ctx.fillStyle = P.accent
@@ -625,7 +631,7 @@ Item {
         }
         ctx.fillStyle = P.accent
         ctx.globalAlpha = 0.7 * (e < 1.0 ? 1 : (1.2 - e) / 0.2)
-        ctx.font = "9px monospace"
+        ctx.font = "9px \"" + fontFamily + "\""
         ctx.fillText(i18n("[IMPROBABILITY SURGE]"), 8, 13)
     }
 }

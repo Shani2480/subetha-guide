@@ -50,11 +50,13 @@ ColumnLayout {
     // quiet hours (22:00-06:00) of a nominal machine. "" falls back to the Guide's.
     readonly property string skinQuip: {
         var q = theme.quips || {}
-        if (!t || Object.keys(q).length === 0) return ""
+        if (!t || !theme.skinned) return ""
         var load = Math.max(t.cpuUsage, t.gpuUsage), hour = new Date().getHours()
         var key = t.hottest > Sys.MELTDOWN ? "critical" : load > 85 || t.hottest > Sys.HOT ? "highLoad"
                 : load >= 40 ? "moderate" : hour >= 22 || hour < 6 ? "night" : "nominal"
-        return q[key] || ""
+        return q[key] || ({ critical: i18n("CRITICAL TEMPERATURE."), highLoad: i18n("HIGH LOAD."),
+                            moderate: i18n("MODERATE LOAD."), night: i18n("ALL SYSTEMS NOMINAL."),
+                            nominal: i18n("ALL SYSTEMS NOMINAL.") })[key]
     }
 
     spacing: minimal ? 8 : 10
@@ -94,7 +96,7 @@ ColumnLayout {
         onMonitorRequested: tab => panel.monitorRequested(tab)
         graphs: panel.graphs
         kind: "cpu"
-        title: i18n("CPU CORE ARRAY")
+        title: panel.theme.lex("cpuTitle", i18n("CPU CORE ARRAY"), i18n("CPU"))
         subtitle: i18np("%1 CORE", "%1 CORES", panel.t.cpuCores) + " · " + Sys.ghz(panel.t.cpuFreq)
         tempText: Sys.temp(panel.t.cpuTemp, panel.tempUnit)
         tempLevel: panel.alerts ? panel.alerts.cpuTemp : 0
@@ -126,7 +128,7 @@ ColumnLayout {
         graphs: panel.graphs
         kind: "ram"
         readonly property real pct: panel.t.memPercent
-        title: i18n("PRIMARY BUFFER")
+        title: panel.theme.lex("memoryTitle", i18n("PRIMARY BUFFER"), i18n("MEMORY"))
         subtitle: Sys.gb(panel.t.memUsed) + " / " + Sys.gb(panel.t.memTotal)
         loadLevel: panel.alerts ? panel.alerts.ram : 0
         criticalText: panel.alerts ? panel.alerts.criticalText("ram") : ""
@@ -155,7 +157,7 @@ ColumnLayout {
         readonly property real vramPct: panel.t.vramTotal > 0 ? 100 * panel.t.vramUsed / panel.t.vramTotal : 0
         // With several GPUs the sensor's own name says which one is shown.
         title: (panel.t.gpus.length < 2 && panel.t.specs && panel.t.specs.gpuFound ? panel.t.specs.gpu.split(" + ")[0]
-               : panel.t.gpuName || i18n("GRAPHICS ENGINE")).toUpperCase()
+               : panel.t.gpuName || panel.theme.lex("gpuTitle", i18n("GRAPHICS ENGINE"), i18n("GPU"))).toUpperCase()
         subtitle: i18n("VRAM %1 / %2", Sys.gb(panel.t.vramUsed), Sys.gb(panel.t.vramTotal))
         tempText: Sys.temp(panel.t.gpuTemp, panel.tempUnit)
         tempLevel: panel.alerts ? panel.alerts.gpuTemp : 0
@@ -189,7 +191,7 @@ ColumnLayout {
         graphs: panel.graphs
         kind: "net"
         title: panel.t.iface ? panel.t.iface.toUpperCase() : i18n("ALL INTERFACES")
-        subtitle: i18n("SUB-ETHA LINK") + (panel.t.networkName ? " · " + panel.t.networkName.toUpperCase() : "")
+        subtitle: panel.theme.lex("netLink", i18n("SUB-ETHA LINK"), i18n("NETWORK")) + (panel.t.networkName ? " · " + panel.t.networkName.toUpperCase() : "")
         rxText: Sys.rate(panel.t.rx)
         txText: Sys.rate(panel.t.tx)
         rxHistory: panel.t.rxHistory

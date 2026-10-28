@@ -116,7 +116,7 @@ Rectangle {
         readonly property color accent: detail ? detail.accent : "#FFFFFF"
         readonly property string value: detail ? view.detailValue(detail.key, compact) : ""
         visible: value !== ""
-        radius: view.light ? 14 : 0
+        radius: view.skin ? Math.min(14, view.skin.outerRadius) : view.light ? 14 : 0
         color: view.light ? view.surface : Qt.rgba(accent.r, accent.g, accent.b, 0.06)
         border.width: view.thinW
         border.color: view.light ? view.outline : Qt.rgba(accent.r, accent.g, accent.b, 0.45)
@@ -250,7 +250,11 @@ Rectangle {
     //                outlines with a flat offset shadow, coral / mustard / teal.
     // terminalDark:  the 1981 BBC Sub-Etha terminal: phosphor green on CRT black.
     // improbability: neon magenta and cyan wireframe on deep violet.
-    readonly property bool light: themeStyle === "movieLight"
+    // Under a skin "light" is the solid, flat card style, and the CRT
+    // treatment (wireframe lines, raster, bloom, reticles) is only what the
+    // skin's features turn on; nothing follows the Guide's day and night.
+    readonly property bool crt: skin ? skin.fx.crtScanlines || skin.fx.phosphorDecay : themeStyle !== "movieLight"
+    readonly property bool light: skin ? !crt : themeStyle === "movieLight"
     readonly property bool neon: themeStyle === "improbability"
     readonly property color bg:       skin ? skin.bg : light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
     readonly property color surface:  skin ? skin.card : light ? "#EDE8DC" : neon ? "#14091F" : "#071008"
@@ -261,15 +265,28 @@ Rectangle {
     readonly property color cool:     skin ? skin.cool : light ? "#26A69A" : neon ? "#00E5FF" : "#00E5FF"   // rain, feels-like
     readonly property color navy:     skin ? skin.ink : light ? "#2C3E50" : neon ? "#7A3CFF" : "#00FF66"   // Marvin accents
     readonly property color danger:   skin ? skin.alert : light ? "#E53935" : neon ? "#FF2BD6" : "#FF3333"
-    readonly property color onAccent: light ? "#FFFFFF" : bg                              // text on an accent-filled pill
+    readonly property color onAccent: skin ? (accent.hslLightness > 0.6 ? skin.charcoal : "#FFFFFF")
+                                    : light ? "#FFFFFF" : bg                              // text on an accent-filled pill
+    function onAccentA(a) { return Qt.rgba(onAccent.r, onAccent.g, onAccent.b, a) }
     readonly property string fontFamily: skin ? skin.sans : light ? Qt.application.font.family : "monospace"
-    readonly property real pill: light ? 20 : 0            // hourly strip, day cards, solar cards
+    readonly property real pill: skin ? skin.pillRadius : light ? 20 : 0            // hourly strip, day cards, solar cards
     readonly property real cardRadius: skin ? skin.outerRadius : light ? 16 : 0      // hero card and tiles
     readonly property real lineW: skin ? skin.borderWidth : light ? 2 : 1.5          // outlines
-    readonly property real thinW: light ? 2 : 1
-    readonly property bool scanlines: !light
-    readonly property bool flatShadow: light               // 2px 2px offset solid shadow, no blur
-    readonly property bool bloom: glow && !light           // MultiEffect phosphor glow (dark themes only)
+    readonly property real thinW: skin ? Math.max(1, Math.min(2, skin.borderWidth)) : light ? 2 : 1
+    readonly property bool scanlines: skin ? skin.fx.crtScanlines : !light
+    readonly property bool flatShadow: skin ? skin.flatShadow : light   // 2px 2px offset solid shadow, no blur
+    // MultiEffect phosphor glow, the Guide's terminal only (a skin's phosphor is its ThemeEffectsLayer)
+    readonly property bool bloom: glow && !skin && !light
+    readonly property bool reticles: skin ? skin.fx.cornerBrackets : !light
+    readonly property bool gridShown: skin ? skin.fx.grid : true
+    function lex(key, h2g2, neutral) { return skin ? skin.lex(key, h2g2, neutral) : h2g2 }
+    // "GUIDE ENTRY: LONDON" for the Guide; under a skin its own label (lexicon
+    // entryLabel) before the place, or the place alone.
+    function entryOf(h2g2) {
+        if (!skin) return h2g2
+        var label = skin.lex("entryLabel", "", "")
+        return (label ? label + ": " : "") + locationName.toUpperCase()
+    }
     function tint(a) { return Qt.rgba(outline.r, outline.g, outline.b, a) }
     readonly property var iconPalette: ({ outline: outline, sun: light ? accent : mustard, precip: cool,
                                           bolt: mustard, boltCore: danger, bg: bg, solid: light })
@@ -287,7 +304,9 @@ Rectangle {
     // Guide commentary for the hero's weather
     readonly property bool heroNight: selToday && weather ? !weather.current.isDay : false
     readonly property real heroWind: !weather || !sel ? 0 : selToday ? weather.current.wind : (sel.wind || 0)
-    readonly property string guideText: weather ? Weather.guideEntry(heroCondition, heroNight, heroWind) : ""
+    readonly property string guideText: !weather ? ""
+        : skin ? Weather.skinEntry(skin, heroCondition, heroNight, heroWind)
+        : Weather.guideEntry(heroCondition, heroNight, heroWind)
     readonly property real pad: desktopMode ? 8 : Kirigami.Units.largeSpacing
 
     function fmtTime(d) {
@@ -360,7 +379,7 @@ Rectangle {
     Layout.minimumWidth: desktopMode ? miniMinWidth : implicitWidth
     Layout.minimumHeight: desktopMode ? miniMinHeight : implicitHeight
 
-    radius: 16   // the suite's outer-frame token (SubEthaTheme.outerRadius)
+    radius: skin ? skin.outerRadius : 16   // the suite's outer-frame token (SubEthaTheme.outerRadius)
     color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
     border.width: backdrop ? lineW : 0
@@ -369,19 +388,31 @@ Rectangle {
     // Blueprint grid: 24px squares in the theme's line colour, a tiled SVG
     // texture (one 24x24 tile uploaded once) instead of a Canvas repainted on
     // every resize.
-    component BlueprintGrid: Image {
+    // Under a skin, its own grid in its ink (SkinGrid), never the Guide's art.
+    component BlueprintGrid: Item {
         property real alpha: 0.05
-        source: Qt.resolvedUrl("images/grid-" + view.themeStyle + ".svg")
-        sourceSize: Qt.size(24, 24)
-        fillMode: Image.Tile
-        smooth: false
-        asynchronous: true
-        opacity: view.light ? alpha * 1.4 : alpha
+        visible: view.gridShown
+        Image {
+            anchors.fill: parent
+            visible: !view.skin
+            source: visible ? Qt.resolvedUrl("images/grid-" + view.themeStyle + ".svg") : ""
+            sourceSize: Qt.size(24, 24)
+            fillMode: Image.Tile
+            smooth: false
+            asynchronous: true
+            opacity: view.light ? parent.alpha * 1.4 : parent.alpha
+        }
+        SkinGrid {
+            anchors.fill: parent
+            visible: !!view.skin
+            color: view.skin ? view.skin.ink : "transparent"
+            opacity: parent.alpha * 1.6
+        }
     }
     // Scanlines: a 1px dark line every 2px over the whole card, like a CRT
     // raster. A 4x2 tiled texture; the light theme has no raster.
     component Scanlines: Image {
-        visible: view.scanlines
+        visible: view.scanlines && !view.skin   // a skin's raster is its ThemeEffectsLayer
         source: Qt.resolvedUrl("images/scanlines.svg")
         sourceSize: Qt.size(4, 2)
         fillMode: Image.Tile
@@ -438,10 +469,10 @@ Rectangle {
     // L-shaped targeting reticles, 8x8 at 1.5px, in the four corners of an item
     // (dark themes only).
     component Reticles: Canvas {
-        property color color: view.amber
+        property color color: view.skin ? view.skin.bracketColor : view.amber
         property real size: 8
         property real inset: 3
-        visible: !view.light
+        visible: view.reticles
         renderTarget: Canvas.FramebufferObject
         renderStrategy: Canvas.Threaded
         onWidthChanged: requestPaint()
@@ -488,7 +519,7 @@ Rectangle {
         hoverEnabled: true
         Accessible.name: tip
         background: Rectangle {
-            radius: view.light ? 14 : 0
+            radius: view.skin ? Math.min(14, view.skin.pillRadius) : view.light ? 14 : 0
             color: hb.checked ? view.tint(0.12)
                  : (hb.hovered || hb.down) ? view.tint(0.07) : "transparent"
             border.width: hb.checked || hb.hovered ? view.thinW : 0
@@ -613,7 +644,7 @@ Rectangle {
                 Layout.leftMargin: 4
                 Layout.rightMargin: 4
                 ShadowLabel {
-                    text: (view.locationName !== "" ? i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase()) + " · " : "") + i18n("Details")
+                    text: (view.locationName !== "" ? view.entryOf(i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase())) + " · " : "") + i18n("Details")
                     color: view.secondary
                     font.pixelSize: 11
                     font.weight: Font.DemiBold
@@ -702,7 +733,7 @@ Rectangle {
         readonly property real heroY: column.y + hero.y
         readonly property real edgeY: heroY + hero.height - 1 - ground                               // feet on the hero's bottom border
         readonly property real stripY: heroY + hero.hpad + hourlyWell.y - ground    // feet on the strip's top edge
-        visible: view.showCharacter && view.ambientAnimations && !view.skinRoamers
+        visible: view.showCharacter && view.ambientAnimations && !view.skin   // the Guide's own pair; a skin brings its roamers or none
         // only the desktop card shows the pair, and only its front side
         opacity: view.desktopMode && hero.visible && view.flipAngle < 90 ? restOpacity : 0
         y: edgeY + (stripY - edgeY) * view.hourlyVisibility
@@ -767,7 +798,7 @@ Rectangle {
                     font.family: view.fontFamily
                     anchors.fill: parent
                     visible: !view.searching
-                    text: view.locationName !== "" ? i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase()) : ""
+                    text: view.locationName !== "" ? view.entryOf(i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase())) : ""
                     color: view.primary
                     font.pixelSize: 13
                     font.weight: Font.DemiBold
@@ -843,6 +874,8 @@ Rectangle {
                 cornerRadius: hero.radius
                 palette: ({ outline: view.outline, accent: view.accent, cool: view.cool, danger: view.danger, light: view.light })
                 hazards: view.skin ? view.skin.hazards : []
+                lore: !view.skin          // the whale, the petunias and the improbability flash are the Guide's
+                fontFamily: view.fontFamily
                 running: view.ambientAnimations && view.active && hero.visible && !view.flipped
                 condition: view.heroCondition
                 isNight: view.selToday && view.weather ? !view.weather.current.isDay : false
@@ -889,7 +922,7 @@ Rectangle {
                         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                         onClicked: view.openSearch()
                     }
-                    text: (view.desktopMode && view.locationName !== "" ? i18n("GUIDE ENTRY: %1 [SECTOR ZZ9]", view.locationName.toUpperCase()) + " · " : "")
+                    text: (view.desktopMode && view.locationName !== "" ? view.entryOf(i18n("GUIDE ENTRY: %1 [SECTOR ZZ9]", view.locationName.toUpperCase())) + " · " : "")
                         + (view.sel ? view.dayTitle(view.sel.date, view.selToday) : "")
                     color: view.secondary
                     font.pixelSize: 10
@@ -1122,7 +1155,7 @@ Rectangle {
                     Layout.alignment: Qt.AlignVCenter
                     ShadowLabel {   // location, click to change
                         visible: miniContent.showLocation && !view.searching
-                        text: i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase())
+                        text: view.entryOf(i18n("GUIDE ENTRY: %1", view.locationName.toUpperCase()))
                         color: view.secondary
                         font.pixelSize: 10
                         font.weight: Font.DemiBold
@@ -1183,10 +1216,10 @@ Rectangle {
                 visible: view.showBadge && hero.width >= 230 && !view.searching
                 width: visible ? panicText.implicitWidth + 14 : 0
                 height: view.light ? 18 : 16
-                radius: 9
-                color: view.light ? view.accent : view.tintAccent(0.08)
-                border.width: view.light ? 2 : 1
-                border.color: view.light ? view.outline : view.amber
+                radius: view.skin ? Math.min(height / 2, view.skin.pillRadius) : 9
+                color: view.skin ? view.skin.badge : view.light ? view.accent : view.tintAccent(0.08)
+                border.width: view.skin ? view.thinW : view.light ? 2 : 1
+                border.color: view.skin ? view.skin.border : view.light ? view.outline : view.amber
                 FlatShadow {}
                 layer.enabled: view.bloom
                 layer.effect: MultiEffect {
@@ -1201,14 +1234,14 @@ Rectangle {
                     font.family: view.fontFamily
                     id: panicText
                     anchors.centerIn: parent
-                    text: i18n("DON'T PANIC")
-                    color: view.light ? view.onAccent : view.amber
+                    text: view.skin ? view.skin.badgeText : i18n("DON'T PANIC")
+                    color: view.skin ? view.skin.badgeInk : view.light ? view.onAccent : view.amber
                     font.pixelSize: 8
                     font.bold: true
                     font.letterSpacing: 1.1
                 }
                 SequentialAnimation on opacity {   // a slow phosphor breath
-                    running: view.active && view.ambientAnimations
+                    running: view.active && view.ambientAnimations && (!view.skin || view.skin.fx.phosphorDecay)
                     loops: Animation.Infinite
                     NumberAnimation { to: 0.72; duration: 1800; easing.type: Easing.InOutSine }
                     NumberAnimation { to: 1.0; duration: 1800; easing.type: Easing.InOutSine }
@@ -1341,14 +1374,14 @@ Rectangle {
                                 PlasmaComponents3.Label {
                                     font.family: view.fontFamily
                                     text: " / "
-                                    color: cell.selected && view.light ? Qt.rgba(1, 1, 1, 0.7) : view.low
+                                    color: cell.selected && view.light ? (view.skin ? view.onAccentA(0.7) : Qt.rgba(1, 1, 1, 0.7)) : view.low
                                     font.pixelSize: 11
                                     font.weight: Font.Medium
                                 }
                                 PlasmaComponents3.Label {
                                     font.family: view.fontFamily
                                     text: Math.round(cell.modelData.min) + "°"
-                                    color: cell.selected && view.light ? Qt.rgba(1, 1, 1, 0.7) : view.low
+                                    color: cell.selected && view.light ? (view.skin ? view.onAccentA(0.7) : Qt.rgba(1, 1, 1, 0.7)) : view.low
                                     font.pixelSize: 11
                                     font.weight: Font.Medium
                                 }
@@ -1359,7 +1392,7 @@ Rectangle {
                             visible: !view.skin
                             anchors.fill: parent
                             radius: card.radius
-                            color: view.light ? Qt.rgba(1, 1, 1, 0.35) : view.tint(0.04)
+                            color: view.skin ? view.tint(0.06) : view.light ? Qt.rgba(1, 1, 1, 0.35) : view.tint(0.04)
                             opacity: cellMouse.containsMouse ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 120 } }
                         }
@@ -1380,5 +1413,15 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: view.textureInset   // clear of the rounded or cut corners
         z: 30
+    }
+    ThemeEffectsLayer {   // a skin's raster, phosphor decay and glass sheen (its reticles are the hero's)
+        visible: !!view.skin
+        anchors.fill: parent
+        anchors.margins: view.textureInset
+        z: 30
+        theme: view.skin
+        brackets: false
+        radius: view.radius
+        running: view.active
     }
 }

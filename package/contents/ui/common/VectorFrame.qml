@@ -27,7 +27,10 @@ Item {
                   + (handheld ? body.stripHeight : bezel ? decor.footerHeight : 0)
 
     HoverHandler { id: hover; enabled: frame.theme.skinned }
-    property color fill: hover.hovered ? theme.cardHover : theme.bg
+    // Hovered, a skin's face lifts a shade toward its text colour rather than
+    // turning into a card, so text chosen to read on `bg` still reads.
+    property color fill: hover.hovered ? Qt.tint(theme.bg, Qt.rgba(theme.onBackground.r, theme.onBackground.g, theme.onBackground.b, 0.06))
+                                       : theme.bg
     Behavior on fill { ColorAnimation { duration: 120 } }
     ThemeShapeContainer {
         id: shell
@@ -50,7 +53,7 @@ Item {
         // the textures never poke out of them.
         readonly property real textureInset: Math.max(2, shell.radius * 0.3, shell.cut)
         Image {
-            visible: !frame.plain && !frame.theme.frame
+            visible: !frame.plain && !frame.theme.skinned && !frame.theme.frame
             anchors { fill: parent; margins: surface.textureInset }
             source: Qt.resolvedUrl(frame.theme.dark ? "grid-dark.svg" : "grid-light.svg")
             sourceSize: Qt.size(24, 24)
@@ -58,14 +61,18 @@ Item {
             smooth: false
             opacity: frame.theme.dark ? 0.05 : 0.06
         }
-        Image {
-            visible: frame.theme.dark && !frame.plain
+        SkinGrid {   // a skin's grid is drawn in its own ink
+            visible: !frame.plain && frame.theme.skinned && frame.theme.fx.grid
             anchors { fill: parent; margins: surface.textureInset }
-            source: Qt.resolvedUrl("scanlines.svg")
-            sourceSize: Qt.size(4, 2)
-            fillMode: Image.Tile
-            smooth: false
-            opacity: frame.theme.scanlineOpacity
+            color: frame.theme.ink
+            opacity: 0.07
+        }
+        ThemeEffectsLayer {   // raster, phosphor decay, glass sheen (the brackets are the shell's)
+            anchors { fill: parent; margins: surface.textureInset }
+            theme: frame.theme
+            plain: frame.plain
+            brackets: false
+            radius: shell.radius
         }
     }
 

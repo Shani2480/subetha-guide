@@ -106,7 +106,7 @@ SlidingPillContainer {
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.volumeKind] || card.glyphs.ssd
                 color: card.theme.ink
-                strokeWidth: card.theme.dark ? 1.5 : 1.8
+                strokeWidth: card.theme.stroke(1.5, 1.8)
             }
 
             ColumnLayout {
@@ -127,9 +127,9 @@ SlidingPillContainer {
                     Rectangle {   // filesystem badge
                         implicitWidth: fsText.implicitWidth + 10
                         implicitHeight: fsText.implicitHeight + 4
-                        radius: card.theme.dark ? 0 : height / 2
+                        radius: card.theme.skinned ? Math.min(height / 2, card.theme.pillRadius) : card.theme.dark ? 0 : height / 2
                         color: "transparent"
-                        border.width: card.theme.dark ? 1 : 1.5
+                        border.width: card.theme.skinned ? Math.min(1.5, card.theme.borderWidth) : card.theme.dark ? 1 : 1.5
                         border.color: card.theme.cool
                         Text {
                             id: fsText
@@ -147,7 +147,7 @@ SlidingPillContainer {
                         Layout.minimumWidth: 0
                         implicitWidth: warnText.implicitWidth + 10
                         implicitHeight: warnText.implicitHeight + 4
-                        radius: card.theme.dark ? 0 : height / 2
+                        radius: card.theme.skinned ? Math.min(height / 2, card.theme.pillRadius) : card.theme.dark ? 0 : height / 2
                         color: card.alertInk
                         Text {
                             id: warnText
@@ -199,7 +199,7 @@ SlidingPillContainer {
                 id: activity
                 implicitWidth: 7; implicitHeight: 7
                 Layout.rightMargin: 2
-                radius: card.theme.dark ? 0 : 3.5
+                radius: card.theme.skinned ? Math.min(3.5, card.theme.pillRadius) : card.theme.dark ? 0 : 3.5
                 readonly property bool busy: card.readBps + card.writeBps >= 1000
                 color: busy ? (card.writeBps > card.readBps ? card.writeColor : card.readColor) : "transparent"
                 border.width: 1
@@ -238,28 +238,18 @@ SlidingPillContainer {
         }
 
         // ---- segmented capacity gauge ----
-        Row {
+        DynamicMetricGauge {
             id: gauge
             Layout.fillWidth: true
             Layout.preferredHeight: card.minimal ? 6 : 9
             Layout.bottomMargin: 2
-            spacing: 2
-            readonly property int segments: card.minimal ? 20 : 24
-            readonly property int filled: Math.round(card.percent / 100 * segments)
-            readonly property real segmentWidth: (width - spacing * (segments - 1)) / segments
-            Repeater {
-                model: gauge.segments
-                Rectangle {
-                    required property int index
-                    readonly property bool on: index < gauge.filled
-                    width: gauge.segmentWidth
-                    height: gauge.height
-                    radius: card.theme.dark ? 0 : Math.min(2, height / 2)
-                    color: on ? card.fillColor : "transparent"
-                    border.width: 1
-                    border.color: on ? card.fillColor : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
-                }
-            }
+            theme: card.theme
+            shape: card.theme.skinned ? card.theme.gaugeShape : "segmented"
+            segments: card.minimal ? 20 : 24
+            value: Math.round(card.percent / 100 * segments) / segments
+            fillColor: card.fillColor
+            outlined: false
+            live: card.theme.live
         }
     }
 }

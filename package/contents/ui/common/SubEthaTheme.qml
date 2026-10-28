@@ -1,5 +1,6 @@
 import QtQuick
 import "solar.js" as Solar
+import "skins.js" as Skins
 
 // The suite's shared design tokens: the 2005 film's cream Encyclopedia pages
 // (light) and the 1981 BBC Sub-Etha terminal (dark), plus the "auto" switch
@@ -75,6 +76,26 @@ QtObject {
 
     // ---- skin-only roles; without a skin each is the Guide's own look ----
     readonly property color inkSoft:   sc("textSecondary", tint(0.6))     // subtitles
+    // Text drawn straight on `bg`: the skin's textOnBackground, else ink or
+    // inkSoft while they read against it (WCAG contrast >= 4.5), else white or
+    // black, whichever reads better. Unskinned these are ink and inkSoft.
+    function luminance(c) {
+        var f = v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+        return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b)
+    }
+    function contrast(a, b) {
+        var x = luminance(a), y = luminance(b)
+        return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05)
+    }
+    function readableOn(ground, wanted) {
+        if (contrast(wanted, ground) >= 4.5) return wanted
+        var white = Qt.color("#FFFFFF"), black = Qt.color("#000000")
+        return contrast(white, ground) >= contrast(black, ground) ? white : black
+    }
+    readonly property color onBackground: !skinned ? ink : skinColors.textOnBackground || readableOn(bg, ink)
+    readonly property color onBackgroundDim: !skinned ? inkSoft
+                                           : skinColors.textOnBackground ? Qt.rgba(onBackground.r, onBackground.g, onBackground.b, 0.75)
+                                           : contrast(inkSoft, bg) >= 4.5 ? inkSoft : Qt.rgba(onBackground.r, onBackground.g, onBackground.b, 0.75)
     readonly property color commentary: sc("commentary", accent)          // the sections' one-line verdicts
     readonly property color cardHover: sc("cardBackgroundHover", bg)       // a frame under the pointer
     readonly property color border:    sc("border", dark ? tint(0.55) : ink)
@@ -105,7 +126,7 @@ QtObject {
     readonly property string borderStyle: gv("borderStyle", "solid")
     readonly property real borderWidth: gv("borderWidth", skin && skin.borderWidth !== null ? skin.borderWidth : 2)
     // L corner marks on the outer cards; "tech-brackets" borders put them on pills too
-    readonly property bool cornerBrackets: gv("hasCornerBrackets", skin ? !!(frame && frame.brackets) : true)
+    readonly property bool cornerBrackets: skin ? feature("cornerBrackets", gv("hasCornerBrackets", !!(frame && frame.brackets))) : true
     readonly property color bracketColor: frame && frame.brackets ? frame.brackets : !skin ? (dark ? amber : ink) : border
     readonly property bool legacyShadow: !!skin && (skin.shadowOffset[0] || skin.shadowOffset[1]) && shadow.a > 0
     readonly property string shadowType: geo.hasDropShadow === false ? "none"
@@ -167,8 +188,43 @@ QtObject {
     readonly property var labels: skin ? skin.labels : ({})
     readonly property bool chevrons: !!skin && skin.netGlyph === "chevron"
 
-    readonly property string mono: "monospace"
-    readonly property string sans: skin && skin.font ? skin.font : dark ? "monospace" : Qt.application.font.family
+    // A skin's font list (skins.js fontList), resolved against what is
+    // installed plus the font files the skin ships; `mono` (tables and
+    // figures) is the skin's monoFontFamily, else the same list.
+    property int fontsLoaded: 0           // bumps as the skin's font files load, to re-resolve
+    readonly property string mono: !skin ? "monospace"
+        : (fontsLoaded, Skins.resolveFont(skin.monoFonts.length ? skin.monoFonts : skin.fonts, Qt.fontFamilies(), "monospace"))
+    readonly property string sans: !skin ? (dark ? "monospace" : Qt.application.font.family)
+        : (fontsLoaded, Skins.resolveFont(skin.fonts, Qt.fontFamilies(), "sans-serif"))
+    property Instantiator fontFiles: Instantiator {
+        model: theme.skin ? theme.skin.fontFiles : []
+        delegate: FontLoader {
+            required property string modelData
+            source: modelData
+            onStatusChanged: if (status === FontLoader.Ready) theme.fontsLoaded++
+        }
+    }
+
+    // ---- effects (ThemeEffectsLayer.qml) ----
+    // A skin turns each on in its `features` block and gets none it leaves
+    // out (an older skin's frame.scanlines / frame.brackets still count);
+    // the Guide's terminal has them all, its film pages none.
+    function feature(key, legacy) { var v = skin.features[key]; return v === null || v === undefined ? legacy : v }
+    readonly property var fx: !skin ? {
+        crtScanlines: dark && !minimal, phosphorDecay: dark && !minimal, cornerBrackets: dark && !minimal,
+        glassBlur: false, grid: !minimal
+    } : {
+        crtScanlines: !minimal && feature("crtScanlines", !!frame && frame.scanlines > 0),
+        phosphorDecay: !minimal && feature("phosphorDecay", false),
+        cornerBrackets: !minimal && cornerBrackets,
+        glassBlur: feature("glassBlur", false),
+        grid: !minimal && feature("grid", false)
+    }
+    // Lore: the Guide's own words, else the skin's (narrative.lexicon), else plain ones.
+    function lex(key, h2g2, neutral) { return !skin ? h2g2 : skin.lexicon[key] || neutral }
+    // A section's one-line verdict under a skin: its quip for the level
+    // (nominal, moderate, highLoad, critical, night), else plain words.
+    function skinLine(level, neutral) { return skin && skin.quips[level] || neutral }
     // Corner radii as a plain Rectangle can take them (a stadium is as round as
     // stadiumMax, which a short Rectangle clamps to a capsule), shared 1:1 by
     // every widget so cards placed side by side line up; 4px margins.
@@ -197,13 +253,16 @@ QtObject {
     }
     // a hard offset copy, no blur: 2px 2px charcoal on the light pages
     readonly property bool flatShadow: shadowType === "flat-2d" && (shadowX !== 0 || shadowY !== 0)
-    readonly property bool scanlines: dark && !minimal
+    readonly property bool scanlines: fx.crtScanlines
     readonly property real scanlineOpacity: frame && frame.scanlines !== null && frame.scanlines !== undefined ? frame.scanlines : 0.15
     // A skin's chassis is its own ornament: no coordinate grid or reticles on it.
-    readonly property bool grid: !minimal && !frame
-    readonly property bool reticles: !minimal && !frame
+    readonly property bool grid: fx.grid && !frame
+    readonly property bool reticles: !minimal && (skin ? fx.cornerBrackets : !frame)
 
     function tint(a) { return Qt.rgba(ink.r, ink.g, ink.b, a) }
+    // An icon's stroke: the Guide's thin CRT line after dark, its bolder print
+    // line by day; a skin's weight follows its border (heavy outlines, bold icons).
+    function stroke(darkW, lightW) { return skinned ? (borderWidth >= 1.5 ? lightW : darkW) : dark ? darkW : lightW }
     // Battery-style level: higher is better.
     function level(p) { return p >= 50 ? high : p >= 20 ? mid : low }
     function mix(a, b, t) { return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1) }

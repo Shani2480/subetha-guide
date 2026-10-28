@@ -7,15 +7,16 @@ Rectangle {
     id: badge
 
     property QtObject theme
-    property string text: theme.badgeText || i18n("DON'T PANIC")
+    property string text: theme.skinned ? theme.badgeText : i18n("DON'T PANIC")
     property int pixelSize: 12
 
     implicitWidth: label.implicitWidth + pixelSize * 1.7
     implicitHeight: label.implicitHeight + pixelSize * 0.7
     radius: theme.skinned ? Math.min(height / 2, theme.outerRadius) : height / 2
     color: theme.dark && !theme.skinned ? "transparent" : theme.badge
-    border.width: 2
-    border.color: theme.dark ? theme.badge : theme.ink
+    visible: text !== ""
+    border.width: theme.skinned ? Math.min(2, theme.borderWidth) : 2
+    border.color: theme.skinned ? theme.border : theme.dark ? theme.badge : theme.ink
 
     Text {
         id: label

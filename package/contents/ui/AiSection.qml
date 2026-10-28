@@ -23,7 +23,8 @@ CollapsibleSection {
         theme: section.theme
         minimal: section.minimal
         onDensityToggled: section.densityToggled()
-        title: i18n("SYNAPSE TELEMETRY // %1", Ai.providerTag(section.feed ? section.feed.provider : ""))
+        title: section.theme.lex("aiTitle", i18n("SYNAPSE TELEMETRY // %1", Ai.providerTag(section.feed ? section.feed.provider : "")),
+                                i18n("AI // %1", Ai.providerTag(section.feed ? section.feed.provider : "")))
         glyph: "M9 4.5 A3 3 0 0 0 4.5 7 A3 3 0 0 0 3.5 12 A3 3 0 0 0 5.5 16.5 A3 3 0 0 0 10 19.5 V4.5 Z M14 4.5 A3 3 0 0 1 19.5 7 A3 3 0 0 1 20.5 12 A3 3 0 0 1 18.5 16.5 A3 3 0 0 1 14 19.5 Z M12 2 V22"
         Loader {
             Layout.fillWidth: true

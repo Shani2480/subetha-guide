@@ -40,7 +40,7 @@ SlidingPillContainer {
     property string tipText: ""
     readonly property string rateState: showPowerRate ? Power.rateState(watts, onMains) : ""
     readonly property color rateColor: rateState === "charging" ? theme.high
-                                     : rateState === "drain" ? (theme.dark ? theme.amber : "#B07800")
+                                     : rateState === "drain" ? (theme.dark || theme.skinned ? theme.amber : "#B07800")
                                      : theme.tint(0.6)
 
     critical: isCritical
@@ -88,7 +88,7 @@ SlidingPillContainer {
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.deviceKind] || card.glyphs.other
                 color: card.theme.ink
-                strokeWidth: card.theme.dark ? 1.6 : 2
+                strokeWidth: card.theme.stroke(1.6, 2)
             }
             Text {
                 Layout.fillWidth: true
@@ -131,7 +131,7 @@ SlidingPillContainer {
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.deviceKind] || card.glyphs.other
                 color: card.theme.ink
-                strokeWidth: card.theme.dark ? 1.5 : 1.8
+                strokeWidth: card.theme.stroke(1.5, 1.8)
             }
 
             ColumnLayout {
@@ -152,7 +152,7 @@ SlidingPillContainer {
                         opacity: card.flash
                         implicitWidth: warnText.implicitWidth + 10
                         implicitHeight: warnText.implicitHeight + 4
-                        radius: card.theme.dark ? 0 : height / 2
+                        radius: card.theme.skinned ? Math.min(height / 2, card.theme.pillRadius) : card.theme.dark ? 0 : height / 2
                         color: card.alertInk
                         Text {
                             id: warnText
@@ -209,28 +209,26 @@ SlidingPillContainer {
     }
 
     // Segmented fuel gauge; `stretch` spreads the segments over the full width.
-    component Gauge: Row {
+    component Gauge: Item {
         id: gauge
         property int segments: 10
         property real segmentHeight: 10
         property bool stretch: false
         readonly property int filled: Math.ceil(card.level / (100 / segments))
-        spacing: 2
-        Repeater {
-            model: gauge.segments
-            Rectangle {
-                required property int index
-                readonly property bool on: index < gauge.filled
-                readonly property bool next: card.isCharging && index === gauge.filled
-                width: gauge.stretch ? (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments : 7
-                height: gauge.segmentHeight
-                radius: card.theme.dark ? 0 : 2
-                color: on ? card.levelColor
-                     : next ? Qt.rgba(card.levelColor.r, card.levelColor.g, card.levelColor.b, 0.6 * card.blink)
-                     : "transparent"
-                border.width: 1
-                border.color: on || next ? card.levelColor : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
-            }
+        implicitWidth: stretch ? 0 : segments * 9 - 2
+        implicitHeight: segmentHeight
+        DynamicMetricGauge {
+            width: gauge.width; height: gauge.segmentHeight
+            theme: card.theme
+            shape: card.theme.skinned ? card.theme.gaugeShape : "segmented"
+            segments: gauge.segments
+            blockWidth: gauge.stretch ? 0 : 7
+            value: gauge.filled / gauge.segments
+            fillColor: card.levelColor
+            outlined: false
+            pulseIndex: card.isCharging ? gauge.filled : -1
+            pulseOpacity: 0.6 * card.blink
+            live: card.theme.live
         }
     }
 }

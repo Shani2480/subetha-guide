@@ -29,7 +29,8 @@ SlidingPillContainer {
     // else the skin's nominal quip or the Guide's line for the time of day.
     readonly property bool stressed: theme.mood === "stressed"
     readonly property string quip: theme.clockQuips[stressed ? "stress" : "nominal"]
-                                 || (stressed ? i18n("DON'T PANIC, BUT YOUR PROCESSOR IS CURRENTLY WONDERING WHERE ITS TOWEL IS.")
+                                 || (theme.skinned ? theme.skinLine(stressed ? "highLoad" : "nominal", stressed ? i18n("SYSTEM UNDER LOAD.") : "")
+                                     : stressed ? i18n("DON'T PANIC, BUT YOUR PROCESSOR IS CURRENTLY WONDERING WHERE ITS TOWEL IS.")
                                               : e ? e.commentary : "")
     readonly property string glyph: "M3 12 A9 9 0 1 0 21 12 A9 9 0 1 0 3 12 Z M12 7 V12 L15.5 14 M12 1 V3 M12 21 V23 M1 12 H3 M21 12 H23"
 
@@ -91,7 +92,7 @@ SlidingPillContainer {
                     text: panel.readout
                     color: panel.theme.ink
                     font { family: panel.theme.mono; pixelSize: 32; bold: true }
-                    layer.enabled: panel.theme.dark
+                    layer.enabled: panel.theme.skinned ? panel.theme.fx.phosphorDecay : panel.theme.dark
                     layer.effect: MultiEffect {   // phosphor bloom on the CRT
                         shadowEnabled: true
                         shadowColor: panel.theme.ink
@@ -139,7 +140,7 @@ SlidingPillContainer {
             }
             Item { Layout.fillHeight: true }
             Rectangle {   // galactic epoch badge
-                visible: panel.showGalactic
+                visible: panel.showGalactic && !panel.theme.skinned   // the Guide's own calendar
                 implicitWidth: epoch.implicitWidth + 12
                 implicitHeight: epoch.implicitHeight + 4
                 Layout.maximumWidth: parent.width

@@ -22,7 +22,7 @@ Rectangle {
     property bool backdrop: true            // as FullView.backdrop
 
     // Same palette as FullView's three Guide themes.
-    readonly property bool light: themeStyle === "movieLight"
+    readonly property bool light: skin ? !(skin.fx.crtScanlines || skin.fx.phosphorDecay) : themeStyle === "movieLight"
     readonly property bool neon: themeStyle === "improbability"
     readonly property color bg:      skin ? skin.bg : light ? "#F5F2EB" : neon ? "#0A0612" : "#040806"
     readonly property color ink:     skin ? skin.ink : light ? "#1B2028" : neon ? "#FF2BD6" : "#00FF66"
@@ -33,9 +33,11 @@ Rectangle {
     readonly property string cardIconStyle: light
         ? (iconStyle === "white" ? "black" : iconStyle === "solid-white" ? "solid-black" : iconStyle)
         : (iconStyle === "black" ? "white" : iconStyle === "solid-black" ? "solid-white" : iconStyle)
-    readonly property var iconPalette: ({ outline: ink, sun: light ? accent : (neon ? "#FFE65C" : "#FFB000"), precip: cool,
-                                          bolt: light ? "#FFBE1A" : "#FFB000", boltCore: light ? "#E53935" : "#FF3333",
-                                          bg: bg, solid: light })
+    readonly property var iconPalette: skin
+        ? ({ outline: ink, sun: skin.mustard, precip: cool, bolt: skin.mustard, boltCore: skin.alert, bg: bg, solid: light })
+        : ({ outline: ink, sun: light ? accent : (neon ? "#FFE65C" : "#FFB000"), precip: cool,
+             bolt: light ? "#FFBE1A" : "#FFB000", boltCore: light ? "#E53935" : "#FF3333",
+             bg: bg, solid: light })
 
     readonly property var today: weather && weather.daily && weather.daily.length ? weather.daily[0] : null
 
@@ -46,11 +48,11 @@ Rectangle {
     Layout.minimumWidth: Kirigami.Units.gridUnit * 12
     Layout.minimumHeight: implicitHeight
 
-    radius: 16   // SubEthaTheme.outerRadius
+    radius: skin ? skin.outerRadius : 16   // SubEthaTheme.outerRadius
     color: !backdrop ? "transparent" : !desktopMode ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.97 : 0.94)
          : translucent ? Qt.rgba(bg.r, bg.g, bg.b, light ? 0.93 : 0.9) : bg
-    border.width: backdrop ? (light ? 2 : 1.5) : 0
-    border.color: light ? ink : tint(0.5)
+    border.width: backdrop ? (skin ? skin.borderWidth : light ? 2 : 1.5) : 0
+    border.color: skin ? skin.border : light ? ink : tint(0.5)
 
     RowLayout {
         id: content

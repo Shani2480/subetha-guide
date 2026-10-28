@@ -41,7 +41,7 @@ Item {
     readonly property color loadColor: loadLevel === 2 ? theme.mix(Qt.lighter(restingLoad, 1.25), theme.warnColor, hazard)
                                                        : restingLoad
     readonly property color tempColor: hot ? theme.critColor : warm ? "#FF8A1A" : theme.gaugeTemp.a > 0 ? theme.gaugeTemp
-                                     : theme.dark ? theme.amber : theme.mustard
+                                     : theme.dark || theme.skinned ? theme.amber : theme.mustard
 
     // 0 = resting wash, 1 = brightest; a skin's tempPulseC breathes the wash.
     readonly property bool pulsing: !hot && theme.tempPulseC > 0 && tempValue >= theme.tempPulseC
@@ -77,99 +77,23 @@ Item {
     readonly property real tempOpacity: hot ? 0.95 * strobe
                                       : (warm ? 0.5 : theme.gaugeTemp.a > 0 ? 1 : theme.dark ? 0.35 : 0.3) + pulse * 0.3
 
-    readonly property real spacing: 2
     implicitWidth: 160
     implicitHeight: segmentHeight
 
-    Rectangle {   // critical temperature: the glow around the track, in step with the strobe
-        visible: bar.hot
-        anchors { fill: parent; margins: -2 }
-        radius: Math.min(height / 2, bar.theme.gaugeBlockRadius + 2)
-        color: "transparent"
-        border { width: 2; color: bar.theme.critColor }
-        opacity: 0.55 * bar.strobe
-    }
-
-    Item {   // continuous: track, temperature wash, load bar, in the theme's gauge shape
-        visible: bar.theme.gaugeSlot
+    DynamicMetricGauge {   // drawn in the theme's gauge shape; the colours and motion are this bar's
         width: bar.width; height: bar.segmentHeight
-        readonly property real r: height / 2
-        ThemeShapeContainer {
-            anchors.fill: parent
-            theme: bar.theme
-            role: "gauge"
-            fillColor: bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(0.12)
-            strokeColor: bar.theme.tint(0.45)
-            strokeWidth: bar.theme.gaugeTube ? 1.5 : 0
-        }
-        ThemeShapeContainer {
-            visible: bar.tempFraction > 0
-            width: parent.width * bar.tempFraction; height: parent.height
-            theme: bar.theme
-            role: "gauge"
-            fillColor: bar.tempColor
-            strokeWidth: 0
-            opacity: bar.tempOpacity
-        }
-        ThemeShapeContainer {
-            visible: bar.usageFraction > 0
-            width: Math.max(height, parent.width * Math.max(0, Math.min(1, bar.usageFraction)))
-            height: parent.height
-            theme: bar.theme
-            role: "gauge"
-            fillColor: bar.loadColor
-            strokeColor: bar.theme.gaugeEdge
-            strokeWidth: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0
-        }
-        Rectangle {   // tube: the glass highlight
-            visible: bar.theme.gaugeTube
-            x: parent.r; y: 2
-            width: parent.width - parent.r * 2; height: Math.max(1, parent.height * 0.18)
-            radius: height / 2
-            color: "white"
-            opacity: 0.35
-        }
-        Repeater {   // tube: graduation marks
-            model: bar.theme.gaugeTube ? 9 : 0
-            Rectangle {
-                required property int index
-                x: parent.width * (index + 1) / 10; y: parent.height - height - 1
-                width: 1; height: index % 2 === 0 ? parent.height * 0.45 : parent.height * 0.25
-                color: bar.theme.tint(0.5)
-            }
-        }
-    }
-
-    Row {
-        visible: !bar.theme.gaugeSlot
-        spacing: bar.spacing
-        Repeater {
-            model: bar.segments
-            Rectangle {   // one block: outline, temperature wash, load fill
-                required property int index
-                readonly property bool loaded: index < bar.loadFilled
-                width: (bar.width - bar.spacing * (bar.segments - 1)) / bar.segments
-                height: bar.segmentHeight
-                radius: Math.min(bar.theme.gaugeBlockRadius, height / 2)
-                color: "transparent"
-                border.width: 1
-                border.color: loaded ? (bar.skinFill ? bar.theme.gaugeEdge : bar.loadColor)
-                            : bar.theme.gaugeTrack.a > 0 ? bar.theme.gaugeTrack : bar.theme.tint(bar.theme.dark ? 0.3 : 0.45)
-                Rectangle {   // temperature, behind
-                    visible: index < bar.tempFilled
-                    anchors.fill: parent
-                    radius: parent.radius
-                    color: bar.tempColor
-                    opacity: bar.tempOpacity
-                }
-                Rectangle {   // load, in front; a skin's fill is the whole block, outlined
-                    visible: parent.loaded
-                    anchors { fill: parent; margins: bar.skinFill ? 0 : parent.height >= 7 ? 2 : 1 }
-                    radius: bar.skinFill ? parent.radius : Math.min(1, parent.radius)
-                    color: bar.loadColor
-                    border { width: bar.skinFill ? bar.theme.gaugeEdgeWidth : 0; color: bar.theme.gaugeEdge }
-                }
-            }
-        }
+        theme: bar.theme
+        shape: bar.theme.skinned ? bar.theme.gaugeShape : bar.theme.gaugeSlot ? "slot" : "segmented"
+        segments: bar.segments
+        blockStyle: "inset"
+        value: bar.usageFraction
+        secondary: bar.tempValue > 0 ? bar.tempFraction : -1
+        fillColor: bar.loadColor
+        secondaryColor: bar.tempColor
+        secondaryOpacity: bar.tempOpacity
+        outlined: bar.skinFill
+        live: bar.live
+        glow: bar.hot
+        glowOpacity: 0.55 * bar.strobe
     }
 }

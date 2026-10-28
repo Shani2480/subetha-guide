@@ -29,7 +29,7 @@ CollapsibleSection {
         alertLevel: section.alerts ? section.alerts.disks : 0
         live: section.live && section.open
         onMonitorRequested: tab => section.monitorRequested(tab)
-        title: i18n("STORAGE // SECTOR ZZ9")
+        title: section.theme.lex("storageTitle", i18n("STORAGE // SECTOR ZZ9"), i18n("STORAGE"))
         glyph: "M4 3 H20 V21 H4 Z M7.5 11 A4.5 4.5 0 1 0 16.5 11 A4.5 4.5 0 1 0 7.5 11 Z M11 11 A1 1 0 1 0 13 11 A1 1 0 1 0 11 11 Z M17.5 18.5 L13 12.5"
         // Created once the feed and settings are attached, so no binding
         // runs against a null feed while the card is being built.

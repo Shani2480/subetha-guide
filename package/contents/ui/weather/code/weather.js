@@ -45,6 +45,21 @@ function guideEntry(condition, isNight, windSpeed) {
     return i18n("VISIBILITY DEGRADED. PROBABILITY OF IMPROBABILITY: NORMAL.")
 }
 
+// The same line under a community skin: plain words, no Guide lore. A
+// skin's lexicon may reword each (weatherThunder, weatherRain, weatherWind,
+// weatherSnow, weatherClear, weatherNight, weatherCloud).
+function skinEntry(theme, condition, isNight, windSpeed) {
+    var say = (key, text) => theme.lex(key, text, text)
+    if (condition === "thunder") return say("weatherThunder", i18n("THUNDERSTORMS IN THE AREA."))
+    if (condition === "rain") return windSpeed >= 22 ? say("weatherWind", i18n("RAIN AND STRONG WIND."))
+                                                   : say("weatherRain", i18n("RAIN EXPECTED."))
+    if (condition === "snow") return say("weatherSnow", i18n("SNOW EXPECTED."))
+    if (condition === "clear") return isNight ? say("weatherNight", i18n("CLEAR NIGHT."))
+                                              : say("weatherClear", i18n("CLEAR SKIES."))
+    if (windSpeed >= 25) return say("weatherWind", i18n("STRONG WIND."))
+    return say("weatherCloud", i18n("REDUCED VISIBILITY."))
+}
+
 function category(code) {
     if (code === 0) return "clear"
     if (code === 1 || code === 2) return "partly"

@@ -123,7 +123,7 @@ SlidingPillContainer {
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.kind]
                 color: card.theme.ink
-                strokeWidth: card.theme.dark ? 1.6 : 2
+                strokeWidth: card.theme.stroke(1.6, 2)
             }
             SeverityPip { visible: card.alertLevel > 0; compact: true }
             Text {
@@ -187,7 +187,7 @@ SlidingPillContainer {
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.kind]
                 color: card.theme.ink
-                strokeWidth: card.theme.dark ? 1.5 : 1.8
+                strokeWidth: card.theme.stroke(1.5, 1.8)
             }
             ColumnLayout {
                 Layout.fillWidth: true
@@ -219,7 +219,7 @@ SlidingPillContainer {
                 implicitWidth: tempLabel.implicitWidth + 12
                 implicitHeight: tempLabel.implicitHeight + 6
                 fillColor: card.tempLevel === 2 ? card.theme.critColor : "transparent"
-                strokeWidth: card.theme.dark ? 1 : 1.5
+                strokeWidth: card.theme.stroke(1, 1.5)
                 strokeColor: card.levelInk(card.tempLevel, card.theme.tint(card.theme.dark ? 0.6 : 1))
                 transform: Translate { y: card.tempLevel === 2 ? card.jitterY : 0 }
                 Text {
@@ -329,7 +329,7 @@ SlidingPillContainer {
             Text {
                 visible: card.tempC > 0
                 text: i18n("TEMP %1", card.tempText)
-                color: card.levelInk(card.tempLevel, card.theme.dark ? card.theme.amber : "#B07800")
+                color: card.levelInk(card.tempLevel, card.theme.dark || card.theme.skinned ? card.theme.amber : "#B07800")
                 opacity: 0.9
                 font { family: card.theme.mono; pixelSize: 9; bold: true }
             }
@@ -411,7 +411,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 1
                 label: card.theme.labels.wan || i18n("WAN IP")
                 value: card.wanText
-                tag: card.theme.labels.wanTag || "SEC-ZZ9"
+                tag: card.theme.labels.wanTag || (card.theme.skinned ? "WAN" : "SEC-ZZ9")
                 copyable: /^[0-9a-fA-F:.]+$/.test(card.wanText)
             }
         }
@@ -511,45 +511,20 @@ SlidingPillContainer {
         id: gauge
         property int segments: 20
         property real segmentHeight: 8
-        property real value: 0
-        readonly property real fraction: Math.max(0, Math.min(100, value)) / 100
-        readonly property int filled: Math.round(fraction * segments)
-        readonly property color fill: card.loadColor(value)
-        readonly property real spacing: 2
+        property real value: 0                 // percent
+        readonly property bool skinFill: card.theme.gaugeSlot && card.theme.gaugeUsage.a > 0
         implicitHeight: segmentHeight
-        Row {
-            visible: !card.theme.gaugeSlot
-            spacing: gauge.spacing
-            Repeater {
-                model: gauge.segments
-                Rectangle {
-                    required property int index
-                    readonly property bool on: index < gauge.filled
-                    width: (gauge.width - gauge.spacing * (gauge.segments - 1)) / gauge.segments
-                    height: gauge.segmentHeight
-                    radius: Math.min(card.theme.gaugeBlockRadius, height / 2)
-                    color: on ? gauge.fill : "transparent"
-                    border.width: 1
-                    border.color: on ? gauge.fill : card.theme.tint(card.theme.dark ? 0.3 : 0.45)
-                }
-            }
-        }
-        ThemeShapeContainer {   // continuous: track
-            visible: card.theme.gaugeSlot
+        DynamicMetricGauge {
             width: gauge.width; height: gauge.segmentHeight
             theme: card.theme
-            role: "gauge"
-            fillColor: card.theme.gaugeTrack.a > 0 ? card.theme.gaugeTrack : card.theme.tint(0.12)
-            strokeWidth: 0
-            ThemeShapeContainer {   // ...and fill
-                visible: gauge.fraction > 0
-                width: Math.max(height, parent.width * gauge.fraction); height: parent.height
-                theme: card.theme
-                role: "gauge"
-                fillColor: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeUsage : gauge.fill
-                strokeColor: card.theme.gaugeEdge
-                strokeWidth: card.theme.gaugeUsage.a > 0 ? card.theme.gaugeEdgeWidth : 0
-            }
+            shape: card.theme.skinned ? card.theme.gaugeShape : card.theme.gaugeSlot ? "slot" : "segmented"
+            segments: gauge.segments
+            blockRadius: card.theme.gaugeBlockRadius
+            value: Math.max(0, Math.min(100, gauge.value)) / 100
+            fillColor: gauge.skinFill ? card.theme.gaugeUsage : card.loadColor(gauge.value)
+            outlined: gauge.skinFill
+            blockTrack: card.theme.tint(card.theme.dark ? 0.3 : 0.45)
+            live: card.live
         }
     }
 }

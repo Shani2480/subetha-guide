@@ -74,8 +74,9 @@ SnapFrame {
                     GuideHeader {
                         width: parent.width
                         theme: full.theme
-                        title: i18n("THE SUB-ETHA GUIDE")
-                        subtitle: i18n("MOSTLY HARMLESS // %1", full.subtitle)
+                        title: full.theme.lex("appTitle", i18n("THE SUB-ETHA GUIDE"), i18n("SYSTEM GUIDE"))
+                        subtitle: full.theme.skinned ? full.theme.lex("appSubtitle", "", "") ? full.theme.lex("appSubtitle", "", "") + " // " + full.subtitle : full.subtitle
+                                                     : i18n("MOSTLY HARMLESS // %1", full.subtitle)
                     }
                 }
                 Item { width: 1; height: stack.gap }

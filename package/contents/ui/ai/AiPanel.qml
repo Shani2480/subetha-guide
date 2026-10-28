@@ -43,11 +43,13 @@ ColumnLayout {
         : feed.status === "denied" ? (cloud
               ? i18n("KEY REJECTED. THE COST AND USAGE REPORTS NEED AN ADMIN KEY, NOT A REGULAR ONE.")
               : i18n("KEY REJECTED BY %1.", panel.endpoint))
-        : feed.status === "offline" ? (cloud ? i18n("NO SUB-ETHA SIGNAL. THE PROVIDER IS NOT ANSWERING.")
+        : feed.status === "offline" ? (cloud ? panel.theme.lex("aiOffline", i18n("NO SUB-ETHA SIGNAL. THE PROVIDER IS NOT ANSWERING."), i18n("NO SIGNAL. THE PROVIDER IS NOT ANSWERING."))
                                               : i18n("NO INFERENCE SERVER AT %1.", panel.endpoint))
         : feed.status === "error" ? i18n("REPORT FAILED (%1). TRYING AGAIN SHORTLY.", feed.errorText)
         : feed.status === "idle" ? i18n("ESTABLISHING SYNAPSE LINK…") : ""
-    readonly property string quip: fraction >= 0.85 || !theme.aiQuip ? (feed ? feed.commentary : "") : theme.aiQuip
+    readonly property string quip: !theme.skinned ? (fraction >= 0.85 || !theme.aiQuip ? (feed ? feed.commentary : "") : theme.aiQuip)
+        : fraction >= 0.85 ? theme.skinLine("critical", i18n("BUDGET NEARLY SPENT."))
+        : theme.aiQuip || theme.skinLine("nominal", i18n("AI TELEMETRY NOMINAL."))
 
     readonly property string modelText: !feed ? "" : cloud ? Ai.modelLabel(feed.model) || i18n("NO TRAFFIC TODAY")
                                       : feed.topModel ? Ai.modelLabel(feed.topModel.name) : i18n("NO MODEL LOADED")
@@ -91,35 +93,20 @@ ColumnLayout {
     }
 
     // A two-layer meter: the burn as a faint wash, the reading solid in front.
-    component Meter: Item {
-        id: meter
-        property real value: 0
+    component Meter: DynamicMetricGauge {
         property real wash: 0
         implicitHeight: 6
-        ThemeShapeContainer {
-            anchors.fill: parent
-            theme: panel.theme
-            role: "gauge"
-            fillColor: panel.theme.gaugeTrack.a > 0 ? panel.theme.gaugeTrack : panel.theme.tint(panel.theme.dark ? 0.12 : 0.1)
-            strokeWidth: 0
-        }
-        ThemeShapeContainer {
-            visible: meter.wash > 0
-            width: Math.max(height, parent.width * Math.min(1, meter.wash)); height: parent.height
-            theme: panel.theme
-            role: "gauge"
-            fillColor: Qt.rgba(panel.meterColor.r, panel.meterColor.g, panel.meterColor.b, 0.3)
-            strokeWidth: 0
-        }
-        ThemeShapeContainer {
-            visible: meter.value > 0
-            width: Math.max(height, parent.width * Math.min(1, meter.value)); height: parent.height
-            theme: panel.theme
-            role: "gauge"
-            fillColor: panel.meterColor
-            strokeWidth: 0
-            Behavior on width { enabled: panel.live; NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-        }
+        theme: panel.theme
+        shape: panel.theme.skinned ? panel.theme.gaugeShape : "slot"
+        segments: 20
+        secondary: wash > 0 ? Math.min(1, wash) : -1
+        fillColor: panel.meterColor
+        secondaryColor: panel.meterColor
+        secondaryOpacity: 0.3
+        trackColor: panel.theme.gaugeTrack.a > 0 ? panel.theme.gaugeTrack : panel.theme.tint(panel.theme.dark ? 0.12 : 0.1)
+        outlined: false
+        animateValue: panel.live
+        live: panel.live
     }
 
     // ---- minimal: one line over a slim meter ----
