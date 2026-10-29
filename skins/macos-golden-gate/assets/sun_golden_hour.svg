@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <defs><radialGradient id="s" cx="0.45" cy="0.4" r="0.6"><stop offset="0" stop-color="#FFE7A3"/><stop offset="0.55" stop-color="#E5A93C"/><stop offset="1" stop-color="#F05A28"/></radialGradient></defs>
-  <g stroke="#E5A93C" stroke-width="2.4" stroke-linecap="round">
-    <line x1="24" y1="2.5" x2="24" y2="8"/><line x1="24" y1="40" x2="24" y2="45.5"/><line x1="2.5" y1="24" x2="8" y2="24"/><line x1="40" y1="24" x2="45.5" y2="24"/>
-    <line x1="8.8" y1="8.8" x2="12.7" y2="12.7"/><line x1="35.3" y1="35.3" x2="39.2" y2="39.2"/><line x1="8.8" y1="39.2" x2="12.7" y2="35.3"/><line x1="35.3" y1="12.7" x2="39.2" y2="8.8"/>
-  </g>
-  <circle cx="24" cy="24" r="11" fill="url(#s)"/>
-  <circle cx="24" cy="24" r="11" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1"/>
-</svg>

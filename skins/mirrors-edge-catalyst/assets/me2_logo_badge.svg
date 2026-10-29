@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 28" width="44" height="28">
-  <!-- an original runner badge: red plate, a forward slash of motion, ME2 lettering -->
-  <path d="M0 0 H38 L44 6 V28 H6 L0 22 Z" fill="#E51424"/>
-  <path d="M5 21 L14 5 H18 L9 21 Z" fill="#FFFFFF"/>
-  <text x="29" y="18.5" text-anchor="middle" font-family="Ubuntu, sans-serif" font-weight="700" font-size="11" fill="#FFFFFF" letter-spacing="0.5">ME2</text>
-</svg>
