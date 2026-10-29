@@ -87,6 +87,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 18
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.deviceKind] || card.glyphs.other
+                source: ["laptop", "ups", "other"].indexOf(card.deviceKind) >= 0 ? card.theme.icon("battery") : ""
                 color: card.theme.ink
                 strokeWidth: card.theme.stroke(1.6, 2)
             }
@@ -130,6 +131,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 30
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.deviceKind] || card.glyphs.other
+                source: ["laptop", "ups", "other"].indexOf(card.deviceKind) >= 0 ? card.theme.icon("battery") : ""
                 color: card.theme.ink
                 strokeWidth: card.theme.stroke(1.5, 1.8)
             }

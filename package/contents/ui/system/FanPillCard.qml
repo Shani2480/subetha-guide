@@ -51,11 +51,13 @@ SlidingPillContainer {
                 VectorGlyph {
                     anchors.fill: parent
                     path: card.framePath
+                    source: card.theme.icon("fan")
                     color: card.theme.tint(card.minimal ? 0 : 0.6)
                     strokeWidth: card.theme.stroke(1.3, 1.6)
                 }
                 VectorGlyph {
                     id: blades
+                    visible: card.theme.icon("fan") === ""
                     anchors.fill: parent
                     path: card.bladesPath
                     color: card.theme.ink
@@ -127,9 +129,11 @@ SlidingPillContainer {
                     required property int index
                     anchors.fill: parent
                     historyData: (card.histories[modelData.label] || []).map(v => v / Math.max(1, card.maxRpm))
-                    strokeColor: index === 0 ? card.speedColor(card.duty) : card.theme.cool
-                    fillColor: index === 0 ? Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18) : "transparent"
-                    lineWidth: index === 0 ? 1.5 : 1
+                    strokeColor: card.theme.taskGraphs ? card.theme.osColor("controls", index === 0 ? "graphDown" : "graphUp", index === 0 ? "#00C000" : "#E07000")
+                               : index === 0 ? card.speedColor(card.duty) : card.theme.cool
+                    fillColor: index === 0 && !card.theme.taskGraphs ? Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18) : "transparent"
+                    lineWidth: index === 0 && !card.theme.taskGraphs ? 1.5 : 1
+                    TaskGrid { z: -1; anchors.fill: parent; theme: card.theme; visible: card.theme.taskGraphs && index === 0 }
                 }
             }
         }

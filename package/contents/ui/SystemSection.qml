@@ -28,6 +28,7 @@ CollapsibleSection {
     function sizeKey(kind) { return kind === "fans" ? "fan" : kind }
 
     ModuleCard {
+        iconKey: "cpu"
         width: parent.width
         theme: section.theme
         minimal: section.minimal

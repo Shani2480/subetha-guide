@@ -964,6 +964,13 @@ Rectangle {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.leftMargin: -4
                     }
+                    Thermometer {   // a skin's cartoon glass thermometer beside the figure
+                        visible: !!view.skin && !!view.skin.controls.thermometer
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.preferredWidth: 16; Layout.preferredHeight: 48
+                        theme: view.skin
+                        value: view.sel ? (view.selToday ? view.weather.current.temp : view.sel.max) : 15
+                    }
                     ColumnLayout {
                         id: descColumn
                         spacing: 0
@@ -983,7 +990,7 @@ Rectangle {
                             font.pixelSize: 12
                         }
                         ShadowLabel {   // Guide commentary
-                            text: view.guideText
+                            text: view.skin ? view.skin.withCursor(view.guideText) : view.guideText
                             color: view.amber
                             font.pixelSize: 9
                             font.letterSpacing: 0.4
@@ -1195,7 +1202,7 @@ Rectangle {
                     }
                     ShadowLabel {   // Guide commentary
                         visible: hero.height >= 150
-                        text: view.guideText
+                        text: view.skin ? view.skin.withCursor(view.guideText) : view.guideText
                         color: view.amber
                         font.pixelSize: 8
                         font.letterSpacing: 0.3

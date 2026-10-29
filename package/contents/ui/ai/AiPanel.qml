@@ -71,7 +71,7 @@ ColumnLayout {
     Text {
         visible: !panel.minimal
         Layout.fillWidth: true
-        text: panel.quip
+        text: panel.theme.withCursor(panel.quip)
         color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap
@@ -226,10 +226,13 @@ ColumnLayout {
                                                  ? panel.feed.vramTotal / 1073741824 : Math.max.apply(null, raw.concat([1]))
                     historyData: raw.map(v => v / peak)
                     capacity: 24
-                    strokeColor: panel.theme.sparkline.a > 0 ? panel.theme.sparkline : panel.theme.cool
-                    fillColor: panel.theme.sparkline.a > 0 && panel.theme.sparklineFill.a > 0 ? panel.theme.sparklineFill
+                    strokeColor: panel.theme.taskGraphs ? panel.theme.osColor("controls", "graphDown", "#00C000")
+                               : panel.theme.sparkline.a > 0 ? panel.theme.sparkline : panel.theme.cool
+                    fillColor: panel.theme.taskGraphs ? "transparent"
+                             : panel.theme.sparkline.a > 0 && panel.theme.sparklineFill.a > 0 ? panel.theme.sparklineFill
                              : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
-                    lineWidth: panel.theme.sparkline.a > 0 ? panel.theme.sparklineWidth : 1.5
+                    lineWidth: panel.theme.taskGraphs ? 1 : panel.theme.sparkline.a > 0 ? panel.theme.sparklineWidth : 1.5
+                    TaskGrid { z: -1; anchors.fill: parent; theme: panel.theme; visible: panel.theme.taskGraphs }
                     stepped: panel.theme.sparklineStepped
                 }
                 Text {

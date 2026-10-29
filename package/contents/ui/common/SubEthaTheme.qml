@@ -124,18 +124,20 @@ QtObject {
     readonly property real pillChamferCut: gv("pillChamferCut", Math.min(6, chamferCut))
     readonly property real stadiumMax: 24       // a tall stadium card is a well-rounded box, not a lozenge
     readonly property string borderStyle: gv("borderStyle", "solid")
-    readonly property real borderWidth: gv("borderWidth", skin && skin.borderWidth !== null ? skin.borderWidth : 2)
+    // features.cartoonOutlines: thick ink outlines and flat offset shadows on everything
+    readonly property bool cartoon: !!skin && skin.features.cartoonOutlines === true
+    readonly property real borderWidth: Math.max(cartoon ? 3 : 0, gv("borderWidth", skin && skin.borderWidth !== null ? skin.borderWidth : 2))
     // L corner marks on the outer cards; "tech-brackets" borders put them on pills too
     readonly property bool cornerBrackets: skin ? feature("cornerBrackets", gv("hasCornerBrackets", !!(frame && frame.brackets))) : true
     readonly property color bracketColor: frame && frame.brackets ? frame.brackets : !skin ? (dark ? amber : ink) : border
     readonly property bool legacyShadow: !!skin && (skin.shadowOffset[0] || skin.shadowOffset[1]) && shadow.a > 0
-    readonly property string shadowType: geo.hasDropShadow === false ? "none"
+    readonly property string shadowType: cartoon ? "flat-2d" : geo.hasDropShadow === false ? "none"
         : gv("shadowType", !skin ? (dark ? "glow" : "flat-2d")
                          : legacyShadow ? (skin.shadowBlur > 0 ? "soft" : "flat-2d") : "none")
     readonly property real shadowX: shadowType === "glow" || shadowType === "none" ? 0
-        : (geo.shadowOffset || [])[0] ?? (skin && skin.shadowOffset[0] !== null ? skin.shadowOffset[0] : 2)
+        : (geo.shadowOffset || [])[0] ?? (skin && skin.shadowOffset[0] !== null ? skin.shadowOffset[0] : cartoon ? 3 : 2)
     readonly property real shadowY: shadowType === "glow" || shadowType === "none" ? 0
-        : (geo.shadowOffset || [])[1] ?? (skin && skin.shadowOffset[1] !== null ? skin.shadowOffset[1] : 2)
+        : (geo.shadowOffset || [])[1] ?? (skin && skin.shadowOffset[1] !== null ? skin.shadowOffset[1] : cartoon ? 3 : 2)
     // px; an older skin's blur was a 0..1 fraction of 24px
     readonly property real shadowBlur: gv("shadowBlur", skin && skin.shadowBlur !== null ? skin.shadowBlur * 24 : shadowType === "glow" ? 6 : 0)
 
@@ -212,14 +214,72 @@ QtObject {
     function feature(key, legacy) { var v = skin.features[key]; return v === null || v === undefined ? legacy : v }
     readonly property var fx: !skin ? {
         crtScanlines: dark && !minimal, phosphorDecay: dark && !minimal, cornerBrackets: dark && !minimal,
-        glassBlur: false, grid: !minimal
+        glassBlur: false, grid: !minimal, barrel: false, texture: ""
     } : {
         crtScanlines: !minimal && feature("crtScanlines", !!frame && frame.scanlines > 0),
         phosphorDecay: !minimal && feature("phosphorDecay", false),
         cornerBrackets: !minimal && cornerBrackets,
         glassBlur: feature("glassBlur", false),
-        grid: !minimal && feature("grid", false)
+        grid: !minimal && feature("grid", false),
+        barrel: !minimal && feature("barrel", false),
+        texture: skin.features.texture || ""
     }
+    // ---- the operating system a skin imitates (skins.js 2.1.0) ----
+    // chrome: the window's title bar and frame (GuideWindow, WindowChrome);
+    // sections: card panels or Win32 group bands (GroupBand); controls: the
+    // meter and graph idioms (DynamicMetricGauge, TaskGrid); icons: the
+    // skin's own SVG per metric. A variant's colours lie over the skin's.
+    // Unskinned, or for a skin that names none, each is the Guide's own.
+    function osColor(part, key, fallback) {
+        var v = variant && variant[part] ? variant[part][key] : undefined
+        var s = skin && skin[part] ? skin[part].colors[key] : undefined
+        return v || s || fallback
+    }
+    readonly property var chromeSpec: skin && skin.chrome && skin.chrome.style && skin.chrome.style !== "plain" ? skin.chrome : null
+    readonly property string chromeStyle: chromeSpec ? chromeSpec.style : ""
+    // the widget dressed as one window of that OS (never in the minimal display mode)
+    // a cartoon lab mainframe around the whole widget (frame.style "console", ConsoleFrame)
+    readonly property bool consoleFrame: !!frame && frame.style === "console"
+    // ...or cobbled garage plating (frame.style "scrap", ScrapFrame)
+    readonly property bool scrapFrame: !!frame && frame.style === "scrap"
+    // ...or a pastel candy box (frame.style "candy", CandyFrame)
+    readonly property bool candyFrame: !!frame && frame.style === "candy"
+    readonly property bool windowed: (chromeStyle !== "" || consoleFrame || scrapFrame || candyFrame) && !minimal
+    readonly property string sectionStyle: skin && skin.sections ? skin.sections.style : "card"
+    readonly property bool groupBands: sectionStyle === "groupband" && !minimal
+    readonly property bool gadgets: sectionStyle === "gadget" && !minimal
+    readonly property bool screws: !!skin && !!skin.sections && skin.sections.screws === true && !minimal
+    readonly property real gadgetGloss: skin && skin.sections && skin.sections.gloss !== null && skin.sections.gloss !== undefined
+                                        ? skin.sections.gloss : 0.45
+    readonly property var controls: skin && skin.controls ? skin.controls : ({ meter: "", meterLabel: false, graph: "line", graphFill: true, cursor: false })
+    readonly property string meterStyle: controls.meter || ""
+    readonly property string graphStyle: controls.graph || "line"
+    readonly property bool taskGraphs: graphStyle === "taskmgr"
+    readonly property var icons: skin && skin.icons ? skin.icons : ({})
+    function icon(key) { return icons[key] || "" }
+    // a hero illustration for a card's free corner (cpu, gpu, memory, network, disk, weather)
+    readonly property var artwork: skin && skin.art ? skin.art : ({})
+    function art(key) { return artwork[key] || "" }
+    // a card's own surface (sections.tints: cpu, gpu, memory, network, disk, weather), or transparent
+    function sectionTint(key) {
+        return variant && variant.tints && variant.tints[key]
+            || skin && skin.sections && skin.sections.tints && skin.sections.tints[key] || "transparent"
+    }
+    // the characters with speech bubbles for a card (narrative.vignettes, at: cpu gpu memory weather footer)
+    function vignettesAt(at) { return skin && skin.vignettes ? skin.vignettes.filter(v => v.at === at) : [] }
+    readonly property bool slimeDrips: !!skin && skin.features.slimeDrips === true && !minimal
+    readonly property color slimeColor: frame && frame.slime ? frame.slime : "#7CFC3A"
+    // a terminal's blinking block after the commentary lines
+    readonly property bool cursor: !!controls.cursor && !minimal
+    property bool cursorOn: true
+    property Timer cursorBlink: Timer {
+        interval: 530; repeat: true
+        running: theme.cursor && theme.live
+        onTriggered: theme.cursorOn = !theme.cursorOn
+        onRunningChanged: if (!running) theme.cursorOn = true
+    }
+    function withCursor(s) { return cursor ? s + (cursorOn ? " \u2588" : "  ") : s }
+
     // Lore: the Guide's own words, else the skin's (narrative.lexicon), else plain ones.
     function lex(key, h2g2, neutral) { return !skin ? h2g2 : skin.lexicon[key] || neutral }
     // A section's one-line verdict under a skin: its quip for the level

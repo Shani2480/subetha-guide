@@ -21,6 +21,8 @@ CollapsibleSection {
     signal monitorRequested(string tab)
 
     ModuleCard {
+        iconKey: "disk"
+        tintKey: "disk"
         width: parent.width
         theme: section.theme
         minimal: section.minimal

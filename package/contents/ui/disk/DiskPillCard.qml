@@ -11,6 +11,7 @@ import "../common"
 // QUOTA EXCEEDED flashes.
 SlidingPillContainer {
     id: card
+    tint: theme.sectionTint("disk")
 
     property bool minimal: false
     property string volumeLabel: ""
@@ -105,6 +106,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 30
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.volumeKind] || card.glyphs.ssd
+                source: card.theme.icon("disk")
                 color: card.theme.ink
                 strokeWidth: card.theme.stroke(1.5, 1.8)
             }
@@ -170,6 +172,14 @@ SlidingPillContainer {
                     Item { Layout.fillWidth: true; visible: card.isCritical || card.volumeExtraMounts === 0 }
                 }
             }
+            Image {   // the skin's hero illustration, in the row's free space
+                visible: source != ""
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 56; Layout.preferredHeight: 36
+                source: card.theme.art("disk")
+                sourceSize: Qt.size(112, 72)
+                fillMode: Image.PreserveAspectFit
+            }
 
             ColumnLayout {
                 Layout.alignment: Qt.AlignVCenter
@@ -215,6 +225,7 @@ SlidingPillContainer {
             VectorGlyph {
                 Layout.preferredWidth: 10; Layout.preferredHeight: 10
                 path: "M12 4 V19 M6.5 13.5 L12 19 L17.5 13.5"
+                source: card.theme.icon("netDown")
                 color: card.readColor
                 strokeWidth: 2.6
             }
@@ -227,6 +238,7 @@ SlidingPillContainer {
                 Layout.leftMargin: 4
                 Layout.preferredWidth: 10; Layout.preferredHeight: 10
                 path: "M12 20 V5 M6.5 10.5 L12 5 L17.5 10.5"
+                source: card.theme.icon("netUp")
                 color: card.writeColor
                 strokeWidth: 2.6
             }

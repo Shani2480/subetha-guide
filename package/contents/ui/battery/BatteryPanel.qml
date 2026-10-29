@@ -25,9 +25,9 @@ ColumnLayout {
     Text {
         visible: !panel.minimal
         Layout.fillWidth: true
-        text: !panel.feed ? "" : !panel.theme.skinned ? panel.feed.commentary
+        text: panel.theme.withCursor(!panel.feed ? "" : !panel.theme.skinned ? panel.feed.commentary
             : panel.feed.anyCritical ? panel.theme.skinLine("critical", i18n("BATTERY CRITICAL. CONNECT POWER."))
-            : panel.theme.skinLine("nominal", i18n("POWER NOMINAL."))
+            : panel.theme.skinLine("nominal", i18n("POWER NOMINAL.")))
         color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap

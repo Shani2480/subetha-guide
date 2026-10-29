@@ -22,6 +22,7 @@ Item {
     property real radius: theme.pillRadius
     property real horizontalPadding: 14
     property real verticalPadding: 10
+    property color tint: "transparent"   // a skin's surface for this kind of card (sections.tints)
     property string monitorTab: ""        // overview sensors processes services network disks; "" = no link
     default property alias content: inner.data
 
@@ -79,12 +80,26 @@ Item {
         anchors.fill: parent
         theme: pill.theme
         role: "pill"
-        fillColor: pill.theme.card
+        // in a Win32 group (theme.groupBands) a pill is a plain row over a hairline rule
+        fillColor: pill.tint.a > 0 ? pill.tint : pill.theme.groupBands ? "transparent" : pill.theme.card
         strokeColor: pill.borderColor
-        strokeWidth: pill.alertLevel > 0 ? Math.max(2, pill.theme.borderWidth) : pill.theme.borderWidth
+        strokeWidth: pill.alertLevel > 0 ? Math.max(2, pill.theme.borderWidth) : pill.theme.groupBands ? 0 : pill.theme.borderWidth
+        shadowType: pill.theme.groupBands ? "none" : pill.theme.shadowType
         cornerRadius: pill.radius
         bracketSize: 7
         bracketInset: 3
+    }
+    Rectangle {
+        visible: pill.theme.groupBands
+        anchors.bottom: parent.bottom
+        width: parent.width; height: 1
+        color: pill.theme.osColor("sections", "rule", pill.theme.tint(pill.theme.dark ? 0.25 : 0.18))
+    }
+    Screws {
+        visible: pill.theme.screws
+        x: shell.face.x; y: shell.face.y; width: shell.face.width; height: shell.face.height
+        inset: 4; size: 6
+        ink: pill.theme.border
     }
     TapHandler {
         enabled: pill.monitorTab !== ""

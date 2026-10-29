@@ -19,6 +19,7 @@ CollapsibleSection {
     signal densityToggled()
 
     ModuleCard {
+        iconKey: "clock"
         width: parent.width
         theme: section.theme
         minimal: section.minimal

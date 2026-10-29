@@ -64,7 +64,7 @@ ColumnLayout {
     Text {
         visible: !panel.minimal && !panel.bare
         Layout.fillWidth: true
-        text: panel.skinQuip || panel.t.commentary
+        text: panel.theme.withCursor(panel.skinQuip || panel.t.commentary)
         color: panel.theme.commentary
         font { family: panel.theme.mono; pixelSize: 12; bold: true }
         wrapMode: Text.WordWrap

@@ -8,13 +8,18 @@ import "common"
 // With a `monitorTab` the label is a link: it underlines on hover, shows an
 // open-in-window arrow, and a click emits monitorRequested for that tab.
 // `alertLevel` haloes the card amber or crimson (AlertGlowContainer).
-// A gap below keeps it clear of the next card.
+// A gap below keeps it clear of the next card. Under a skin with Win32
+// group bands (theme.groupBands) the card is flat and its label a GroupBand,
+// with `status` to the right; a skin's icon for `iconKey` replaces the glyph.
 Item {
     id: card
 
     property QtObject theme
     property string title: ""
     property string glyph: ""
+    property string iconKey: ""
+    property string tintKey: ""           // theme.sectionTint(): the skin's surface for this card           // theme.icon(): the skin's own picture for this section
+    property string status: ""            // a group band's right-hand figure or unit
     property bool minimal: false
     property string monitorTab: ""        // a System Monitor tab, or "" for a plain label
     property int alertLevel: 0            // the worst reading on the card: 0 nominal, 1 warning, 2 critical
@@ -26,6 +31,7 @@ Item {
     signal monitorRequested(string tab)
 
     implicitHeight: frame.implicitHeight + gap
+    readonly property bool gadget: theme.gadgets
 
     AlertGlowContainer {
         x: frame.x; y: frame.y; width: frame.width; height: frame.height
@@ -39,21 +45,50 @@ Item {
         id: frame
         width: parent.width
         theme: card.theme
-        padding: card.minimal ? 10 : 14
+        padding: card.theme.groupBands ? 2 : card.minimal ? 10 : 14
         plain: card.minimal || card.theme.minimal
+        flat: card.theme.groupBands
+        tint: card.theme.sectionTint(card.tintKey)
+        gloss: card.gadget ? card.theme.gadgetGloss : 0
         ColumnLayout {
             id: column
             width: parent.width
             spacing: card.minimal ? 8 : 10
+            GadgetTitle {
+                visible: card.gadget && !card.minimal
+                Layout.fillWidth: true
+                theme: card.theme
+                text: card.title
+                icon: card.theme.icon(card.iconKey)
+                onCloseClicked: card.densityToggled()
+            }
+            GroupBand {
+                visible: card.theme.groupBands
+                Layout.fillWidth: true
+                theme: card.theme
+                title: card.title
+                status: card.status
+                icon: card.theme.icon(card.iconKey)
+                hovered: bandLink.containsMouse
+                MouseArea {
+                    id: bandLink
+                    enabled: card.monitorTab !== ""
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: card.monitorRequested(card.monitorTab)
+                }
+            }
             RowLayout {
                 id: label
-                visible: !card.minimal
+                visible: !card.minimal && !card.theme.groupBands && !card.gadget
                 Layout.fillWidth: true
                 spacing: 8
                 VectorGlyph {
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
                     path: card.glyph
+                    source: card.theme.icon(card.iconKey)
                     color: card.theme.accent
                     strokeWidth: 2
                 }
@@ -96,7 +131,8 @@ Item {
             }
         }
     }
-    DensityToggle {
+    DensityToggle {   // a gadget's close box does this while its title shows
+        visible: !(card.gadget && !card.minimal)
         theme: card.theme
         compact: card.minimal
         onToggled: card.densityToggled()

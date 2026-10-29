@@ -19,6 +19,7 @@ CollapsibleSection {
     signal densityToggled()
 
     ModuleCard {
+        iconKey: "ai"
         width: parent.width
         theme: section.theme
         minimal: section.minimal

@@ -12,6 +12,15 @@ import QtQuick.Shapes
 //   "wavy"       a Material-style sine wave over a flat track, ending in a stop dot
 //   "slot"       one bar in the theme's own gauge outline (ThemeShapeContainer
 //                role "gauge"); the Guide's continuous meters
+// A skin's controls.meter, when set, wins over the shape: the meter of the
+// operating system it imitates (skins.js 2.1.0):
+//   "bevel"   Windows XP: an inset 3D track (dark top-left edge, light
+//             bottom-right) holding a glass fill with a white specular band;
+//             glossy green blocks when the gaugeShape is segmented
+//   "ascii"   a terminal's [||||||||....] drawn in the mono font
+//   "gadget"  a Vista Sidebar meter: glossy capsules ramping green to orange
+//   "angled"  slanted parallelogram blocks, like a battery's cells
+// With controls.meterLabel the percentage sits at the right end.
 // `value` is the main reading (0..1), drawn solid in front; `secondary`
 // (0..1, below 0 for none) a translucent wash behind it, like a temperature.
 // The owner keeps the colours and alert animations; `glow` haloes the track.
@@ -29,7 +38,10 @@ Item {
     property bool outlined: theme.gaugeUsage.a > 0
     property color edgeColor: theme.gaugeEdge
     property real edgeWidth: theme.gaugeEdgeWidth
-    property string shape: theme.skinned ? theme.gaugeShape : "segmented"
+    property string shape: !theme.skinned ? "segmented" : theme.gaugeShape === "analog-dial" ? "stadium" : theme.gaugeShape
+    property string meter: theme.skinned ? theme.meterStyle : ""
+    property bool showLabel: theme.skinned && !!theme.controls.meterLabel && meter !== "ascii"
+    function cc(key, fallback) { return theme.osColor("controls", key, fallback) }
     property bool live: false               // the wave moves only while on screen
     property bool animateValue: false       // ease the continuous fill's width
 
@@ -67,9 +79,22 @@ Item {
         opacity: gauge.glowOpacity
     }
 
+    Text {   // controls.meterLabel: the percentage at the right end
+        id: label
+        visible: gauge.showLabel
+        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
+        width: 34
+        horizontalAlignment: Text.AlignRight
+        text: Math.round(gauge.fraction * 100) + "%"
+        color: gauge.theme.ink
+        font { family: gauge.theme.sans; pixelSize: Math.max(9, Math.min(12, gauge.height + 2)) }
+    }
     Loader {
-        anchors.fill: parent
-        sourceComponent: gauge.ascii ? asciiBar : gauge.shape === "segmented" ? blocks
+        anchors { fill: parent; rightMargin: gauge.showLabel ? label.width + 4 : 0 }
+        sourceComponent: gauge.meter === "bevel" ? bevelMeter : gauge.meter === "ascii" ? asciiMeter
+                       : gauge.meter === "gadget" ? gadgetMeter : gauge.meter === "angled" ? angledMeter
+                       : gauge.meter === "slime" ? slimeMeter
+                       : gauge.ascii ? asciiBar : gauge.shape === "segmented" ? blocks
                        : gauge.shape === "wavy" ? wave : bar
     }
 
@@ -249,6 +274,194 @@ Item {
                     if (x === line / 2) ctx.moveTo(x, y); else ctx.lineTo(x, y)
                 }
                 ctx.stroke()
+            }
+        }
+    }
+
+    // ---- controls.meter: the OS's own meters ----
+    Component {
+        id: bevelMeter
+        Item {
+            id: bevel
+            readonly property bool blocks: gauge.theme.gaugeShape === "segmented"
+            readonly property color fillTop: gauge.cc("meterFillTop", blocks ? "#8EE68E" : "#6299F0")
+            readonly property color fillBottom: gauge.cc("meterFillBottom", blocks ? "#25A225" : "#316AC5")
+            readonly property color sheen: gauge.cc("meterSheen", "#FFFFFF")
+            Rectangle { anchors.fill: parent; radius: 2; color: gauge.cc("meterInsetLight", "#FFFFFF") }
+            Rectangle { width: parent.width - 1; height: parent.height - 1; radius: 2; color: gauge.cc("meterInsetDark", "#7F9DB9") }
+            Rectangle {
+                id: well
+                x: 1; y: 1; width: parent.width - 2; height: parent.height - 2
+                radius: 1
+                color: gauge.cc("meterTrack", "#EBE8D7")
+                clip: true
+                Rectangle {   // the secondary reading, a wash behind
+                    visible: gauge.secondaryFraction > 0
+                    width: parent.width * gauge.secondaryFraction; height: parent.height
+                    color: gauge.secondaryColor
+                    opacity: gauge.secondaryOpacity
+                }
+                Item {   // the fill: one glass bar, or glossy blocks
+                    x: 1; y: 1
+                    width: Math.max(0, (parent.width - 2) * gauge.fraction); height: parent.height - 2
+                    clip: true
+                    Behavior on width { enabled: gauge.animateValue; NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+                    Rectangle {
+                        visible: !bevel.blocks
+                        anchors.fill: parent
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: bevel.fillTop }
+                            GradientStop { position: 1; color: bevel.fillBottom }
+                        }
+                    }
+                    Row {
+                        visible: bevel.blocks
+                        spacing: 2
+                        Repeater {
+                            model: bevel.blocks ? Math.max(0, Math.ceil(well.width / 10)) : 0
+                            Rectangle {
+                                width: 8; height: well.height - 2
+                                gradient: Gradient {
+                                    GradientStop { position: 0; color: bevel.fillTop }
+                                    GradientStop { position: 0.5; color: Qt.darker(bevel.fillTop, 1.05) }
+                                    GradientStop { position: 1; color: bevel.fillBottom }
+                                }
+                            }
+                        }
+                    }
+                    Rectangle {   // the specular band across the middle
+                        y: parent.height * 0.22; width: parent.width; height: Math.max(1, parent.height * 0.24)
+                        color: bevel.sheen
+                        opacity: 0.45
+                    }
+                }
+            }
+        }
+    }
+    Component {
+        id: asciiMeter
+        Item {
+            TextMetrics { id: cell; text: "|"; font: line.font }
+            Text {
+                id: line
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                readonly property string pct: gauge.theme.controls.meterLabel ? " " + Math.round(gauge.fraction * 100) + "%" : ""
+                readonly property int cells: Math.max(4, Math.floor(parent.width / Math.max(1, cell.advanceWidth)) - 2 - pct.length)
+                readonly property int lit: Math.round(gauge.fraction * cells)
+                text: "[" + "|".repeat(lit) + ".".repeat(cells - lit) + "]" + pct
+                color: gauge.fillColor
+                font { family: gauge.theme.mono; pixelSize: Math.max(10, Math.min(14, gauge.height + 4)) }
+                renderType: Text.NativeRendering
+            }
+        }
+    }
+    Component {
+        id: gadgetMeter
+        Row {
+            id: capsules
+            spacing: 2
+            readonly property int n: Math.max(6, Math.min(gauge.segments, Math.floor(width / 9)))
+            readonly property int lit: Math.round(gauge.fraction * n)
+            Repeater {
+                model: capsules.n
+                Rectangle {
+                    required property int index
+                    readonly property real t: index / Math.max(1, capsules.n - 1)
+                    readonly property color hue: t < 0.5 ? gauge.theme.mix(gauge.cc("meterFillTop", "#5CD65C"), "#F2D43C", t * 2)
+                                                        : gauge.theme.mix("#F2D43C", gauge.cc("meterFillBottom", "#FF8C1A"), (t - 0.5) * 2)
+                    readonly property bool on: index < capsules.lit
+                    width: (capsules.width - capsules.spacing * (capsules.n - 1)) / capsules.n
+                    height: gauge.height
+                    // the row bows: the ends sit a pixel lower than the middle
+                    y: Math.round(Math.pow(t * 2 - 1, 2) * Math.min(2, gauge.height * 0.2))
+                    radius: Math.min(height / 2, width / 2)
+                    color: on ? hue : gauge.cc("meterTrack", Qt.rgba(1, 1, 1, 0.12))
+                    border { width: 1; color: on ? Qt.darker(hue, 1.3) : Qt.rgba(0, 0, 0, 0.35) }
+                    Rectangle {   // gloss on the upper half
+                        x: 1; y: 1; width: parent.width - 2; height: parent.height * 0.45
+                        radius: parent.radius
+                        color: "white"; opacity: parent.on ? 0.45 : 0.12
+                    }
+                }
+            }
+        }
+    }
+    Component {
+        id: angledMeter
+        Item {
+            id: cells
+            readonly property int n: Math.max(6, Math.min(gauge.segments, Math.floor(width / 9)))
+            readonly property int lit: Math.round(gauge.fraction * n)
+            readonly property real slant: Math.min(6, height * 0.6)
+            readonly property real cw: (width - slant - 2 * (n - 1)) / n
+            Repeater {
+                model: cells.n
+                Shape {
+                    id: cellShape
+                    required property int index
+                    readonly property bool on: index < cells.lit
+                    readonly property bool washed: !on && index < Math.round(gauge.secondaryFraction * cells.n)
+                    x: index * (cells.cw + 2); width: cells.cw + cells.slant; height: cells.height
+                    preferredRendererType: Shape.CurveRenderer
+                    ShapePath {
+                        strokeWidth: 1
+                        strokeColor: cellShape.on ? gauge.fillColor : gauge.blockTrack
+                        fillColor: cellShape.on ? gauge.fillColor : cellShape.washed ? Qt.rgba(gauge.secondaryColor.r, gauge.secondaryColor.g, gauge.secondaryColor.b, gauge.secondaryOpacity) : "transparent"
+                        PathSvg { path: `M ${cells.slant} 0.5 H ${cells.cw + cells.slant - 0.5} L ${cells.cw - 0.5} ${cells.height - 0.5} H 0.5 Z` }
+                    }
+                }
+            }
+        }
+    }
+    Component {
+        id: slimeMeter
+        Item {   // a glass tube of ooze: a wobbling meniscus, now and then a drop
+            id: tube
+            readonly property color ooze: gauge.theme.frame && gauge.theme.frame.slime ? gauge.theme.frame.slime : gauge.fillColor
+            readonly property real level: Math.max(0, Math.min(1, gauge.fraction)) * (width - 4)
+            property real phase: 0
+            NumberAnimation on phase { running: gauge.theme.live; from: 0; to: 2 * Math.PI; duration: 1800; loops: Animation.Infinite }
+            Rectangle {   // the glass
+                anchors.fill: parent
+                radius: height / 2
+                color: Qt.rgba(1, 1, 1, 0.08)
+                border { width: 1.5; color: gauge.theme.border }
+            }
+            Rectangle {   // the ooze
+                x: 2; y: 2; height: parent.height - 4
+                width: tube.level
+                radius: height / 2
+                color: tube.ooze
+                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuad } }
+                Rectangle {   // the meniscus, a bulge that wobbles
+                    visible: parent.width > 4
+                    x: parent.width - width / 2 + Math.sin(tube.phase) * 1.2
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.height * (0.9 + 0.12 * Math.sin(tube.phase * 2)); height: parent.height
+                    radius: height / 2
+                    color: Qt.lighter(tube.ooze, 1.15)
+                }
+            }
+            Rectangle {   // the glint on the glass
+                x: height; y: 2; width: parent.width - height * 2; height: Math.max(1, parent.height * 0.2)
+                radius: height / 2
+                color: "white"; opacity: 0.35
+            }
+            Rectangle {   // the drop, falling from the tube's underside
+                id: drop
+                visible: tube.level > 8 && gauge.theme.live
+                x: 2 + tube.level * 0.6; y: tube.height - 2
+                width: 3; height: 4; radius: 1.5
+                color: tube.ooze
+                opacity: 0
+                SequentialAnimation on y {
+                    running: drop.visible; loops: Animation.Infinite
+                    PauseAnimation { duration: 3200 }
+                    ScriptAction { script: drop.opacity = 1 }
+                    NumberAnimation { from: tube.height - 2; to: tube.height + 6; duration: 600; easing.type: Easing.InQuad }
+                    ScriptAction { script: drop.opacity = 0 }
+                }
             }
         }
     }

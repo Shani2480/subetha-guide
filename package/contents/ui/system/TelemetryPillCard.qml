@@ -53,14 +53,23 @@ SlidingPillContainer {
     property var txHistory: []
     property string rxText: ""
     property string txText: ""
+    property var coreHistories: []        // cpu: one history (0..1) per core, if the feed has them
 
     signal sizeToggled()
 
     alertLevel: Math.max(tempLevel, loadLevel)
+    tint: theme.sectionTint(({ cpu: "cpu", gpu: "gpu", ram: "memory", net: "network" })[kind])
     animateHeight: true
     verticalPadding: minimal ? 7 : 10
     horizontalPadding: minimal ? 12 : 14
 
+    // an analog-dial skin: cpu load and gpu temperature on a round meter beside the figures
+    readonly property bool dialed: !minimal && theme.skinned && theme.gaugeShape === "analog-dial" && (kind === "cpu" || kind === "gpu")
+    // ...or as small cartoon half-dials: usage, speed and temperature for the cpu, load for the gpu
+    readonly property bool semiDials: dialed && theme.controls.dialStyle === "semicircle"
+    property real speedFraction: -1       // cpu: clock over its maximum, 0..1; below 0 unknown (the load stands in)
+    // a skin's own picture for this component, if it ships one
+    readonly property string skinIcon: theme.icon(kind === "net" ? "netDown" : kind)
     readonly property color rxColor: theme.netDown
     readonly property color txColor: theme.netUp
     // a skin's sparkline colours, or the load colour as the Guide has it
@@ -122,6 +131,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 18
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.kind]
+                source: card.skinIcon
                 color: card.theme.ink
                 strokeWidth: card.theme.stroke(1.6, 2)
             }
@@ -139,10 +149,10 @@ SlidingPillContainer {
                 visible: card.kind === "net"
                 Layout.fillWidth: true
                 spacing: 4
-                VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.down; color: card.rxColor; strokeWidth: 2.4 }
+                VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.down; source: card.theme.icon("netDown"); color: card.rxColor; strokeWidth: 2.4 }
                 Text { text: card.rxText; color: card.rxColor; font { family: card.theme.mono; pixelSize: 11; bold: true } }
                 Item { implicitWidth: 8 }
-                VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.up; color: card.txColor; strokeWidth: 2.4 }
+                VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.up; source: card.theme.icon("netUp"); color: card.txColor; strokeWidth: 2.4 }
                 Text { text: card.txText; color: card.txColor; font { family: card.theme.mono; pixelSize: 11; bold: true } }
                 Item { Layout.fillWidth: true }
             }
@@ -186,6 +196,7 @@ SlidingPillContainer {
                 Layout.preferredWidth: 30
                 Layout.preferredHeight: 30
                 path: card.glyphs[card.kind]
+                source: card.skinIcon
                 color: card.theme.ink
                 strokeWidth: card.theme.stroke(1.5, 1.8)
             }
@@ -212,9 +223,18 @@ SlidingPillContainer {
                     elide: Text.ElideRight
                 }
             }
+            Image {   // the skin's hero illustration, in the row's free space
+                readonly property string art: card.theme.art(({ cpu: "cpu", gpu: "gpu", ram: "memory", net: "network" })[card.kind])
+                visible: art !== ""
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 64; Layout.preferredHeight: 40
+                source: art
+                sourceSize: Qt.size(128, 80)
+                fillMode: Image.PreserveAspectFit
+            }
             // cpu / gpu: temperature badge
             Badge {
-                visible: card.tempText !== ""
+                visible: card.tempText !== "" && !(card.dialed && (card.kind === "gpu" || card.semiDials))
                 Layout.alignment: Qt.AlignVCenter
                 implicitWidth: tempLabel.implicitWidth + 12
                 implicitHeight: tempLabel.implicitHeight + 6
@@ -231,8 +251,41 @@ SlidingPillContainer {
                     font { family: card.theme.mono; pixelSize: 11; bold: true }
                 }
             }
+            Row {
+                visible: card.semiDials
+                Layout.alignment: Qt.AlignVCenter
+                spacing: 4
+                SemiDial {
+                    width: 52; height: 42; theme: card.theme
+                    value: card.percent / 100; valueText: Math.round(card.percent) + "%"
+                    caption: card.theme.lex(card.kind === "gpu" ? "dialLoad" : "dialUsage", "LOAD", card.kind === "gpu" ? "LOAD" : "USAGE")
+                }
+                SemiDial {
+                    visible: card.kind === "cpu"
+                    width: 52; height: 42; theme: card.theme
+                    value: card.speedFraction >= 0 ? card.speedFraction : card.percent / 100
+                    caption: card.theme.lex("dialSpeed", "SPEED", "SPEED")
+                }
+                SemiDial {
+                    visible: card.kind === "cpu"
+                    width: 52; height: 42; theme: card.theme
+                    value: card.tempC / Math.max(1, card.theme.controls.dialTempMax || 100)
+                    valueText: card.tempText
+                    caption: card.theme.lex("dialTemp", "TEMP", "TEMP")
+                }
+            }
+            AnalogDial {
+                visible: card.dialed && !card.semiDials
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 72; Layout.preferredHeight: 72
+                theme: card.theme
+                temperature: card.kind === "gpu"
+                value: temperature ? card.tempC / Math.max(1, (card.theme.controls.dialTempMax || 100)) : card.percent / 100
+                valueText: temperature ? card.tempText : Math.round(card.percent) + "%"
+                caption: temperature ? card.theme.lex("dialTemp", "TEMP", "Temperature") : card.theme.lex("dialUsage", "LOAD", "Usage")
+            }
             Text {
-                visible: card.kind !== "net"
+                visible: card.kind !== "net" && !(card.dialed && card.kind === "cpu")
                 Layout.alignment: Qt.AlignVCenter
                 text: card.valueText
                 color: card.levelInk(card.loadLevel, card.theme.ink)
@@ -285,14 +338,17 @@ SlidingPillContainer {
         Item {   // load history, with the temperature traced over it
             visible: card.graphs && !card.minimal && card.kind !== "net"
             Layout.fillWidth: true
-            Layout.preferredHeight: 24
+            Layout.preferredHeight: card.theme.taskGraphs ? 36 : 24
+            TaskGrid { anchors.fill: parent; theme: card.theme; visible: card.theme.taskGraphs }
             SparklineGraph {
                 anchors.fill: parent
                 historyData: card.graphData
-                strokeColor: card.skinGraph ? card.theme.sparkline : card.loadColor(card.percent)
-                fillColor: card.skinGraph && card.theme.sparklineFill.a > 0 ? card.theme.sparklineFill
+                strokeColor: card.theme.taskGraphs ? card.theme.osColor("controls", "graphDown", card.theme.sparkline.a > 0 ? card.theme.sparkline : "#00C000")
+                           : card.skinGraph ? card.theme.sparkline : card.loadColor(card.percent)
+                fillColor: card.theme.taskGraphs ? "transparent"
+                         : card.skinGraph && card.theme.sparklineFill.a > 0 ? card.theme.sparklineFill
                          : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
-                lineWidth: card.skinGraph ? card.theme.sparklineWidth : 1.5
+                lineWidth: card.theme.taskGraphs ? 1 : card.skinGraph ? card.theme.sparklineWidth : 1.5
                 stepped: card.theme.sparklineStepped
                 dangerColor: card.theme.sparklineDanger
                 dangerAbove: card.theme.sparklineDangerAbove
@@ -362,25 +418,34 @@ SlidingPillContainer {
             Layout.preferredHeight: 36
             Layout.bottomMargin: 2
             readonly property real peak: Math.max(1, Math.max.apply(null, card.rxHistory.concat(card.txHistory).concat([0])))
+            // Task Manager's Networking tab: received and sent as two thin
+            // lines over one grid, no fill; otherwise RX up, TX hanging down
+            readonly property bool task: card.theme.taskGraphs
+            TaskGrid { anchors.fill: parent; theme: card.theme; visible: parent.task }
             SparklineGraph {
                 anchors { left: parent.left; right: parent.right; top: parent.top }
-                height: parent.height / 2 - 1
+                height: parent.task ? parent.height : parent.height / 2 - 1
                 historyData: card.rxHistory.map(v => v / parent.peak)
-                strokeColor: card.rxColor
+                strokeColor: parent.task ? card.theme.osColor("controls", "graphDown", "#0050FF") : card.rxColor
+                fillColor: parent.task ? "transparent" : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
+                lineWidth: parent.task ? 1 : 1.5
                 stepped: card.theme.sparklineStepped
             }
             Rectangle {
+                visible: !parent.task
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width; height: 1
                 color: card.theme.tint(0.35)
             }
             SparklineGraph {
                 anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-                height: parent.height / 2 - 1
+                height: parent.task ? parent.height : parent.height / 2 - 1
                 historyData: card.txHistory.map(v => v / parent.peak)
-                strokeColor: card.txColor
+                strokeColor: parent.task ? card.theme.osColor("controls", "graphUp", "#E07000") : card.txColor
+                fillColor: parent.task ? "transparent" : Qt.rgba(strokeColor.r, strokeColor.g, strokeColor.b, 0.18)
+                lineWidth: parent.task ? 1 : 1.5
                 stepped: card.theme.sparklineStepped
-                inverted: true
+                inverted: !parent.task
             }
         }
 
@@ -413,6 +478,48 @@ SlidingPillContainer {
                 value: card.wanText
                 tag: card.theme.labels.wanTag || (card.theme.skinned ? "WAN" : "SEC-ZZ9")
                 copyable: /^[0-9a-fA-F:.]+$/.test(card.wanText)
+            }
+        }
+
+        // a skin's per-core traces (controls.coreGraph "multi"), one row a core
+        Repeater {
+            model: !card.minimal && card.kind === "cpu" && card.theme.controls.coreGraph === "multi" && card.graphs
+                   ? card.coreHistories.slice(0, 8) : []
+            RowLayout {
+                required property var modelData
+                required property int index
+                Layout.fillWidth: true
+                spacing: 6
+                readonly property var colors: card.theme.controls.coreColors || []
+                readonly property color ink: colors.length ? colors[index % colors.length] : card.theme.high
+                Text {
+                    Layout.preferredWidth: 52
+                    text: (card.theme.controls.coreLabel || "CPU ") + (index + 1)
+                    color: parent.ink
+                    font { family: card.theme.mono; pixelSize: 9; bold: true }
+                }
+                SparklineGraph {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 12
+                    historyData: modelData
+                    strokeColor: parent.ink
+                    fillColor: "transparent"
+                    lineWidth: 1.2
+                    stepped: true            // jagged, scope-like
+                }
+            }
+        }
+
+        // a skin's character in the corner (narrative.vignettes), on its own row
+        Repeater {
+            model: card.minimal ? [] : card.theme.vignettesAt(({ cpu: "cpu", gpu: "gpu", ram: "memory" })[card.kind] || "")
+            Vignette {
+                required property var modelData
+                Layout.alignment: Qt.AlignRight
+                Layout.maximumWidth: card.width - 30
+                theme: card.theme
+                art: modelData.art
+                text: modelData.text
             }
         }
     }

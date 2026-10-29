@@ -18,6 +18,7 @@ CollapsibleSection {
     signal densityToggled()
 
     ModuleCard {
+        iconKey: "battery"
         width: parent.width
         theme: section.theme
         minimal: section.minimal
