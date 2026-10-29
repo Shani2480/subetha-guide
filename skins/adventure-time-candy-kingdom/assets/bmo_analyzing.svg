@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64" width="72" height="64">
+  <!-- an original little game-console robot probing a chip -->
+  <g stroke="#1D031D" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="2" y="48" width="68" height="14" rx="3" fill="#2E8B57"/>
+    <path d="M10 52h10M28 52h6M50 52h12M14 58h20M44 58h8" stroke="#FFD034" stroke-width="1.5"/>
+    <rect x="40" y="40" width="16" height="10" rx="1.5" fill="#333344"/>
+    <rect x="12" y="8" width="26" height="36" rx="4" fill="#66C2B8"/>
+    <rect x="16" y="12" width="18" height="13" rx="2" fill="#C8F2D8"/>
+    <circle cx="21" cy="17" r="1.2" fill="#1D031D"/><circle cx="29" cy="17" r="1.2" fill="#1D031D"/><path d="M22 21 Q25 23.5 28 21" fill="none" stroke-width="1.4"/>
+    <path d="M17 31 h6 M20 28 v6" stroke-width="2.2"/><circle cx="31" cy="30" r="2" fill="#FF3B66"/><circle cx="28" cy="35" r="1.6" fill="#5AC8FA"/>
+    <path d="M38 30 Q46 30 46 40" fill="none"/><circle cx="46" cy="40" r="1.5" fill="#FFD034"/>
+    <path d="M18 44 v4 M32 44 v4" />
+  </g>
+</svg>

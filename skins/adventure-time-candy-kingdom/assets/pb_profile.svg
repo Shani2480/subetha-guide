@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" width="48" height="56">
+  <!-- an original candy scientist: pink skin and hair, a little crown, a lab coat -->
+  <g stroke="#1D031D" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M8 54 V42 Q24 34 40 42 V54 Z" fill="#FFFFFF"/>
+    <path d="M10 30 C6 16 14 6 24 6 C34 6 42 16 38 30 C36 40 40 46 38 50 C30 44 18 44 10 50 C8 46 12 40 10 30 Z" fill="#FF6EC7"/>
+    <ellipse cx="24" cy="26" rx="10" ry="11" fill="#FFB8E0"/>
+    <path d="M18 8 L20 2 L24 6 L28 2 L30 8 Z" fill="#FFD034"/><circle cx="24" cy="5" r="1.4" fill="#33C3FF" stroke-width="1"/>
+    <circle cx="20" cy="25" r="1.4" fill="#1D031D"/><circle cx="28" cy="25" r="1.4" fill="#1D031D"/>
+    <path d="M20 31 Q24 34 28 31" fill="none"/>
+  </g>
+</svg>

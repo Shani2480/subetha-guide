@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs><linearGradient id="pcb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FA34D"/><stop offset="1" stop-color="#1E6B2A"/></linearGradient></defs>
+  <path d="M2 9 l3 -3 h17 l-3 3 z" fill="#5DC06A" stroke="#155220" stroke-width="0.6"/>
+  <path d="M2 9 h17 v8 h-17 z" fill="url(#pcb)" stroke="#155220" stroke-width="0.8"/>
+  <path d="M19 9 l3 -3 v8 l-3 3 z" fill="#17531F" stroke="#155220" stroke-width="0.6"/>
+  <g fill="#1B1B1B" stroke="#000" stroke-width="0.3">
+    <rect x="3.5" y="10.5" width="3" height="3.5"/><rect x="7.6" y="10.5" width="3" height="3.5"/>
+    <rect x="11.7" y="10.5" width="3" height="3.5"/><rect x="15.4" y="10.5" width="2.6" height="3.5"/>
+  </g>
+  <g fill="#E8C048"><rect x="3" y="15.3" width="1" height="1.7"/><rect x="5" y="15.3" width="1" height="1.7"/><rect x="7" y="15.3" width="1" height="1.7"/>
+    <rect x="9" y="15.3" width="1" height="1.7"/><rect x="12" y="15.3" width="1" height="1.7"/><rect x="14" y="15.3" width="1" height="1.7"/><rect x="16" y="15.3" width="1" height="1.7"/></g>
+</svg>

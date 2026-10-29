@@ -2,7 +2,7 @@
   "id": "retro-terminal",
   "name": "VT-Terminal (1970s/1980s CRT)",
   "author": "Shani",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A DEC VT100 / IBM 3270 glass teletype: P1 green phosphor in dark mode, P3 amber in light, raster scanlines, discrete block gauges, a phosphor glow and wireframe Arthur and Marvin on the ground line.",
   "fontFamily": "VT323, monospace",
   "fonts": [
@@ -13,7 +13,8 @@
     "enablePhosphorDecay": true,
     "enableCornerBrackets": true,
     "enableGlassBlur": false,
-    "enableGrid": true
+    "enableGrid": true,
+    "enableBarrel": true
   },
   "geometry": {
     "cardShape": "sharp",
@@ -30,6 +31,39 @@
       0
     ],
     "shadowBlur": 6
+  },
+  "chrome": {
+    "style": "terminal",
+    "buttons": "terminal",
+    "titleAlign": "left",
+    "topRadius": 0,
+    "bottomRadius": 0,
+    "frameWidth": 1
+  },
+  "controls": {
+    "meter": "ascii",
+    "meterLabel": true,
+    "graph": "line",
+    "graphFill": false,
+    "cursor": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
   },
   "variants": {
     "dark": {

@@ -2,9 +2,9 @@
   "id": "macos-liquid-glass",
   "name": "macOS Liquid Glass",
   "author": "Shani",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Liquid Glass: translucent rounded panes with a 1px specular rim, soft deep elevation, capsule pills and gauges, in graphite dark and frosted light.",
-  "fontFamily": "-apple-system, SF Pro Text, sans-serif",
+  "fontFamily": "-apple-system, SF Pro Display, SF Pro Text, sans-serif",
   "features": {
     "enableCrtScanlines": false,
     "enablePhosphorDecay": false,
@@ -27,6 +27,36 @@
       8
     ],
     "shadowBlur": 24
+  },
+  "chrome": {
+    "style": "aqua",
+    "buttons": "traffic",
+    "titleAlign": "center",
+    "topRadius": 18,
+    "bottomRadius": 18,
+    "frameWidth": 1
+  },
+  "controls": {
+    "graph": "line",
+    "graphFill": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
   },
   "variants": {
     "dark": {

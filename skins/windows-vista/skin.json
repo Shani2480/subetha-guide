@@ -2,7 +2,7 @@
   "id": "windows-vista",
   "name": "Windows Vista (Aero Glass)",
   "author": "Shani",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Aero Glass: icy teal-tinted translucent panes with soft depth, rounded corners and segmented green meters, in midnight and daylight glass.",
   "fontFamily": "Segoe UI, Tahoma, sans-serif",
   "features": {
@@ -28,6 +28,47 @@
       4
     ],
     "shadowBlur": 16
+  },
+  "chrome": {
+    "style": "aero",
+    "buttons": "aero",
+    "titleAlign": "left",
+    "topRadius": 8,
+    "bottomRadius": 8,
+    "frameWidth": 1,
+    "titleTop": "rgba(120, 200, 220, 0.75)",
+    "titleBottom": "rgba(40, 110, 140, 0.70)",
+    "titleText": "#000000",
+    "titleShadow": "rgba(255, 255, 255, 0.8)",
+    "frameColor": "rgba(20, 60, 80, 0.6)",
+    "buttonFace": "rgba(255, 255, 255, 0.35)",
+    "buttonGlyph": "#FFFFFF",
+    "closeFace": "#C7372F",
+    "closeGlyph": "#FFFFFF"
+  },
+  "controls": {
+    "meter": "gadget",
+    "meterLabel": true,
+    "graph": "line",
+    "graphFill": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
   },
   "variants": {
     "dark": {
@@ -55,6 +96,12 @@
       "ground": {
         "color": "#33A2D9",
         "alertColor": "#E63946"
+      },
+      "chrome": {
+        "titleTop": "rgba(40, 90, 110, 0.80)",
+        "titleBottom": "rgba(10, 30, 45, 0.80)",
+        "titleText": "#FFFFFF",
+        "titleShadow": "rgba(0, 0, 0, 0.7)"
       }
     },
     "light": {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <defs>
+    <linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.3" stop-color="#B9C0C7"/><stop offset="0.55" stop-color="#F2F4F6"/><stop offset="0.8" stop-color="#7F878F"/><stop offset="1" stop-color="#D5DADF"/></linearGradient>
+    <linearGradient id="i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A4047"/><stop offset="1" stop-color="#C7CDD3"/></linearGradient>
+  </defs>
+  <circle cx="36" cy="36" r="35" fill="url(#c)" stroke="#4E555C" stroke-width="1"/>
+  <circle cx="36" cy="36" r="30.5" fill="none" stroke="url(#i)" stroke-width="2"/>
+  <circle cx="36" cy="36" r="29.5" fill="none" stroke="#000000" stroke-opacity="0.5" stroke-width="0.8"/>
+  <!-- the face shows through: only the ring is drawn -->
+</svg>

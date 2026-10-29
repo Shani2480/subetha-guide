@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 56" width="40" height="56">
+  <!-- an original waving kid in a white bear-eared cap and a blue tee -->
+  <g stroke="#1D031D" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M10 54 V44 h20 V54" fill="#3D5AFE" fill-opacity="0.85"/>
+    <path d="M10 44 V30 H30 V44 Z" fill="#5AC8FA"/>
+    <path d="M30 32 L37 22" fill="none"/><circle cx="37.5" cy="21" r="2.4" fill="#FFE0C2"/>
+    <path d="M10 32 L5 40" fill="none"/>
+    <path d="M8 26 V12 a12 12 0 0 1 24 0 V26 Z" fill="#FFFFFF"/>
+    <path d="M10 8 a3 3 0 0 1 5 -3 M30 8 a3 3 0 0 0 -5 -3" fill="#FFFFFF"/>
+    <rect x="12" y="13" width="16" height="12" rx="4" fill="#FFE0C2"/>
+    <circle cx="17" cy="18" r="1.2" fill="#1D031D"/><circle cx="23" cy="18" r="1.2" fill="#1D031D"/>
+    <path d="M16 21.5 Q20 24.5 24 21.5" fill="none" stroke-width="1.5"/>
+  </g>
+</svg>

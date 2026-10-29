@@ -2,9 +2,9 @@
   "id": "windows-xp",
   "name": "Windows XP (Luna)",
   "author": "Shani",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Luna: royal blue desktop, beige Explorer panels with a hard drop shadow, a green Start pushbutton and segmented green LED meters; Royale Noir after dark.",
-  "fontFamily": "Tahoma, Arial, sans-serif",
+  "fontFamily": "Tahoma, Segoe UI, sans-serif",
   "features": {
     "enableCrtScanlines": false,
     "enablePhosphorDecay": false,
@@ -15,7 +15,7 @@
   "geometry": {
     "cardShape": "rounded",
     "pillShape": "rounded",
-    "gaugeShape": "segmented",
+    "gaugeShape": "flat",
     "cornerRadius": 6,
     "pillRadius": 6,
     "borderStyle": "solid",
@@ -27,6 +27,71 @@
       2,
       2
     ]
+  },
+  "chrome": {
+    "style": "luna",
+    "buttons": "luna",
+    "titleAlign": "left",
+    "titleHeight": 30,
+    "topRadius": 8,
+    "bottomRadius": 0,
+    "frameWidth": 3,
+    "titleBold": true,
+    "logo": "assets/icons/logo.svg",
+    "titleTop": "#0058EE",
+    "titleBottom": "#2E8BFA",
+    "titleText": "#FFFFFF",
+    "titleShadow": "#0A246A",
+    "titleInactive": "#7A96DF",
+    "frameColor": "#0046D5",
+    "buttonFace": "#2A6CF0",
+    "buttonGlyph": "#FFFFFF",
+    "closeFace": "#E2502D",
+    "closeGlyph": "#FFFFFF"
+  },
+  "sections": {
+    "style": "groupband",
+    "uppercase": true,
+    "titleSize": 11,
+    "bandColor": "#ECE9D8",
+    "bandText": "#000000",
+    "bandStatus": "#333333",
+    "rule": "#D0C8B8"
+  },
+  "controls": {
+    "meter": "bevel",
+    "meterLabel": true,
+    "graph": "taskmgr",
+    "graphFill": false,
+    "cursor": false,
+    "meterTrack": "#EBE8D7",
+    "meterInsetDark": "#7F9DB9",
+    "meterInsetLight": "#FFFFFF",
+    "meterFillTop": "#6299F0",
+    "meterFillBottom": "#316AC5",
+    "meterSheen": "#FFFFFF",
+    "graphBackground": "#FFFFFF",
+    "graphGrid": "#D8D8D8",
+    "graphDown": "#316AC5",
+    "graphUp": "#E2502D"
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
   },
   "variants": {
     "dark": {
@@ -58,6 +123,28 @@
       "ground": {
         "color": "#4D76A1",
         "alertColor": "#FF4422"
+      },
+      "chrome": {
+        "titleTop": "#2B3A57",
+        "titleBottom": "#45597E",
+        "frameColor": "#1E2A3F",
+        "titleShadow": "#000000",
+        "buttonFace": "#3A5A8C"
+      },
+      "sections": {
+        "bandColor": "#2E3038",
+        "bandText": "#FFFFFF",
+        "bandStatus": "#A4A8B5",
+        "rule": "#484D5C"
+      },
+      "controls": {
+        "meterTrack": "#1F2024",
+        "meterInsetDark": "#0E0F12",
+        "meterInsetLight": "#484D5C",
+        "graphBackground": "#1C1D21",
+        "graphGrid": "#3A3D45",
+        "graphDown": "#6299F0",
+        "graphUp": "#FF7A45"
       }
     },
     "light": {
@@ -104,6 +191,19 @@
       "highLoad": "NOT RESPONDING. WINDOWS IS WAITING FOR THE PROGRAM.",
       "critical": "KERNEL MEMORY PARITY THREAT! AVOIDING BSOD STATUS.",
       "night": "THE BLISS HILL IS DARK. SCREENSAVER STANDING BY."
+    },
+    "lexicon": {
+      "cpuTitle": "SYSTEM STATUS",
+      "memoryTitle": "MEMORY USAGE",
+      "swapTitle": "SWAP USAGE",
+      "gpuTitle": "GPU STATUS",
+      "networkTitle": "NETWORK",
+      "weatherTitle": "WEATHER",
+      "storageTitle": "DISK USAGE",
+      "coolingTitle": "COOLING",
+      "powerTitle": "POWER",
+      "clockTitle": "DATE AND TIME",
+      "systemTitle": "SYSTEM STATUS"
     }
   },
   "isDark": false,

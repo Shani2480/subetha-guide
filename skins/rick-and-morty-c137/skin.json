@@ -1,0 +1,253 @@
+{
+  "id": "rick-and-morty-c137",
+  "name": "Rick and Morty (Dimension C-137)",
+  "author": "Shani",
+  "version": "2.1.0",
+  "description": "A garage-built interdimensional dashboard: riveted scrap plating dripping green ooze, twin spinning portals, an eight-trace core oscilloscope, a slime-filled VRAM tube and comic speech bubbles.",
+  "fontFamily": "Comic Neue, Permanent Marker, Chalkboard SE, Trebuchet MS, cursive, sans-serif",
+  "fonts": [
+    "assets/fonts/ComicNeue-Regular.ttf",
+    "assets/fonts/ComicNeue-Bold.ttf",
+    "assets/fonts/PermanentMarker-Regular.ttf"
+  ],
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": false,
+    "enableGrid": false,
+    "enableBarrel": false,
+    "enableCartoonOutlines": true,
+    "enablePortalSpinners": true,
+    "enableSlimeDrips": true
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "segmented",
+    "cornerRadius": 16,
+    "borderStyle": "solid",
+    "borderWidth": 2.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "flat-2d",
+    "shadowOffset": [
+      4,
+      4
+    ],
+    "shadowBlur": 0
+  },
+  "frame": {
+    "style": "scrap",
+    "portal": "assets/portal_swirl.svg",
+    "toolbelt": "assets/scrap_toolbelt.svg",
+    "plaqueTitle": "INTERDIMENSIONAL SYSTEM DASHBOARD",
+    "plaqueSubtitle": "Made of cobbled-together technology, green ooze, alien materials, glowing runes and makeshift wires.",
+    "plaque": "#1A2228",
+    "plaqueText": "#99FF33",
+    "plaqueSubtext": "#00FFCC",
+    "slime": "#00FF44",
+    "rivets": "#8A96A0"
+  },
+  "sections": {
+    "style": "card",
+    "uppercase": true,
+    "screws": true,
+    "tints": {
+      "cpu": "#2A1828",
+      "gpu": "#1C2A1E",
+      "weather": "#12242D"
+    }
+  },
+  "controls": {
+    "meter": "slime",
+    "meterLabel": true,
+    "graph": "taskmgr",
+    "graphFill": false,
+    "coreGraph": "multi",
+    "coreColors": [
+      "#99FF33",
+      "#FF00AA",
+      "#00FFFF",
+      "#FFAA00",
+      "#FF6600",
+      "#AA00FF",
+      "#33FF99",
+      "#FF2244"
+    ],
+    "coreLabel": "UNIT R-",
+    "thermometer": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
+  },
+  "art": {
+    "gpu": "assets/three_headed_alien.svg",
+    "weather": "assets/weather_portal_icons.svg"
+  },
+  "variants": {
+    "dark": {
+      "background": "#0D1318",
+      "cardBackground": "#182026",
+      "cardBackgroundHover": "#222D36",
+      "textPrimary": "#99FF33",
+      "textSecondary": "#00FFCC",
+      "accent": "#00FF44",
+      "accentSecondary": "#FF00AA",
+      "accentTertiary": "#FFCC00",
+      "accentGood": "#00FF44",
+      "border": "#0A0E12",
+      "gaugeTrack": "rgba(153, 255, 51, 0.15)",
+      "gaugeUsage": "#00FF44",
+      "gaugeTemp": "#FF00AA",
+      "badgeBackground": "#00FF44",
+      "badgeText": "#0D1318",
+      "shadowColor": "#000000",
+      "sparkline": "#99FF33",
+      "sparklineFill": "rgba(153, 255, 51, 0.10)",
+      "netDown": "#00FF44",
+      "netUp": "#FF00AA",
+      "commentary": "#00FFCC",
+      "frame": {
+        "plaque": "#1A2228",
+        "plaqueText": "#99FF33",
+        "plaqueSubtext": "#00FFCC",
+        "slime": "#00FF44",
+        "rivets": "#8A96A0"
+      },
+      "sections": {
+        "tints": {
+          "cpu": "#2A1828",
+          "gpu": "#1C2A1E",
+          "weather": "#12242D"
+        }
+      },
+      "controls": {
+        "graphBackground": "#0A1014",
+        "graphGrid": "rgba(153, 255, 51, 0.12)"
+      }
+    },
+    "light": {
+      "background": "#A7D0D8",
+      "cardBackground": "#E3F2EE",
+      "cardBackgroundHover": "#F0F8F6",
+      "textPrimary": "#10231C",
+      "textSecondary": "#0D5C43",
+      "accent": "#00B336",
+      "accentSecondary": "#D60085",
+      "accentTertiary": "#D69900",
+      "accentGood": "#00B336",
+      "border": "#10231C",
+      "gaugeTrack": "rgba(0, 0, 0, 0.12)",
+      "gaugeUsage": "#00B336",
+      "gaugeTemp": "#D60085",
+      "badgeBackground": "#00B336",
+      "badgeText": "#FFFFFF",
+      "shadowColor": "#10231C",
+      "sparkline": "#00B336",
+      "sparklineFill": "rgba(0, 179, 54, 0.10)",
+      "netDown": "#00B336",
+      "netUp": "#D60085",
+      "commentary": "#0D5C43",
+      "frame": {
+        "plaque": "#2A3A40",
+        "plaqueText": "#99FF33",
+        "plaqueSubtext": "#00FFCC",
+        "slime": "#00B336",
+        "rivets": "#5A6670"
+      },
+      "sections": {
+        "tints": {
+          "cpu": "#F2E3F0",
+          "gpu": "#E2F2E4",
+          "weather": "#DDF0F6"
+        }
+      },
+      "controls": {
+        "graphBackground": "#0E1A14",
+        "graphGrid": "rgba(0, 179, 54, 0.18)"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "PORTAL GUN // C-137",
+    "weatherSkyHazard": "assets/three_headed_alien.svg",
+    "weatherSkyHazardSecondary": "assets/portal_swirl.svg",
+    "roamerPrimary": "assets/rick_morty_panic.svg",
+    "roamerSecondary": "assets/portal_swirl.svg",
+    "quips": {
+      "nominal": "COMPUTE UNITS FUNCTIONING WITHIN ACCEPTABLE INFINITE REALITIES.",
+      "moderate": "A LITTLE INTERDIMENSIONAL TURBULENCE. NOTHING A PORTAL CAN'T FIX.",
+      "highLoad": "EVERY CORE IN EVERY DIMENSION IS SWEATING.",
+      "critical": "MORTY! THE CENTRAL PROCESSING UNIT IS ENTERING AN UNSTABLE DIMENSIONAL COLLAPSE!",
+      "night": "THE GARAGE GLOWS GREEN. SOMETHING IN THE CORNER IS HUMMING."
+    },
+    "vignettes": [
+      {
+        "at": "cpu",
+        "art": "assets/rick_morty_panic.svg",
+        "text": "Look at these numbers!"
+      },
+      {
+        "at": "gpu",
+        "art": "assets/three_headed_alien.svg",
+        "text": "It's at 30 moneys!"
+      },
+      {
+        "at": "footer",
+        "art": "assets/rick_morty_panic.svg",
+        "text": "It's gonna be a *burp* mess!"
+      }
+    ],
+    "lexicon": {
+      "appTitle": "INTERDIMENSIONAL SYSTEM DASHBOARD",
+      "mastheadTitle": "INTERDIMENSIONAL SYSTEM DASHBOARD",
+      "appSubtitle": "DIMENSION C-137",
+      "cpuTitle": "CPU CORE MONITOR",
+      "gpuTitle": "GPU STATUS",
+      "weatherTitle": "WEATHER LAB // LOCALITY: C-137",
+      "memoryTitle": "VRAM OOZE LEVEL",
+      "networkTitle": "PORTAL TRAFFIC",
+      "storageTitle": "SCRAP STORAGE",
+      "coolingTitle": "COOLING FANS",
+      "systemTitle": "CPU CORE MONITOR"
+    }
+  },
+  "colors": {
+    "background": "#0D1318",
+    "cardBackground": "#182026",
+    "cardBackgroundHover": "#222D36",
+    "textPrimary": "#99FF33",
+    "textSecondary": "#00FFCC",
+    "accent": "#00FF44",
+    "accentSecondary": "#FF00AA",
+    "accentTertiary": "#FFCC00",
+    "accentGood": "#00FF44",
+    "border": "#0A0E12",
+    "gaugeTrack": "rgba(153, 255, 51, 0.15)",
+    "shadowColor": "#000000",
+    "sparkline": "#99FF33",
+    "sparklineFill": "rgba(153, 255, 51, 0.10)",
+    "netDown": "#00FF44",
+    "netUp": "#FF00AA",
+    "commentary": "#00FFCC",
+    "gaugeFillUsage": "#00FF44",
+    "gaugeFillTemp": "#FF00AA"
+  },
+  "badgeText": "PORTAL GUN // C-137"
+}

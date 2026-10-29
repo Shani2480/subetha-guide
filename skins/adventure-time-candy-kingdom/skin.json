@@ -1,0 +1,253 @@
+{
+  "id": "adventure-time-candy-kingdom",
+  "name": "Adventure Time (Candy Kingdom Control Panel)",
+  "author": "Shani",
+  "version": "2.1.0",
+  "description": "A pastel candy-box control panel: wavy ink borders, wrapped sweets along the frame, a bubbly marquee, an eight-core candy-brain matrix, a little console robot on the GPU card and a waving kid under a smiling sun.",
+  "fontFamily": "Architects Daughter, Comic Neue, Chalkboard SE, Trebuchet MS, cursive, sans-serif",
+  "fonts": [
+    "assets/fonts/ArchitectsDaughter-Regular.ttf",
+    "assets/fonts/ComicNeue-Regular.ttf",
+    "assets/fonts/ComicNeue-Bold.ttf"
+  ],
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": false,
+    "enableGrid": false,
+    "enableBarrel": false,
+    "enableCartoonOutlines": true
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "segmented",
+    "cornerRadius": 18,
+    "borderStyle": "solid",
+    "borderWidth": 2.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "flat-2d",
+    "shadowOffset": [
+      4,
+      4
+    ],
+    "shadowBlur": 0
+  },
+  "frame": {
+    "style": "candy",
+    "decorations": "assets/candy_frame_decorations.svg",
+    "hudLeft": "assets/custom_hud_buttons.svg",
+    "hudRight": "assets/custom_hud_buttons.svg",
+    "plaqueTitle": "THE CANDY KINGDOM CONTROL PANEL",
+    "plaqueSubtitle": "System Monitor of Ooo",
+    "plaque": "#1A0826",
+    "plaqueText": "#FFE14D",
+    "plaqueSubtext": "#FFAAF4",
+    "rim": "#B47AD6"
+  },
+  "sections": {
+    "style": "card",
+    "uppercase": true,
+    "screws": false,
+    "tints": {
+      "cpu": "#4A2050",
+      "gpu": "#2E2A5A",
+      "weather": "#2A3A60"
+    }
+  },
+  "controls": {
+    "meter": "",
+    "meterLabel": true,
+    "graph": "line",
+    "graphFill": true,
+    "coreGraph": "multi",
+    "coreColors": [
+      "#FF6E6E",
+      "#5AD67A",
+      "#B48CFF",
+      "#5AC8FA",
+      "#FFB347",
+      "#FF6EDC",
+      "#7FE0C8",
+      "#FFD034"
+    ],
+    "coreLabel": "CPU ",
+    "thermometer": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
+  },
+  "art": {
+    "cpu": "assets/pb_brain_scroll.svg",
+    "gpu": "assets/bmo_analyzing.svg",
+    "weather": "assets/candy_sun_cloud.svg"
+  },
+  "variants": {
+    "dark": {
+      "background": "#29153B",
+      "cardBackground": "#451E54",
+      "cardBackgroundHover": "#5A286D",
+      "textPrimary": "#FFAAF4",
+      "textSecondary": "#BCE3FF",
+      "accent": "#FFAAF4",
+      "accentSecondary": "#FFFF33",
+      "accentTertiary": "#33FF66",
+      "accentGood": "#33FF66",
+      "border": "#1A0826",
+      "gaugeTrack": "rgba(255, 170, 244, 0.15)",
+      "gaugeUsage": "#FF6EDC",
+      "gaugeTemp": "#FFFF33",
+      "badgeBackground": "#FF6EDC",
+      "badgeText": "#29153B",
+      "shadowColor": "#1A0826",
+      "sparkline": "#FF6EDC",
+      "sparklineFill": "rgba(255, 110, 220, 0.18)",
+      "netDown": "#FF6EDC",
+      "netUp": "#BCE3FF",
+      "commentary": "#BCE3FF",
+      "frame": {
+        "plaque": "#1A0826",
+        "plaqueText": "#FFE14D",
+        "plaqueSubtext": "#FFAAF4",
+        "rim": "#B47AD6"
+      },
+      "sections": {
+        "tints": {
+          "cpu": "#4A2050",
+          "gpu": "#2E2A5A",
+          "weather": "#2A3A60"
+        }
+      },
+      "controls": {
+        "graphBackground": "#351A48",
+        "graphGrid": "rgba(255, 170, 244, 0.12)",
+        "graphDown": "#FF6EDC",
+        "graphUp": "#5AC8FA"
+      }
+    },
+    "light": {
+      "background": "#F2CEE6",
+      "cardBackground": "#FFECFA",
+      "cardBackgroundHover": "#FFF5FD",
+      "textPrimary": "#1D031D",
+      "textSecondary": "#3D1A52",
+      "accent": "#993366",
+      "accentSecondary": "#FFD034",
+      "accentTertiary": "#5A9E32",
+      "accentGood": "#5A9E32",
+      "border": "#1D031D",
+      "gaugeTrack": "rgba(0, 0, 0, 0.08)",
+      "gaugeUsage": "#993366",
+      "gaugeTemp": "#FFD034",
+      "badgeBackground": "#993366",
+      "badgeText": "#FFFFFF",
+      "shadowColor": "#1D031D",
+      "sparkline": "#993366",
+      "sparklineFill": "rgba(153, 51, 102, 0.14)",
+      "netDown": "#993366",
+      "netUp": "#3D8BD9",
+      "commentary": "#3D1A52",
+      "frame": {
+        "plaque": "#3D1A52",
+        "plaqueText": "#FFE14D",
+        "plaqueSubtext": "#FFAAF4",
+        "rim": "#FFB8E0"
+      },
+      "sections": {
+        "tints": {
+          "cpu": "#FFE3F4",
+          "gpu": "#EFE6FF",
+          "weather": "#E3F2FF"
+        }
+      },
+      "controls": {
+        "graphBackground": "#FFF5FD",
+        "graphGrid": "rgba(29, 3, 29, 0.08)",
+        "graphDown": "#E0457B",
+        "graphUp": "#3D8BD9"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "CANDY KINGDOM // OOO",
+    "weatherSkyHazard": "assets/candy_sun_cloud.svg",
+    "roamerPrimary": "assets/finn_waving.svg",
+    "roamerSecondary": "assets/jake_cheerful.svg",
+    "quips": {
+      "nominal": "THE CANDY KINGDOM IS RUNNING AT 100% SWEETNESS!",
+      "moderate": "A LITTLE STICKY IN HERE, BUT EVERYTHING'S STILL SWEET.",
+      "highLoad": "THE BANANA GUARDS ARE RUNNING EVERY CORE!",
+      "critical": "ALGEBRAIC EMERGENCY! THE MAIN CORE IS MELTING DOWN!",
+      "night": "THE KINGDOM SLEEPS. THE CANDY LAMPS GLOW."
+    },
+    "vignettes": [
+      {
+        "at": "cpu",
+        "art": "assets/pb_profile.svg",
+        "text": "Stresses are within sweet limits!"
+      },
+      {
+        "at": "gpu",
+        "art": "assets/jake_cheerful.svg",
+        "text": "Lookin' good, buddy!"
+      },
+      {
+        "at": "weather",
+        "art": "assets/finn_waving.svg",
+        "text": "Perfectly sweet out!"
+      }
+    ],
+    "lexicon": {
+      "appTitle": "THE CANDY KINGDOM CONTROL PANEL",
+      "mastheadTitle": "THE CANDY KINGDOM CONTROL PANEL",
+      "appSubtitle": "SYSTEM MONITOR OF OOO",
+      "cpuTitle": "CPU STATUS: CANDY BRAIN POWER",
+      "gpuTitle": "GPU STATUS: MAGICAL GUMPTION",
+      "weatherTitle": "WEATHER SYNOPSIS: CANDY KINGDOM",
+      "memoryTitle": "MEMORY: CANDY STORES",
+      "networkTitle": "NETWORK: CANDY MAIL",
+      "storageTitle": "TREASURE VAULT",
+      "coolingTitle": "COOLING BREEZE",
+      "systemTitle": "CPU STATUS: CANDY BRAIN POWER"
+    }
+  },
+  "colors": {
+    "background": "#29153B",
+    "cardBackground": "#451E54",
+    "cardBackgroundHover": "#5A286D",
+    "textPrimary": "#FFAAF4",
+    "textSecondary": "#BCE3FF",
+    "accent": "#FFAAF4",
+    "accentSecondary": "#FFFF33",
+    "accentTertiary": "#33FF66",
+    "accentGood": "#33FF66",
+    "border": "#1A0826",
+    "gaugeTrack": "rgba(255, 170, 244, 0.15)",
+    "shadowColor": "#1A0826",
+    "sparkline": "#FF6EDC",
+    "sparklineFill": "rgba(255, 110, 220, 0.18)",
+    "netDown": "#FF6EDC",
+    "netUp": "#BCE3FF",
+    "commentary": "#BCE3FF",
+    "gaugeFillUsage": "#FF6EDC",
+    "gaugeFillTemp": "#FFFF33"
+  },
+  "badgeText": "CANDY KINGDOM // OOO"
+}

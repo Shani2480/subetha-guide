@@ -9,17 +9,27 @@
       "description": "Mathematical! BMO handheld aesthetic featuring seafoam chassis, thick cartoon outlines, D-pad accents, and Finn & Jake roaming characters.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/adventure-time/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/adventure-time.tar.gz",
-      "sha256": "fc2ed5ab8e425c7b09130869fe7a193595418fdda7392df87f7a1ef1d998cebb"
+      "sha256": "df928b79dfdd37df7c619e83ea3e6914fee0e9dbf1e98fe6f3f3bed7f3d13d57"
+    },
+    {
+      "id": "adventure-time-candy-kingdom",
+      "name": "Adventure Time (Candy Kingdom Control Panel)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "A pastel candy-box control panel: wavy ink borders, wrapped sweets along the frame, a bubbly marquee, an eight-core candy-brain matrix, a little console robot on the GPU card and a waving kid under a smiling sun.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/adventure-time-candy-kingdom/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/adventure-time-candy-kingdom.tar.gz",
+      "sha256": "54fbe70df882d1db75b4055bb3de84063f550b223789b14cd6f81e751bc40da2"
     },
     {
       "id": "cyberpunk-2077",
       "name": "Cyberpunk 2077 (Arasaka Kiroshi HUD)",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "High-contrast Night City cyberware optical telemetry. Features chamfered carbon bezels, vibrant Cyber Yellow accents, glitch scanlines, and Silverhand silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/cyberpunk-2077/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/cyberpunk-2077.tar.gz",
-      "sha256": "2537dcd5313fa1a0d92cbc99694d4aec5cb0dd54769df7d674b59803890de286"
+      "sha256": "03a9df9774edb580f8e08d91d9dfdba343c69547942d6e4dd97b81e6105c09af"
     },
     {
       "id": "dexters-lab",
@@ -29,7 +39,17 @@
       "description": "Mid-century retro-future scientific mainframe. Features purple-glove accents, radioactive neon green indicators, industrial hazard trim, and Dexter vs. Dee Dee roaming animations.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab.tar.gz",
-      "sha256": "d77c379fbdb9bb7af57c8c03c7ce7b394ba45c7acb2785b163138973245076ca"
+      "sha256": "c678c30113cd37ce6f15d9971c1401edf2cb681c8561203b216d3a8b2961b9bc"
+    },
+    {
+      "id": "dexters-lab-console",
+      "name": "Dexter's Lab (System Console)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "A cartoon lab supercomputer: bubbling vacuum tubes, a klaxon that wails at critical load, switch-covered side pillars, wedge dials, an oscilloscope and a thermometer on the weather screen, all in thick ink outlines.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab-console/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab-console.tar.gz",
+      "sha256": "03f12a3f8de617c6672dc33492e8373a69b2c818e6933bf129b292a1b0ff1529"
     },
     {
       "id": "h2g2",
@@ -40,24 +60,34 @@
       "builtin": true
     },
     {
+      "id": "macos-golden-gate",
+      "name": "macOS Golden Gate (System Hub)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "Smoked frosted glass over Marin Headlands dusk, or Presidio daylight: International Orange and golden-hour amber, capsule meters, soft graphs and a suspension bridge on the horizon.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/macos-golden-gate/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/macos-golden-gate.tar.gz",
+      "sha256": "6cb8b2a631332f32ebca78b1f17f26d1fbc2c042cfcfeb46dc96596db1e85ad5"
+    },
+    {
       "id": "macos-liquid-glass",
       "name": "macOS Liquid Glass",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "Liquid Glass: translucent rounded panes with a 1px specular rim, soft deep elevation, capsule pills and gauges, in graphite dark and frosted light.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/macos-liquid-glass/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/macos-liquid-glass.tar.gz",
-      "sha256": "d70eee3c415aae05b7a4a9cf278080159ec84e700ffcbc21a2f5492f33de5e2c"
+      "sha256": "deb6776fbcf1e44435ba8612dc7732b6787ca94b4aaa57cbb694df819ac225a2"
     },
     {
       "id": "material-you",
       "name": "Material You (M3 Expressive)",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "Material 3 Expressive: tonal surface containers, 24px rounded cards, stadium pills and capsule gauges on soft elevation, in Monet lavender light and dark.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/material-you/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/material-you.tar.gz",
-      "sha256": "1eac0324ac2c7069cc8d0febf6d65aaa6c9798babe6e4da469434afdebb19982"
+      "sha256": "6c5ed1cfefc8a73d2eb4a7b638593a4cdf840ddb219d8be957d5a2062169e2be"
     },
     {
       "id": "mirrors-edge",
@@ -67,37 +97,67 @@
       "description": "Clinical, high-contrast City of Glass aesthetic. Features pristine matte white surfaces, deep obsidian lines, intense Runner Vision Red accents, and Faith parkour silhouettes.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/mirrors-edge/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/mirrors-edge.tar.gz",
-      "sha256": "edca9d20a8bbda52737433a62efdcb91370b071ecbb6f9d4f2f111f6aaf6b60d"
+      "sha256": "fe59c7e24d83160528111f23a0a32d4d1e247082b0b0a75b24e48e076ffd3c00"
+    },
+    {
+      "id": "mirrors-edge-catalyst",
+      "name": "Mirror's Edge Catalyst (OS 2.0)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "A runner's tactical HUD over the City of Glass: 45° chamfered cards in a hairline Runner Red, an isometric CPU socket and GPU die, a wireframe skyline at dusk or high noon.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/mirrors-edge-catalyst/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/mirrors-edge-catalyst.tar.gz",
+      "sha256": "3373f5a84d5d704e7c60b1ba6bfac83174ee83e9f71e61890216ead52f40587c"
     },
     {
       "id": "retro-terminal",
       "name": "VT-Terminal (1970s/1980s CRT)",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "A DEC VT100 / IBM 3270 glass teletype: P1 green phosphor in dark mode, P3 amber in light, raster scanlines, discrete block gauges, a phosphor glow and wireframe Arthur and Marvin on the ground line.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/retro-terminal/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/retro-terminal.tar.gz",
-      "sha256": "a493641863a53c6fd5ea7ab59581e1f5c89eb956c6f3d8b2ab9a271330a0e487"
+      "sha256": "522066ac2e3e828d8dca4a1a84cddfa8f34e1d07ea9a4bdfe514b42d2c2bae13"
+    },
+    {
+      "id": "rick-and-morty-c137",
+      "name": "Rick and Morty (Dimension C-137)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "A garage-built interdimensional dashboard: riveted scrap plating dripping green ooze, twin spinning portals, an eight-trace core oscilloscope, a slime-filled VRAM tube and comic speech bubbles.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/rick-and-morty-c137/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/rick-and-morty-c137.tar.gz",
+      "sha256": "17184481041f06cc15837312a8601e4c7c9b25a1989d79a182f38f1bcbc2c958"
     },
     {
       "id": "windows-vista",
       "name": "Windows Vista (Aero Glass)",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "Aero Glass: icy teal-tinted translucent panes with soft depth, rounded corners and segmented green meters, in midnight and daylight glass.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-vista/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-vista.tar.gz",
-      "sha256": "dfb5b91221bf18c440ac8ac10909cbead808693cb1e6cae7d1f98b235d2cde57"
+      "sha256": "a34352eaca89a65bf8cda42ef548546807f78568de8faa371eb179d93eee96e7"
+    },
+    {
+      "id": "windows-vista-sidebar",
+      "name": "Windows Vista (Sidebar Gadgets)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "Sidebar gadgets on Aero glass: a curved gloss over each panel, chrome-rimmed analog dials with glowing needles, an oscilloscope CPU graph and glassy green LED memory bars.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-vista-sidebar/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-vista-sidebar.tar.gz",
+      "sha256": "54c5d3f9ab6a470b2a8e076943c19b4c10b34db650ff5ec37b2551b1f9c94821"
     },
     {
       "id": "windows-xp",
       "name": "Windows XP (Luna)",
       "author": "Shani",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "Luna: royal blue desktop, beige Explorer panels with a hard drop shadow, a green Start pushbutton and segmented green LED meters; Royale Noir after dark.",
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-xp/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-xp.tar.gz",
-      "sha256": "70e9ee44ea3849d71dae018073f9c0eeb0f10be41c0836522965de5894545a55"
+      "sha256": "83d90f708f264ab35ae2b8fe03aeb288b1a5969036caa2c1dd5495fa5100ce34"
     }
   ]
 }

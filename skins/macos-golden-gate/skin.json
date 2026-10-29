@@ -1,0 +1,159 @@
+{
+  "id": "macos-golden-gate",
+  "name": "macOS Golden Gate (System Hub)",
+  "author": "Shani",
+  "version": "2.1.0",
+  "description": "Smoked frosted glass over Marin Headlands dusk, or Presidio daylight: International Orange and golden-hour amber, capsule meters, soft graphs and a suspension bridge on the horizon.",
+  "fontFamily": "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', sans-serif",
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": true,
+    "enableGrid": false,
+    "enableBarrel": false
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 18,
+    "borderStyle": "solid",
+    "borderWidth": 1.0,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "soft",
+    "shadowOffset": [
+      0,
+      8
+    ],
+    "shadowBlur": 24
+  },
+  "chrome": {
+    "style": "aqua",
+    "buttons": "traffic",
+    "titleAlign": "center",
+    "topRadius": 18,
+    "bottomRadius": 18,
+    "frameWidth": 1,
+    "logo": "assets/golden_gate_icon.svg"
+  },
+  "sections": {
+    "style": "card",
+    "uppercase": true
+  },
+  "controls": {
+    "graph": "line",
+    "graphFill": true,
+    "meterLabel": false
+  },
+  "icons": {
+    "app": "assets/golden_gate_icon.svg",
+    "weather": "assets/sun_golden_hour.svg"
+  },
+  "variants": {
+    "dark": {
+      "background": "#0D1117",
+      "cardBackground": "rgba(22, 26, 32, 0.78)",
+      "cardBackgroundHover": "rgba(32, 38, 48, 0.85)",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "rgba(255, 255, 255, 0.65)",
+      "accent": "#F05A28",
+      "accentSecondary": "#E5A93C",
+      "accentTertiary": "#FF7A45",
+      "border": "rgba(255, 255, 255, 0.12)",
+      "gaugeTrack": "rgba(255, 255, 255, 0.08)",
+      "gaugeUsage": "#F05A28",
+      "gaugeTemp": "#E5A93C",
+      "badgeBackground": "rgba(240, 90, 40, 0.20)",
+      "badgeText": "#FFA07A",
+      "shadowColor": "rgba(0, 0, 0, 0.40)",
+      "sparkline": "#E5A93C",
+      "sparklineFill": "rgba(229, 169, 60, 0.18)",
+      "netDown": "#F05A28",
+      "netUp": "#E5A93C",
+      "commentary": "#E5A93C",
+      "accentGood": "#E5A93C",
+      "chrome": {
+        "titleTop": "rgba(30, 34, 42, 0.92)",
+        "titleBottom": "rgba(22, 26, 32, 0.92)",
+        "titleText": "#FFFFFF"
+      },
+      "controls": {
+        "graphGrid": "rgba(255, 255, 255, 0.06)"
+      }
+    },
+    "light": {
+      "background": "#E8ECEF",
+      "cardBackground": "rgba(255, 255, 255, 0.72)",
+      "cardBackgroundHover": "rgba(255, 255, 255, 0.88)",
+      "textPrimary": "#1D1D1F",
+      "textSecondary": "rgba(0, 0, 0, 0.55)",
+      "accent": "#C84318",
+      "accentSecondary": "#C78D26",
+      "accentTertiary": "#D65A31",
+      "border": "rgba(255, 255, 255, 0.65)",
+      "gaugeTrack": "rgba(0, 0, 0, 0.06)",
+      "gaugeUsage": "#C84318",
+      "gaugeTemp": "#C78D26",
+      "badgeBackground": "rgba(200, 67, 24, 0.12)",
+      "badgeText": "#C84318",
+      "shadowColor": "rgba(0, 0, 0, 0.18)",
+      "sparkline": "#C78D26",
+      "sparklineFill": "rgba(199, 141, 38, 0.16)",
+      "netDown": "#C84318",
+      "netUp": "#C78D26",
+      "commentary": "#C84318",
+      "accentGood": "#C78D26",
+      "chrome": {
+        "titleTop": "rgba(255, 255, 255, 0.85)",
+        "titleBottom": "rgba(240, 242, 245, 0.85)",
+        "titleText": "#1D1D1F"
+      },
+      "controls": {
+        "graphGrid": "rgba(0, 0, 0, 0.05)"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "GOLDEN GATE // SF-PACIFIC",
+    "weatherSkyHazard": "assets/fog_cloud.svg",
+    "roamerPrimary": "assets/golden_gate_icon.svg",
+    "roamerSecondary": "assets/bridge_tower_silhouette.svg",
+    "quips": {
+      "nominal": "PACIFIC TELEMETRY NOMINAL. LINE OF SIGHT CLEAR OVER THE BAY.",
+      "moderate": "MARINE LAYER BUILDING. THE BAY IS WORKING, NOT WORRIED.",
+      "highLoad": "RUSH HOUR ON THE SPAN. EVERY LANE IS BUSY.",
+      "critical": "HEAVY THERMAL ACCUMULATION. KARL THE FOG ROLLING IN FAST.",
+      "night": "THE BRIDGE IS LIT. TELEMETRY QUIET UNDER THE FOG HORN."
+    },
+    "lexicon": {
+      "appTitle": "Golden Gate System Hub",
+      "mastheadTitle": "Golden Gate System Hub",
+      "appSubtitle": "SYSTEM OVERVIEW",
+      "feedLabel": "LIVE"
+    }
+  },
+  "colors": {
+    "background": "#0D1117",
+    "cardBackground": "rgba(22, 26, 32, 0.78)",
+    "cardBackgroundHover": "rgba(32, 38, 48, 0.85)",
+    "textPrimary": "#FFFFFF",
+    "textSecondary": "rgba(255, 255, 255, 0.65)",
+    "accent": "#F05A28",
+    "accentSecondary": "#E5A93C",
+    "accentTertiary": "#FF7A45",
+    "border": "rgba(255, 255, 255, 0.12)",
+    "gaugeTrack": "rgba(255, 255, 255, 0.08)",
+    "shadowColor": "rgba(0, 0, 0, 0.40)",
+    "sparkline": "#E5A93C",
+    "sparklineFill": "rgba(229, 169, 60, 0.18)",
+    "netDown": "#F05A28",
+    "netUp": "#E5A93C",
+    "commentary": "#E5A93C",
+    "accentGood": "#E5A93C",
+    "gaugeFillUsage": "#F05A28",
+    "gaugeFillTemp": "#E5A93C"
+  },
+  "badgeText": "GOLDEN GATE // SF-PACIFIC"
+}
