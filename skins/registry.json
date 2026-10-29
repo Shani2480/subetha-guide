@@ -12,6 +12,16 @@
       "sha256": "03a9df9774edb580f8e08d91d9dfdba343c69547942d6e4dd97b81e6105c09af"
     },
     {
+      "id": "cyberpunk-bitmap",
+      "name": "Cyberpunk Neon City (Bitmap)",
+      "author": "Shani",
+      "version": "2.2.0",
+      "description": "Neon-yellow HUD frames drawn from pictures over a neon city by night and a sun-baked megacity by day, with segmented meters and numbered panels.",
+      "previewUrl": "",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/cyberpunk-bitmap.tar.gz",
+      "sha256": "cd795e489802bc6099e70389e8e9976db3a7629fb6d738ace41902d6760ffb2e"
+    },
+    {
       "id": "dexters-lab",
       "name": "Dexter's Laboratory (Secret Mainframe)",
       "author": "Shani",
@@ -20,6 +30,16 @@
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab.tar.gz",
       "sha256": "c678c30113cd37ce6f15d9971c1401edf2cb681c8561203b216d3a8b2961b9bc"
+    },
+    {
+      "id": "dexters-lab-bitmap",
+      "name": "Dexter's Lab (Bitmap)",
+      "author": "Shani",
+      "version": "2.2.0",
+      "description": "The Secret Lab HUD drawn from pictures: a night-lab backdrop behind the cards, a nine-sliced cyan frame with the section's number on its tab, and Dexter peering into the weather card.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dexters-lab-bitmap/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/dexters-lab-bitmap.tar.gz",
+      "sha256": "4f28d7633d5096f526bc6ae7414322003f7506dbe8102a143f763bb419c50f64"
     },
     {
       "id": "h2g2",
@@ -68,6 +88,16 @@
       "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/retro-terminal/preview.png",
       "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/retro-terminal.tar.gz",
       "sha256": "522066ac2e3e828d8dca4a1a84cddfa8f34e1d07ea9a4bdfe514b42d2c2bae13"
+    },
+    {
+      "id": "windows-vista-bitmap",
+      "name": "Windows Vista Aero Glass (Bitmap)",
+      "author": "Shani",
+      "version": "2.2.0",
+      "description": "Aero glass drawn from pictures: the aurora by night and a lake by day behind the cards, glass panels with a title band, and Westminster or Tower Bridge in the weather card.",
+      "previewUrl": "",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-vista-bitmap.tar.gz",
+      "sha256": "2ab0e5234e47413ef28397c423140b537c85c57806f10ae265b71a54e99ab6f3"
     },
     {
       "id": "windows-vista-exact",
