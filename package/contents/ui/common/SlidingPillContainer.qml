@@ -7,7 +7,10 @@ import QtQuick
 // per cascadeIndex) when it is created or entranceSerial changes. At an
 // alert (`alertLevel`, or 2 while `critical`) its border turns amber or
 // crimson and an AlertGlowContainer haloes it, breathing when critical.
-// Content goes inside, padded; the pill sizes to it.
+// Content goes inside, padded; the pill sizes to it. Under list rows
+// (theme.listRows) it is a flat row over a hairline, with no rule under the
+// last, and a `leadIcon` (the skin's picture, else `leadGlyph`'s path) is
+// drawn large in a column at its left, the content beside it.
 // With a `monitorTab` set, double-clicking the pill emits monitorRequested
 // for that tab of the System Monitor (controls inside keep their own clicks).
 Item {
@@ -25,6 +28,11 @@ Item {
     property color tint: "transparent"   // a skin's surface for this kind of card (sections.tints)
     property string monitorTab: ""        // overview sensors processes services network disks; "" = no link
     property string art: ""               // a skin's picture against the pill's right edge, behind the content
+    property string leadIcon: ""          // list rows: the skin's icon in the left column
+    property string leadGlyph: ""         // ...or a glyph path when it ships none
+    readonly property bool flatRow: theme.groupBands || theme.listRows
+    readonly property bool leading: theme.listRows && (leadIcon !== "" || leadGlyph !== "")
+    readonly property real leadWidth: leading ? theme.rowIconSize + 14 : 0
     default property alias content: inner.data
 
     signal monitorRequested(string tab)
@@ -72,7 +80,7 @@ Item {
         anchors.fill: shell
         theme: pill.theme
         role: "pill"
-        alertLevel: pill.alertLevel
+        alertLevel: pill.theme.listRows ? 0 : pill.alertLevel   // a list row tints instead
         animate: pill.theme.alertMotion && pill.live
     }
 
@@ -81,17 +89,19 @@ Item {
         anchors.fill: parent
         theme: pill.theme
         role: "pill"
-        // in a Win32 group (theme.groupBands) a pill is a plain row over a hairline rule
-        fillColor: pill.tint.a > 0 ? pill.tint : pill.theme.groupBands ? "transparent" : pill.theme.card
+        // in a Win32 group (theme.groupBands) or a list (theme.listRows) a pill is a plain row over a hairline rule
+        fillColor: pill.tint.a > 0 ? pill.tint : pill.alertLevel > 0 && pill.theme.listRows ? Qt.rgba(pill.borderColor.r, pill.borderColor.g, pill.borderColor.b, 0.1)
+                 : pill.flatRow ? "transparent" : pill.theme.card
         strokeColor: pill.borderColor
-        strokeWidth: pill.alertLevel > 0 ? Math.max(2, pill.theme.borderWidth) : pill.theme.groupBands ? 0 : pill.theme.borderWidth
-        shadowType: pill.theme.groupBands ? "none" : pill.theme.shadowType
+        strokeWidth: pill.alertLevel > 0 && !pill.theme.listRows ? Math.max(2, pill.theme.borderWidth) : pill.flatRow ? 0 : pill.theme.borderWidth
+        shadowType: pill.flatRow ? "none" : pill.theme.shadowType
         cornerRadius: pill.radius
         bracketSize: 7
         bracketInset: 3
     }
     Rectangle {
-        visible: pill.theme.groupBands
+        // the last row of a list keeps no rule under it
+        visible: pill.theme.groupBands || (pill.theme.listRows && !!pill.parent && pill.y + pill.height < pill.parent.height - 1)
         anchors.bottom: parent.bottom
         width: parent.width; height: 1
         color: pill.theme.osColor("sections", "rule", pill.theme.tint(pill.theme.dark ? 0.25 : 0.18))
@@ -114,6 +124,16 @@ Item {
         horizontalAlignment: Image.AlignRight
         opacity: 0.35
     }
+    VectorGlyph {   // list rows: the row's icon, large, in its own column
+        visible: pill.leading
+        x: shell.face.x + pill.sidePadding
+        y: shell.face.y + (shell.face.height - height) / 2
+        width: pill.theme.rowIconSize; height: width
+        path: pill.leadGlyph
+        source: pill.leadIcon
+        color: pill.theme.ink
+        strokeWidth: pill.theme.stroke(1.4, 1.7)
+    }
     TapHandler {
         enabled: pill.monitorTab !== ""
         onDoubleTapped: pill.monitorRequested(pill.monitorTab)
@@ -121,8 +141,8 @@ Item {
 
     Item {   // placed, not anchored: the face is not a sibling
         id: inner
-        x: shell.face.x + pill.sidePadding
+        x: shell.face.x + pill.sidePadding + pill.leadWidth
         y: shell.face.y + pill.verticalPadding
-        width: shell.face.width - pill.sidePadding * 2
+        width: shell.face.width - pill.sidePadding * 2 - pill.leadWidth
     }
 }

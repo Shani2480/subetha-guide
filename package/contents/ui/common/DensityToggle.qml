@@ -10,7 +10,8 @@ import QtQuick.Shapes
 // (theme.toggleStyle) draws it as an angled outlined pill in thin mono, a
 // rounded glass button glossed over its top half, or a sharp box inked in
 // black with a flat offset shadow. Under flag-tab sections (theme.flagTabs)
-// it sits at the right end of the flag's row, the card's top-right corner.
+// it sits at the right end of the flag's row, the card's top-right corner;
+// on a bitmap frame (theme.cardFrame), inside it, just above the content.
 Rectangle {
     id: tag
 
@@ -23,7 +24,15 @@ Rectangle {
     readonly property bool angled: kind === "angled"
     readonly property bool drawn: kind !== ""     // its own picture, not the plain tag
     readonly property bool inRow: theme.flagTabs
-    anchors { top: parent.top; right: parent.right; topMargin: inRow ? 0 : -height / 2 + 1; rightMargin: inRow ? 0 : 18 }
+    readonly property var frameSpec: theme.cardFrame
+    anchors {
+        top: parent.top; right: parent.right
+        topMargin: !frameSpec ? (inRow ? 0 : -height / 2 + 1)
+                 : frameSpec.toggle ? frameSpec.toggle[1] * frameSpec.scale
+                 : Math.max(0, frameSpec.content[1] * frameSpec.scale - height - 2)
+        rightMargin: !frameSpec ? (inRow ? 0 : 18)
+                   : frameSpec.toggle ? frameSpec.toggle[0] * frameSpec.scale : frameSpec.content[2] * frameSpec.scale + 2
+    }
     z: 20
     width: label.implicitWidth + (angled ? 10 + height : drawn ? 14 : 10)
     height: angled || inRow ? 18 : drawn ? 16 : label.implicitHeight + 2

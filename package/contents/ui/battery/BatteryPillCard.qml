@@ -45,6 +45,9 @@ SlidingPillContainer {
 
     critical: isCritical
     verticalPadding: minimal ? 7 : 10
+    // list rows: the device in the row's left column
+    leadIcon: minimal && ["laptop", "ups", "other"].indexOf(deviceKind) >= 0 ? theme.icon("battery") : ""
+    leadGlyph: minimal ? glyphs[deviceKind] || glyphs.other : ""
     horizontalPadding: minimal ? 12 : 14
 
     readonly property color levelColor: isCharging ? theme.cool : theme.level(level)
@@ -84,6 +87,7 @@ SlidingPillContainer {
             Layout.fillWidth: true
             spacing: 8
             VectorGlyph {
+                visible: !card.leading
                 Layout.preferredWidth: 18
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.deviceKind] || card.glyphs.other
@@ -95,20 +99,20 @@ SlidingPillContainer {
                 Layout.fillWidth: true
                 text: card.deviceName
                 color: card.isCritical ? card.alertInk : card.theme.ink
-                font { family: card.theme.sans; pixelSize: 12; bold: true; letterSpacing: 0.4 }
+                font { family: card.theme.sans; pixelSize: card.theme.rowSize(12); bold: card.theme.rowBold; letterSpacing: card.theme.listRows ? 0 : 0.4 }
                 elide: Text.ElideRight
             }
             Text {   // minimal wattage: "+45.2 W"
                 visible: card.rateState !== ""
                 text: Power.rateWatts(card.watts, card.onMains)
                 color: card.rateColor
-                font { family: card.theme.mono; pixelSize: 11; bold: true }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold }
             }
             Text {
                 text: card.isCharging ? i18nc("charging, battery percent", "CHG %1%", card.level) : card.level + "%"
                 opacity: card.isCritical ? card.flash : 1
                 color: card.isCritical ? card.alertInk : card.isCharging ? card.theme.cool : card.theme.ink
-                font { family: card.theme.mono; pixelSize: 12; bold: true }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(12); bold: card.theme.rowBold }
             }
         }
         Gauge {
@@ -116,7 +120,7 @@ SlidingPillContainer {
             Layout.fillWidth: true
             Layout.bottomMargin: 2
             segments: 20
-            segmentHeight: 6
+            segmentHeight: card.theme.listRows ? 10 : 6
             stretch: true
         }
 

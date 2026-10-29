@@ -11,7 +11,8 @@ import QtQuick.Shapes
 // (a ThemeShapeContainer); a skin also sets the hover fill. Its frame style
 // replaces the grid with its own ornament: a "handheld" chassis
 // (HandheldChassis.qml), or a "bezel" with, on the frames that ask with
-// `chassis`, BezelDecor.qml.
+// `chassis`, BezelDecor.qml. A bitmap skin's sections.frame is drawn as the
+// outline (SkinFrame), the content placed inside its insets.
 Item {
     id: frame
 
@@ -32,7 +33,8 @@ Item {
     readonly property string style: theme.frame ? theme.frame.style : ""
     readonly property bool handheld: chassis && style === "handheld"
     readonly property bool bezel: chassis && style === "bezel"
-    implicitHeight: inner.childrenRect.height + padding * 2 + Math.abs(theme.shadowY)
+    implicitHeight: inner.childrenRect.height
+                  + (shell.framed ? shell.insetTop + shell.insetBottom : padding * 2 + Math.abs(theme.shadowY))
                   + (handheld ? body.stripHeight : bezel ? decor.footerHeight : 0)
 
     HoverHandler { id: hover; enabled: frame.theme.skinned }
@@ -48,6 +50,7 @@ Item {
         theme: frame.theme
         role: "card"
         fillColor: frame.flat ? "transparent" : frame.fill
+        frameSource: frame.flat ? "" : frame.theme.cardFrameSource
         strokeColor: frame.active || hover.hovered ? frame.theme.borderActive : frame.theme.border
         strokeWidth: frame.flat ? 0 : frame.theme.borderWidth
         shadowType: frame.flat ? "none" : frame.theme.shadowType
@@ -149,6 +152,12 @@ Item {
 
     Item {
         id: inner
-        anchors { left: surface.left; right: surface.right; top: surface.top; margins: frame.padding }
+        anchors {
+            left: surface.left; right: surface.right; top: surface.top
+            // a bitmap frame's content insets say where content starts
+            leftMargin: shell.framed ? shell.insetLeft : frame.padding
+            rightMargin: shell.framed ? shell.insetRight : frame.padding
+            topMargin: shell.framed ? shell.insetTop : frame.padding
+        }
     }
 }

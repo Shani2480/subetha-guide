@@ -34,13 +34,14 @@ CollapsibleSection {
     readonly property real fullHeight: theme.rowHeightFull
     // a Win32 group band or a Vista gadget's title over the card (theme.groupBands, theme.gadgets)
     readonly property bool titled: (theme.groupBands || theme.gadgets) && !minimal
-    readonly property real titleHeight: theme.flagTabs ? flagTab.height
+    readonly property real titleHeight: theme.flagTabs ? (flagTab.onFrame ? 0 : flagTab.height)
                                       : titled ? (theme.groupBands ? band.implicitHeight : gadgetTitle.implicitHeight) + 4 : 0
     readonly property real vignetteHeight: !minimal && theme.vignettesAt("weather").length ? 56 : 0
 
     Item {
         width: parent.width
-        height: (section.minimal ? (view.item ? view.item.implicitHeight + card.inset : 0) : section.fullHeight) + section.gap + section.titleHeight + section.vignetteHeight
+        height: (section.minimal ? (view.item ? view.item.implicitHeight + card.inset : 0) : section.fullHeight + card.insetTop + card.insetBottom)
+                + section.gap + section.titleHeight + section.vignetteHeight
         FlagTab {   // flag-tab sections (theme.flagTabs), in either density
             id: flagTab
             visible: section.theme.flagTabs
@@ -78,9 +79,10 @@ CollapsibleSection {
             readonly property color tint: theme.sectionTint("weather")
             strokeColor: section.minimal ? theme.border : theme.borderActive
             // translucent: the skin's own alpha when it has one, else the Guide's
+            frameSource: theme.cardFrameSource
             fillColor: tint.a > 0 ? tint : translucent && theme.bg.a >= 1 ? Qt.rgba(theme.bg.r, theme.bg.g, theme.bg.b, theme.dark ? 0.9 : 0.93) : theme.bg
             // the border on both sides, plus whatever a flat or soft shadow's offset takes
-            readonly property real inset: strokeWidth * 2 + (offsetShadow ? Math.abs(shadowOffsetY) : 0)
+            readonly property real inset: strokeWidth * 2 + (offsetShadow ? Math.abs(shadowOffsetY) : 0) + insetTop + insetBottom
             padding: strokeWidth
             Image {   // the skin's skyline, along the bottom behind the readouts
                 visible: !section.minimal && !section.theme.flagTabs && source != ""
@@ -92,12 +94,13 @@ CollapsibleSection {
                 verticalAlignment: Image.AlignBottom
                 opacity: 0.55
             }
-            Image {   // flag-tab sections: the skin's figure at the card's right, over the hero in full
+            Image {   // flag-tab sections: the skin's figure at the card's right, over the hero in full;
+                      // on a bitmap frame a wider scene, behind the readouts
                 visible: section.theme.flagTabs && source != ""
-                z: 1
-                anchors { right: parent.right; top: parent.top; margins: card.strokeWidth + (section.minimal ? 2 : 14) }
-                height: section.minimal ? parent.height - anchors.margins * 2 : 96
-                width: Math.min(parent.width * (section.minimal ? 0.4 : 0.3), height * 1.6)
+                z: card.framed ? 0 : 1
+                anchors { right: parent.right; top: parent.top; margins: card.framed ? 0 : card.strokeWidth + (section.minimal ? 2 : 14) }
+                height: section.minimal ? parent.height - anchors.margins * 2 : card.framed ? 104 : 96
+                width: Math.min(parent.width * (section.theme.listRows ? 0.3 : section.minimal ? 0.4 : card.framed ? 0.6 : 0.3), height * (card.framed ? 2.4 : 1.6))
                 source: section.theme.flagTabs ? section.theme.art("weather") : ""
                 sourceSize: Qt.size(width * 2, height * 2)
                 fillMode: Image.PreserveAspectFit

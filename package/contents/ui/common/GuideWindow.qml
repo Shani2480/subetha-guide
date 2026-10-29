@@ -32,14 +32,15 @@ Item {
                                     : ({ luna: 8, aqua: 10, aero: 7, material: 24, terminal: 0, kiroshi: 0 })[style] || 0
     readonly property real bottomRadius: !on ? 0 : spec.bottomRadius !== null && spec.bottomRadius !== undefined ? spec.bottomRadius
                                        : ({ luna: 0, aqua: 10, aero: 7, material: 24, terminal: 0, kiroshi: 0 })[style] || 0
-    readonly property real pad: !on ? 0 : style === "material" ? 12 : 8
+    // a backdrop's picture shows round the cards, not only between them
+    readonly property real pad: !on ? (theme.backdrop ? 12 : 0) : style === "material" ? 12 : 8
     readonly property color frameColor: theme.osColor("chrome", "frameColor",
         ({ luna: theme.dark ? "#2A3650" : "#0046D5", aqua: theme.dark ? "#000000" : "#B4B4B4",
            aero: chrome.bottomColor, material: theme.card, terminal: theme.ink, kiroshi: theme.accent })[style] || theme.border)
     readonly property color bodyColor: theme.card
 
     readonly property real footerHeight: on && theme.vignettesAt("footer").length ? 56 : 0
-    implicitHeight: on ? topInset + bottomInset + pad * 2 + body.childrenRect.height + footerHeight : body.childrenRect.height
+    implicitHeight: on ? topInset + bottomInset + pad * 2 + body.childrenRect.height + footerHeight : body.childrenRect.height + pad * 2
 
     layer.enabled: on && !!theme.fx.barrel
     layer.effect: ShaderEffect {
@@ -99,6 +100,14 @@ Item {
             kind: win.theme.fx.texture || ""
             color: win.theme.ink
         }
+    }
+    SkinBackdrop {   // a bitmap skin's picture: over the window's body, or behind the bare stack
+        x: win.on ? win.sideInset : 0
+        y: win.on ? win.topInset : 0
+        width: win.width - x * 2
+        height: win.height - y - (win.on ? win.bottomInset : 0)
+        theme: win.theme
+        radius: win.cabinet ? 6 : win.on ? Math.max(0, win.bottomRadius - win.border) : win.theme.cornerRadius
     }
     WindowChrome {
         id: chrome

@@ -28,6 +28,7 @@ command -v jq >/dev/null || { echo "package_skins: jq is required" >&2; exit 1; 
 read -r -d '' SCHEMA <<'JQ' || true
 def color: type == "string" and test("^(#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})|rgba?\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*(,\\s*[0-9.]+\\s*)?\\))$");
 def asset: type == "string" and test("^[A-Za-z0-9_-]+(/[A-Za-z0-9_-][A-Za-z0-9_.-]*)*\\.(svg|png)$");
+def quad: type == "array" and length == 4 and all(type == "number" and . >= 0);
 def oneof($xs): . as $v | $xs | index([$v]) != null;
 def need($cond; $msg): if $cond then empty else $msg end;
 ["background", "cardBackground", "cardBackgroundHover", "textPrimary", "textSecondary", "accent",
@@ -49,8 +50,28 @@ def need($cond; $msg): if $cond then empty else $msg end;
   need((.sections.style // "card") | oneof(["card", "groupband", "gadget", "flagtab"]); "sections.style: card, groupband, gadget or flagtab"),
   need((.controls.meter // "") | oneof(["", "bevel", "ascii", "gadget", "angled", "slime", "candy"]); "controls.meter: bevel, ascii, gadget, angled, slime or candy"),
   need((.sections.glossShape // "curve") | oneof(["curve", "diagonal"]); "sections.glossShape: curve or diagonal"),
-  need(((.icons // {}) | to_entries | all(.value | type == "string" and test("^[A-Za-z0-9_/.-]+\\.svg$"))); "icons: svg paths"),
-  need(([.variants[]?.icons // {} | .[]] | all(type == "string" and test("^[A-Za-z0-9_/.-]+\\.svg$"))); "variants.*.icons: svg paths"),
+  need(((.icons // {}) | to_entries | all(.value | asset)); "icons: svg/png paths inside the skin"),
+  need(([.variants[]?.icons // {} | .[]] | all(asset)); "variants.*.icons: svg/png paths inside the skin"),
+  # backdrop: one image for both variants, or one each, fitted behind the cards
+  need((.backdrop == null) or (.backdrop | asset)
+       or ((.backdrop | type) == "object" and ([.backdrop.image, .backdrop.dark, .backdrop.light] | map(select(. != null)) | length > 0 and all(asset))
+           and ((.backdrop.fit // "cover") | oneof(["cover", "contain", "tile", "stretch"]))
+           and ((.backdrop.align // "center") | oneof(["top", "center", "bottom"]))
+           and ((.backdrop.opacity // 1) | type == "number" and . >= 0 and . <= 1));
+       "backdrop: an svg/png inside the skin, or {image | dark | light, fit: cover|contain|tile|stretch, align: top|center|bottom, opacity: 0-1}"),
+  # sections.frame: a nine-sliced card outline, its lengths in the image's own pixels
+  need((.sections.frame == null)
+       or ((.sections.frame | type) == "object" and ([.sections.frame.image, .sections.frame.dark, .sections.frame.light] | map(select(. != null)) | length > 0 and all(asset))
+           and (.sections.frame.border | quad)
+           and ((.sections.frame.content == null) or (.sections.frame.content | quad))
+           and ((.sections.frame.title == null) or (.sections.frame.title | quad))
+           and ((.sections.frame.scale // 0.5) | type == "number" and . >= 0.05 and . <= 4)
+           and ((.sections.frame.toggle == null) or (.sections.frame.toggle | type == "array" and length == 2 and all(type == "number" and . >= 0)))
+           and ((.sections.frame.fill // 0) | type == "number" and . >= 0));
+       "sections.frame: {image | dark | light, border: [l,t,r,b], content: [l,t,r,b], title: [x,y,w,h], toggle: [right,top], scale: 0.05-4, fill: px}"),
+  need((.sections.rows // "list") | oneof(["list"]); "sections.rows: list"),
+  need((.sections.titleFont // "mono") | oneof(["sans", "mono"]); "sections.titleFont: sans or mono"),
+  need((.masthead // true) | type == "boolean"; "masthead: true or false"),
   need((.sections.lights // "traffic") | oneof(["traffic"]); "sections.lights: traffic"),
   need((.sections.toggle // "angled") | oneof(["angled", "glass", "box"]); "sections.toggle: angled, glass or box"),
   (["dark", "light"][] as $v
@@ -83,7 +104,9 @@ for dir in "$SKINS"/*/; do
         [ -n "$rel" ] && [ ! -f "$dir/$rel" ] && problems+=$'\n'"missing file $rel"
     done < <(jq -r 'select(.builtin != true) | [.fonts[]?, .narrative.weatherSkyHazard, .narrative.weatherSkyHazardSecondary,
                      .narrative.roamerPrimary, .narrative.roamerSecondary, (.roamers[]?.frames[]?), (.icons // {} | .[]),
-                     .chrome.logo, .chrome.badge, .frame.tubes, .frame.siren, .frame.portal, .frame.toolbelt, .frame.decorations, .frame.hudLeft, .frame.hudRight, (.narrative.vignettes // [] | .[].art), .sections.gear, .sections.close, .controls.dialRim, (.art // {} | .[]), (.variants[]?.art // {} | .[]), .sections.flagMark, .footer.mark, .footer.endMark, (.variants[]?.icons // {} | .[])]
+                     .chrome.logo, .chrome.badge, .frame.tubes, .frame.siren, .frame.portal, .frame.toolbelt, .frame.decorations, .frame.hudLeft, .frame.hudRight, (.narrative.vignettes // [] | .[].art), .sections.gear, .sections.close, .controls.dialRim, (.art // {} | .[]), (.variants[]?.art // {} | .[]), .sections.flagMark, .footer.mark, .footer.endMark, (.variants[]?.icons // {} | .[]),
+                     (.backdrop | if type == "object" then (.image, .dark, .light) else . end),
+                     (.sections.frame // {} | .image, .dark, .light)]
                     | map(select(type == "string")) | .[]' "$dir/skin.json")
     problems=$(sed '/^$/d' <<<"$problems")
     if [ -n "$problems" ]; then

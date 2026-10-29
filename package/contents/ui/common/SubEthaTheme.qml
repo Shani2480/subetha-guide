@@ -267,6 +267,20 @@ QtObject {
         var t = sectionsUppercase ? title.toUpperCase() : title
         return sectionsNumbered && number > 0 ? number + " \u2014 " + t : t
     }
+    // sections.rows "list": a compact card's rows flat, split by hairlines, each led by a large icon
+    // (SlidingPillContainer), the figures in the skin's sans at a reading size, not bold mono
+    readonly property bool listRows: !!skin && !!skin.sections && skin.sections.rows === "list" && !minimal
+    readonly property real rowIconSize: 32
+    readonly property string rowFamily: listRows ? sans : mono
+    readonly property bool rowBold: !listRows
+    function rowSize(px) { return listRows ? px + 2 : px }
+    // sections.titleFont "sans": section titles in the skin's sans at sections.titleSize, bold unless titleBold false
+    readonly property bool sansTitles: !!skin && !!skin.sections && skin.sections.titleFont === "sans"
+    readonly property string titleFamily: sansTitles ? sans : mono
+    readonly property bool titleBold: !skin || !skin.sections || skin.sections.titleBold !== false
+    readonly property real titleSize: skin && skin.sections && skin.sections.titleSize ? skin.sections.titleSize : 11
+    // style.masthead false: no title card over the sections
+    readonly property bool masthead: !skin || skin.masthead !== false
     // sections.lights "traffic": red, amber and green dots before a section's title
     readonly property bool trafficLights: !!skin && !!skin.sections && skin.sections.lights === "traffic" && !minimal
     // sections.toggle: the fold [ + ] / [ - ] as an angled pill, a glass button or an inked box
@@ -302,6 +316,12 @@ QtObject {
     // a hero illustration for a card's free corner (cpu, gpu, memory, network, disk, weather)
     readonly property var artwork: skin && skin.art ? skin.art : ({})
     function art(key) { return variant && variant.art && variant.art[key] || artwork[key] || "" }   // a variant's own first
+    // a picture behind every card (skin.backdrop, SkinBackdrop), never in the minimal display mode
+    readonly property var backdrop: skin && skin.backdrop && !minimal ? skin.backdrop : null
+    readonly property string backdropSource: backdrop ? (dark ? backdrop.dark : backdrop.light) : ""
+    // sections.frame: a nine-sliced picture as every card's outline (SkinFrame), never in the minimal display mode
+    readonly property var cardFrame: skin && skin.sections && skin.sections.frame && !minimal ? skin.sections.frame : null
+    readonly property string cardFrameSource: cardFrame ? (dark ? cardFrame.dark : cardFrame.light) : ""
     // a card's own surface (sections.tints: cpu, gpu, memory, network, disk, weather), or transparent
     function sectionTint(key) {
         return variant && variant.tints && variant.tints[key]

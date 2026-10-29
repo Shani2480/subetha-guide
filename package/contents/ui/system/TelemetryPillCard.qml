@@ -61,6 +61,9 @@ SlidingPillContainer {
     tint: theme.sectionTint(({ cpu: "cpu", gpu: "gpu", ram: "memory", net: "network" })[kind])
     animateHeight: true
     verticalPadding: minimal ? 7 : 10
+    // list rows: the component's icon in the row's left column (the wifi mark for the network)
+    leadIcon: minimal ? (kind === "net" ? theme.icon("network") : skinIcon) : ""
+    leadGlyph: minimal ? glyphs[kind] : ""
     horizontalPadding: minimal ? 12 : 14
 
     // an analog-dial skin: cpu load and gpu temperature on a round meter beside the figures
@@ -128,6 +131,7 @@ SlidingPillContainer {
             Layout.fillWidth: true
             spacing: 8
             VectorGlyph {
+                visible: !card.leading
                 Layout.preferredWidth: 18
                 Layout.preferredHeight: 18
                 path: card.glyphs[card.kind]
@@ -141,7 +145,7 @@ SlidingPillContainer {
                 Layout.fillWidth: true
                 text: card.minimalText
                 color: card.levelInk(card.alertLevel, card.theme.ink)
-                font { family: card.theme.mono; pixelSize: 11; bold: true }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold }
                 elide: Text.ElideRight
             }
             // net: ↓ rx  ↑ tx with vector arrows
@@ -150,11 +154,11 @@ SlidingPillContainer {
                 Layout.fillWidth: true
                 spacing: 4
                 VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.down; source: card.theme.icon("netDown"); color: card.rxColor; strokeWidth: 2.4 }
-                Text { text: card.rxText; color: card.rxColor; font { family: card.theme.mono; pixelSize: 11; bold: true } }
-                Item { implicitWidth: 8 }
+                Text { text: card.rxText; color: card.rxColor; font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold } }
+                Item { implicitWidth: 8; Layout.fillWidth: card.theme.listRows }   // a list: upload at the row's right end
                 VectorGlyph { Layout.preferredWidth: 13; Layout.preferredHeight: 13; path: card.glyphs.up; source: card.theme.icon("netUp"); color: card.txColor; strokeWidth: 2.4 }
-                Text { text: card.txText; color: card.txColor; font { family: card.theme.mono; pixelSize: 11; bold: true } }
-                Item { Layout.fillWidth: true }
+                Text { text: card.txText; color: card.txColor; font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold } }
+                Item { visible: !card.theme.listRows; Layout.fillWidth: true }
             }
             SizeToggle {
                 visible: card.sizeToggle
@@ -169,7 +173,7 @@ SlidingPillContainer {
             Layout.fillWidth: true
             Layout.bottomMargin: 2
             segments: 20
-            segmentHeight: 6
+            segmentHeight: card.theme.listRows ? 10 : 6
             value: card.percent
         }
         DualMetricBar {   // cpu / gpu: load over temperature on one track
@@ -177,7 +181,7 @@ SlidingPillContainer {
             Layout.fillWidth: true
             Layout.bottomMargin: 2
             segments: 20          // as the small RAM gauge
-            segmentHeight: 6
+            segmentHeight: card.theme.listRows ? 10 : 6
             theme: card.theme
             live: card.live
             usageFraction: card.percent / 100

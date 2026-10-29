@@ -1,0 +1,361 @@
+{
+  "id": "windows-vista-bitmap",
+  "name": "Windows Vista Aero Glass (Bitmap)",
+  "author": "Shani",
+  "version": "2.2.0",
+  "description": "Aero glass drawn from pictures: the aurora by night and a lake by day behind the cards, glass panels with a title band, and Westminster or Tower Bridge in the weather card.",
+  "fontFamily": "'Segoe UI', 'Selawik', Tahoma, Arial, sans-serif",
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": true,
+    "enableGrid": false
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 12,
+    "borderStyle": "solid",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": false,
+    "shadowType": "none",
+    "shadowOffset": [
+      0,
+      0
+    ],
+    "shadowBlur": 0
+  },
+  "chrome": {
+    "style": "plain",
+    "titleAlign": "left",
+    "logo": "assets/vista_glass_orb.svg"
+  },
+  "sections": {
+    "style": "flagtab",
+    "numbered": true,
+    "uppercase": false,
+    "toggle": "glass",
+    "gloss": 0.4,
+    "glossShape": "diagonal",
+    "titleSize": 15,
+    "frame": {
+      "dark": "assets/panel_dark.png",
+      "light": "assets/panel_light.png",
+      "scale": 0.5,
+      "border": [
+        40,
+        70,
+        40,
+        40
+      ],
+      "content": [
+        28,
+        68,
+        28,
+        24
+      ],
+      "title": [
+        24,
+        4,
+        420,
+        50
+      ],
+      "toggle": [
+        22,
+        12
+      ],
+      "fill": 6
+    },
+    "rows": "list",
+    "titleFont": "sans",
+    "titleBold": false
+  },
+  "controls": {
+    "meter": "candy",
+    "graph": "line",
+    "graphFill": true,
+    "meterColors": {
+      "cpu": "#52D017",
+      "gpu": "#52D017",
+      "battery": "#52D017",
+      "memory": "#00A3E0",
+      "swap": "#00A3E0",
+      "disk": "#00A3E0"
+    },
+    "meterStops": {
+      "cpu": [
+        "#72E838",
+        "#52D017",
+        "#349909",
+        "#2B8206"
+      ],
+      "gpu": [
+        "#72E838",
+        "#52D017",
+        "#349909",
+        "#2B8206"
+      ],
+      "battery": [
+        "#72E838",
+        "#52D017",
+        "#349909",
+        "#2B8206"
+      ],
+      "memory": [
+        "#40B4E5",
+        "#00A3E0",
+        "#0077A8",
+        "#005F87"
+      ],
+      "swap": [
+        "#40B4E5",
+        "#00A3E0",
+        "#0077A8",
+        "#005F87"
+      ],
+      "disk": [
+        "#40B4E5",
+        "#00A3E0",
+        "#0077A8",
+        "#005F87"
+      ]
+    }
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons_png/cpu.png",
+    "ram": "assets/icons_png/ram.png",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons_png/gpu.png",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons_png/disk.png",
+    "battery": "assets/icons_png/battery.png",
+    "fan": "assets/icons_png/fan.png",
+    "clock": "assets/icons_png/clock.png",
+    "ai": "assets/icons/ai.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "weather": "assets/orb_night.png",
+    "network": "assets/icons_png/network.png"
+  },
+  "art": {
+    "weather": "assets/weather_dusk.png"
+  },
+  "variants": {
+    "dark": {
+      "variantName": "Aero Aurora (Dusk)",
+      "background": "rgba(0, 0, 0, 0)",
+      "cardBackground": "rgba(16, 42, 52, 0.80)",
+      "cardBackgroundHover": "rgba(22, 54, 68, 0.90)",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "#B5D6E4",
+      "accent": "#46C263",
+      "accentSecondary": "#00A3E0",
+      "accentTertiary": "#52D017",
+      "border": "rgba(160, 220, 250, 0.40)",
+      "gaugeTrack": "rgba(5, 18, 24, 0.70)",
+      "gaugeUsage": "#52D017",
+      "gaugeTemp": "#00A3E0",
+      "badgeBackground": "rgba(0, 163, 224, 0.25)",
+      "badgeText": "#8ED4F8",
+      "shadowColor": "rgba(0, 0, 0, 0.55)",
+      "sparkline": "#00A3E0",
+      "sparklineFill": "rgba(0, 163, 224, 0.20)",
+      "netDown": "#5FD0F7",
+      "netUp": "#52D017",
+      "commentary": "#8ED4F8",
+      "accentGood": "#52D017",
+      "chrome": {
+        "titleTop": "rgba(40, 96, 118, 0.85)",
+        "titleBottom": "rgba(12, 40, 52, 0.85)",
+        "titleText": "#FFFFFF"
+      },
+      "sections": {
+        "gloss": "rgba(255, 255, 255, 0.38)",
+        "bandText": "#FFFFFF"
+      },
+      "controls": {
+        "meterColors": {
+          "cpu": "#52D017",
+          "gpu": "#52D017",
+          "battery": "#52D017",
+          "memory": "#00A3E0",
+          "swap": "#00A3E0",
+          "disk": "#00A3E0"
+        },
+        "meterStops": {
+          "cpu": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "gpu": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "battery": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "memory": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ],
+          "swap": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ],
+          "disk": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ]
+        },
+        "meterTrack": "#06131A",
+        "meterInsetDark": "rgba(0, 0, 0, 0.80)",
+        "graphGrid": "rgba(160, 220, 250, 0.08)"
+      },
+      "art": {
+        "weather": "assets/weather_dusk.png"
+      },
+      "icons": {
+        "weather": "assets/orb_night.png"
+      }
+    },
+    "light": {
+      "variantName": "Aero Meadow (Daylight)",
+      "background": "rgba(0, 0, 0, 0)",
+      "cardBackground": "rgba(235, 246, 252, 0.82)",
+      "cardBackgroundHover": "rgba(245, 251, 255, 0.92)",
+      "textPrimary": "#142028",
+      "textSecondary": "#466070",
+      "accent": "#2E8F2E",
+      "accentSecondary": "#008CD2",
+      "accentTertiary": "#FF9900",
+      "border": "rgba(255, 255, 255, 0.90)",
+      "gaugeTrack": "rgba(0, 0, 0, 0.08)",
+      "gaugeUsage": "#38B038",
+      "gaugeTemp": "#008CD2",
+      "badgeBackground": "rgba(0, 140, 210, 0.15)",
+      "badgeText": "#006FA8",
+      "shadowColor": "rgba(0, 40, 80, 0.15)",
+      "sparkline": "#008CD2",
+      "sparklineFill": "rgba(0, 140, 210, 0.16)",
+      "netDown": "#006FA8",
+      "netUp": "#2B8206",
+      "commentary": "#006FA8",
+      "accentGood": "#2E8F2E",
+      "chrome": {
+        "titleTop": "rgba(220, 240, 250, 0.90)",
+        "titleBottom": "rgba(170, 210, 230, 0.90)",
+        "titleText": "#142028"
+      },
+      "sections": {
+        "gloss": "rgba(255, 255, 255, 0.65)",
+        "bandText": "#0E2A3C"
+      },
+      "controls": {
+        "meterColors": {
+          "cpu": "#38B038",
+          "gpu": "#38B038",
+          "battery": "#38B038",
+          "memory": "#008CD2",
+          "swap": "#008CD2",
+          "disk": "#008CD2"
+        },
+        "meterStops": {
+          "cpu": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "gpu": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "battery": [
+            "#72E838",
+            "#52D017",
+            "#349909",
+            "#2B8206"
+          ],
+          "memory": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ],
+          "swap": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ],
+          "disk": [
+            "#40B4E5",
+            "#00A3E0",
+            "#0077A8",
+            "#005F87"
+          ]
+        },
+        "meterTrack": "#D4E1E8",
+        "meterInsetDark": "rgba(0, 0, 0, 0.12)",
+        "graphGrid": "rgba(0, 0, 0, 0.05)"
+      },
+      "art": {
+        "weather": "assets/weather_day.png"
+      },
+      "icons": {
+        "weather": "assets/orb_night.png"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "AERO // DWM-6.0",
+    "weatherSkyHazard": "assets/westminster_dusk.svg",
+    "roamerPrimary": "assets/vista_glass_orb.svg",
+    "roamerSecondary": "assets/icon_fan_blades.svg",
+    "quips": {
+      "nominal": "DESKTOP WINDOW MANAGER 3D HARDWARE ACCELERATION RUNNING AT FULL CAPACITY.",
+      "moderate": "COMPOSITING STEADY. EVERY PANE STILL GLASS-CLEAR.",
+      "highLoad": "FLIP 3D SPINNING HARD. THE GLASS IS WARM TO THE TOUCH.",
+      "critical": "GRAPHICS PIPELINE OVERCOMMITTED! REDUCE AERO COMPOSITING TRANSPARENCY."
+    },
+    "lexicon": {
+      "weatherTitle": "Weather",
+      "systemTitle": "System",
+      "storageTitle": "Storage",
+      "powerTitle": "Power",
+      "appTitle": "Aero Glass",
+      "mastheadTitle": "Aero Glass",
+      "appSubtitle": "System Overview",
+      "feedLabel": "Live",
+      "clockTitle": "Clock"
+    }
+  },
+  "backdrop": {
+    "dark": "assets/backdrop_night.png",
+    "light": "assets/backdrop_day.png",
+    "fit": "cover",
+    "align": "center"
+  },
+  "masthead": false
+}

@@ -64,7 +64,7 @@ Item {
     }
     VectorFrame {
         id: frame
-        y: flagTab.visible ? flagTab.height : 0
+        y: flagTab.visible && !flagTab.onFrame ? flagTab.height : 0   // a frame's tab is set into the card
         width: parent.width
         active: !card.minimal
         theme: card.theme

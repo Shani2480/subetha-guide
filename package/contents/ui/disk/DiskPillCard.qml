@@ -37,6 +37,8 @@ SlidingPillContainer {
 
     critical: isCritical
     verticalPadding: minimal ? 7 : 10
+    leadIcon: minimal ? theme.icon("disk") : ""     // list rows: the drive in the row's left column
+    leadGlyph: minimal ? "M3 6 H21 V18 H3 Z M3 13 H21 M17 15.5 H18.5" : ""
     horizontalPadding: minimal ? 12 : 14
 
     // Gauge fill: green / mustard while there is room, amber / coral when
@@ -81,19 +83,19 @@ SlidingPillContainer {
             Text {
                 text: card.volumeLabel
                 color: card.isCritical ? card.alertInk : card.theme.ink
-                font { family: card.theme.sans; pixelSize: 12; bold: true; letterSpacing: 0.4 }
+                font { family: card.theme.sans; pixelSize: card.theme.rowSize(12); bold: card.theme.rowBold; letterSpacing: card.theme.listRows ? 0 : 0.4 }
             }
             Text {
                 Layout.fillWidth: true
                 text: card.volumeMount
                 color: card.theme.tint(0.5)
-                font { family: card.theme.mono; pixelSize: 10 }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(10) }
                 elide: Text.ElideMiddle
             }
             Text {
                 text: card.valueText
                 color: card.theme.tint(0.8)
-                font { family: card.theme.mono; pixelSize: 11; bold: true }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold }
             }
         }
 
@@ -254,7 +256,7 @@ SlidingPillContainer {
         DynamicMetricGauge {
             id: gauge
             Layout.fillWidth: true
-            Layout.preferredHeight: card.minimal ? 6 : 9
+            Layout.preferredHeight: card.minimal ? (card.theme.listRows ? 10 : 6) : 9
             Layout.bottomMargin: 2
             theme: card.theme
             shape: card.theme.skinned ? card.theme.gaugeShape : "segmented"

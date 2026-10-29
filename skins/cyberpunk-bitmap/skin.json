@@ -1,0 +1,228 @@
+{
+  "id": "cyberpunk-bitmap",
+  "name": "Cyberpunk Neon City (Bitmap)",
+  "author": "Shani",
+  "version": "2.2.0",
+  "description": "Neon-yellow HUD frames drawn from pictures over a neon city by night and a sun-baked megacity by day, with segmented meters and numbered panels.",
+  "fontFamily": "monospace",
+  "features": {
+    "enableCrtScanlines": true,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": true,
+    "enableGlassBlur": false,
+    "enableGrid": false,
+    "texture": "carbon"
+  },
+  "geometry": {
+    "cardShape": "chamfer",
+    "pillShape": "chamfer",
+    "gaugeShape": "chamfer",
+    "chamferCut": 14,
+    "pillChamferCut": 6,
+    "borderStyle": "tech-brackets",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": true,
+    "hasDropShadow": false,
+    "shadowType": "none"
+  },
+  "chrome": {
+    "style": "kiroshi",
+    "buttons": "kiroshi",
+    "titleAlign": "left",
+    "frameWidth": 1
+  },
+  "controls": {
+    "meter": "angled",
+    "meterLabel": false,
+    "graph": "line",
+    "graphFill": true
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
+  },
+  "variants": {
+    "dark": {
+      "background": "#0B0E14",
+      "cardBackground": "#121720",
+      "cardBackgroundHover": "#18202C",
+      "textPrimary": "#00F0FF",
+      "textSecondary": "#708298",
+      "accent": "#FCEE0A",
+      "accentSecondary": "#FF003C",
+      "accentTertiary": "#00F0FF",
+      "border": "#FCEE0A",
+      "shadowColor": "rgba(252, 238, 10, 0.25)",
+      "gaugeTrack": "rgba(0, 240, 255, 0.12)",
+      "gaugeUsage": "#00F0FF",
+      "gaugeFillEdge": "#B8FCFF",
+      "gaugeTemp": "rgba(255, 0, 60, 0.45)",
+      "sparkline": "#FCEE0A",
+      "sparklineFill": "rgba(252, 238, 10, 0.08)",
+      "sparklineDanger": "#FF003C",
+      "netDown": "#00F0FF",
+      "netUp": "#FCEE0A",
+      "frame": {
+        "brackets": "#FCEE0A",
+        "watermarkColor": "#708298"
+      },
+      "ground": {
+        "color": "#00F0FF",
+        "alertColor": "#FF003C"
+      },
+      "badgeBackground": "#FF003C",
+      "badgeText": "#FFFFFF"
+    },
+    "light": {
+      "background": "#ECEFF2",
+      "cardBackground": "#DCE1E7",
+      "cardBackgroundHover": "#D0D7DF",
+      "textPrimary": "#10202A",
+      "textSecondary": "#5A6B7A",
+      "accent": "#00A8B5",
+      "accentSecondary": "#E0115F",
+      "accentTertiary": "#00A8B5",
+      "accentGood": "#00A8B5",
+      "border": "#00A8B5",
+      "shadowColor": "rgba(0, 0, 0, 0)",
+      "gaugeTrack": "rgba(0, 168, 181, 0.15)",
+      "gaugeUsage": "#00A8B5",
+      "gaugeFillEdge": "#007C86",
+      "gaugeTemp": "rgba(224, 17, 95, 0.4)",
+      "sparkline": "#00A8B5",
+      "sparklineFill": "rgba(0, 168, 181, 0.08)",
+      "sparklineDanger": "#E0115F",
+      "netDown": "#00A8B5",
+      "netUp": "#E0115F",
+      "commentary": "#007C86",
+      "badgeBackground": "#E0115F",
+      "frame": {
+        "brackets": "#00A8B5",
+        "watermarkColor": "#7A8A99"
+      },
+      "ground": {
+        "color": "#00A8B5",
+        "alertColor": "#E0115F"
+      },
+      "badgeText": "#FFFFFF"
+    }
+  },
+  "narrative": {
+    "badgeLabel": "KIROSHI v4.2",
+    "weatherSkyHazard": "assets/av_falling.svg",
+    "weatherSkyHazardSecondary": "assets/trauma_drone.svg",
+    "roamerPrimary": "assets/johnny_walk_01.svg",
+    "roamerSecondary": "assets/runner_walk_01.svg",
+    "quips": {
+      "nominal": "CYBERWARE TELEMETRY STABLE. NO ICE BREACHES DETECTED.",
+      "moderate": "NEURAL BUFFER UNDER PRESSURE. OPTIMIZE DAEMONS CHOOM.",
+      "highLoad": "THERMAL RUNAWAY IMMINENT. COOL DOWN BEFORE YOUR CYBERWARE BURNS OUT.",
+      "critical": "CRITICAL OVERHEAT! FLATLINE WARNING! ENGAGE TRAUMA TEAM PROTOCOL!",
+      "night": "AFTER DARK IN NIGHT CITY. WATCH YOUR SIX, CHOOMBA."
+    }
+  },
+  "isDark": true,
+  "colors": {
+    "background": "#0B0E14",
+    "cardBackground": "#121720",
+    "cardBackgroundHover": "#18202C",
+    "textPrimary": "#00F0FF",
+    "textSecondary": "#708298",
+    "accent": "#FCEE0A",
+    "accentSecondary": "#FF003C",
+    "accentTertiary": "#00F0FF",
+    "border": "#FCEE0A",
+    "borderWidth": 1.5,
+    "borderRadius": 0,
+    "shadowColor": "rgba(252, 238, 10, 0.25)",
+    "shadowOffset": [
+      0,
+      0
+    ],
+    "gaugeTrack": "rgba(0, 240, 255, 0.12)",
+    "gaugeFillUsage": "#00F0FF",
+    "gaugeFillEdge": "#B8FCFF",
+    "gaugeEdgeWidth": 0.75,
+    "gaugeFillTemp": "rgba(255, 0, 60, 0.45)",
+    "tempPulseC": 80,
+    "sparkline": "#FCEE0A",
+    "sparklineFill": "rgba(252, 238, 10, 0.08)",
+    "sparklineStyle": "stepped",
+    "sparklineWidth": 1.5,
+    "sparklineDanger": "#FF003C",
+    "sparklineDangerAbove": 0.85,
+    "netDown": "#00F0FF",
+    "netUp": "#FCEE0A"
+  },
+  "frame": {
+    "style": "bezel",
+    "chamfer": 12,
+    "brackets": "#FCEE0A",
+    "ticks": true,
+    "logo": "assets/arasaka_logo.svg",
+    "alertIcon": "assets/trauma_team_cross.svg",
+    "watermark": "[ARASAKA-SYS-77]",
+    "watermarkColor": "#708298",
+    "scanlines": 0.06,
+    "glitch": true
+  },
+  "roamers": [
+    {
+      "name": "Johnny",
+      "frames": [
+        "assets/johnny_walk_01.svg",
+        "assets/johnny_walk_02.svg"
+      ],
+      "idleFrame": "assets/johnny_idle.svg",
+      "width": 22,
+      "height": 33,
+      "stride": 7
+    },
+    {
+      "name": "Netrunner",
+      "frames": [
+        "assets/runner_walk_01.svg",
+        "assets/runner_walk_02.svg"
+      ],
+      "width": 20,
+      "height": 33,
+      "follow": 8,
+      "stride": 7
+    }
+  ],
+  "labels": {
+    "rx": "DAEMON RX",
+    "tx": "ICE TX",
+    "lan": "NET_GRID // LOCAL_NODE",
+    "wan": "WAN_PROXY // SUBNET_ZZ9",
+    "wanTag": "NC-77"
+  },
+  "ground": {
+    "color": "#00F0FF",
+    "alertColor": "#FF003C",
+    "width": 1,
+    "pulses": true
+  },
+  "clockQuips": {
+    "nominal": "CYBERWARE LINK NOMINAL. ZERO ICE INTRUSIONS.",
+    "stress": "NEURAL THERMAL RUNAWAY! FLATLINE RISK IMMINENT, CHOOM!"
+  },
+  "aiQuip": "NEURAL DAEMON BURNING CYBERWARE RAM. WATCH THE ICE.",
+  "badgeColor": "#FF003C",
+  "badgeTextColor": "#FFFFFF",
+  "badgeText": "KIROSHI v4.2"
+}

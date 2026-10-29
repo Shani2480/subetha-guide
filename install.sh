@@ -31,7 +31,12 @@ gtk-update-icon-cache -q -t "${ICON_DIR%/256x256/apps}" 2>/dev/null || true
 
 if [ "$RESTART" = 1 ]; then
     echo "Restarting plasmashell..."
-    if ! systemctl --user restart plasma-plasmashell.service 2>/dev/null; then
+    # Only a shell the service runs is restarted through it: on a session
+    # started without systemd, "restart" starts a second shell and leaves
+    # the running one, with the old widget, in place.
+    if systemctl --user is-active --quiet plasma-plasmashell.service; then
+        systemctl --user restart plasma-plasmashell.service
+    else
         (setsid plasmashell --replace >/dev/null 2>&1 &)
     fi
 else

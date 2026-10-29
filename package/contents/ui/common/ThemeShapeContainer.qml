@@ -17,6 +17,9 @@ import QtQuick.Shapes
 // frame; any of them can be set directly instead. Content goes inside,
 // `padding` in from the outline. A flat or soft shadow's offset stays inside
 // the bounds (the face shrinks by it); a glow spills out.
+// A `frameSource` (a card's theme.cardFrameSource) draws a bitmap skin's
+// nine-sliced outline (SkinFrame) in place of the vector stroke and shadow,
+// the fill kept under it; content then starts at the frame's content insets.
 Item {
     id: root
 
@@ -41,10 +44,18 @@ Item {
     property real shadowOffsetY: theme ? theme.shadowY : 0
     property real shadowBlur: theme ? theme.shadowBlur : 0    // px
     property real padding: 0
+    property string frameSource: ""             // a bitmap outline; the owner opts in
+    readonly property var frameSpec: frameSource !== "" && theme ? theme.cardFrame : null
+    readonly property bool framed: frameSpec !== null
+    // where content may start, in from the face's edges, as drawn
+    readonly property real insetLeft: framed ? frameSpec.content[0] * frameSpec.scale : 0
+    readonly property real insetTop: framed ? frameSpec.content[1] * frameSpec.scale : 0
+    readonly property real insetRight: framed ? frameSpec.content[2] * frameSpec.scale : 0
+    readonly property real insetBottom: framed ? frameSpec.content[3] * frameSpec.scale : 0
     default property alias content: contentSlot.data
 
     readonly property Item face: faceItem
-    readonly property bool offsetShadow: shadowType === "flat-2d" || shadowType === "soft"
+    readonly property bool offsetShadow: !framed && (shadowType === "flat-2d" || shadowType === "soft")
     readonly property bool blurredShadow: shadowType === "glow" || (shadowType === "soft" && shadowBlur > 0)
     readonly property string shape: shapeType === "rounded" && cornerRadius <= 0 ? "sharp" : shapeType
     // the outline's corner radius and cut, as drawn at the face's outer edge
@@ -73,7 +84,7 @@ Item {
     }
 
     Item {   // shadow: the face's silhouette, offset and/or blurred
-        visible: root.shadowType !== "none" && root.shadowColor.a > 0
+        visible: !root.framed && root.shadowType !== "none" && root.shadowColor.a > 0
         x: faceItem.x + (root.offsetShadow ? root.shadowOffsetX : 0)
         y: faceItem.y + (root.offsetShadow ? root.shadowOffsetY : 0)
         width: faceItem.width; height: faceItem.height
@@ -112,7 +123,7 @@ Item {
             preferredRendererType: root.borderStyle === "dashed" ? Shape.GeometryRenderer : Shape.CurveRenderer
             ShapePath {
                 id: outlinePath
-                readonly property real w: root.borderStyle === "tech-brackets" ? Math.min(1, root.strokeWidth) : root.strokeWidth
+                readonly property real w: root.framed ? 0 : root.borderStyle === "tech-brackets" ? Math.min(1, root.strokeWidth) : root.strokeWidth
                 fillColor: root.fillColor
                 strokeColor: w > 0 ? (root.borderStyle === "tech-brackets"
                                       ? Qt.rgba(root.strokeColor.r, root.strokeColor.g, root.strokeColor.b, root.strokeColor.a * 0.45)
@@ -122,11 +133,12 @@ Item {
                 dashPattern: [4, 3]
                 joinStyle: ShapePath.MiterJoin
                 capStyle: ShapePath.FlatCap
-                PathSvg { path: root.outline(Math.max(0, outlinePath.w) / 2) }
+                // under a bitmap frame the fill starts `fill` in, clear of its cut corners
+                PathSvg { path: root.outline(root.framed ? root.frameSpec.fill * root.frameSpec.scale : Math.max(0, outlinePath.w) / 2) }
             }
             ShapePath {   // double: a hairline inside the border
                 id: hairline
-                readonly property bool on: root.borderStyle === "double" && root.strokeWidth > 0
+                readonly property bool on: !root.framed && root.borderStyle === "double" && root.strokeWidth > 0
                 fillColor: "transparent"
                 strokeColor: on ? root.strokeColor : "transparent"
                 strokeWidth: on ? Math.max(1, root.strokeWidth / 2) : -1
@@ -138,7 +150,7 @@ Item {
         // L-shaped marks on the corners, clear of a rounded corner's curve;
         // none on those a chamfer cuts away.
         Repeater {
-            model: root.cornerBrackets ? 4 : 0
+            model: root.cornerBrackets && !root.framed ? 4 : 0
             Item {
                 required property int index
                 readonly property bool atRight: index % 2 === 1
@@ -162,9 +174,19 @@ Item {
             }
         }
 
+        SkinFrame {
+            anchors.fill: parent
+            spec: root.frameSpec
+            source: root.frameSource
+        }
+
         Item {
             id: contentSlot
-            anchors { fill: parent; margins: root.padding }
+            anchors {
+                fill: parent
+                leftMargin: root.padding + root.insetLeft; topMargin: root.padding + root.insetTop
+                rightMargin: root.padding + root.insetRight; bottomMargin: root.padding + root.insetBottom
+            }
         }
     }
 }

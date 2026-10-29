@@ -6,7 +6,9 @@ import QtQuick.Shapes
 // holding the skin's flagMark and the title in bandText (else white), "N — "
 // before it when the sections are numbered; under cartoon outlines it is
 // inked in black. It sits on the card's top-left edge; the density toggle
-// takes the row's right end.
+// takes the row's right end. On a bitmap frame with a `title` box
+// (theme.cardFrame) it draws no flag: the title is set into that box, on the
+// tab the picture paints, shrinking to fit it.
 Item {
     id: flag
 
@@ -14,10 +16,16 @@ Item {
     property string title: ""
     property int number: 0                // the section's place among those shown; 0: none
 
-    implicitHeight: 18
-    implicitWidth: row.implicitWidth + 10 + height
+    readonly property var spec: theme.cardFrame
+    readonly property bool onFrame: !!spec && !!spec.title
+    x: onFrame ? spec.title[0] * spec.scale : 0
+    y: onFrame ? spec.title[1] * spec.scale : 0
+    z: onFrame ? 2 : 0                    // over the card it is set into
+    implicitHeight: onFrame ? spec.title[3] * spec.scale : 18
+    implicitWidth: onFrame ? spec.title[2] * spec.scale : row.implicitWidth + 10 + height
 
     Shape {
+        visible: !flag.onFrame
         anchors.fill: parent
         preferredRendererType: Shape.CurveRenderer
         ShapePath {
@@ -35,6 +43,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: 5
         Image {
+            id: mark
             visible: flag.theme.flagMark !== ""
             anchors.verticalCenter: parent.verticalCenter
             height: 11
@@ -45,9 +54,17 @@ Item {
         }
         Text {
             anchors.verticalCenter: parent.verticalCenter
+            width: flag.onFrame ? flag.width - row.x * 2 - (mark.visible ? mark.width + row.spacing : 0) : implicitWidth
+            fontSizeMode: flag.onFrame ? Text.HorizontalFit : Text.FixedSize
+            minimumPixelSize: 7
             text: flag.theme.sectionLabel(flag.title, flag.number)
             color: flag.theme.flagInk
-            font { family: flag.theme.mono; pixelSize: 11; bold: true; letterSpacing: 1.2 }
+            font {
+                family: flag.theme.titleFamily
+                pixelSize: flag.onFrame ? Math.max(7, Math.min(flag.theme.sansTitles ? flag.theme.titleSize : 14, Math.round(flag.height * 0.6))) : 11
+                bold: flag.theme.titleBold
+                letterSpacing: flag.theme.sansTitles ? 0.2 : 1.2
+            }
         }
     }
 }

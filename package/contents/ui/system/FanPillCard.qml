@@ -23,6 +23,8 @@ SlidingPillContainer {
     animateHeight: true
 
     verticalPadding: minimal ? 7 : 10
+    leadIcon: minimal ? theme.icon("fan") : ""      // list rows: the fan in the row's left column
+    leadGlyph: minimal ? framePath + " " + bladesPath : ""
     horizontalPadding: minimal ? 12 : 14
 
     readonly property real topRpm: fans.length ? Math.max.apply(null, fans.map(f => f.rpm)) : 0
@@ -46,6 +48,7 @@ SlidingPillContainer {
             spacing: card.minimal ? 8 : 12
 
             Item {   // static frame, spinning blades
+                visible: !card.leading
                 Layout.preferredWidth: card.minimal ? 18 : 30
                 Layout.preferredHeight: Layout.preferredWidth
                 VectorGlyph {
@@ -79,7 +82,7 @@ SlidingPillContainer {
                 text: card.fans.length === 0 ? i18n("FANS --")
                     : i18n("FANS %1", card.fans.map(f => card.reading(f.rpm) + " · " + f.label).join(" / "))
                 color: card.theme.ink
-                font { family: card.theme.mono; pixelSize: 11; bold: true }
+                font { family: card.theme.rowFamily; pixelSize: card.theme.rowSize(11); bold: card.theme.rowBold }
                 elide: Text.ElideRight
             }
 

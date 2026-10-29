@@ -28,6 +28,15 @@
 //   "art":      hero illustrations for the CPU, GPU, memory, network, disk and weather cards
 //   "features": also enableBarrel (CRT glass curvature) and texture ("carbon")
 // Colours in chrome / sections / controls may be overridden per variant.
+//
+// Bitmap skins add a picture behind the whole stack of cards (parseBackdrop):
+//   "backdrop": "assets/lab.png"   or
+//   "backdrop": { "dark": "assets/lab_night.png", "light": "assets/lab_day.png",
+//                 "fit": "cover", "align": "bottom", "opacity": 1 }
+// and a nine-sliced picture as every card's outline (parseCardFrame):
+//   "sections": { "frame": { "image": "assets/card_frame.png", "scale": 0.5,
+//                            "border": [l, t, r, b], "content": [l, t, r, b],
+//                            "title": [x, y, w, h], "toggle": [right, top], "fill": 20 } }
 // Under any skin the Guide's own lore (the towel, the whale, "DON'T PANIC")
 // never shows: what the skin leaves out falls back to plain labels.
 
@@ -88,7 +97,7 @@ var sectionColorKeys = ["bandColor", "bandText", "bandStatus", "rule", "gloss"] 
 var controlColorKeys = ["meterTrack", "meterFillTop", "meterFillBottom", "meterInsetDark", "meterInsetLight",
                         "meterSheen", "graphBackground", "graphGrid", "graphDown", "graphUp", "cursor",
                         "dialFace", "dialTicks", "dialLens", "needleUsage", "needleTemp", "dialDanger"]
-var iconKeys = ["app", "cpu", "ram", "swap", "gpu", "netDown", "netUp", "disk", "battery", "fan", "weather",
+var iconKeys = ["app", "cpu", "ram", "swap", "gpu", "netDown", "netUp", "network", "disk", "battery", "fan", "weather",
                 "clock", "ai", "process", "service", "settings"]
 
 // `chrome`: the window the skin's operating system would draw. The style
@@ -127,6 +136,11 @@ function parseSections(s, dir) {
              lights: oneOf(s.lights, ["traffic"]),                                 // card: red, amber, green dots before the title
              toggle: oneOf(s.toggle, ["angled", "glass", "box"]),                  // the fold toggle [ + ] at the top right; flagtab: angled
 
+             frame: parseCardFrame(s.frame, dir),
+             // "list": a compact card's rows flat, split by hairlines, each led by a large icon
+             rows: oneOf(s.rows, ["list"]),
+             titleFont: oneOf(s.titleFont, ["sans", "mono"]) || "mono",            // the section titles' face
+             titleBold: s.titleBold !== false,                                  // a bitmap outline for every card (SkinFrame)
              screws: s.screws === true,                                            // a mounting screw in each corner
              tints: colorMap(s.tints, ["cpu", "gpu", "memory", "network", "disk", "weather"]),   // a card's own surface
              gear: asset(dir, s.gear),                                             // gadget: the settings button's icon
@@ -174,6 +188,49 @@ function parseArt(a, dir) {
     a = a && typeof a === "object" ? a : {}
     artKeys.forEach(k => { var v = asset(dir, a[k]); if (v) out[k] = v })
     return out
+}
+// `backdrop`: a picture behind every card (SkinBackdrop.qml), one per variant
+// or a single "image" for both; null without one. fit: "cover" fills and
+// crops, "contain" shows it whole, "tile" repeats it at its own size,
+// "stretch" fills without keeping its shape. align: the edge "cover" and
+// "contain" keep in view.
+function parseBackdrop(b, dir) {
+    if (typeof b === "string") b = { image: b }
+    if (!b || typeof b !== "object") return null
+    var both = asset(dir, b.image)
+    var dark = asset(dir, b.dark) || both, light = asset(dir, b.light) || both
+    if (!dark && !light) return null
+    return { dark: dark || light, light: light || dark,
+             fit: oneOf(b.fit, ["cover", "contain", "tile", "stretch"]) || "cover",
+             align: oneOf(b.align, ["top", "center", "bottom"]) || "center",
+             opacity: number(b.opacity, 0, 1) === null ? 1 : number(b.opacity, 0, 1) }
+}
+// `sections.frame`: a picture drawn as every card's outline, nine-sliced so
+// its corners keep their shape at any size (SkinFrame.qml); null without one.
+// All lengths are the image's own pixels; `scale` is screen px per image px
+// (0.5: an image drawn at twice its size, sharp on a 2x screen). border: the
+// corners left unstretched; content: where the card's contents may start
+// (default: the border); title: the box a flag-tab title is drawn into, e.g.
+// a tab painted on the frame; toggle: the fold toggle's distance from the
+// right edge and the top (default: right of the title, over the content); fill: how far in the card's surface starts, so
+// it stays under the outline at cut corners (default: half the content inset).
+function quad(v, max) {
+    return Array.isArray(v) && v.length === 4 && v.every(n => number(n, 0, max) !== null) ? v.map(n => number(n, 0, max)) : null
+}
+function parseCardFrame(f, dir) {
+    if (typeof f === "string") f = { image: f }
+    if (!f || typeof f !== "object") return null
+    var both = asset(dir, f.image, "png|svg")
+    var dark = asset(dir, f.dark, "png|svg") || both, light = asset(dir, f.light, "png|svg") || both
+    var border = quad(f.border, 4096)
+    if ((!dark && !light) || !border) return null
+    var content = quad(f.content, 4096) || border
+    return { dark: dark || light, light: light || dark,
+             scale: number(f.scale, 0.05, 4) || 0.5,
+             border: border, content: content,
+             title: quad(f.title, 4096),
+             toggle: Array.isArray(f.toggle) && f.toggle.length === 2 && f.toggle.every(n => number(n, 0, 4096) !== null) ? f.toggle : null,
+             fill: number(f.fill, 0, 4096) === null ? Math.min.apply(null, content) / 2 : number(f.fill, 0, 4096) }
 }
 function parseIcons(ic, dir) {
     var out = {}
@@ -299,6 +356,8 @@ function parseStyle(json, dir) {
         controls: parseControls(json.controls, dir),
         icons: parseIcons(json.icons, dir),
         art: parseArt(json.art, dir),
+        backdrop: parseBackdrop(json.backdrop, dir),
+        masthead: json.masthead !== false,                       // false: no title card over the sections
         // `footer`: a mark and a tracked line along the bottom (the widget's foot, the window's status line)
         footer: json.footer && typeof json.footer === "object"
                 ? { mark: asset(dir, json.footer.mark), label: text(json.footer.label, 40), motto: text(json.footer.motto, 80),

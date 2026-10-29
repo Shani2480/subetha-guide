@@ -76,7 +76,7 @@ SnapFrame {
             CollapsibleSection {
                 id: header
                 width: parent.width
-                open: !full.theme.minimal && !full.theme.windowed
+                open: !full.theme.minimal && !full.theme.windowed && full.theme.masthead
                 Column {
                     width: parent.width
                     VectorFrame {

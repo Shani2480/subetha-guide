@@ -4,7 +4,10 @@ import org.kde.kirigami as Kirigami
 
 // The "minimal" display mode: one low-profile card with the location, the
 // animated condition icon, temperature, feels-like and today's high / low.
-// No characters, commentary, grid, raster or forecast drawer.
+// No characters, commentary, grid, raster or forecast drawer. Under a skin's
+// list rows (skin.listRows) it reads like a Sidebar gadget: the skin's own
+// weather icon, the place in title case, a large temperature, a rule, then
+// feels-like and high / low in plain text.
 Rectangle {
     id: view
 
@@ -40,9 +43,11 @@ Rectangle {
              bg: bg, solid: light })
 
     readonly property var today: weather && weather.daily && weather.daily.length ? weather.daily[0] : null
+    readonly property bool gadget: !!skin && skin.listRows
+    readonly property string skinIcon: gadget ? skin.icon("weather") : ""
 
     implicitWidth: Kirigami.Units.gridUnit * 16
-    implicitHeight: content.implicitHeight + 28
+    implicitHeight: content.implicitHeight + (gadget ? 10 : 28)
     Layout.preferredWidth: implicitWidth
     Layout.preferredHeight: implicitHeight
     Layout.minimumWidth: Kirigami.Units.gridUnit * 12
@@ -59,7 +64,18 @@ Rectangle {
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: 16 }
         spacing: 14
 
+        Image {   // gadget: the skin's weather picture in place of the drawn one
+            visible: view.skinIcon !== ""
+            Layout.preferredWidth: 64
+            Layout.preferredHeight: 64
+            Layout.alignment: Qt.AlignVCenter
+            source: view.skinIcon
+            sourceSize: Qt.size(128, 128)
+            fillMode: Image.PreserveAspectFit
+            smooth: true
+        }
         WeatherIcon {
+            visible: view.skinIcon === ""
             Layout.preferredWidth: 56
             Layout.preferredHeight: 56
             Layout.alignment: Qt.AlignVCenter
@@ -77,31 +93,39 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
                 visible: text !== ""
-                text: view.errorText !== "" ? view.errorText : view.locationName.toUpperCase()
-                color: view.errorText !== "" ? view.accent : view.tint(0.75)
-                font { family: view.fontFamily; pixelSize: 11; bold: true; letterSpacing: 0.8 }
+                // a gadget names the town alone, in its own case
+                text: view.errorText !== "" ? view.errorText : view.gadget ? view.locationName.split(",")[0] : view.locationName.toUpperCase()
+                color: view.errorText !== "" ? view.accent : view.gadget ? view.ink : view.tint(0.75)
+                font { family: view.fontFamily; pixelSize: view.gadget ? 18 : 11; bold: !view.gadget; letterSpacing: view.gadget ? 0 : 0.8 }
                 elide: Text.ElideRight
             }
             RowLayout {
-                spacing: 10
+                spacing: view.gadget ? 16 : 10
                 Text {
                     text: view.tempText
                     color: view.ink
-                    font { family: view.fontFamily; pixelSize: 34; bold: true }
+                    font { family: view.fontFamily; pixelSize: view.gadget ? 46 : 34; bold: true }
+                }
+                Rectangle {   // gadget: a hairline between the temperature and the detail
+                    visible: view.gadget
+                    Layout.preferredWidth: 1
+                    Layout.fillHeight: true
+                    Layout.topMargin: 6; Layout.bottomMargin: 6
+                    color: view.tint(0.3)
                 }
                 ColumnLayout {
                     Layout.alignment: Qt.AlignVCenter
                     spacing: 1
                     Text {
-                        text: view.weather ? i18n("FEELS LIKE %1°", view.currentFeelsLike) : ""
-                        color: view.cool
-                        font { family: view.fontFamily; pixelSize: 10; bold: true }
+                        text: !view.weather ? "" : view.gadget ? i18n("Feels like %1°", view.currentFeelsLike) : i18n("FEELS LIKE %1°", view.currentFeelsLike)
+                        color: view.gadget ? view.ink : view.cool
+                        font { family: view.fontFamily; pixelSize: view.gadget ? 13 : 10; bold: !view.gadget }
                     }
                     Text {
                         visible: view.today !== null
                         text: view.today ? i18nc("high and low temperature", "H %1° · L %2°", Math.round(view.today.max), Math.round(view.today.min)) : ""
-                        color: view.tint(0.8)
-                        font { family: view.fontFamily; pixelSize: 11; bold: true }
+                        color: view.gadget ? view.ink : view.tint(0.8)
+                        font { family: view.fontFamily; pixelSize: view.gadget ? 13 : 11; bold: !view.gadget }
                     }
                 }
             }
