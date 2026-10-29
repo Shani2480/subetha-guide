@@ -44,6 +44,7 @@ KCM.SimpleKCM {
     property alias cfg_cpuLoadCritThreshold: cpuLoadSpin.value
     property alias cfg_gpuLoadCritThreshold: gpuLoadSpin.value
     property alias cfg_ramLoadCritThreshold: ramLoadSpin.value
+    property alias cfg_alertHoldSeconds: holdSpin.value
     property alias cfg_showTelemetryGraphs: graphsCheck.checked
     property alias cfg_showSystemSpecs: specsCheck.checked
     property alias cfg_systemUpdateInterval: intervalSpin.value
@@ -172,9 +173,18 @@ KCM.SimpleKCM {
             enabled: tempAlertsCheck.checked
             unit: "%"; from: 50; to: 100
         }
+        QQC2.SpinBox {
+            id: holdSpin
+            Kirigami.FormData.label: i18n("Alert after:")
+            enabled: tempAlertsCheck.checked
+            from: 0; to: 30
+            editable: true
+            textFromValue: (v) => v === 0 ? i18n("at once") : i18np("%1 s past the threshold", "%1 s past the threshold", v)
+            valueFromText: (t) => parseInt(t) || 0
+        }
         QQC2.Label {
             Layout.maximumWidth: Kirigami.Units.gridUnit * 22
-            text: i18n("A warning shows [WARN] on the pill and colours its figure amber. A critical reading blinks [CRITICAL], haloes its pill and card, strobes its bar and flashes the panel item; a critical reading the panel isn't showing puts a blinking dot on the panel icon. Disks use the warning level under Disks & Storage. Temperatures are set in °C.")
+            text: i18n("A warning shows [WARN] on the pill and colours its figure amber. A critical reading blinks [CRITICAL], haloes its pill and card, strobes its bar and flashes the panel item; a critical reading the panel isn't showing puts a blinking dot on the panel icon. A reading must stay past a threshold for the \"Alert after\" time before its level shows, and back below it as long before the level clears, so a brief spike never trips an alert. Disks use the warning level under Disks & Storage. Temperatures are set in °C.")
             wrapMode: Text.WordWrap
             font: Kirigami.Theme.smallFont
             opacity: 0.7

@@ -22,7 +22,7 @@ QtObject {
     property int cpuLoadCrit: 90          // %
     property int gpuLoadCrit: 95
     property int ramLoadCrit: 90
-    property int holdMs: 3000             // how long a reading must stay at a level before it shows
+    property int holdMs: 3000             // alertHoldSeconds: how long a reading must stay at a level before it shows
     property string tempUnit: "C"
     property QtObject system              // a SystemFeed
     property QtObject disk                // a DiskFeed, or null while storage is off

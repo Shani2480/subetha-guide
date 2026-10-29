@@ -174,7 +174,8 @@
         <!-- alerts (AlertManager): a reading turns warning (amber) or critical
              (crimson) at these thresholds; temperatures in °C, loads in %.
              tempColorAlerts switches alerts on and off as a whole,
-             enablePulsingAnimations their motion (breathing, blinking, strobe) -->
+             enablePulsingAnimations their motion (breathing, blinking, strobe);
+             a level shows once the reading has held it alertHoldSeconds -->
         <entry name="tempColorAlerts" type="Bool">
             <default>true</default>
         </entry>
@@ -215,6 +216,11 @@
             <default>90</default>
             <min>50</min>
             <max>100</max>
+        </entry>
+        <entry name="alertHoldSeconds" type="Int">
+            <default>3</default>
+            <min>0</min>
+            <max>30</max>
         </entry>
         <!-- legacy: the old thresholds as % of a 30-100 °C scale; main.qml
              carries a changed pair over to the °C entries once, then resets them -->

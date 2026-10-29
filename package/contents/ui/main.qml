@@ -160,6 +160,7 @@ PlasmoidItem {
         cpuLoadCrit: root.cfg.cpuLoadCritThreshold
         gpuLoadCrit: root.cfg.gpuLoadCritThreshold
         ramLoadCrit: root.cfg.ramLoadCritThreshold
+        holdMs: root.cfg.alertHoldSeconds * 1000
         tempUnit: root.cfg.tempUnit
         system: systemData
         disk: root.has("disk") ? diskData : null

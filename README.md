@@ -109,7 +109,10 @@ and card with a breathing glow, and strobes the bar's temperature wash or
 pulses its load fill. In a panel, a critical reading flashes once a second.
 A critical reading the panel isn't showing puts a blinking dot on the icon,
 and the hover card opens with an `ALERT: ...` line for it. *Animate them*
-switches the motion off and keeps the colours.
+switches the motion off and keeps the colours. A reading must stay past a
+threshold for *Alert after* (3 s by default, 0 for at once) before its level
+shows, and back below it as long before the level clears, so a brief spike
+never trips an alert.
 
 **Process diagnostics**: the System section's `[LAUNCH FULL PROCESS
 DIAGNOSTICS]` pill (Full mode) and the widget's context menu open the fullest
