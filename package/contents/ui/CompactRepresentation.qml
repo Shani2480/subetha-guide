@@ -70,15 +70,22 @@ MouseArea {
 
     // The Guide's phosphor on the panel after dark; under a skin the panel's
     // own text colour (the skin's ink is drawn for its cards, not the panel)
-    // with the theme's alert colours.
+    // with the theme's alert colours. A skin's figures and meters at rest take
+    // its accent where that reads on the panel, and its icons stand in for
+    // the glyphs.
     readonly property bool skinned: !!theme && theme.skinned
     readonly property color ink: skinned ? Kirigami.Theme.textColor : dark ? "#00FF66" : Kirigami.Theme.textColor
+    readonly property color figure: skinned && theme.contrast(theme.accent, Kirigami.Theme.backgroundColor) >= 3 ? theme.accent : ink
     readonly property color busy: skinned ? theme.warnColor : dark ? "#FFB000" : "#E8890C"
     readonly property color alert: skinned ? theme.critColor : dark ? "#FF3333" : "#FF6B4A"
-    function levelColor(level) { return level === "alert" ? alert : level === "busy" ? busy : ink }
+    function levelColor(level) { return level === "alert" ? alert : level === "busy" ? busy : figure }
     readonly property color critical: theme ? theme.critColor : alert
     // figure and icon at the reading's alert level; a critical one flashes
-    function alertInk(r) { return r.alert === 2 ? (flashOn ? critical : ink) : r.alert === 1 ? busy : ink }
+    function alertInk(r) { return r.alert === 2 ? (flashOn ? critical : figure) : r.alert === 1 ? busy : figure }
+    // the skin's icon for a reading, "" for the Guide's glyph
+    readonly property var iconKeys: ({ cpuLoad: "cpu", cpuTemp: "cpu", gpuTemp: "gpu", ramUsage: "ram", netSpeed: "netDown",
+                                       battery: "battery", clock: "clock", aiUsage: "ai" })
+    function skinIcon(key) { return skinned && iconKeys[key] ? theme.icon(iconKeys[key]) : "" }
 
     readonly property bool anyCritical: readings.some(r => r.alert === 2) || offPanelCritical.length > 0
     property bool flashOn: true           // 500 ms crimson, 500 ms resting
@@ -163,8 +170,17 @@ MouseArea {
             Item {
                 visible: compact.showIcon
                 width: compact.glyphSize; height: compact.glyphSize
+                Image {   // the skin's own icon; at an alert it pulses rather than recolours
+                    id: skinGlyph
+                    visible: source != "" && cellGrid.r.key !== "weather"
+                    anchors.fill: parent
+                    source: compact.skinIcon(cellGrid.r.key)
+                    sourceSize: Qt.size(compact.glyphSize * 2, compact.glyphSize * 2)
+                    fillMode: Image.PreserveAspectFit
+                    opacity: cellGrid.r.alert === 2 && !compact.flashOn ? 0.35 : 1
+                }
                 VectorGlyph {
-                    visible: cellGrid.r.key !== "weather"
+                    visible: cellGrid.r.key !== "weather" && !skinGlyph.visible
                     anchors.fill: parent
                     path: cellGrid.r.glyph
                     color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.ink
@@ -186,7 +202,7 @@ MouseArea {
                 // Without an icon a label says what the figure is.
                 text: compact.vertical ? cellGrid.r.shortText
                     : (compact.showIcon || cellGrid.r.key === "weather" || cellGrid.r.key === "clock" ? "" : cellGrid.r.label + " ") + cellGrid.r.text
-                color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.ink
+                color: cellGrid.r.source ? compact.alertInk(cellGrid.r) : cellGrid.r.level === "alert" ? compact.alert : compact.figure
                 font { family: compact.theme ? compact.theme.mono : "monospace"; pixelSize: compact.fontPx; bold: true }
                 width: compact.vertical ? Math.min(implicitWidth, compact.width - 4) : implicitWidth
                 fontSizeMode: compact.vertical ? Text.HorizontalFit : Text.FixedSize
