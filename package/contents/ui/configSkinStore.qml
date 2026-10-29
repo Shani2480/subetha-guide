@@ -12,6 +12,10 @@ import "common"
 // into ~/.local/share/subetha/themes/<id>/. Applying one writes activeSkin
 // straight to the widget's configuration rather than through a cfg_ property,
 // so the Guide repaints at once instead of waiting for Apply.
+// "Manage Installed" lists every skin on disk instead, the ones the registry
+// no longer carries too, to apply, hide or remove; a hidden skin
+// (HiddenSkins, shared with the Sub-Etha System Monitor) stays installed but
+// leaves this grid and the monitor's skin pickers.
 KCM.ScrollViewKCM {
     id: page
 
@@ -20,6 +24,7 @@ KCM.ScrollViewKCM {
     property var remoteSkins: []
     property string registryState: "loading"     // loading | ready | offline
     property string workingId: ""        // the skin being downloaded
+    property bool managing: false        // the grid lists the installed skins
     readonly property string activeSkin: Plasmoid.configuration.activeSkin
 
     readonly property ConfigSkin look: ConfigSkin {}   // the drawn pieces follow the active skin
@@ -47,6 +52,7 @@ KCM.ScrollViewKCM {
             }
         }
     }
+    HiddenSkins { id: hiddenSkins }
     Notification {
         id: notice
         componentName: "plasma_workspace"
@@ -79,10 +85,12 @@ KCM.ScrollViewKCM {
     }
     function remove(id) {
         if (id === activeSkin) apply("")
+        hiddenSkins.setHidden(id, false)
         skinEngine.remove(id)
     }
     // update | active | apply | install
     function actionFor(skin) {
+        if (managing) return skin.id === activeSkin ? "active" : "apply"
         if (!skinEngine.installed(skin.id)) return "install"
         if (skinEngine.compareVersions(skinEngine.installedVersion(skin.id), skin.version) < 0) return "update"
         return skin.id === activeSkin ? "active" : "apply"
@@ -92,7 +100,10 @@ KCM.ScrollViewKCM {
         spacing: Kirigami.Units.smallSpacing
         QQC2.Label {
             Layout.fillWidth: true
-            text: page.activeSkin === ""
+            text: page.managing ? i18np("%1 skin installed, %2 hidden.", "%1 skins installed, %2 hidden.",
+                                        skinEngine.skinListModel.length,
+                                        skinEngine.skinListModel.filter(s => hiddenSkins.has(s.id)).length)
+                : page.activeSkin === ""
                   ? i18n("Using the built-in palette.")
                   : i18n("Active skin: %1", (skinEngine.active && skinEngine.active.name) || page.activeSkin)
             elide: Text.ElideRight
@@ -104,16 +115,23 @@ KCM.ScrollViewKCM {
             onClicked: page.apply("")
         }
         QQC2.Button {
+            visible: !page.managing
             text: i18n("Refresh")
             icon.name: "view-refresh"
             enabled: page.registryState !== "loading"
             onClicked: page.fetchRegistry()
         }
+        QQC2.Button {
+            text: page.managing ? i18n("Back to Store") : i18n("Manage Installed")
+            icon.name: page.managing ? "go-previous" : "configure"
+            onClicked: page.managing = !page.managing
+        }
     }
 
     view: GridView {
         id: grid
-        model: page.registryState === "ready" ? page.remoteSkins : []
+        model: page.managing ? skinEngine.skinListModel
+             : page.registryState === "ready" ? page.remoteSkins.filter(s => !hiddenSkins.has(s.id)) : []
         readonly property int columns: Math.max(1, Math.floor(width / (Kirigami.Units.gridUnit * 15)))
         cellWidth: Math.floor(width / columns)
         cellHeight: Kirigami.Units.gridUnit * 19
@@ -123,6 +141,7 @@ KCM.ScrollViewKCM {
             required property var modelData
             readonly property string action: page.actionFor(modelData)
             readonly property bool working: page.workingId === modelData.id
+            readonly property bool hidden: hiddenSkins.has(modelData.id)
             width: grid.cellWidth
             height: grid.cellHeight
 
@@ -147,7 +166,8 @@ KCM.ScrollViewKCM {
                         Image {
                             id: preview
                             anchors.fill: parent
-                            source: cell.modelData.previewUrl || ""
+                            source: cell.modelData.previewUrl
+                                    || (page.managing ? "file://" + encodeURI(cell.modelData.dir + "/preview.png") : "")
                             fillMode: Image.PreserveAspectCrop
                             asynchronous: true
                         }
@@ -168,6 +188,7 @@ KCM.ScrollViewKCM {
                     QQC2.Label {
                         Layout.fillWidth: true
                         text: i18n("v%1 · by %2", cell.modelData.version || "?", cell.modelData.author || i18n("unknown"))
+                              + (cell.hidden ? " · " + i18n("hidden") : "")
                         font: Kirigami.Theme.smallFont
                         opacity: 0.7
                         elide: Text.ElideRight
@@ -209,10 +230,19 @@ KCM.ScrollViewKCM {
                         }
                         QQC2.ToolButton {
                             visible: cell.action !== "install" && !cell.working
+                            icon.name: cell.hidden ? "view-visible" : "view-hidden"
+                            onClicked: hiddenSkins.setHidden(cell.modelData.id, !cell.hidden)
+                            QQC2.ToolTip.text: cell.hidden ? i18n("Show this skin in the menus again")
+                                                           : i18n("Hide this skin from the menus; it stays installed")
+                            QQC2.ToolTip.visible: hovered
+                            QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+                        }
+                        QQC2.ToolButton {
+                            visible: cell.action !== "install" && !cell.working
                             enabled: !skinEngine.busy
                             icon.name: "edit-delete-remove"
                             onClicked: page.remove(cell.modelData.id)
-                            QQC2.ToolTip.text: i18n("Remove this skin")
+                            QQC2.ToolTip.text: i18n("Remove this skin from disk")
                             QQC2.ToolTip.visible: hovered
                             QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
@@ -224,13 +254,14 @@ KCM.ScrollViewKCM {
         // Loading, offline and empty: a CRT readout over the empty grid.
         Rectangle {
             id: panel
-            visible: page.registryState !== "ready" || page.remoteSkins.length === 0
+            visible: page.managing ? skinEngine.skinListModel.length === 0
+                                   : page.registryState !== "ready" || grid.count === 0
             anchors.centerIn: parent
             width: Math.min(parent.width - Kirigami.Units.gridUnit * 2, Kirigami.Units.gridUnit * 26)
             height: readout.implicitHeight + Kirigami.Units.gridUnit * 3
             radius: 10
             color: page.termBg
-            border { width: 2; color: page.registryState === "offline" ? page.termWarn : page.termInk }
+            border { width: 2; color: !page.managing && page.registryState === "offline" ? page.termWarn : page.termInk }
             clip: true
 
             Image {
@@ -243,7 +274,7 @@ KCM.ScrollViewKCM {
                 opacity: 0.15
             }
             Rectangle {   // the sweep
-                visible: page.registryState === "loading"
+                visible: !page.managing && page.registryState === "loading"
                 width: parent.width
                 height: 3
                 color: page.termInk
@@ -264,12 +295,14 @@ KCM.ScrollViewKCM {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    color: page.registryState === "offline" ? page.termWarn : page.termInk
+                    color: !page.managing && page.registryState === "offline" ? page.termWarn : page.termInk
                     font { family: look.mono; bold: true }
-                    text: page.registryState === "loading"
+                    text: page.managing ? i18n("NO SKINS INSTALLED.")
+                        : page.registryState === "loading"
                           ? look.say(i18n("SCANNING SUB-ETHA SKIN REGISTRY%1", cursor.on ? " ▮" : "  "), i18n("SCANNING SKIN REGISTRY%1", cursor.on ? " ▮" : "  "))
                         : page.registryState === "offline"
                           ? look.say(i18n("UNABLE TO CONTACT SUB-ETHA SKIN REGISTRY. CHECK NETWORK CONNECTION."), i18n("UNABLE TO CONTACT THE SKIN REGISTRY. CHECK NETWORK CONNECTION."))
+                        : page.remoteSkins.length ? i18n("EVERY SKIN IN THE REGISTRY IS HIDDEN. SHOW THEM UNDER MANAGE INSTALLED.")
                         : i18n("NO SKINS IN THE REGISTRY YET.")
                     Timer {
                         id: cursor
@@ -282,7 +315,7 @@ KCM.ScrollViewKCM {
                 }
                 QQC2.Button {
                     Layout.alignment: Qt.AlignHCenter
-                    visible: page.registryState === "offline"
+                    visible: !page.managing && page.registryState === "offline"
                     text: i18n("Retry")
                     icon.name: "view-refresh"
                     onClicked: page.fetchRegistry()
