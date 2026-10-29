@@ -53,6 +53,14 @@ SnapFrame {
     contentHeight: window.height
     Layout.preferredWidth: desktop ? theme.colWidthStandard : 400
 
+    // a bitmap skin's picture behind the bare stack, on the viewport, so its
+    // rounded corners stay in place while the sections scroll over it
+    underlay: SkinBackdrop {
+        anchors.fill: parent
+        theme: full.theme.windowed ? null : full.theme
+        radius: full.theme.cornerRadius
+    }
+
     GuideWindow {
         id: window
         width: parent.width

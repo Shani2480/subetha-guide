@@ -17,6 +17,7 @@ Item {
     property bool snapping: true
     property real contentHeight: 0          // natural height of the card's content
     default property alias content: card.data
+    property alias underlay: underlay.data  // behind the content, the viewport's size: it does not scroll
     readonly property real cardWidth: card.width
 
     // The smallest row step that holds the content (at most maxPopupHeight),
@@ -45,6 +46,11 @@ Item {
     Behavior on targetWidth { enabled: snap.snapping; NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
     Behavior on targetHeight { enabled: snap.snapping; NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
 
+    Item {
+        id: underlay
+        x: scroller.x; y: scroller.y
+        width: scroller.width; height: scroller.height
+    }
     Flickable {
         id: scroller
         x: snap.theme.margin

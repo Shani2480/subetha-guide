@@ -101,13 +101,13 @@ Item {
             color: win.theme.ink
         }
     }
-    SkinBackdrop {   // a bitmap skin's picture: over the window's body, or behind the bare stack
-        x: win.on ? win.sideInset : 0
-        y: win.on ? win.topInset : 0
+    SkinBackdrop {   // a bitmap skin's picture over the window's body; the bare stack's is the viewport's (FullRepresentation)
+        x: win.sideInset
+        y: win.topInset
         width: win.width - x * 2
-        height: win.height - y - (win.on ? win.bottomInset : 0)
-        theme: win.theme
-        radius: win.cabinet ? 6 : win.on ? Math.max(0, win.bottomRadius - win.border) : win.theme.cornerRadius
+        height: win.height - y - win.bottomInset
+        theme: win.on ? win.theme : null
+        radius: win.cabinet ? 6 : Math.max(0, win.bottomRadius - win.border)
     }
     WindowChrome {
         id: chrome

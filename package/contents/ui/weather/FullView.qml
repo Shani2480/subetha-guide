@@ -185,8 +185,9 @@ Rectangle {
 
     readonly property bool narrow: desktopMode && width < 420
     // Miniature view: a single hero card once the desktop widget is resized to
-    // a small footprint. The popup is content-sized and never qualifies.
-    readonly property bool isMiniMode: desktopMode && (width < 340 || height < 260)
+    // a small footprint. The popup is content-sized and never qualifies. A
+    // Guide card under a bitmap frame is ~300px wide and must stay full.
+    readonly property bool isMiniMode: desktopMode && (width < 260 || height < 260)
     // The desktop card has three tiers: miniature (hero only), mid (hero and
     // the weekly row, hourly strip collapsed) and full (everything).
     readonly property bool isMidMode: desktopMode && !isMiniMode && !showTrack
