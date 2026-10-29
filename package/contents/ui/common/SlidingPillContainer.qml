@@ -24,6 +24,7 @@ Item {
     property real verticalPadding: 10
     property color tint: "transparent"   // a skin's surface for this kind of card (sections.tints)
     property string monitorTab: ""        // overview sensors processes services network disks; "" = no link
+    property string art: ""               // a skin's picture against the pill's right edge, behind the content
     default property alias content: inner.data
 
     signal monitorRequested(string tab)
@@ -100,6 +101,18 @@ Item {
         x: shell.face.x; y: shell.face.y; width: shell.face.width; height: shell.face.height
         inset: 4; size: 6
         ink: pill.theme.border
+    }
+    Image {
+        visible: source != ""
+        x: shell.face.x + shell.face.width - width - pill.theme.borderWidth - 2
+        y: shell.face.y + pill.theme.borderWidth + 2
+        height: shell.face.height - (pill.theme.borderWidth + 2) * 2
+        width: Math.min(shell.face.width * 0.45, height * 3)
+        source: pill.art
+        sourceSize: Qt.size(width * 2, height * 2)
+        fillMode: Image.PreserveAspectFit
+        horizontalAlignment: Image.AlignRight
+        opacity: 0.35
     }
     TapHandler {
         enabled: pill.monitorTab !== ""

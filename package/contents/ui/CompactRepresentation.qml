@@ -209,6 +209,7 @@ MouseArea {
                 visible: cellGrid.meter && cellGrid.r.temp !== undefined
                 width: compact.vertical ? Math.max(12, compact.width * 0.6) : 24
                 segments: 6
+                themeSegments: false
                 segmentHeight: 4
                 theme: compact.theme
                 usageFraction: cellGrid.r.load || 0

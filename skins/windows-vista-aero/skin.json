@@ -1,0 +1,194 @@
+{
+  "id": "windows-vista-aero",
+  "name": "Windows Vista (Aero Glass)",
+  "author": "Shani",
+  "version": "2.1.0",
+  "description": "Frutiger Aero: translucent teal glass with a curved specular sheen, glossy green and icy-blue meters, a glass pearl and Westminster at aurora dusk or meadow daylight.",
+  "fontFamily": "'Segoe UI', 'Selawik', Tahoma, Arial, sans-serif",
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": false,
+    "enableGlassBlur": true,
+    "enableGrid": false
+  },
+  "geometry": {
+    "cardShape": "rounded",
+    "pillShape": "stadium",
+    "gaugeShape": "stadium",
+    "cornerRadius": 14,
+    "borderStyle": "solid",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": false,
+    "hasDropShadow": true,
+    "shadowType": "soft",
+    "shadowOffset": [
+      0,
+      8
+    ],
+    "shadowBlur": 22
+  },
+  "chrome": {
+    "style": "aero",
+    "buttons": "aero",
+    "titleAlign": "left",
+    "topRadius": 10,
+    "bottomRadius": 10,
+    "frameWidth": 4,
+    "logo": "assets/vista_glass_orb.svg"
+  },
+  "sections": {
+    "style": "card",
+    "numbered": true,
+    "uppercase": false,
+    "toggle": "glass",
+    "gloss": 0.4,
+    "titleSize": 11
+  },
+  "controls": {
+    "meter": "bevel",
+    "graph": "line",
+    "graphFill": true,
+    "meterColors": {
+      "cpu": "#46C263",
+      "gpu": "#46C263",
+      "battery": "#46C263",
+      "memory": "#33A2D9",
+      "swap": "#33A2D9",
+      "disk": "#33A2D9"
+    }
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "ai": "assets/icons/ai.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "weather": "assets/vista_glass_orb.svg"
+  },
+  "art": {
+    "weather": "assets/westminster_dusk.svg"
+  },
+  "variants": {
+    "dark": {
+      "variantName": "Aero Aurora (Dusk)",
+      "background": "#071A21",
+      "cardBackground": "rgba(16, 42, 52, 0.80)",
+      "cardBackgroundHover": "rgba(22, 54, 68, 0.90)",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "#B5D6E4",
+      "accent": "#46C263",
+      "accentSecondary": "#33A2D9",
+      "accentTertiary": "#FFD034",
+      "border": "rgba(160, 220, 250, 0.40)",
+      "gaugeTrack": "rgba(5, 18, 24, 0.65)",
+      "gaugeUsage": "#46C263",
+      "gaugeTemp": "#33A2D9",
+      "badgeBackground": "rgba(51, 162, 217, 0.25)",
+      "badgeText": "#8ED4F8",
+      "shadowColor": "rgba(0, 0, 0, 0.35)",
+      "sparkline": "#33A2D9",
+      "sparklineFill": "rgba(51, 162, 217, 0.20)",
+      "netDown": "#5FD0F7",
+      "netUp": "#5FD0F7",
+      "commentary": "#8ED4F8",
+      "accentGood": "#46C263",
+      "chrome": {
+        "titleTop": "rgba(40, 96, 118, 0.85)",
+        "titleBottom": "rgba(12, 40, 52, 0.85)",
+        "titleText": "#FFFFFF"
+      },
+      "controls": {
+        "meterColors": {
+          "cpu": "#46C263",
+          "gpu": "#46C263",
+          "battery": "#46C263",
+          "memory": "#33A2D9",
+          "swap": "#33A2D9",
+          "disk": "#33A2D9"
+        },
+        "meterTrack": "rgba(5, 18, 24, 0.65)",
+        "graphGrid": "rgba(160, 220, 250, 0.08)"
+      },
+      "art": {
+        "weather": "assets/westminster_dusk.svg"
+      }
+    },
+    "light": {
+      "variantName": "Aero Meadow (Daylight)",
+      "background": "#CBE3EF",
+      "cardBackground": "rgba(235, 246, 252, 0.82)",
+      "cardBackgroundHover": "rgba(245, 251, 255, 0.92)",
+      "textPrimary": "#142028",
+      "textSecondary": "#466070",
+      "accent": "#2E8F2E",
+      "accentSecondary": "#1E88E5",
+      "accentTertiary": "#FF9900",
+      "border": "rgba(255, 255, 255, 0.90)",
+      "gaugeTrack": "rgba(0, 0, 0, 0.08)",
+      "gaugeUsage": "#38B038",
+      "gaugeTemp": "#1E88E5",
+      "badgeBackground": "rgba(30, 136, 229, 0.15)",
+      "badgeText": "#1565C0",
+      "shadowColor": "rgba(20, 60, 80, 0.18)",
+      "sparkline": "#1E88E5",
+      "sparklineFill": "rgba(30, 136, 229, 0.16)",
+      "netDown": "#1565C0",
+      "netUp": "#1565C0",
+      "commentary": "#1565C0",
+      "accentGood": "#2E8F2E",
+      "chrome": {
+        "titleTop": "rgba(220, 240, 250, 0.90)",
+        "titleBottom": "rgba(170, 210, 230, 0.90)",
+        "titleText": "#142028"
+      },
+      "controls": {
+        "meterColors": {
+          "cpu": "#38B038",
+          "gpu": "#38B038",
+          "battery": "#38B038",
+          "memory": "#1E88E5",
+          "swap": "#1E88E5",
+          "disk": "#1E88E5"
+        },
+        "meterTrack": "rgba(0, 0, 0, 0.10)",
+        "graphGrid": "rgba(0, 0, 0, 0.05)"
+      },
+      "art": {
+        "weather": "assets/westminster_day.svg"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "AERO // DWM-6.0",
+    "weatherSkyHazard": "assets/westminster_dusk.svg",
+    "roamerPrimary": "assets/vista_glass_orb.svg",
+    "roamerSecondary": "assets/icon_fan_cooling.svg",
+    "quips": {
+      "nominal": "DESKTOP WINDOW MANAGER 3D HARDWARE ACCELERATION RUNNING AT FULL CAPACITY.",
+      "moderate": "COMPOSITING STEADY. EVERY PANE STILL GLASS-CLEAR.",
+      "highLoad": "FLIP 3D SPINNING HARD. THE GLASS IS WARM TO THE TOUCH.",
+      "critical": "GRAPHICS PIPELINE OVERCOMMITTED! REDUCE AERO COMPOSITING TRANSPARENCY."
+    },
+    "lexicon": {
+      "weatherTitle": "Weather",
+      "systemTitle": "System",
+      "storageTitle": "Storage",
+      "powerTitle": "Power",
+      "appTitle": "Aero Glass",
+      "mastheadTitle": "Aero Glass",
+      "appSubtitle": "System Overview",
+      "feedLabel": "Live"
+    }
+  }
+}

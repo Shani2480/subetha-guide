@@ -183,6 +183,7 @@ SlidingPillContainer {
             usageFraction: card.percent / 100
             tempValue: card.tempC
             tempLevel: card.tempLevel
+            metric: card.kind
             loadLevel: card.loadLevel
         }
 
@@ -402,6 +403,7 @@ SlidingPillContainer {
             usageFraction: card.percent / 100
             tempValue: card.tempC
             tempLevel: card.tempLevel
+            metric: card.kind
             loadLevel: card.loadLevel
         }
         RowLayout {   // gpu: VRAM gauge
@@ -619,6 +621,7 @@ SlidingPillContainer {
         property int segments: 20
         property real segmentHeight: 8
         property real value: 0                 // percent
+        property string metric: card.kind === "ram" ? "memory" : ""
         readonly property bool skinFill: card.theme.gaugeSlot && card.theme.gaugeUsage.a > 0
         implicitHeight: segmentHeight
         DynamicMetricGauge {
@@ -629,6 +632,8 @@ SlidingPillContainer {
             blockRadius: card.theme.gaugeBlockRadius
             value: Math.max(0, Math.min(100, gauge.value)) / 100
             fillColor: gauge.skinFill ? card.theme.gaugeUsage : card.loadColor(gauge.value)
+            metric: gauge.metric
+            nominal: card.alertLevel === 0
             outlined: gauge.skinFill
             blockTrack: card.theme.tint(card.theme.dark ? 0.3 : 0.45)
             live: card.live

@@ -27,13 +27,16 @@ Item {
     property bool animate: !!theme && theme.alertMotion
     property bool live: false             // gates the pulses
     property int segments: 24
+    property bool themeSegments: true     // the skin's geometry.segments overrides `segments`
+    readonly property int blockCount: themeSegments && theme && theme.gaugeSegments > 0 ? theme.gaugeSegments : segments
     property real segmentHeight: 9
+    property string metric: ""            // the skin's meter colour for it (DynamicMetricGauge.metric)
 
     readonly property real tempFraction: tempValue > 0 ? Math.max(0, Math.min(1, (tempValue - minTemp) / (maxTemp - minTemp))) : 0
     readonly property bool warm: tempValue > 0 && tempLevel === 1
     readonly property bool hot: tempValue > 0 && tempLevel === 2
-    readonly property int loadFilled: Math.round(Math.max(0, Math.min(1, usageFraction)) * segments)
-    readonly property int tempFilled: Math.round(tempFraction * segments)
+    readonly property int loadFilled: Math.round(Math.max(0, Math.min(1, usageFraction)) * blockCount)
+    readonly property int tempFilled: Math.round(tempFraction * blockCount)
     readonly property real load: usageFraction * 100
     readonly property bool skinFill: theme.gaugeUsage.a > 0
     readonly property color restingLoad: skinFill ? theme.gaugeUsage : load >= 85 ? theme.low : load >= 50 ? theme.mid : theme.high
@@ -85,10 +88,13 @@ Item {
         theme: bar.theme
         shape: bar.theme.skinned ? bar.theme.gaugeShape : bar.theme.gaugeSlot ? "slot" : "segmented"
         segments: bar.segments
+        themeSegments: bar.themeSegments
         blockStyle: "inset"
         value: bar.usageFraction
         secondary: bar.tempValue > 0 ? bar.tempFraction : -1
         fillColor: bar.loadColor
+        metric: bar.metric
+        nominal: bar.loadLevel === 0
         secondaryColor: bar.tempColor
         secondaryOpacity: bar.tempOpacity
         outlined: bar.skinFill

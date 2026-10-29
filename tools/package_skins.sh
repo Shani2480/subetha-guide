@@ -46,9 +46,12 @@ def need($cond; $msg): if $cond then empty else $msg end;
   need((.geometry.pillShape // "rounded") | oneof(["rounded", "chamfer", "sharp", "stadium"]); "geometry.pillShape"),
   need(.geometry.gaugeShape | oneof(["wavy", "segmented", "stadium", "chamfer", "flat", "analog-dial"]); "geometry.gaugeShape: wavy, segmented, stadium, chamfer, flat or analog-dial"),
   need((.chrome.style // "plain") | oneof(["luna", "aqua", "aero", "material", "terminal", "kiroshi", "hud", "plain"]); "chrome.style"),
-  need((.sections.style // "card") | oneof(["card", "groupband", "gadget"]); "sections.style: card, groupband or gadget"),
+  need((.sections.style // "card") | oneof(["card", "groupband", "gadget", "flagtab"]); "sections.style: card, groupband, gadget or flagtab"),
   need((.controls.meter // "") | oneof(["", "bevel", "ascii", "gadget", "angled", "slime"]); "controls.meter: bevel, ascii, gadget, angled or slime"),
   need(((.icons // {}) | to_entries | all(.value | type == "string" and test("^[A-Za-z0-9_/.-]+\\.svg$"))); "icons: svg paths"),
+  need(([.variants[]?.icons // {} | .[]] | all(type == "string" and test("^[A-Za-z0-9_/.-]+\\.svg$"))); "variants.*.icons: svg paths"),
+  need((.sections.lights // "traffic") | oneof(["traffic"]); "sections.lights: traffic"),
+  need((.sections.toggle // "angled") | oneof(["angled", "glass", "box"]); "sections.toggle: angled, glass or box"),
   (["dark", "light"][] as $v
    | need((.variants[$v] | type) == "object"; "variants.\($v) is required"),
      ($colors[] as $c | need(.variants[$v][$c] | color; "variants.\($v).\($c) must be a colour"))),
@@ -79,7 +82,7 @@ for dir in "$SKINS"/*/; do
         [ -n "$rel" ] && [ ! -f "$dir/$rel" ] && problems+=$'\n'"missing file $rel"
     done < <(jq -r 'select(.builtin != true) | [.fonts[]?, .narrative.weatherSkyHazard, .narrative.weatherSkyHazardSecondary,
                      .narrative.roamerPrimary, .narrative.roamerSecondary, (.roamers[]?.frames[]?), (.icons // {} | .[]),
-                     .chrome.logo, .chrome.badge, .frame.tubes, .frame.siren, .frame.portal, .frame.toolbelt, .frame.decorations, .frame.hudLeft, .frame.hudRight, (.narrative.vignettes // [] | .[].art), .sections.gear, .sections.close, .controls.dialRim, (.art // {} | .[])]
+                     .chrome.logo, .chrome.badge, .frame.tubes, .frame.siren, .frame.portal, .frame.toolbelt, .frame.decorations, .frame.hudLeft, .frame.hudRight, (.narrative.vignettes // [] | .[].art), .sections.gear, .sections.close, .controls.dialRim, (.art // {} | .[]), (.variants[]?.art // {} | .[]), .sections.flagMark, .footer.mark, .footer.endMark, (.variants[]?.icons // {} | .[])]
                     | map(select(type == "string")) | .[]' "$dir/skin.json")
     problems=$(sed '/^$/d' <<<"$problems")
     if [ -n "$problems" ]; then

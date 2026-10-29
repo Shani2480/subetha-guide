@@ -1,0 +1,197 @@
+{
+  "id": "mirrors-edge-runner",
+  "name": "Mirror's Edge (Runner Vision)",
+  "author": "Shani",
+  "version": "2.1.0",
+  "description": "Runner Vision in two shifts: Infiltration at night (black glass, red edges) and the City of Glass by day (white and steel). Numbered red flag tabs, 45° cut corners and discrete red segment meters.",
+  "fontFamily": "Ubuntu Mono, Roboto Mono, SF Pro Display, monospace",
+  "fonts": [
+    "assets/fonts/UbuntuMono-Regular.ttf",
+    "assets/fonts/UbuntuMono-Bold.ttf"
+  ],
+  "features": {
+    "enableCrtScanlines": false,
+    "enablePhosphorDecay": false,
+    "enableCornerBrackets": true,
+    "enableGlassBlur": false,
+    "enableGrid": false,
+    "enableBarrel": false
+  },
+  "geometry": {
+    "cardShape": "chamfer",
+    "pillShape": "chamfer",
+    "gaugeShape": "segmented",
+    "chamferCut": 14,
+    "pillChamferCut": 6,
+    "chamferCorners": [
+      "bl",
+      "br"
+    ],
+    "segments": 16,
+    "cornerRadius": 0,
+    "borderStyle": "solid",
+    "borderWidth": 1.5,
+    "hasCornerBrackets": true,
+    "hasDropShadow": false,
+    "shadowType": "none",
+    "shadowOffset": [
+      0,
+      0
+    ],
+    "shadowBlur": 0
+  },
+  "chrome": {
+    "style": "hud",
+    "buttons": "hud",
+    "titleAlign": "left",
+    "frameWidth": 1,
+    "badge": "assets/me_runner_badge.svg",
+    "subtitle": "RUNNER VISION"
+  },
+  "sections": {
+    "style": "flagtab",
+    "numbered": true,
+    "uppercase": true,
+    "flagMark": "assets/me_runner_mark_white.svg"
+  },
+  "controls": {
+    "meter": "",
+    "meterLabel": false,
+    "graph": "line",
+    "graphFill": false
+  },
+  "icons": {
+    "app": "assets/icons/app.svg",
+    "cpu": "assets/icons/cpu.svg",
+    "ram": "assets/icons/ram.svg",
+    "swap": "assets/icons/swap.svg",
+    "gpu": "assets/icons/gpu.svg",
+    "netDown": "assets/icons/netDown.svg",
+    "netUp": "assets/icons/netUp.svg",
+    "disk": "assets/icons/disk.svg",
+    "battery": "assets/icons/battery.svg",
+    "fan": "assets/icons/fan.svg",
+    "clock": "assets/icons/clock.svg",
+    "process": "assets/icons/process.svg",
+    "service": "assets/icons/service.svg",
+    "settings": "assets/icons/settings.svg",
+    "ai": "assets/icons/ai.svg",
+    "weather": "assets/icons/weather.svg"
+  },
+  "art": {
+    "disk": "assets/city_glass_skyline.svg",
+    "weather": "assets/faith_crouch_night.svg"
+  },
+  "footer": {
+    "mark": "assets/me_runner_badge.svg",
+    "label": "MIRROR'S EDGE",
+    "motto": "FASTER  /  HIGHER  /  STRONGER"
+  },
+  "variants": {
+    "dark": {
+      "background": "#000000",
+      "cardBackground": "#050608",
+      "cardBackgroundHover": "#0D0F14",
+      "textPrimary": "#FFFFFF",
+      "textSecondary": "#8E9297",
+      "accent": "#FF1824",
+      "accentSecondary": "#FF4D55",
+      "accentTertiary": "#FF1824",
+      "accentGood": "#FF1824",
+      "border": "#2B0D11",
+      "borderActive": "#FF1824",
+      "gaugeTrack": "#16191E",
+      "gaugeUsage": "#FF1824",
+      "gaugeTemp": "#FF1824",
+      "badgeBackground": "#FF1824",
+      "badgeText": "#FFFFFF",
+      "shadowColor": "#000000",
+      "sparkline": "#FF1824",
+      "sparklineFill": "rgba(255, 24, 36, 0.10)",
+      "netDown": "#FF1824",
+      "netUp": "#FF4D55",
+      "commentary": "#8E9297",
+      "art": {
+        "weather": "assets/faith_crouch_night.svg"
+      }
+    },
+    "light": {
+      "background": "#EBF2F7",
+      "cardBackground": "#FFFFFF",
+      "cardBackgroundHover": "#F5F8FA",
+      "textPrimary": "#101418",
+      "textSecondary": "#6A737D",
+      "accent": "#FF1824",
+      "accentSecondary": "#D60C17",
+      "accentTertiary": "#FF1824",
+      "accentGood": "#FF1824",
+      "border": "#DDE3EA",
+      "borderActive": "#FF1824",
+      "gaugeTrack": "#E2E7ED",
+      "gaugeUsage": "#FF1824",
+      "gaugeTemp": "#FF1824",
+      "badgeBackground": "#FF1824",
+      "badgeText": "#FFFFFF",
+      "shadowColor": "#DDE3EA",
+      "sparkline": "#FF1824",
+      "sparklineFill": "rgba(255, 24, 36, 0.08)",
+      "netDown": "#FF1824",
+      "netUp": "#D60C17",
+      "commentary": "#6A737D",
+      "art": {
+        "weather": "assets/faith_portrait_day.svg"
+      }
+    }
+  },
+  "narrative": {
+    "badgeLabel": "RUNNER // PERSPECTIVE",
+    "weatherSkyHazard": "assets/city_glass_skyline.svg",
+    "roamerPrimary": "assets/faith_crouch_night.svg",
+    "roamerSecondary": "assets/me_runner_badge.svg",
+    "quips": {
+      "nominal": "RUNNER LINK SYNCHRONIZED. LINE OF SIGHT CLEAR.",
+      "moderate": "ROUTE CONGESTED. FIND ANOTHER LINE.",
+      "highLoad": "FULL FLOW. EVERY CORE ON THE ROOFTOPS.",
+      "critical": "KRUGERSEC PATROL IN PURSUIT. CONGESTION CRITICAL.",
+      "night": "INFILTRATION WINDOW OPEN. STAY OUT OF THE LIGHT."
+    },
+    "lexicon": {
+      "appTitle": "RUNNER VISION",
+      "mastheadTitle": "RUNNER VISION",
+      "appSubtitle": "CITY OF GLASS",
+      "weatherTitle": "WEATHER",
+      "systemTitle": "SYSTEM",
+      "storageTitle": "STORAGE",
+      "powerTitle": "POWER",
+      "clockTitle": "TIME",
+      "cpuTitle": "CPU",
+      "gpuTitle": "GPU",
+      "memoryTitle": "MEMORY",
+      "networkTitle": "NETWORK",
+      "coolingTitle": "COOLING"
+    }
+  },
+  "colors": {
+    "background": "#000000",
+    "cardBackground": "#050608",
+    "cardBackgroundHover": "#0D0F14",
+    "textPrimary": "#FFFFFF",
+    "textSecondary": "#8E9297",
+    "accent": "#FF1824",
+    "accentSecondary": "#FF4D55",
+    "accentTertiary": "#FF1824",
+    "accentGood": "#FF1824",
+    "border": "#2B0D11",
+    "borderActive": "#FF1824",
+    "gaugeTrack": "#16191E",
+    "shadowColor": "#000000",
+    "sparkline": "#FF1824",
+    "sparklineFill": "rgba(255, 24, 36, 0.10)",
+    "netDown": "#FF1824",
+    "netUp": "#FF4D55",
+    "commentary": "#8E9297",
+    "gaugeFillUsage": "#FF1824",
+    "gaugeFillTemp": "#FF1824"
+  },
+  "badgeText": "RUNNER // PERSPECTIVE"
+}

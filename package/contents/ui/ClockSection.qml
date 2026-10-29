@@ -15,10 +15,12 @@ CollapsibleSection {
     property bool minimal: false          // this section's density is "compact"
     property bool live: false
     property int entranceSerial: 0
+    property int number: 0                // its place among the sections shown (a numbered flag tab)
 
     signal densityToggled()
 
     ModuleCard {
+        number: section.number
         iconKey: "clock"
         width: parent.width
         theme: section.theme

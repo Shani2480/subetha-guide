@@ -20,29 +20,40 @@ CollapsibleSection {
     property bool live: false
     property real gap: 8
     property bool toggleVisible: true     // the density tag (off in the panel's hover card)
+    property int number: 0                // its place among the sections shown (a numbered flag tab)
 
     signal locationChosen(string name, real latitude, real longitude)
     signal configureRequested()
     signal densityToggled()
 
+    readonly property string title: theme.lex("weatherTitle", "WEATHER", "WEATHER")
+    readonly property string label: theme.sectionsNumbered ? theme.sectionLabel(title, number) : title
     readonly property string themeStyle: theme.dark ? "terminalDark" : "movieLight"
     // Tall enough for the full tier (hero, hourly strip with the characters'
     // ground line, 7-day row); the view lays itself out inside it.
     readonly property real fullHeight: theme.rowHeightFull
     // a Win32 group band or a Vista gadget's title over the card (theme.groupBands, theme.gadgets)
     readonly property bool titled: (theme.groupBands || theme.gadgets) && !minimal
-    readonly property real titleHeight: titled ? (theme.groupBands ? band.implicitHeight : gadgetTitle.implicitHeight) + 4 : 0
+    readonly property real titleHeight: theme.flagTabs ? flagTab.height
+                                      : titled ? (theme.groupBands ? band.implicitHeight : gadgetTitle.implicitHeight) + 4 : 0
     readonly property real vignetteHeight: !minimal && theme.vignettesAt("weather").length ? 56 : 0
 
     Item {
         width: parent.width
         height: (section.minimal ? (view.item ? view.item.implicitHeight + card.inset : 0) : section.fullHeight) + section.gap + section.titleHeight + section.vignetteHeight
+        FlagTab {   // flag-tab sections (theme.flagTabs), in either density
+            id: flagTab
+            visible: section.theme.flagTabs
+            theme: section.theme
+            title: section.title
+            number: section.number
+        }
         GroupBand {
             id: band
             visible: section.titled && section.theme.groupBands
             width: parent.width
             theme: section.theme
-            title: section.theme.lex("weatherTitle", "WEATHER", "WEATHER")
+            title: section.label
             icon: section.theme.icon("weather")
         }
         GadgetTitle {
@@ -50,7 +61,7 @@ CollapsibleSection {
             visible: section.titled && section.theme.gadgets
             x: 6; width: parent.width - 12
             theme: section.theme
-            text: section.theme.lex("weatherTitle", "WEATHER", "WEATHER")
+            text: section.label
             icon: section.theme.icon("weather")
             onCloseClicked: section.densityToggled()
         }
@@ -65,12 +76,14 @@ CollapsibleSection {
             readonly property bool translucent: !section.minimal && section.config !== undefined
                                                 && section.config.translucentDesktopBackground
             readonly property color tint: theme.sectionTint("weather")
-            fillColor: tint.a > 0 ? tint : translucent ? Qt.rgba(theme.bg.r, theme.bg.g, theme.bg.b, theme.dark ? 0.9 : 0.93) : theme.bg
+            strokeColor: section.minimal ? theme.border : theme.borderActive
+            // translucent: the skin's own alpha when it has one, else the Guide's
+            fillColor: tint.a > 0 ? tint : translucent && theme.bg.a >= 1 ? Qt.rgba(theme.bg.r, theme.bg.g, theme.bg.b, theme.dark ? 0.9 : 0.93) : theme.bg
             // the border on both sides, plus whatever a flat or soft shadow's offset takes
             readonly property real inset: strokeWidth * 2 + (offsetShadow ? Math.abs(shadowOffsetY) : 0)
             padding: strokeWidth
             Image {   // the skin's skyline, along the bottom behind the readouts
-                visible: !section.minimal && source != ""
+                visible: !section.minimal && !section.theme.flagTabs && source != ""
                 anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: card.strokeWidth }
                 height: parent.height * 0.35
                 source: section.theme.art("weather")
@@ -78,6 +91,17 @@ CollapsibleSection {
                 fillMode: Image.PreserveAspectFit
                 verticalAlignment: Image.AlignBottom
                 opacity: 0.55
+            }
+            Image {   // flag-tab sections: the skin's figure at the card's right, over the hero in full
+                visible: section.theme.flagTabs && source != ""
+                z: 1
+                anchors { right: parent.right; top: parent.top; margins: card.strokeWidth + (section.minimal ? 2 : 14) }
+                height: section.minimal ? parent.height - anchors.margins * 2 : 96
+                width: Math.min(parent.width * (section.minimal ? 0.4 : 0.3), height * 1.6)
+                source: section.theme.flagTabs ? section.theme.art("weather") : ""
+                sourceSize: Qt.size(width * 2, height * 2)
+                fillMode: Image.PreserveAspectFit
+                horizontalAlignment: Image.AlignRight
             }
             Loader {
                 id: view

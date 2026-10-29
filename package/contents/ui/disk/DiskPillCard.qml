@@ -12,6 +12,7 @@ import "../common"
 SlidingPillContainer {
     id: card
     tint: theme.sectionTint("disk")
+    art: theme.art("disk")
 
     property bool minimal: false
     property string volumeLabel: ""
@@ -260,6 +261,8 @@ SlidingPillContainer {
             segments: card.minimal ? 20 : 24
             value: Math.round(card.percent / 100 * segments) / segments
             fillColor: card.fillColor
+            metric: "disk"
+            nominal: !card.isCritical && card.percent < 75
             outlined: false
             live: card.theme.live
         }

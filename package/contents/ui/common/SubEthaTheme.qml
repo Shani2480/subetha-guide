@@ -99,6 +99,7 @@ QtObject {
     readonly property color commentary: sc("commentary", accent)          // the sections' one-line verdicts
     readonly property color cardHover: sc("cardBackgroundHover", bg)       // a frame under the pointer
     readonly property color border:    sc("border", dark ? tint(0.55) : ink)
+    readonly property color borderActive: sc("borderActive", border)       // the hovered card, the open section
     // a glow's colour on the terminal is a soft phosphor, not solid ink
     readonly property color shadow:    sc("shadowColor", !skin && dark ? tint(0.4) : ink)
 
@@ -148,6 +149,10 @@ QtObject {
     function radiusOf(role) { return role === "pill" ? pillCornerRadius : role === "gauge" ? 2 : cornerRadius }
     function chamferOf(role) { return role === "card" ? chamferCut : pillChamferCut }
     readonly property real chamfer:    cardShape === "chamfer" ? chamferCut : 0      // a frame's 45° cut corners
+    // which corners a chamfer cuts (geometry.chamferCorners): top-right and bottom-left unless the skin says
+    readonly property var chamferCorners: geo.chamferCorners && geo.chamferCorners.length ? geo.chamferCorners : ["tr", "bl"]
+    // blocks in a segmented bar (geometry.segments); 0: the bar decides
+    readonly property int gaugeSegments: geo.segments ? geo.segments : 0
     // Gauges and graphs: transparent means "as the Guide colours it".
     readonly property color gaugeTrack: sc("gaugeTrack", "transparent")
     readonly property color gaugeUsage: sc("gaugeFillUsage", "transparent")
@@ -249,17 +254,47 @@ QtObject {
     readonly property bool groupBands: sectionStyle === "groupband" && !minimal
     readonly property bool gadgets: sectionStyle === "gadget" && !minimal
     readonly property bool screws: !!skin && !!skin.sections && skin.sections.screws === true && !minimal
+    // sections.style "flagtab": an accent flag with a 45° edge per section header (FlagTab)
+    readonly property bool flagTabs: sectionStyle === "flagtab" && !minimal
+    readonly property string flagMark: flagTabs && skin.sections.flagMark || ""
+    readonly property color flagFill: osColor("sections", "bandColor", accent)
+    readonly property color flagInk: osColor("sections", "bandText", "#FFFFFF")
+    // sections.numbered: "1 — WEATHER", the section's place before its title, in any section style;
+    // sections.uppercase false keeps the title's own case
+    readonly property bool sectionsNumbered: !!skin && !!skin.sections && skin.sections.numbered === true && !minimal
+    readonly property bool sectionsUppercase: !skin || !skin.sections || skin.sections.uppercase !== false
+    function sectionLabel(title, number) {
+        var t = sectionsUppercase ? title.toUpperCase() : title
+        return sectionsNumbered && number > 0 ? number + " \u2014 " + t : t
+    }
+    // sections.lights "traffic": red, amber and green dots before a section's title
+    readonly property bool trafficLights: !!skin && !!skin.sections && skin.sections.lights === "traffic" && !minimal
+    // sections.toggle: the fold [ + ] / [ - ] as an angled pill, a glass button or an inked box
+    readonly property string toggleStyle: skin && skin.sections && skin.sections.toggle ? skin.sections.toggle
+                                        : flagTabs ? "angled" : ""
+    // style.footer: a mark, a label and a tracked motto along the widget's foot
+    readonly property var footer: skin && skin.footer && !minimal ? skin.footer : null
     readonly property real gadgetGloss: skin && skin.sections && skin.sections.gloss !== null && skin.sections.gloss !== undefined
                                         ? skin.sections.gloss : 0.45
+    // sections.gloss on a card style: the gadget's curved sheen over that much of each card's top
+    readonly property real cardGloss: !gadgets && !minimal && skin && skin.sections && skin.sections.gloss > 0 ? skin.sections.gloss : 0
     readonly property var controls: skin && skin.controls ? skin.controls : ({ meter: "", meterLabel: false, graph: "line", graphFill: true, cursor: false })
     readonly property string meterStyle: controls.meter || ""
     readonly property string graphStyle: controls.graph || "line"
     readonly property bool taskGraphs: graphStyle === "taskmgr"
-    readonly property var icons: skin && skin.icons ? skin.icons : ({})
+    readonly property var icons: Object.assign({}, skin && skin.icons ? skin.icons : {}, variant && variant.icons ? variant.icons : {})   // a variant's over the skin's
+    // a meter's own fill by what it measures (cpu, gpu, memory, swap, disk, battery):
+    // the variant's controls.meterColors over the skin's; transparent for none
+    function meterColor(key) {
+        if (!skin || !key) return "transparent"
+        var v = variant && variant.meterColors && variant.meterColors[key] ? variant.meterColors[key]
+              : skin.controls && skin.controls.meterColors ? skin.controls.meterColors[key] : ""
+        return v ? v : "transparent"
+    }
     function icon(key) { return icons[key] || "" }
     // a hero illustration for a card's free corner (cpu, gpu, memory, network, disk, weather)
     readonly property var artwork: skin && skin.art ? skin.art : ({})
-    function art(key) { return artwork[key] || "" }
+    function art(key) { return variant && variant.art && variant.art[key] || artwork[key] || "" }   // a variant's own first
     // a card's own surface (sections.tints: cpu, gpu, memory, network, disk, weather), or transparent
     function sectionTint(key) {
         return variant && variant.tints && variant.tints[key]

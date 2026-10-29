@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+<g id="backdrop">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56CCF2"/><stop offset="1" stop-color="#D8EEF8"/></linearGradient></defs>
+<rect width="320" height="200" fill="url(#s)"/>
+<circle cx="60" cy="44" r="18" fill="#FFD43B" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<!-- water tower -->
+<g stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M220 100 l-14 60 M260 100 l14 60 M212 130 h56 M206 150 h68" fill="none"/>
+<path d="M208 70 Q240 56 272 70 V100 Q240 108 208 100Z" fill="#E6EEF2"/><path d="M204 70 Q240 50 276 70" fill="none"/>
+<text x="240" y="92" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="14" fill="#000" stroke="none">LAB</text></g>
+<!-- houses -->
+<g stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+ <rect x="20" y="130" width="70" height="40" fill="#F6E7C8"/><path d="M14 132 L55 104 L96 132Z" fill="#D81B60"/>
+ <rect x="110" y="138" width="60" height="32" fill="#F6E7C8"/><path d="M104 140 L140 116 L176 140Z" fill="#D81B60"/>
+ <rect x="284" y="134" width="40" height="36" fill="#F6E7C8"/><path d="M278 136 L304 116 L330 136Z" fill="#D81B60"/>
+ <path d="M70 110 V92 M64 96 h12 M66 100 h8" fill="none"/>
+ <path d="M150 122 V104 M144 108 l12 -4" fill="none"/>
+</g>
+<g fill="#BDEBFA" stroke="#000" stroke-width="2"><rect x="32" y="140" width="12" height="12"/><rect x="64" y="140" width="12" height="12"/><rect x="124" y="146" width="10" height="10"/><rect x="292" y="144" width="10" height="10"/></g>
+<!-- ground + bunker vents -->
+<rect y="170" width="320" height="30" fill="#7BC86C" stroke="#000" stroke-width="3"/>
+<g fill="#2B2B33" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><rect x="186" y="176" width="22" height="10"/><rect x="232" y="180" width="22" height="10"/></g>
+<g fill="#00E5FF" opacity="0.9"><rect x="190" y="179" width="14" height="3"/><rect x="236" y="183" width="14" height="3"/></g>
+</g>
+<g id="robot" transform="translate(150 22) scale(0.98)">
+<ellipse cx="70" cy="174" rx="48" ry="5" fill="#000" opacity="0.3"/>
+<!-- legs + boots -->
+<path d="M50 150 v18 h-10 v6 h24 v-24Z M90 150 v18 h10 v6 h-24 v-24Z" fill="#2B2B33" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<!-- coat -->
+<path d="M30 92 Q32 76 50 72 h40 Q108 76 110 92 L116 156 H24Z" fill="#FFFFFF" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M70 74 L60 96 L70 156 M70 74 L80 96" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M58 74 L70 90 L82 74" fill="#9FE9F7" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<!-- folded arms -->
+<path d="M28 108 Q60 98 106 112 Q110 126 100 130 Q66 122 34 128 Q22 120 28 108Z" fill="#FFFFFF" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M98 104 q14 2 14 14 q-2 10 -14 8 Z" fill="#7B2FBE" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M42 116 q-14 -2 -16 10 q2 10 16 6 Z" fill="#7B2FBE" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 112 Q62 106 98 116" fill="none" stroke="#000" stroke-width="1.6" opacity="0.5"/>
+<!-- neck + head dome -->
+<rect x="62" y="62" width="16" height="12" fill="#8B97A6" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M36 44 Q36 10 70 10 Q104 10 104 44 V58 Q104 66 96 66 H44 Q36 66 36 58Z" fill="#CED7E0" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 22 Q56 14 70 14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+<!-- visor with smug half-lidded eyes -->
+<rect x="44" y="32" width="52" height="20" rx="9" fill="#0F1A24" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M52 42 h12 M76 42 h12" stroke="#00E5FF" stroke-width="5" stroke-linecap="round"/>
+<path d="M50 37 l16 2 M74 39 l16 -2" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+<!-- smirk -->
+<path d="M58 59 Q70 63 84 55" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+<!-- antenna -->
+<path d="M70 10 V0" stroke="#000" stroke-width="3"/><circle cx="70" cy="2" r="4" fill="#39FF14" stroke="#000" stroke-width="2.5"/>
+<!-- name badge -->
+<rect x="80" y="86" width="20" height="9" fill="#00E5FF" stroke="#000" stroke-width="2"/>
+</g>
+</svg>

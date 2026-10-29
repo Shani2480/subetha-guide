@@ -4,8 +4,9 @@ import QtQuick.Shapes
 
 // One themed surface: a card, pill, button, badge or gauge track, drawn as a
 // vector outline, filled and stroked inside its bounds.
-//   shapeType   "rounded" (cornerRadius), "chamfer" (top-right and bottom-left
-//               corners cut at 45° by chamferSize), "sharp", or "stadium"
+//   shapeType   "rounded" (cornerRadius), "chamfer" (the chamferCorners, by
+//               default top-right and bottom-left, cut at 45° by chamferSize),
+//               "sharp", or "stadium"
 //               (capsule ends, as round as stadiumMax at most)
 //   borderStyle "solid", "dashed", "double" (an inner hairline), or
 //               "tech-brackets" (a faint outline under bold L brackets)
@@ -27,6 +28,7 @@ Item {
     property string shapeType: theme ? theme.shapeOf(role) : "rounded"
     property real cornerRadius: theme ? theme.radiusOf(role) : 8
     property real chamferSize: theme ? theme.chamferOf(role) : 10
+    property var chamferCorners: theme ? theme.chamferCorners : ["tr", "bl"]    // of tl, tr, br, bl
     property real stadiumMax: theme ? theme.stadiumMax : 24
     property string borderStyle: theme && role !== "gauge" ? theme.borderStyle : "solid"
     property bool cornerBrackets: borderStyle === "tech-brackets"
@@ -52,13 +54,16 @@ Item {
 
     // The outline `d` px in from the face's edge, as SVG path data: the stroke
     // is centred on it, so d = half the stroke keeps the stroke inside.
+    function cuts(corner) { return chamferCorners.indexOf(corner) >= 0 }
     function outline(d) {
         var w = faceItem.width, h = faceItem.height
         if (w <= 2 * d || h <= 2 * d) return ""
         var x0 = d, y0 = d, x1 = w - d, y1 = h - d
         if (cut > 0) {
             var c = Math.max(0, cut - d * (2 - Math.SQRT2))    // a parallel 45° cut, d further in
-            return `M ${x0} ${y0} H ${x1 - c} L ${x1} ${y0 + c} V ${y1} H ${x0 + c} L ${x0} ${y1 - c} Z`
+            var tl = cuts("tl") ? c : 0, tr = cuts("tr") ? c : 0, br = cuts("br") ? c : 0, bl = cuts("bl") ? c : 0
+            return `M ${x0 + tl} ${y0} H ${x1 - tr} L ${x1} ${y0 + tr} V ${y1 - br} L ${x1 - br} ${y1}`
+                 + ` H ${x0 + bl} L ${x0} ${y1 - bl} V ${y0 + tl} Z`
         }
         var r = Math.max(0, radius - d)
         if (r === 0) return `M ${x0} ${y0} H ${x1} V ${y1} H ${x0} Z`
@@ -131,7 +136,7 @@ Item {
         }
 
         // L-shaped marks on the corners, clear of a rounded corner's curve;
-        // none on the two a chamfer cuts away.
+        // none on those a chamfer cuts away.
         Repeater {
             model: root.cornerBrackets ? 4 : 0
             Item {
@@ -140,7 +145,7 @@ Item {
                 readonly property bool atBottom: index >= 2
                 readonly property real inset: root.bracketInset + root.radius * 0.3
                 readonly property real arm: Math.max(1.5, Math.min(2, root.strokeWidth))
-                visible: !(root.cut > 0 && atRight !== atBottom)
+                visible: !(root.cut > 0 && root.cuts((atBottom ? "b" : "t") + (atRight ? "r" : "l")))
                 width: root.bracketSize; height: width
                 x: atRight ? faceItem.width - width - inset : inset
                 y: atBottom ? faceItem.height - height - inset : inset

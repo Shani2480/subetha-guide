@@ -216,17 +216,22 @@ SlidingPillContainer {
         property int segments: 10
         property real segmentHeight: 10
         property bool stretch: false
-        readonly property int filled: Math.ceil(card.level / (100 / segments))
+        // stretched, as many cells as the skin's segmented bars (geometry.segments)
+        readonly property int count: stretch && card.theme.gaugeSegments > 0 ? card.theme.gaugeSegments : segments
+        readonly property int filled: Math.ceil(card.level / (100 / count))
         implicitWidth: stretch ? 0 : segments * 9 - 2
         implicitHeight: segmentHeight
         DynamicMetricGauge {
             width: gauge.width; height: gauge.segmentHeight
             theme: card.theme
             shape: card.theme.skinned ? card.theme.gaugeShape : "segmented"
-            segments: gauge.segments
+            segments: gauge.count
+            themeSegments: false
             blockWidth: gauge.stretch ? 0 : 7
-            value: gauge.filled / gauge.segments
+            value: gauge.filled / gauge.count
             fillColor: card.levelColor
+            metric: "battery"
+            nominal: !card.isCritical && card.level >= 50
             outlined: false
             pulseIndex: card.isCharging ? gauge.filled : -1
             pulseOpacity: 0.6 * card.blink

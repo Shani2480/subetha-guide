@@ -14,7 +14,8 @@ import "common"
 // (CollapsibleSection) and the ones below and beside slide with it. The
 // header folds away only while every shown section is compact. Under a skin
 // that imitates an operating system, the whole stack sits in that OS's window
-// (GuideWindow) and its title bar replaces the header.
+// (GuideWindow) and its title bar replaces the header. A skin's footer
+// (SkinFooter) runs along the bottom.
 SnapFrame {
     id: full
 
@@ -41,6 +42,10 @@ SnapFrame {
     function has(key) { return sections.indexOf(key) >= 0 }
     function compact(key) { return !!config && config[key + "Density"] === "compact" }
     function toggleDensity(key) { densityChosen(key, compact(key) ? "full" : "compact") }
+    // a section's place among those shown, top to bottom (a skin's numbered flag tabs)
+    function number(key) {
+        return ["clock", "weather", "system", "disk", "battery", "ai"].filter(has).indexOf(key) + 1
+    }
     property int entranceSerial: 0        // bumped each time the view opens: the pills cascade in again
     onLiveChanged: if (live) entranceSerial++
 
@@ -64,8 +69,9 @@ SnapFrame {
             // The columns start below the clock, which runs the full width.
             readonly property real firstY: clockSection.y + clockSection.height
             width: parent.width
-            height: Math.max(diskSection.y + diskSection.height, batterySection.y + batterySection.height, aiSection.y + aiSection.height,
-                             empty.visible ? empty.y + empty.height : 0)
+            readonly property real sectionsBottom: Math.max(diskSection.y + diskSection.height, batterySection.y + batterySection.height,
+                                                            aiSection.y + aiSection.height, empty.visible ? empty.y + empty.height : 0)
+            height: sectionsBottom + footer.height
 
             CollapsibleSection {
                 id: header
@@ -92,6 +98,7 @@ SnapFrame {
 
             ClockSection {
                 id: clockSection
+                number: full.number("clock")
                 y: stack.topY
                 width: parent.width
                 open: full.has("clock")
@@ -105,6 +112,7 @@ SnapFrame {
             }
             WeatherSection {
                 id: weatherSection
+                number: full.number("weather")
                 x: 0
                 y: stack.firstY
                 width: stack.columnWidth
@@ -121,6 +129,7 @@ SnapFrame {
             }
             SystemSection {
                 id: systemSection
+                number: full.number("system")
                 x: stack.rightX
                 y: stack.twoColumns ? stack.firstY : weatherSection.y + weatherSection.height
                 width: stack.columnWidth
@@ -139,6 +148,7 @@ SnapFrame {
             }
             DiskSection {
                 id: diskSection
+                number: full.number("disk")
                 x: 0
                 y: stack.twoColumns ? weatherSection.y + weatherSection.height : systemSection.y + systemSection.height
                 width: stack.columnWidth
@@ -155,6 +165,7 @@ SnapFrame {
             }
             BatterySection {
                 id: batterySection
+                number: full.number("battery")
                 x: stack.rightX
                 y: stack.twoColumns ? systemSection.y + systemSection.height : diskSection.y + diskSection.height
                 width: stack.columnWidth
@@ -169,6 +180,7 @@ SnapFrame {
             }
             AiSection {
                 id: aiSection
+                number: full.number("ai")
                 x: 0
                 y: stack.twoColumns ? diskSection.y + diskSection.height : batterySection.y + batterySection.height
                 width: stack.columnWidth
@@ -182,6 +194,13 @@ SnapFrame {
                 entranceSerial: full.entranceSerial
             }
 
+            SkinFooter {   // a skin's mark, label and motto along the bottom
+                id: footer
+                y: stack.sectionsBottom
+                width: parent.width
+                height: implicitHeight
+                theme: full.theme
+            }
             VectorFrame {
                 id: empty
                 visible: full.sections.length === 0

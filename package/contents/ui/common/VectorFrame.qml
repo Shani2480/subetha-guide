@@ -26,6 +26,7 @@ Item {
     // top, fading down (0: none).
     property real gloss: 0
     property color tint: "transparent"   // a skin's surface for this card (sections.tints)
+    property bool active: false          // an open section: the border in the skin's borderActive, as on hover
     default property alias content: inner.data
 
     readonly property string style: theme.frame ? theme.frame.style : ""
@@ -47,6 +48,7 @@ Item {
         theme: frame.theme
         role: "card"
         fillColor: frame.flat ? "transparent" : frame.fill
+        strokeColor: frame.active || hover.hovered ? frame.theme.borderActive : frame.theme.border
         strokeWidth: frame.flat ? 0 : frame.theme.borderWidth
         shadowType: frame.flat ? "none" : frame.theme.shadowType
         // the Guide's targeting reticles, or a bezel skin's brackets

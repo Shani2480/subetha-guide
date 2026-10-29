@@ -20,6 +20,7 @@ CollapsibleSection {
     property bool minimal: false          // this section's density is "compact"
     property bool live: false
     property int entranceSerial: 0
+    property int number: 0                // its place among the sections shown (a numbered flag tab)
 
     signal monitorRequested(string tab)
     signal densityToggled()
@@ -28,6 +29,7 @@ CollapsibleSection {
     function sizeKey(kind) { return kind === "fans" ? "fan" : kind }
 
     ModuleCard {
+        number: section.number
         iconKey: "cpu"
         width: parent.width
         theme: section.theme
