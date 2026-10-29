@@ -291,6 +291,13 @@ QtObject {
               : skin.controls && skin.controls.meterColors ? skin.controls.meterColors[key] : ""
         return v ? v : "transparent"
     }
+    // a candy meter's four stops by what it measures (controls.meterStops, the variant's over the skin's); null: none
+    function meterStops(key) {
+        if (!skin || !key) return null
+        var v = variant && variant.meterStops && variant.meterStops[key] ? variant.meterStops[key]
+              : skin.controls && skin.controls.meterStops ? skin.controls.meterStops[key] : null
+        return v ? v : null
+    }
     function icon(key) { return icons[key] || "" }
     // a hero illustration for a card's free corner (cpu, gpu, memory, network, disk, weather)
     readonly property var artwork: skin && skin.art ? skin.art : ({})

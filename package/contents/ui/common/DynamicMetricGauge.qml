@@ -103,6 +103,7 @@ Item {
         sourceComponent: gauge.meter === "bevel" ? bevelMeter : gauge.meter === "ascii" ? asciiMeter
                        : gauge.meter === "gadget" ? gadgetMeter : gauge.meter === "angled" ? angledMeter
                        : gauge.meter === "slime" ? slimeMeter
+                       : gauge.meter === "candy" ? candyMeter
                        : gauge.ascii ? asciiBar : gauge.shape === "segmented" ? blocks
                        : gauge.shape === "wavy" ? wave : bar
     }
@@ -288,6 +289,47 @@ Item {
     }
 
     // ---- controls.meter: the OS's own meters ----
+    // candy: Vista's jelly bar, a recessed capsule whose fill is split by a
+    // crisp glare line; the skin's four stops for what it measures while
+    // nominal (controls.meterStops), else the fill's colour split the same way
+    readonly property var candyStops: {
+        var s = nominal && skinFill.a > 0 ? theme.meterStops(metric) : null
+        return s ? s : [Qt.lighter(paint, 1.35), paint, Qt.darker(paint, 1.45), Qt.darker(paint, 1.75)]
+    }
+    Component {
+        id: candyMeter
+        Rectangle {
+            id: slot
+            radius: height / 2
+            color: gauge.cc("meterTrack", gauge.trackColor)
+            border { width: 1; color: gauge.cc("meterInsetDark", Qt.rgba(0, 0, 0, 0.6)) }
+            Rectangle {   // the secondary wash
+                visible: gauge.secondary >= 0
+                width: slot.width * Math.max(0, Math.min(1, gauge.secondary)); height: slot.height
+                radius: Math.min(slot.radius, width / 2)
+                color: gauge.secondaryColor
+                opacity: gauge.secondaryOpacity
+            }
+            Rectangle {
+                id: jelly
+                visible: width > 1
+                width: slot.width * Math.max(0, Math.min(1, gauge.value)); height: slot.height
+                radius: Math.min(slot.radius, width / 2)
+                gradient: Gradient {
+                    GradientStop { position: 0; color: gauge.candyStops[0] }
+                    GradientStop { position: 0.48; color: gauge.candyStops[1] }
+                    GradientStop { position: 0.52; color: gauge.candyStops[2] }
+                    GradientStop { position: 1; color: gauge.candyStops[3] }
+                }
+                Rectangle {   // the specular line along its top
+                    anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: 1
+                              leftMargin: Math.min(jelly.radius, jelly.width / 2); rightMargin: anchors.leftMargin }
+                    height: Math.min(2, slot.height / 4)
+                    color: Qt.rgba(1, 1, 1, 0.55)
+                }
+            }
+        }
+    }
     Component {
         id: bevelMeter
         Item {

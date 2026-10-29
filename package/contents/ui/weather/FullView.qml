@@ -287,7 +287,10 @@ Rectangle {
         var label = skin.lex("entryLabel", "", "")
         return (label ? label + ": " : "") + locationName.toUpperCase()
     }
-    function tint(a) { return Qt.rgba(outline.r, outline.g, outline.b, a) }
+    // muted labels: the outline's colour, or the text's when the outline is a
+    // glass rim that barely shows on the card (a white rim on light glass)
+    readonly property color tintBase: skin && skin.contrast(Qt.rgba(outline.r, outline.g, outline.b, 1), surface) < 2 ? text : outline
+    function tint(a) { return Qt.rgba(tintBase.r, tintBase.g, tintBase.b, a) }
     readonly property var iconPalette: ({ outline: outline, sun: light ? accent : mustard, precip: cool,
                                           bolt: mustard, boltCore: danger, bg: bg, solid: light })
     function tintAccent(a) { return Qt.rgba(accent.r, accent.g, accent.b, a) }

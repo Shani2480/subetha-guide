@@ -180,6 +180,16 @@
       "sha256": "5c2384eded5781d9b51a91fba96fdafc238cd735ab07a6b97028b6a98749015c"
     },
     {
+      "id": "windows-vista-exact",
+      "name": "Windows Vista Aero Glass (Exact)",
+      "author": "Shani",
+      "version": "2.1.0",
+      "description": "Frutiger Aero to the pixel: teal glass with a diagonal specular sweep, jelly candy bars split by a glare line, a glass pearl, and Westminster at dusk or Tower Bridge by day.",
+      "previewUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/windows-vista-exact/preview.png",
+      "tarballUrl": "https://raw.githubusercontent.com/Shani2480/subetha-guide/main/skins/dist/windows-vista-exact.tar.gz",
+      "sha256": "27fd0c486b79539cfbcdf1a1d2afab28f8bc49c332574ddf0414d261a961d20f"
+    },
+    {
       "id": "windows-vista-sidebar",
       "name": "Windows Vista (Sidebar Gadgets)",
       "author": "Shani",

@@ -94,17 +94,21 @@ Item {
             readonly property real r: Math.min(shell.radius, height / 2)
             readonly property real g: height * frame.gloss
             readonly property real w: width
+            readonly property bool diagonal: !!frame.theme && !!frame.theme.skin && !!frame.theme.skin.sections
+                                             && frame.theme.skin.sections.glossShape === "diagonal"
             ShapePath {
                 strokeWidth: -1
                 strokeColor: "transparent"
                 fillGradient: LinearGradient {
                     x1: 0; y1: 0; x2: 0; y2: surface.height * frame.gloss
-                    GradientStop { position: 0; color: Qt.rgba(1, 1, 1, 0.32) }
+                    GradientStop { position: 0; color: frame.theme ? frame.theme.osColor("sections", "gloss", Qt.rgba(1, 1, 1, 0.32)) : Qt.rgba(1, 1, 1, 0.32) }
                     GradientStop { position: 1; color: Qt.rgba(1, 1, 1, 0.02) }
                 }
                 PathSvg {
                     path: `M ${glossShape.r} 0 H ${glossShape.w - glossShape.r} Q ${glossShape.w} 0 ${glossShape.w} ${glossShape.r}`
-                        + ` V ${glossShape.g * 0.7} Q ${glossShape.w / 2} ${glossShape.g * 1.15} 0 ${glossShape.g}`
+                        + (glossShape.diagonal   // sections.glossShape "diagonal": high on the right, sweeping low on the left
+                           ? ` V ${glossShape.g * 0.44} C ${glossShape.w * 0.65} ${glossShape.g * 0.93} ${glossShape.w * 0.25} ${glossShape.g * 0.27} 0 ${glossShape.g * 0.8}`
+                           : ` V ${glossShape.g * 0.7} Q ${glossShape.w / 2} ${glossShape.g * 1.15} 0 ${glossShape.g}`)
                         + ` V ${glossShape.r} Q 0 0 ${glossShape.r} 0 Z`
                 }
             }

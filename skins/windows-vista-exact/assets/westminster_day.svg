@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F86D6"/><stop offset="0.65" stop-color="#8CC8EE"/><stop offset="1" stop-color="#E2F2FB"/></linearGradient>
+ <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5C9CC0"/><stop offset="1" stop-color="#2F6A90"/></linearGradient>
+ <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+ <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.125" stop-color="#fff"/></linearGradient>
+ <mask id="m"><rect width="320" height="200" fill="url(#fade)"/></mask>
+</defs>
+<g mask="url(#m)">
+ <rect width="320" height="200" fill="url(#sky)"/>
+ <circle cx="70" cy="40" r="34" fill="url(#sun)"/>
+ <g fill="#FFFFFF" opacity="0.85"><ellipse cx="120" cy="52" rx="26" ry="7"/><ellipse cx="138" cy="46" rx="16" ry="8"/><ellipse cx="270" cy="34" rx="22" ry="6"/></g>
+ <!-- Parliament and the clock tower, far away -->
+ <g fill="#9AA9B4" opacity="0.8"><rect x="14" y="128" width="70" height="40"/><rect x="40" y="88" width="10" height="42"/><path d="M40 88 l5 -14 l5 14Z"/><circle cx="45" cy="96" r="3" fill="#E9EEF1"/></g>
+ <!-- walkways between the towers, with suspension chains to the banks -->
+ <g fill="#5F86A6" stroke="#3E5E78" stroke-width="0.8"><rect x="150" y="76" width="70" height="6"/><rect x="150" y="88" width="70" height="4"/></g>
+ <path d="M150 104 Q186 112 220 104" fill="none" stroke="#5F86A6" stroke-width="3"/>
+ <path d="M116 166 Q100 120 116 104 M254 104 Q270 120 300 160" fill="none" stroke="#5F86A6" stroke-width="3.2"/>
+ <path d="M90 150 L116 104 M254 104 L320 140" fill="none" stroke="#5F86A6" stroke-width="2"/>
+ <g fill="#8A7A5C" stroke="#5E513A" stroke-width="0.8">
+  <rect x="116" y="70" width="34" height="96"/>
+  <rect x="113" y="64" width="40" height="8"/>
+  <path d="M116 64 L133 30 L150 64Z"/>
+  <path d="M113 64 l4 -14 l4 14Z M149 64 l4 -14 l4 14Z"/>
+  <rect x="131.5" y="22" width="3" height="10"/>
+ </g>
+ <g fill="#3E5E78" opacity="0.85"><path d="M123 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M123 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M123 136 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M131 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M131 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M131 136 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M139 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M139 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M139 136 v-7 a3 3 0 0 1 6 0 v7Z"/></g>
+ <rect x="124" y="146" width="18" height="20" fill="#2D4256"/>
+ <g fill="#8A7A5C" stroke="#5E513A" stroke-width="0.8">
+  <rect x="220" y="70" width="34" height="96"/>
+  <rect x="217" y="64" width="40" height="8"/>
+  <path d="M220 64 L237 30 L254 64Z"/>
+  <path d="M217 64 l4 -14 l4 14Z M253 64 l4 -14 l4 14Z"/>
+  <rect x="235.5" y="22" width="3" height="10"/>
+ </g>
+ <g fill="#3E5E78" opacity="0.85"><path d="M227 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M227 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M227 136 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M235 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M235 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M235 136 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M243 88 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M243 112 v-7 a3 3 0 0 1 6 0 v7Z"/><path d="M243 136 v-7 a3 3 0 0 1 6 0 v7Z"/></g>
+ <rect x="228" y="146" width="18" height="20" fill="#2D4256"/>
+ <!-- roadway and bascules -->
+ <rect x="80" y="150" width="240" height="6" fill="#5F86A6" stroke="#3E5E78" stroke-width="0.8"/>
+ <rect y="166" width="320" height="34" fill="url(#sea)"/>
+ <path d="M0 176 H320 M0 186 H320" stroke="#fff" stroke-opacity="0.18"/>
+</g></svg>
