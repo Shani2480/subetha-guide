@@ -7,16 +7,16 @@
             }
         ],
         "Category": "System Information",
-        "Description": "All-in-one Hitchhiker's Guide telemetry terminal: Weather, System Compute, Storage, and Battery with modular sections. Don't Panic.",
-        "Description[de]": "All-in-one-Telemetrieterminal im Stil des Anhalters: Wetter, Rechenleistung, Speicher und Akku in modularen Abschnitten. Keine Panik.",
-        "Description[nl]": "Alles-in-één telemetrieterminal in Liftershandboek-stijl: weer, rekenkracht, opslag en accu in modulaire secties. Geen paniek.",
-        "Description[fr]": "Terminal de télémétrie tout-en-un façon Guide du voyageur galactique : météo, calcul, stockage et batterie en sections modulaires. Pas de panique.",
-        "Description[es]": "Terminal de telemetría todo en uno al estilo de la Guía del autoestopista galáctico: tiempo, cómputo, almacenamiento y batería en secciones modulares. Que no cunda el pánico.",
+        "Description": "All-in-one Hitchhiker's Guide telemetry terminal: weather, system, storage, power and AI usage, with alerts and one-click skins that restyle it as other operating systems and worlds. Don't Panic.",
+        "Description[de]": "All-in-one-Telemetrieterminal im Stil des Anhalters: Wetter, System, Speicher, Akku und KI-Nutzung, mit Warnungen und Skins per Klick, die es in andere Betriebssysteme und Welten verwandeln. Keine Panik.",
+        "Description[nl]": "Alles-in-één telemetrieterminal in Liftershandboek-stijl: weer, systeem, opslag, accu en AI-gebruik, met waarschuwingen en skins met één klik die het omtoveren tot andere besturingssystemen en werelden. Geen paniek.",
+        "Description[fr]": "Terminal de télémétrie tout-en-un façon Guide du voyageur galactique : météo, système, stockage, batterie et usage de l'IA, avec alertes et skins en un clic qui le transforment en d'autres systèmes et univers. Pas de panique.",
+        "Description[es]": "Terminal de telemetría todo en uno al estilo de la Guía del autoestopista galáctico: tiempo, sistema, almacenamiento, batería y uso de IA, con alertas y skins de un clic que lo transforman en otros sistemas y mundos. Que no cunda el pánico.",
         "Icon": "com.shani.subethaguide",
         "Id": "com.shani.subethaguide",
         "License": "GPL-2.0+",
         "Name": "The Sub-Etha Guide (H2G2)",
-        "Version": "0.3.0"
+        "Version": "0.4.0"
     },
     "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0"
